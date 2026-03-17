@@ -12,7 +12,7 @@
 
 <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z0erbpt4iuqs3m6tzbn7.jpg" alt="Next.js Production-Ready Boilerplate" />
 
-<br/>
+<br/><br/>
 
 [**Live Demo** ↗](https://nextjs-elite.vercel.app/) · [**Use this template** ↗](https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate/generate) · [Report Bug ↗](https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate/issues) · [Request Feature ↗](https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate/issues)
 
@@ -24,16 +24,14 @@
 
 ## Motivation
 
-Most Next.js starters leave you wiring from scratch. This boilerplate prioritizes **app-ready defaults**: one central config, type-safe i18n with RTL, role-based access, optional Google sign-in, and full SEO (sitemap, robots, manifest). Clone, edit one JSON file, and ship.
+Most Next.js starters leave you wiring from scratch. This boilerplate prioritizes **app-ready defaults**: A production-ready Next.js SaaS Boilerplate with Type-safe i18n (6 languages) + NextAuth, Google OAuth + RBAC with parallel routes + SEO (sitemap, robots, manifest) + Theme + ESLint + Prettier + Vitest + Playwright.
+
+<br/><br/>
 
 ## Integrated features
 
-### Boilerplate
-
-With this template you get:
-
 - Central config - Single [app-main-meta-data.json](src/shared/lib/config/app-main-meta-data.json) for app name, SEO, languages, organization, theme; drives metadata, sitemap, robots, manifest
-- Type-safe i18n - English, বাংলা, العربية with RTL. Example: `t("navigation.home")` is type-checked (invalid keys fail at compile time)
+- Type-safe i18n (6 languages) - English, বাংলা, العربية, Français, Español, and 简体中文 with RTL. Example: `t("navigation.home")` is type-checked (invalid keys fail at compile time)
 - Role-based access control - [Next.js 16 parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) for User and Admin. Example: `app/(protected)/@admin/dashboard` and `app/(protected)/@user/dashboard` both map to `/dashboard`, so roles stay hidden from the URL
 - [NextAuth.js](https://next-auth.js.org/) - Auth with optional [Google OAuth](https://next-auth.js.org/providers/google); admin role via `AUTH_ADMIN_EMAILS`
 - SEO - Open Graph, Twitter Card, JSON-LD, multi-language meta, dynamic sitemap, canonical URLs
@@ -48,13 +46,13 @@ With this template you get:
 - [TypeScript](https://www.typescriptlang.org/) - Strict mode for type safety
 - [Next.js 16](https://nextjs.org/) - App Router, Server Components, recommended stable 16.x
 
-### Infrastructure & deployments
-
 #### Vercel
 
 Deploy with [Vercel](https://vercel.com) by clicking the button below:
 
 [![Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate)
+
+<br/><br/>
 
 ## Quick Start
 
@@ -102,6 +100,8 @@ This boilerplate uses **Next.js 16** (16.1.6) for **stability and security**. St
 2. Edit **`src/shared/lib/config/app-main-meta-data.json`** — main config for app name, domain, SEO, languages, organization, and theme. Sitemap, robots, and manifest are generated from it.
 3. For **Google sign-in**: set `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` in `.env`, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`. See [Google OAuth setup](#google-oauth-setup) below.
 
+<br/><br/>
+
 ## 📁 Project Structure
 
 ```
@@ -135,6 +135,8 @@ This boilerplate uses **Next.js 16** (16.1.6) for **stability and security**. St
 ├── .github/workflows/           # CI (check.yml, playwright.yml)
 └── public/                      # Static assets (favicon, og image, etc.)
 ```
+
+<br/><br/>
 
 ## ⚙️ Configuration
 
@@ -214,6 +216,8 @@ t("navigation.home");
 
 Your URL stays clean. Even with parallel routes like `app/(protected)/@admin/dashboard`, the user still visits `/dashboard` (the role is not exposed in the path).
 
+<br/><br/>
+
 ## 🧪 Testing
 
 - **Unit / component:** [Vitest](https://vitest.dev) + [React Testing Library](https://testing-library.com/react). Run `npm run test` or `npm run test:watch`.
@@ -221,11 +225,15 @@ Your URL stays clean. Even with parallel routes like `app/(protected)/@admin/das
 - **E2E with Safari only:** To save disk space, install only WebKit and run with Safari: `npx playwright install webkit` then `npm run e2e:webkit`.
 - **Coverage:** `npm run test:coverage`.
 
+<br/><br/>
+
 ## 🔄 CI / DX
 
 - **GitHub Actions:** `.github/workflows/check.yml` runs on push/PR: lint, Prettier check, unit tests, build. `.github/workflows/playwright.yml` runs E2E (Chromium, Firefox, WebKit).
 - **Prettier:** `prettier.config.js` + Tailwind plugin. `npm run prettier` to check, `npm run prettier:fix` to fix.
 - **Editor:** `.vscode/settings.json` enables format on save and ESLint fix on save.
+
+<br/><br/>
 
 ## 🏥 Infra
 
@@ -249,6 +257,8 @@ Your URL stays clean. Even with parallel routes like `app/(protected)/@admin/das
 | `npm run prettier`      | Check formatting                |
 | `npm run prettier:fix`  | Fix formatting                  |
 
+<br/><br/>
+
 ## 🧪 Tech Stack
 
 - **Framework:** Next.js 16.1.6 (App Router)
@@ -260,6 +270,8 @@ Your URL stays clean. Even with parallel routes like `app/(protected)/@admin/das
 - **Code Quality:** ESLint, Prettier, TypeScript strict mode
 - **Testing:** Vitest, React Testing Library, Playwright
 - **Icons:** Lucide React
+
+<br/><br/>
 
 ## 🧩 Best For
 
@@ -276,6 +288,8 @@ May not be suitable for:
 - ❌ Projects with highly custom authentication requirements
 - ❌ Applications without internationalization needs
 
+<br/><br/>
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
@@ -288,12 +302,16 @@ Contributions are welcome! Please follow these steps:
 
 Please ensure your code follows the existing ESLint configuration and includes appropriate documentation.
 
+<br/><br/>
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 <br/><br/><br/>
 
 <div align="center">
+
+<br/><br/>
 
 ## ⭐ Show your support
 
