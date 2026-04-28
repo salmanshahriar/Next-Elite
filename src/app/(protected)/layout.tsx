@@ -1,12 +1,10 @@
-'use client';
-
-import { Sidebar } from '@/components/layout/sidebar';
-import { useAuth } from '@/features/auth/hooks/auth-context';
-import { useRouter } from 'next/navigation';
+import Providers from '@/app/providers';
+import { getAuthUser } from '@/features/auth/server/get-auth-user';
+import { Sidebar } from '@/features/navigation/components/sidebar';
+import { redirect } from 'next/navigation';
 import type React from 'react';
-import { useEffect } from 'react';
 
-const ProtectedLayout = ({
+const ProtectedLayout = async ({
   children,
   user,
   admin,
@@ -15,16 +13,10 @@ const ProtectedLayout = ({
   user: React.ReactNode;
   admin: React.ReactNode;
 }) => {
-  const { user: currentUser, isLoading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      router.replace('/login');
-    }
-  }, [currentUser, isLoading, router]);
-
-  if (isLoading || !currentUser) return null;
+  const currentUser = await getAuthUser();
+  if (!currentUser) {
+    redirect('/login');
+  }
 
   const canViewAdminDashboard =
     currentUser?.permissions.includes('dashboard.view:admin') ?? false;
@@ -37,14 +29,16 @@ const ProtectedLayout = ({
       : children;
 
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          {content}
-        </div>
-      </main>
-    </div>
+    <Providers>
+      <div className="flex h-screen">
+        <Sidebar />
+        <main className="flex-1 overflow-auto">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            {content}
+          </div>
+        </main>
+      </div>
+    </Providers>
   );
 };
 

@@ -1,4 +1,5 @@
-import Header from '@/components/layout/header';
+import PublicProviders from '@/app/(public)/providers';
+import Header from '@/features/navigation/components/header';
 import type React from 'react';
 
 export default function PublicLayout({
@@ -7,9 +8,9 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <PublicProviders>
       <Header />
       {children}
-    </>
+    </PublicProviders>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/components/layout/header';
+import Header from '@/features/navigation/components/header';
 import { usePathname } from 'next/navigation';
 
 interface ClientLayoutProps {

@@ -21,7 +21,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/app/*": ["./src/app/*"],
+      "@/core/*": ["./src/core/*"],
       "@/features/*": ["./src/features/*"],
+      "@/shared/*": ["./src/shared/*"],
       "@/components/*": ["./src/components/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],

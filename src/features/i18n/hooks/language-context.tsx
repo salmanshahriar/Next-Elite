@@ -4,6 +4,7 @@ import type React from 'react';
 
 import type { Locale } from '@/features/i18n/types/types';
 import { DEFAULT_LOCALE } from '@/features/i18n/types/types';
+import { resolveLocale } from '@/lib/validation/i18n';
 import { createContext, useContext, useState } from 'react';
 
 interface LanguageContextType {
@@ -41,12 +42,13 @@ function getCookieLocale(): Locale | null {
   if (typeof document === 'undefined') return null;
   const match = document.cookie.match(/(?:^|;\s*)locale=([^;]+)/);
   const value = match?.[1] ? decodeURIComponent(match[1]) : null;
-  return value as Locale | null;
+  return value ? resolveLocale(value) : null;
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
-    const stored = safeGetLocalStorageItem('locale') as Locale | null;
+    const storedValue = safeGetLocalStorageItem('locale');
+    const stored = storedValue ? resolveLocale(storedValue) : null;
     return stored || getCookieLocale() || DEFAULT_LOCALE;
   });
 

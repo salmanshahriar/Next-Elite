@@ -1,8 +1,6 @@
 'use client';
 
-import LanguageSwitcher from '@/components/common/language-switcher';
 import { Logo } from '@/components/common/logo';
-import { ThemeToggle } from '@/components/common/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
@@ -13,10 +11,12 @@ import {
 } from '@/components/ui/tooltip';
 import { useAuth } from '@/features/auth/hooks/auth-context';
 import type { AuthUser } from '@/features/auth/types/types';
+import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { getTranslations } from '@/features/i18n/config/get-translations';
 import { useLanguage } from '@/features/i18n/hooks/language-context';
 import { useTranslations } from '@/features/i18n/hooks/use-translations';
-import { siteConfig } from '@/lib/config/site';
+import { siteConfig } from '@/features/site/config/site';
+import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import * as Dialog from '@radix-ui/react-dialog';
 import {
@@ -304,7 +304,6 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Header with Hamburger */}
       <div
         className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center border-b border-border bg-background px-4 md:hidden"
         dir={isRtl ? 'rtl' : 'ltr'}
@@ -337,7 +336,6 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Desktop Sidebar */}
       <aside
         className={cn(
           'z-40 hidden h-screen shrink-0 flex-col bg-background transition-all duration-300 ease-in-out md:flex',

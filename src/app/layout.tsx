@@ -3,7 +3,7 @@ import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import type React from 'react';
 
-import Providers from '@/app/providers';
+import ClientProviders from '@/app/client-providers';
 import {
   getLocaleDirection,
   getRequestLocale,
@@ -120,9 +120,9 @@ const RootLayout = async ({
         )}
       </head>
       <body className="font-sans antialiased">
-        <Providers>
+        <ClientProviders>
           <div className="flex min-h-screen flex-col">{children}</div>
-        </Providers>
+        </ClientProviders>
         <Analytics />
 
         {siteConfig.organization.name && (

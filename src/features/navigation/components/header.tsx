@@ -1,14 +1,14 @@
 'use client';
 
-import LanguageSwitcher from '@/components/common/language-switcher';
 import { Logo } from '@/components/common/logo';
-import { ThemeToggle } from '@/components/common/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-context';
+import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { getTranslations } from '@/features/i18n/config/get-translations';
 import { useLanguage } from '@/features/i18n/hooks/language-context';
 import { useTranslations } from '@/features/i18n/hooks/use-translations';
-import { siteConfig } from '@/lib/config/site';
+import { siteConfig } from '@/features/site/config/site';
+import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';

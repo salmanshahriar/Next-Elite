@@ -1,6 +1,5 @@
 'use client';
 
-import { useTheme } from '@/components/providers/theme-provider';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,6 +10,7 @@ import {
 import { getTranslations } from '@/features/i18n/config/get-translations';
 import { useLanguage } from '@/features/i18n/hooks/language-context';
 import { useTranslations } from '@/features/i18n/hooks/use-translations';
+import { useTheme } from '@/features/theme/context/theme-provider';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import * as React from 'react';
 

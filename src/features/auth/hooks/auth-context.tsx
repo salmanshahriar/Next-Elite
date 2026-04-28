@@ -1,16 +1,21 @@
 'use client';
 
+import { publicEnv } from '@/core/env';
+import { authClient } from '@/features/auth/lib/auth-client';
 import type {
   AuthContext as AuthContextType,
-  AuthPermission,
   AuthUser,
 } from '@/features/auth/types/types';
+import {
+  getRoleFromEmail,
+  sessionUserToAuthUser,
+} from '@/features/auth/utils/auth-user';
 import {
   can,
   getPermissionsForRole,
   hasPermission,
 } from '@/features/auth/utils/authorization';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { authUserSchema } from '@/lib/validation/auth';
 import { useRouter } from 'next/navigation';
 import type React from 'react';
 import {
@@ -47,23 +52,8 @@ function getStoredUserSnapshot(): string | null {
   return window.localStorage.getItem('user');
 }
 
-function sessionToAuthUser(
-  id: string | undefined,
-  email: string | null | undefined,
-  role: 'admin' | 'user' | undefined,
-  permissions: AuthPermission[] | undefined,
-): AuthUser {
-  const resolvedRole = role ?? 'user';
-  return {
-    id: id ?? email ?? 'user',
-    email: email ?? '',
-    role: resolvedRole,
-    permissions: permissions ?? getPermissionsForRole(resolvedRole),
-  };
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const storedDemoUserSnapshot = useSyncExternalStore(
     subscribeToStoredUser,
     getStoredUserSnapshot,
@@ -77,27 +67,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      return JSON.parse(storedDemoUserSnapshot) as AuthUser;
+      const parsed = JSON.parse(storedDemoUserSnapshot);
+      const parsedUser = authUserSchema.safeParse(parsed);
+      if (!parsedUser.success) {
+        window.localStorage.removeItem('user');
+        return null;
+      }
+      return parsedUser.data;
     } catch {
       window.localStorage.removeItem('user');
       return null;
     }
   }, [storedDemoUserSnapshot]);
 
-  const userFromSession =
-    status === 'authenticated' && session?.user
-      ? sessionToAuthUser(
-          (session.user as { id?: string }).id ??
-            session.user.email ??
-            undefined,
-          session.user.email ?? undefined,
-          (session.user as { role?: 'admin' | 'user' }).role,
-          (session.user as { permissions?: AuthPermission[] }).permissions,
-        )
+  const sessionUser =
+    session &&
+    typeof session === 'object' &&
+    'user' in session &&
+    typeof session.user === 'object' &&
+    session.user
+      ? (session.user as { id?: string; email?: string | null })
       : null;
 
+  const userFromSession = sessionUser
+    ? sessionUserToAuthUser({
+        id: sessionUser.id ?? sessionUser.email ?? undefined,
+        email: sessionUser.email ?? undefined,
+        role: getRoleFromEmail(
+          sessionUser.email,
+          publicEnv.NEXT_PUBLIC_AUTH_ADMIN_EMAILS,
+        ),
+      })
+    : null;
+
   const user = userFromSession ?? demoUser ?? storedDemoUser;
-  const isLoading = status === 'loading';
+  const isLoading = isPending;
 
   const login = useCallback(async (email: string, password: string) => {
     let role: 'admin' | 'user' | null = null;
@@ -121,20 +125,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     setDemoUser(null);
     window.localStorage.removeItem('user');
-    if (status === 'authenticated') {
-      void signOut({ callbackUrl: '/login' });
+    if (sessionUser) {
+      void authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.replace('/login');
+            router.refresh();
+          },
+        },
+      });
     } else {
       router.replace('/login');
       router.refresh();
     }
-  }, [router, status]);
+  }, [router, sessionUser]);
 
   const signInWithGoogle = useCallback(async () => {
-    await signIn('google', { callbackUrl: '/dashboard' });
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+      errorCallbackURL: '/login',
+    });
   }, []);
 
-  const isGoogleEnabled =
-    process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true';
+  const isGoogleEnabled = publicEnv.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED;
 
   return (
     <AuthContext.Provider

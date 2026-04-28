@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/features/i18n/hooks/language-context';
 import { type Locale, LOCALES } from '@/features/i18n/types/types';
-import { siteConfig } from '@/lib/config/site';
+import { siteConfig } from '@/features/site/config/site';
 import { Languages } from 'lucide-react';
 import { useEffect } from 'react';
 

@@ -1,78 +1,68 @@
-'use client';
-
-import { HeadManager } from '@/components/common/head-manager';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/features/auth/hooks/auth-context';
-import { getTranslations } from '@/features/i18n/config/get-translations';
-import { useLanguage } from '@/features/i18n/hooks/language-context';
-import { useTranslations } from '@/features/i18n/hooks/use-translations';
+import { getAuthUser } from '@/features/auth/server/get-auth-user';
+import { getTranslations, t } from '@/features/i18n/config/get-translations';
+import { getRequestLocale } from '@/features/i18n/server/get-request-locale';
 
-const Page = () => {
-  const { user } = useAuth();
-  const { locale } = useLanguage();
+const Page = async () => {
+  const user = await getAuthUser();
+  const locale = await getRequestLocale();
   const messages = getTranslations(locale);
-  const { t } = useTranslations(messages);
 
   return (
-    <>
-      <HeadManager
-        title={`${t('dashboard.admin.title')} | ${t('common.appName')}`}
-      />
-      <div className="mx-auto max-w-4xl px-4 py-12 pt-20 md:pt-12">
-        <h1 className="mb-8 text-3xl font-bold">
-          {t('dashboard.admin.title')}
-        </h1>
+    <div className="mx-auto max-w-4xl px-4 py-12 pt-20 md:pt-12">
+      <h1 className="mb-8 text-3xl font-bold">
+        {t(messages, 'dashboard.admin.title')}
+      </h1>
 
-        <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">
-                {t('dashboard.admin.totalUsers')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">0</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">
-                {t('dashboard.admin.activeSessions')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">0</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">
-                {t('dashboard.admin.adminUsers')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">0</p>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">
+              {t(messages, 'dashboard.admin.totalUsers')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">0</p>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.admin.adminInfo')}</CardTitle>
+            <CardTitle className="text-lg">
+              {t(messages, 'dashboard.admin.activeSessions')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4 text-muted-foreground">
-              {t('dashboard.admin.loggedInAs')}: {user?.email}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {t('dashboard.admin.adminOnly')}
-            </p>
+            <p className="text-3xl font-bold">0</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">
+              {t(messages, 'dashboard.admin.adminUsers')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">0</p>
           </CardContent>
         </Card>
       </div>
-    </>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t(messages, 'dashboard.admin.adminInfo')}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-4 text-muted-foreground">
+            {t(messages, 'dashboard.admin.loggedInAs')}: {user?.email}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {t(messages, 'dashboard.admin.adminOnly')}
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
