@@ -1,6 +1,6 @@
 <div align="center">
 <h1>Next.js Elite: The Ultimate SaaS Starter</h1>
-<p><strong>Enterprise-Grade Foundation.</strong> One config. i18n, RBAC, Google OAuth, SEO & More (built to scale)</p>
+<p><strong>Enterprise-Grade Foundation.</strong> One config. i18n, RBAC, Better Auth, SEO & More (built to scale)</p>
 </div>
 <div align="center">
 
@@ -33,7 +33,7 @@ Most Next.js starters leave you wiring from scratch. This boilerplate prioritize
 - Central config - Single [app-main-meta-data.json](src/lib/config/app-main-meta-data.json) for app name, SEO, languages, organization, theme; drives metadata, sitemap, robots, manifest
 - Type-safe i18n (6 languages) - English, বাংলা, العربية, Français, Español, and 简体中文 with RTL. Example: `t("navigation.home")` is type-checked (invalid keys fail at compile time)
 - Role-based access control - Permission-based RBAC with role bundles (`user`, `admin`) and ownership scopes (`own`, `any`) plus [Next.js 16 parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)
-- [BetterAuth](https://www.better-auth.com/) - Auth with optional Google OAuth; admin role via `AUTH_ADMIN_EMAILS` / `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`
+- [BetterAuth](https://www.better-auth.com/) - Auth with optional Google OAuth; admin role via `AUTH_ADMIN_EMAILS`
 - [Zod](https://zod.dev/) - Runtime validation for env, site config, auth payloads, and locale parsing
 - SEO - Open Graph, Twitter Card, JSON-LD, multi-language meta, dynamic sitemap, canonical URLs
 - [next-themes](https://github.com/pacocoursey/next-themes) - Dark mode with system preference and manual toggle
@@ -99,7 +99,7 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 
 1. Copy `.env.example` to `.env` and set `NEXT_PUBLIC_APP_URL` if you need to override the site URL (e.g. in production).
 2. Edit **`src/lib/config/app-main-meta-data.json`** — main config for app name, domain, SEO, languages, organization, and theme. Sitemap, robots, and manifest are generated from it.
-3. For **Google sign-in**: set `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` in `.env`, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`. See [Google OAuth setup](#google-oauth-setup) below.
+3. For **Google sign-in**: set `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` in `.env`, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`. See [Better Auth setup](#better-auth-setup) below.
 
 <br/><br/>
 
@@ -214,7 +214,9 @@ t('navigation.home');
 // t("navigation.homer"); // invalid key (type error)
 ```
 
-### Google OAuth setup
+### Better Auth setup
+
+By default, this boilerplate uses [BetterAuth](https://www.better-auth.com/) for authentication.
 
 1. **Google Cloud Console**: Go to [APIs & Credentials](https://console.cloud.google.com/apis/credentials) and create an OAuth 2.0 Client ID (Web application).
 2. **Authorized redirect URI**: Add `http://localhost:3000/api/auth/callback/google` (dev) and your production URL (e.g. `https://yourdomain.com/api/auth/callback/google`).
