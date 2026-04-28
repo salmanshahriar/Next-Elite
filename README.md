@@ -30,7 +30,7 @@ Most Next.js starters leave you wiring from scratch. This boilerplate prioritize
 
 ## Integrated features
 
-- Central config - Single [app-main-meta-data.json](src/shared/lib/config/app-main-meta-data.json) for app name, SEO, languages, organization, theme; drives metadata, sitemap, robots, manifest
+- Central config - Single [app-main-meta-data.json](src/lib/config/app-main-meta-data.json) for app name, SEO, languages, organization, theme; drives metadata, sitemap, robots, manifest
 - Type-safe i18n (6 languages) - English, বাংলা, العربية, Français, Español, and 简体中文 with RTL. Example: `t("navigation.home")` is type-checked (invalid keys fail at compile time)
 - Role-based access control - Permission-based RBAC with role bundles (`user`, `admin`) and ownership scopes (`own`, `any`) plus [Next.js 16 parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)
 - [NextAuth.js](https://next-auth.js.org/) - Auth with optional [Google OAuth](https://next-auth.js.org/providers/google); admin role via `AUTH_ADMIN_EMAILS`
@@ -97,7 +97,7 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 ### First-time setup
 
 1. Copy `.env.example` to `.env` and set `NEXT_PUBLIC_APP_URL` if you need to override the site URL (e.g. in production).
-2. Edit **`src/shared/lib/config/app-main-meta-data.json`** — main config for app name, domain, SEO, languages, organization, and theme. Sitemap, robots, and manifest are generated from it.
+2. Edit **`src/lib/config/app-main-meta-data.json`** — main config for app name, domain, SEO, languages, organization, and theme. Sitemap, robots, and manifest are generated from it.
 3. For **Google sign-in**: set `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` in `.env`, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`. See [Google OAuth setup](#google-oauth-setup) below.
 
 <br/><br/>
@@ -121,15 +121,16 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 │   │   ├── manifest.ts          # Web manifest from config
 │   │   ├── robots.ts            # robots.txt from config
 │   │   └── sitemap.ts           # Sitemap from config
-│   └── shared/                  # Shared logic and components
-│       ├── components/          # Reusable React components
-│       ├── hooks/               # Selection of custom React hooks
-│       ├── layout/              # Layout components (header, footer, etc.)
-│       ├── lib/                 # Core logic, config, and utils
-│       │   ├── auth/            # Auth context, NextAuth options, types
-│       │   ├── config/          # Central config (app-main-meta-data.json)
-│       │   └── i18n/            # i18n config, hooks, types
-│       └── ui/                  # shadcn/ui components
+│   ├── components/              # UI + shared components
+│   │   ├── common/              # Page-level components (e.g. hero section)
+│   │   └── ui/                  # shadcn/ui components
+│   ├── features/                # Feature modules (auth, i18n, etc.)
+│   │   ├── auth/                # Auth + RBAC logic
+│   │   └── i18n/                # i18n config, hooks, server helpers, types
+│   ├── hooks/                   # Shared React hooks
+│   ├── lib/                     # Core logic, config, and utils
+│   │   └── config/              # Central config (app-main-meta-data.json)
+│   └── types/                   # Shared TypeScript types
 ├── locales/                     # Translation files (en, bn, ar, fr, es, zh)
 ├── e2e/                         # Playwright E2E tests
 ├── .github/workflows/           # CI (check.yml, playwright.yml)
@@ -142,7 +143,7 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 
 ### Site & SEO configuration
 
-Edit **`src/shared/lib/config/app-main-meta-data.json`** to customize app name, domain, SEO, languages, organization, theme. It drives metadata, sitemap, robots, manifest, and i18n locales.
+Edit **`src/lib/config/app-main-meta-data.json`** to customize app name, domain, SEO, languages, organization, theme. It drives metadata, sitemap, robots, manifest, and i18n locales.
 
 ```json
 {
@@ -181,11 +182,11 @@ Edit **`src/shared/lib/config/app-main-meta-data.json`** to customize app name, 
 
 ### Adding a New Language
 
-1. Add **`src/shared/lib/config/app-main-meta-data.json`** entry:
+1. Add **`src/lib/config/app-main-meta-data.json`** entry:
    - Append the language code to `languages.supported` (e.g. `"es"`).
    - Add an entry under `languages.locales` (e.g. `"es": { "code": "es", "name": "Spanish", "nativeName": "Español", "locale": "es_ES", "direction": "ltr" }`).
 2. Create **`locales/es.json`** (or your code) with the same structure as `locales/en.json`.
-3. In **`src/shared/lib/i18n/get-translations.ts`**, import the new file and add it to the `translations` object. Add the new key to the `TranslationKeys` union in **`src/shared/lib/i18n/types.ts`** if you use strict keys.
+3. In **`src/features/i18n/config/get-translations.ts`**, import the new file and add it to the `translations` object. Add the new key to the relevant union/type in **`src/features/i18n/types/types.ts`** if you use strict keys.
 
 Type-safe usage example:
 
@@ -213,7 +214,7 @@ t('navigation.home');
 
 2. Add your role-specific pages inside the folder.
 
-3. Extend role permissions in `src/shared/lib/auth/authorization.ts` by adding a new entry to the role permission map.
+3. Extend role permissions in `src/features/auth/utils/authorization.ts` by adding a new entry to the role permission map.
 
 4. Update `src/app/(protected)/layout.tsx` capability checks if your new role needs a new route slot.
 
@@ -221,7 +222,7 @@ t('navigation.home');
 
 - Roles are bundles of permissions.
 - Permissions are explicit keys such as `article.publish:own` and `article.publish:any`.
-- Ownership checks are resolved by policy helpers in `src/shared/lib/auth/authorization.ts`.
+- Ownership checks are resolved by policy helpers in `src/features/auth/utils/authorization.ts`.
 - Example behavior: a user with `article.publish:own` can publish their own content but cannot publish content owned by another user.
 
 Your URL stays clean. Even with parallel routes like `app/(protected)/@admin/dashboard`, the user still visits `/dashboard` (the role is not exposed in the path).
