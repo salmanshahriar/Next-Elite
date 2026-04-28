@@ -1,4 +1,7 @@
-import PublicProviders from '@/app/(public)/providers';
+'use client';
+
+import { AuthProvider } from '@/features/auth/hooks/auth-context';
+import { LanguageProvider } from '@/features/i18n/hooks/language-context';
 import type React from 'react';
 
 export default function AuthLayout({
@@ -6,5 +9,9 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <PublicProviders>{children}</PublicProviders>;
+  return (
+    <AuthProvider>
+      <LanguageProvider>{children}</LanguageProvider>
+    </AuthProvider>
+  );
 }

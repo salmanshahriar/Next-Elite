@@ -29,9 +29,6 @@ import {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const DEMO_ADMIN = { email: 'admin@test.com', password: '12345' };
-const DEMO_USER = { email: 'user@test.com', password: '12345' };
-
 function subscribeToStoredUser(onStoreChange: () => void) {
   if (typeof window === 'undefined') {
     return () => {};
@@ -105,9 +102,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     let role: 'admin' | 'user' | null = null;
-    if (email === DEMO_ADMIN.email && password === DEMO_ADMIN.password) {
+    if (email === 'admin@test.com' && password === '12345') {
       role = 'admin';
-    } else if (email === DEMO_USER.email && password === DEMO_USER.password) {
+    } else if (email === 'user@test.com' && password === '12345') {
       role = 'user';
     } else {
       throw new Error('Invalid credentials');
