@@ -11,7 +11,6 @@ import { useAuth } from '@/features/auth/hooks/auth-context';
 import type { Messages } from '@/features/i18n/config/get-translations';
 import { t } from '@/features/i18n/config/get-translations';
 import { loginInputSchema } from '@/lib/validation/auth';
-import { Check, Copy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type React from 'react';
 import { useEffect, useState } from 'react';
@@ -21,23 +20,9 @@ export default function LoginFormClient({ messages }: { messages: Messages }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const router = useRouter();
   const { login, user, isLoading, signInWithGoogle, isGoogleEnabled } =
     useAuth();
-
-  const copyToClipboard = async (
-    text: string,
-    itemId: string,
-  ): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedItem(itemId);
-      setTimeout(() => setCopiedItem(null), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -153,31 +138,28 @@ export default function LoginFormClient({ messages }: { messages: Messages }) {
               )}
             </div>
           </form>
-          <div className="mt-4 max-w-md space-y-2 rounded-lg bg-muted p-4">
-            <p className="text-sm font-medium">Test Credentials:</p>
-            <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-around">
-                <p className="font-semibold">Admin:</p>
-                <div className="flex items-center">
-                  <span className="text-muted-foreground">Email:</span>
-                  <code className="ml-1 rounded border bg-background px-2 py-0.5">
-                    admin@test.com
-                  </code>
-                  <button
-                    onClick={() =>
-                      copyToClipboard('admin@test.com', 'admin-email')
-                    }
-                    className="ml-2 rounded p-1 transition-colors hover:bg-accent"
-                    title="Copy to clipboard"
-                  >
-                    {copiedItem === 'admin-email' ? (
-                      <Check className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <Copy className="h-3 w-3 text-muted-foreground" />
-                    )}
-                  </button>
+          <div className="mt-4 max-w-md rounded-xl border bg-card p-4 shadow-sm">
+            <p className="mb-4 text-sm text-muted-foreground">
+              Click to fill in the credentials
+            </p>
+            <div className="space-y-2 text-sm">
+              {[
+                { label: 'Admin', email: 'admin@test.com' },
+                { label: 'User', email: 'user@test.com' },
+              ].map((cred) => (
+                <div
+                  key={cred.label}
+                  onClick={() => {
+                    setEmail(cred.email);
+                    setPassword('12345');
+                  }}
+                  className="flex cursor-pointer items-center justify-between rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
+                >
+                  <span className="w-1/4 font-medium">{cred.label}</span>
+                  <span className="w-1/2 text-left">{cred.email}</span>
+                  <span className="w-1/4 text-right">12345</span>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </CardContent>
