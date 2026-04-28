@@ -16,3 +16,5 @@ export type Locale = keyof SiteConfig['languages']['locales'];
 export const supportedLocales = siteConfig.languages
   .supported as readonly Locale[];
 export const defaultLocale = siteConfig.languages.default as Locale;
+
+export type { SiteConfig };
