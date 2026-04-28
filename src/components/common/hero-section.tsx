@@ -23,7 +23,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
       title: 'Secure Auth & RBAC',
       description: t(messages, 'home.features.rbac'),
       details: [
-        'NextAuth.js + Google & Social OAuth',
+        'BetterAuth + Google & Social OAuth',
         'Multi-tier Role-Based Access',
         'Secure parallel & intercepted routes',
       ],
@@ -74,30 +74,26 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
     <div
       className={`mx-auto max-w-7xl px-4 py-12 ${isRtl ? 'text-right' : 'text-left'}`}
     >
-      <Card className="mb-6 transition-shadow hover:shadow-lg">
-        <CardContent className="py-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
-                Next.js Elite Boilerplate
-              </h1>
-              {siteConfig.tagline && (
-                <p className="mt-2 text-lg text-muted-foreground">
-                  {siteConfig.tagline}
-                </p>
-              )}
-            </div>
-            <a
-              href="https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg bg-secondary px-6 py-6 text-lg font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
-            >
-              💻 Source code (GitHub)
-            </a>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
+            Next.js Elite Boilerplate
+          </h1>
+          {siteConfig.tagline && (
+            <p className="mt-2 text-lg text-muted-foreground">
+              {siteConfig.tagline}
+            </p>
+          )}
+        </div>
+        <a
+          href="https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 rounded-lg bg-secondary px-6 py-6 text-lg font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
+        >
+          💻 Source code (GitHub)
+        </a>
+      </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => (
