@@ -58,7 +58,7 @@ Deploy with [Vercel](https://vercel.com) by clicking the button below:
 
 ### Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 20.9 or later
 - npm, yarn, pnpm, or bun
 
 ### Next.js version
@@ -106,23 +106,33 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 
 ```
 .
+├── .github/workflows/           # CI workflows (check, playwright)
+├── e2e/                         # Playwright E2E tests
+├── locales/                     # Translation files (en, bn, ar, fr, es, zh)
+├── public/                      # Static assets (favicon, og image, etc.)
 ├── src/
 │   ├── app/                     # App Router pages and layouts
+│   │   ├── (auth)/              # Public auth pages (login)
+│   │   ├── (public)/            # Public pages (home, about)
 │   │   ├── (protected)/         # Authenticated area with RBAC
 │   │   │   ├── @admin/          # Admin dashboard
-│   │   │   ├── @user/               # User dashboard
+│   │   │   ├── @user/           # User dashboard
 │   │   │   └── layout.tsx       # Chooses segment based on role
 │   │   ├── api/                 # API routes
 │   │   │   ├── auth/            # NextAuth routes
 │   │   │   └── health/          # Health check endpoint
 │   │   ├── layout.tsx           # Root layout (providers, SEO, theme, i18n)
+│   │   ├── providers.tsx        # App-level providers
 │   │   ├── error.tsx            # Global error boundary
 │   │   ├── not-found.tsx        # 404 page
 │   │   ├── manifest.ts          # Web manifest from config
 │   │   ├── robots.ts            # robots.txt from config
 │   │   └── sitemap.ts           # Sitemap from config
-│   ├── components/              # UI + shared components
+│   ├── components/
 │   │   ├── common/              # Page-level components (e.g. hero section)
+│   │   ├── icons/               # Icon components
+│   │   ├── layout/              # Header/sidebar/layout wrappers
+│   │   ├── providers/           # Theme/session providers
 │   │   └── ui/                  # shadcn/ui components
 │   ├── features/                # Feature modules (auth, i18n, etc.)
 │   │   ├── auth/                # Auth + RBAC logic
@@ -131,10 +141,10 @@ This boilerplate uses **Next.js 16** (16.2.4) for **stability and security**. St
 │   ├── lib/                     # Core logic, config, and utils
 │   │   └── config/              # Central config (app-main-meta-data.json)
 │   └── types/                   # Shared TypeScript types
-├── locales/                     # Translation files (en, bn, ar, fr, es, zh)
-├── e2e/                         # Playwright E2E tests
-├── .github/workflows/           # CI (check.yml, playwright.yml)
-└── public/                      # Static assets (favicon, og image, etc.)
+├── test/                        # Vitest suites
+├── proxy.ts                     # App proxy/middleware entry
+├── playwright.config.ts         # Playwright config
+└── vitest.config.ts             # Vitest config
 ```
 
 <br/><br/>
