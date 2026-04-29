@@ -1,16 +1,16 @@
-import HeroSection from '@/components/common/hero-section';
-import { getI18n } from '@/features/i18n/server/get-i18n';
+import HeroSection from '@/components/shared/hero-section';
+import { HomeGetStartedSection } from '@/components/shared/home-sections';
+import type { Locale } from '@/features/site/config';
+import { getLocale } from 'next-intl/server';
 
-export const dynamic = 'force-dynamic';
-
-const Page = async () => {
-  const { locale } = await getI18n();
-
+const HomePage = async () => {
+  const locale = (await getLocale()) as Locale;
   return (
     <div>
       <HeroSection locale={locale} />
+      <HomeGetStartedSection />
     </div>
   );
 };
 
-export default Page;
+export default HomePage;

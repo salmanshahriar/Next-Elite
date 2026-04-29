@@ -8,10 +8,10 @@ const NotFound = () => {
         <h1 className="mb-2 text-6xl font-bold text-foreground">404</h1>
         <p className="mb-8 text-xl text-muted-foreground">Page not found</p>
         <p className="mb-8 max-w-md text-base text-muted-foreground">
-          The page you're looking for doesn't exist.
+          The page you&apos;re looking for doesn&apos;t exist.
         </p>
         <Button asChild>
-          <Link href="/">Return to Home</Link>
+          <Link href="/">Return to home</Link>
         </Button>
       </div>
     </div>

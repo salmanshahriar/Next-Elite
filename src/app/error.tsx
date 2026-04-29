@@ -1,8 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
 
-const GlobalError = ({ reset }: { reset: () => void }) => {
+interface GlobalErrorProps {
+  error: Error & { digest?: string };
+  reset: () => void;
+}
+
+const GlobalError = ({ error, reset }: GlobalErrorProps) => {
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(error);
+    }
+  }, [error]);
+
   return (
     <html lang="en">
       <body>
@@ -11,7 +23,7 @@ const GlobalError = ({ reset }: { reset: () => void }) => {
             <h1 className="text-2xl font-semibold">Something went wrong</h1>
             <p className="text-sm text-muted-foreground">
               An unexpected error occurred. You can try again or go back to the
-              dashboard.
+              home page.
             </p>
             <div className="flex items-center justify-center gap-3">
               <button

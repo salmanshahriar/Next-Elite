@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/libs/utils';
 import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import * as React from 'react';
 import { Input } from './input';

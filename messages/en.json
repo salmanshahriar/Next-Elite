@@ -1,0 +1,122 @@
+{
+  "common": {
+    "appName": "Next.js Elite Boilerplate",
+    "selectLanguage": "Select Language",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "noData": "No data available",
+    "toggleTheme": "Toggle theme"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Language",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "invalidCredentials": "Invalid credentials.",
+      "clickToFill": "Click to fill in the credentials",
+      "signInWithGoogle": "Sign in with Google",
+      "orContinueWith": "Or continue with"
+    },
+    "register": {
+      "title": "Create an account",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signUpFailed": "Sign up failed. Please try again."
+    },
+    "logout": {
+      "title": "Logout",
+      "confirm": "Are you sure you want to logout?"
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "Type-Safe Multi-Language Engine",
+      "localStorage": "Locale retention across user sessions",
+      "rtl": "Native RTL support for Arabic",
+      "rbac": "Advanced Role-Based Access Control",
+      "seo": "Programmatic SEO & Dynamic Metadata",
+      "production": "Production-optimized SaaS architecture",
+      "stack": "Next.js 16, TypeScript & Tailwind",
+      "ui-experience": "Fully customizable, themeable shadcn/ui components"
+    }
+  },
+  "about": {
+    "title": "About",
+    "description": "Information about us"
+  },
+
+  "dashboard": {
+    "admin": {
+      "title": "Admin Dashboard",
+      "totalUsers": "Total Users",
+      "activeSessions": "Active Sessions",
+      "adminUsers": "Admin Users",
+      "adminInfo": "Admin Info",
+      "loggedInAs": "You are logged in as",
+      "adminOnly": "This page is only accessible to administrators."
+    },
+    "user": {
+      "title": "User Dashboard",
+      "profile": "User Profile",
+      "email": "Email",
+      "role": "Role",
+      "userId": "User ID"
+    }
+  },
+  "sidebar": {
+    "adminPanel": "Admin Panel",
+    "userPanel": "User Panel",
+    "menu": "Menu",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "errors": {
+    "404": "Page not found",
+    "401": "Unauthorized",
+    "403": "Forbidden",
+    "500": "Internal server error",
+    "generic": "Something went wrong. Please try again."
+  }
+}

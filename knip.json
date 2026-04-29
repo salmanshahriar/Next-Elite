@@ -1,0 +1,43 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/app/**/{page,layout,loading,error,not-found,template,default,sitemap,robots,manifest,route}.{ts,tsx}",
+    "src/libs/api-client.ts",
+    "src/libs/logger.ts",
+    "src/libs/rate-limit.ts",
+    "src/libs/query-client.ts",
+    "src/features/auth/lib/auth.ts",
+    "src/features/auth/lib/auth-client.ts",
+    "src/features/auth/hooks/*.tsx",
+    "src/features/auth/server/*.ts",
+    "src/features/auth/rbac/*.ts",
+    "src/features/auth/schemas/*.ts",
+    "src/features/auth/demo/index.ts",
+    "src/features/users/api.ts",
+    "src/features/users/hooks/*.ts",
+    "src/features/users/schemas/*.ts",
+    "src/features/i18n/*.ts",
+    "src/features/i18n/components/*.tsx",
+    "src/features/site/config.ts",
+    "src/schemas/*.ts",
+    "src/hooks/*.ts",
+    ".storybook/{main,preview}.ts",
+    "src/**/*.stories.@(ts|tsx)"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "e2e/**/*.{ts,tsx}"],
+  "ignore": [
+    "src/components/ui/**",
+    "src/components/shared/**",
+    "src/components/icons/**"
+  ],
+  "ignoreDependencies": [
+    "tw-animate-css",
+    "pino-pretty",
+    "@testing-library/user-event",
+    "tsx",
+    "tailwindcss",
+    "eslint-plugin-tailwindcss",
+    "eslint-plugin-jsx-a11y"
+  ],
+  "ignoreExportsUsedInFile": true
+}

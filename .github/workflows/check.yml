@@ -10,6 +10,10 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
+
+    env:
+      SKIP_ENV_VALIDATION: 'true'
+
     steps:
       - uses: actions/checkout@v6
 
@@ -22,11 +26,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint & format
         run: npm run lint
 
-      - name: Format check
-        run: npm run format
+      - name: Knip (unused code/deps)
+        run: npm run knip
 
       - name: Unit tests
         run: npm run test

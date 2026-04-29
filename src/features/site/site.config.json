@@ -1,0 +1,140 @@
+{
+  "appName": "Next.js Elite",
+  "appType": "Production-Ready SaaS Boilerplate",
+  "tagline": "Frontend-first, API-driven Next.js 16 boilerplate with i18n, RBAC, BetterAuth, and a polished DX.",
+  "title": "Next.js Elite — Production-Ready SaaS Boilerplate",
+  "description": "Frontend-first Next.js 16 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, type-safe i18n with next-intl, T3 Env, TanStack Query, Sentry, and Storybook.",
+  "locale": "en_US",
+  "language": "en-US",
+  "domain": "https://nextjs-elite-boilerplate.vercel.app",
+  "canonicalPath": "/",
+  "applicationCategory": "WebApplication",
+  "audience": "Developers, Businesses, Startups",
+  "keywords": [
+    "nextjs",
+    "nextjs-16",
+    "react-19",
+    "typescript",
+    "tailwindcss",
+    "shadcn-ui",
+    "boilerplate",
+    "saas-starter",
+    "better-auth",
+    "rbac",
+    "i18n",
+    "next-intl",
+    "t3-env",
+    "react-hook-form",
+    "tanstack-query",
+    "vitest",
+    "playwright",
+    "storybook",
+    "sentry"
+  ],
+  "features": [
+    "Type-safe i18n with next-intl (6 languages, RTL support)",
+    "Permission-based RBAC with parallel routes",
+    "BetterAuth with Google OAuth and Upstash Redis sessions",
+    "Type-safe environment variables with @t3-oss/env-nextjs",
+    "API layer with ofetch + TanStack Query",
+    "React Hook Form + Zod validation",
+    "Sentry monitoring + Upstash rate limiting",
+    "Storybook 10 component workshop",
+    "Full SEO suite (OpenGraph, Twitter Cards, JSON-LD, sitemap, robots)"
+  ],
+  "languages": {
+    "supported": ["en", "bn", "ar", "fr", "es", "zh"],
+    "default": "en",
+    "locales": {
+      "en": {
+        "code": "en",
+        "name": "English",
+        "nativeName": "English",
+        "locale": "en_US",
+        "direction": "ltr"
+      },
+      "bn": {
+        "code": "bn",
+        "name": "Bengali",
+        "nativeName": "বাংলা",
+        "locale": "bn_BD",
+        "direction": "ltr"
+      },
+      "ar": {
+        "code": "ar",
+        "name": "Arabic",
+        "nativeName": "العربية",
+        "locale": "ar_SA",
+        "direction": "rtl"
+      },
+      "fr": {
+        "code": "fr",
+        "name": "French",
+        "nativeName": "Français",
+        "locale": "fr_FR",
+        "direction": "ltr"
+      },
+      "es": {
+        "code": "es",
+        "name": "Spanish",
+        "nativeName": "Español",
+        "locale": "es_ES",
+        "direction": "ltr"
+      },
+      "zh": {
+        "code": "zh",
+        "name": "Chinese",
+        "nativeName": "简体中文",
+        "locale": "zh_CN",
+        "direction": "ltr"
+      }
+    }
+  },
+  "organization": {
+    "name": "Your Organization",
+    "legalName": "Your Organization Legal Name",
+    "url": "https://yourdomain.com",
+    "logo": "/logo.svg",
+    "description": "Brief description of your organization or product.",
+    "foundingDate": "2024-01-01",
+    "email": "contact@yourdomain.com",
+    "phone": "+1-234-567-8900",
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "region": "NY",
+      "postalCode": "10001",
+      "country": "United States",
+      "countryCode": "US"
+    }
+  },
+  "contact": {
+    "supportEmail": "support@yourdomain.com",
+    "salesEmail": "sales@yourdomain.com",
+    "phoneNumber": "+1-234-567-8900"
+  },
+  "social": {
+    "twitter": "@yourhandle",
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/company/yourcompany"
+  },
+  "images": {
+    "og": "/og-image.webp",
+    "logo": "/logo.svg",
+    "ogWidth": 1200,
+    "ogHeight": 630
+  },
+  "icons": {
+    "favicon": "/favicon.ico",
+    "svg": "/icon.svg",
+    "appleTouchIcon": "/apple-touch-icon.png"
+  },
+  "theme": { "dark": "#0a0a0a", "light": "#ffffff" },
+  "pricing": {
+    "model": "freemium",
+    "currency": "USD",
+    "minPrice": "0",
+    "maxPrice": "99"
+  },
+  "manifest": "/manifest.webmanifest"
+}

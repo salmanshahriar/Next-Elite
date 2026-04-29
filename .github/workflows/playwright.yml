@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    env:
+      SKIP_ENV_VALIDATION: 'true'
+      BETTER_AUTH_SECRET: 'thisIsATestOnlySecretKeyOfAtLeast32Chars'
+      BETTER_AUTH_URL: 'http://localhost:3000'
+
     steps:
       - uses: actions/checkout@v6
 

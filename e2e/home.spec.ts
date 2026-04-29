@@ -1,15 +1,16 @@
 import { expect, test } from '@playwright/test';
 
-test('home page has title', async ({ page }) => {
+test('home page loads', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/Next.js|Production-Ready|Boilerplate/i);
+  await expect(page).toHaveTitle(
+    /Next\.js|Production-Ready|Boilerplate|Elite/i,
+  );
 });
 
-test('home page has main content', async ({ page }) => {
+test('home page has source code link', async ({ page }) => {
   await page.goto('/');
-  await expect(
-    page.getByRole('link', { name: /source code|github/i }),
-  ).toBeVisible();
+  const links = page.getByRole('link', { name: /source code|github/i });
+  await expect(links.first()).toBeVisible();
 });
 
 test('health check returns ok', async ({ request }) => {

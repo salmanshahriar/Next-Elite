@@ -1,13 +1,31 @@
 'use client';
 
-import { AuthProvider } from '@/features/auth/hooks/auth-context';
-import { LanguageProvider } from '@/features/i18n/hooks/language-context';
-import type React from 'react';
+import { AuthProvider } from '@/features/auth/hooks/auth-provider';
+import type { AuthUser } from '@/features/auth/types';
+import { ThemeProvider } from '@/features/theme/context/theme-provider';
+import { getQueryClient } from '@/libs/query-client';
+import { QueryClientProvider } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
+import { Toaster } from 'sonner';
 
-export default function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <AuthProvider>
-      <LanguageProvider>{children}</LanguageProvider>
-    </AuthProvider>
-  );
+interface ProvidersProps {
+  children: ReactNode;
+  initialUser?: AuthUser | null;
 }
+
+const Providers = ({ children, initialUser = null }: ProvidersProps) => {
+  const queryClient = getQueryClient();
+
+  return (
+    <ThemeProvider defaultTheme="system">
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider initialUser={initialUser}>
+          {children}
+          <Toaster richColors />
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
+};
+
+export default Providers;

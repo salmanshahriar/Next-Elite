@@ -1,4 +1,4 @@
-import { baseUrl } from '@/lib/config/site';
+import { baseUrl } from '@/features/site/config';
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {

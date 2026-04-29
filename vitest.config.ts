@@ -9,6 +9,15 @@ export default defineConfig({
     setupFiles: './vitest.setup.ts',
     globals: true,
     include: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
-    exclude: ['**/node_modules/**', '**/e2e/**', '.next/**'],
+    exclude: [
+      '**/node_modules/**',
+      '**/e2e/**',
+      '.next/**',
+      '.storybook/**',
+      '**/*.stories.{ts,tsx}',
+    ],
+    env: {
+      SKIP_ENV_VALIDATION: 'true',
+    },
   },
 });

@@ -1,21 +1,13 @@
-'use client';
+import Header from '@/features/navigation/header';
+import type { ReactNode } from 'react';
 
-import { AuthProvider } from '@/features/auth/hooks/auth-context';
-import { LanguageProvider } from '@/features/i18n/hooks/language-context';
-import Header from '@/features/navigation/components/header';
-import type React from 'react';
-
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <AuthProvider>
-      <LanguageProvider>
-        <Header />
-        {children}
-      </LanguageProvider>
-    </AuthProvider>
+    <>
+      <Header />
+      {children}
+    </>
   );
-}
+};
+
+export default PublicLayout;

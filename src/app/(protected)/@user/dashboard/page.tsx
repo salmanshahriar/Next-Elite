@@ -1,12 +1,44 @@
-import UserDashboardClient from '@/components/pages/dashboard/user-dashboard-client';
-import { getTranslations } from '@/features/i18n/config/get-translations';
-import { getRequestLocale } from '@/features/i18n/server/get-request-locale';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { requirePermission } from '@/features/auth/rbac/require';
+import { getTranslations } from 'next-intl/server';
 
-const Page = async () => {
-  const locale = await getRequestLocale();
-  const messages = getTranslations(locale);
+const UserDashboardPage = async () => {
+  const user = await requirePermission('dashboard.view:user');
+  const t = await getTranslations('dashboard.user');
 
-  return <UserDashboardClient messages={messages} />;
+  return (
+    <div className="mx-auto max-w-2xl px-4 py-12 pt-20 md:pt-12">
+      <h1 className="mb-8 text-3xl font-bold">{t('title')}</h1>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('profile')}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div>
+              <p className="block text-sm font-medium text-muted-foreground">
+                {t('email')}
+              </p>
+              <p className="text-lg font-semibold">{user.email}</p>
+            </div>
+            <div>
+              <p className="block text-sm font-medium text-muted-foreground">
+                {t('role')}
+              </p>
+              <p className="text-lg font-semibold capitalize">{user.role}</p>
+            </div>
+            <div>
+              <p className="block text-sm font-medium text-muted-foreground">
+                {t('userId')}
+              </p>
+              <p className="text-sm text-muted-foreground">{user.id}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
-export default Page;
+export default UserDashboardPage;

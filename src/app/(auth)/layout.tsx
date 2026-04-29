@@ -1,17 +1,7 @@
-'use client';
+import type { ReactNode } from 'react';
 
-import { AuthProvider } from '@/features/auth/hooks/auth-context';
-import { LanguageProvider } from '@/features/i18n/hooks/language-context';
-import type React from 'react';
+const AuthLayout = ({ children }: { children: ReactNode }) => {
+  return <>{children}</>;
+};
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <AuthProvider>
-      <LanguageProvider>{children}</LanguageProvider>
-    </AuthProvider>
-  );
-}
+export default AuthLayout;

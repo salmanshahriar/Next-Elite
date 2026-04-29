@@ -1,15 +1,29 @@
-import { baseUrl, siteConfig } from '@/lib/config/site';
-import { Analytics } from '@vercel/analytics/next';
-import type { Metadata } from 'next';
-import type React from 'react';
-
-import ClientProviders from '@/app/client-providers';
+import Providers from '@/app/providers';
+import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import {
+  baseUrl,
   getLocaleDirection,
-  getRequestLocale,
-} from '@/features/i18n/server/get-request-locale';
-import Script from 'next/script';
+  siteConfig,
+  type Locale,
+} from '@/features/site/config';
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata, Viewport } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+import type { ReactNode } from 'react';
 import './globals.css';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: siteConfig.theme.dark },
+    { media: '(prefers-color-scheme: light)', color: siteConfig.theme.light },
+  ],
+};
+
 export const metadata: Metadata = {
   title: siteConfig.appName ? siteConfig.appName : siteConfig.title,
   description: siteConfig.description,
@@ -62,7 +76,7 @@ export const metadata: Metadata = {
     ],
     apple: siteConfig.icons.appleTouchIcon,
   },
-  manifest: '/manifest.webmanifest',
+  manifest: siteConfig.manifest,
   robots: {
     index: true,
     follow: true,
@@ -78,57 +92,29 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = async ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
-  const locale = await getRequestLocale();
-  const dir = getLocaleDirection(locale);
+const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
+  const [locale, messages, currentUser] = await Promise.all([
+    getLocale(),
+    getMessages(),
+    getCurrentUser(),
+  ]);
+  const dir = getLocaleDirection(locale as Locale);
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5"
-        />
-
-        <link rel="icon" href={siteConfig.icons.favicon} sizes="any" />
-        <link rel="icon" href={siteConfig.icons.svg} type="image/svg+xml" />
-        <link rel="apple-touch-icon" href={siteConfig.icons.appleTouchIcon} />
-
-        <meta
-          name="theme-color"
-          content={siteConfig.theme.dark}
-          media="(prefers-color-scheme: dark)"
-        />
-        <meta
-          name="theme-color"
-          content={siteConfig.theme.light}
-          media="(prefers-color-scheme: light)"
-        />
-
-        {siteConfig.description && (
-          <meta name="description" content={siteConfig.description} />
-        )}
-        {baseUrl && (
-          <link
-            rel="canonical"
-            href={`${baseUrl}${siteConfig.canonicalPath}`}
-          />
-        )}
-      </head>
       <body className="font-sans antialiased">
-        <ClientProviders>
-          <div className="flex min-h-screen flex-col">{children}</div>
-        </ClientProviders>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers initialUser={currentUser}>
+            <div className="flex min-h-screen flex-col">{children}</div>
+          </Providers>
+        </NextIntlClientProvider>
         <Analytics />
 
         {siteConfig.organization.name && (
-          <Script
+          <script
             id="schema-organization"
             type="application/ld+json"
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -164,9 +150,10 @@ const RootLayout = async ({
         )}
 
         {siteConfig.appName && (
-          <Script
+          <script
             id="schema-webapp"
             type="application/ld+json"
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -187,17 +174,8 @@ const RootLayout = async ({
                       '@type': 'Offer',
                       price: siteConfig.pricing.minPrice || '0',
                       priceCurrency: siteConfig.pricing.currency,
-                      priceSpecification: siteConfig.pricing.maxPrice
-                        ? {
-                            '@type': 'PriceSpecification',
-                            minPrice: siteConfig.pricing.minPrice,
-                            maxPrice: siteConfig.pricing.maxPrice,
-                            priceCurrency: siteConfig.pricing.currency,
-                          }
-                        : undefined,
                     }
                   : undefined,
-                aggregateRating: undefined,
                 author: siteConfig.organization.name
                   ? {
                       '@type': 'Organization',
@@ -215,9 +193,10 @@ const RootLayout = async ({
         )}
 
         {baseUrl && (
-          <Script
+          <script
             id="schema-website"
             type="application/ld+json"
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -227,9 +206,7 @@ const RootLayout = async ({
                 name: siteConfig.appName || siteConfig.title,
                 description: siteConfig.description,
                 publisher: siteConfig.organization.name
-                  ? {
-                      '@id': `${baseUrl}/#organization`,
-                    }
+                  ? { '@id': `${baseUrl}/#organization` }
                   : undefined,
                 potentialAction: {
                   '@type': 'SearchAction',
@@ -241,34 +218,6 @@ const RootLayout = async ({
             }}
           />
         )}
-
-        {siteConfig.appType &&
-          siteConfig.appType.toLowerCase().includes('saas') && (
-            <Script
-              id="schema-service"
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  '@context': 'https://schema.org',
-                  '@type': 'Service',
-                  '@id': `${baseUrl}/#service`,
-                  name: siteConfig.appName,
-                  description: siteConfig.description,
-                  provider: siteConfig.organization.name
-                    ? {
-                        '@id': `${baseUrl}/#organization`,
-                      }
-                    : undefined,
-                  serviceType: siteConfig.appType,
-                  areaServed: 'Worldwide',
-                  availableChannel: {
-                    '@type': 'ServiceChannel',
-                    serviceUrl: baseUrl,
-                  },
-                }),
-              }}
-            />
-          )}
       </body>
     </html>
   );

@@ -1,0 +1,121 @@
+{
+  "common": {
+    "appName": "Next.js Elite Boilerplate",
+    "selectLanguage": "Seleccionar idioma",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "reset": "Restablecer",
+    "noData": "No hay datos disponibles",
+    "toggleTheme": "Cambiar tema"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "services": "Servicios",
+    "contact": "Contacto",
+    "language": "Idioma",
+    "dashboard": "Panel de control",
+    "profile": "Perfil",
+    "settings": "Ajustes",
+    "logout": "Cerrar sesión",
+    "login": "Iniciar sesión"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Olvidó su contraseña?",
+      "noAccount": "¿No tiene una cuenta?",
+      "signUp": "Registrarse",
+      "invalidCredentials": "Credenciales inválidas.",
+      "clickToFill": "Haz clic para completar las credenciales",
+      "signInWithGoogle": "Iniciar sesión con Google",
+      "orContinueWith": "O continuar con"
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "passwordPlaceholder": "Al menos 8 caracteres",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Reingresa tu contraseña",
+      "submit": "Crear cuenta",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signUpFailed": "Registro fallido. Inténtalo de nuevo."
+    },
+    "logout": {
+      "title": "Cerrar sesión",
+      "confirm": "¿Está seguro de que desea cerrar sesión?"
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "Motor multilenguaje seguro por tipos",
+      "localStorage": "Retención de idioma en todas las sesiones",
+      "rtl": "Soporte nativo RTL para árabe",
+      "rbac": "Control de acceso avanzado basado en roles",
+      "seo": "SEO programático y metadatos dinámicos",
+      "production": "Arquitectura SaaS optimizada para producción",
+      "stack": "Next.js 16, TypeScript y Tailwind",
+      "ui-experience": "Componentes shadcn/ui totalmente personalizables"
+    }
+  },
+  "about": {
+    "title": "Acerca de",
+    "description": "Información sobre nosotros"
+  },
+  "dashboard": {
+    "admin": {
+      "title": "Panel de Admin",
+      "totalUsers": "Total de usuarios",
+      "activeSessions": "Sesiones activas",
+      "adminUsers": "Usuarios Admin",
+      "adminInfo": "Información de Admin",
+      "loggedInAs": "Sesión iniciada como",
+      "adminOnly": "Esta página solo es accesible para administradores."
+    },
+    "user": {
+      "title": "Panel de Usuario",
+      "profile": "Perfil de Usuario",
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "userId": "ID de Usuario"
+    }
+  },
+  "sidebar": {
+    "adminPanel": "Panel de Admin",
+    "userPanel": "Panel de Usuario",
+    "menu": "Menú",
+    "theme": "Tema",
+    "language": "Idioma"
+  },
+  "errors": {
+    "404": "Página no encontrada",
+    "401": "No autorizado",
+    "403": "Prohibido",
+    "500": "Error interno del servidor",
+    "generic": "Algo salió mal. Por favor intente de nuevo."
+  }
+}
