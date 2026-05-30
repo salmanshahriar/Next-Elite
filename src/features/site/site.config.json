@@ -3,7 +3,7 @@
   "appType": "Production-Ready SaaS Boilerplate",
   "tagline": "Frontend-first, API-driven Next.js 16 boilerplate with i18n, RBAC, BetterAuth, and a polished DX.",
   "title": "Next.js Elite — Production-Ready SaaS Boilerplate",
-  "description": "Frontend-first Next.js 16 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, type-safe i18n with next-intl, T3 Env, TanStack Query, Sentry, and Storybook.",
+  "description": "Frontend-first Next.js 16 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, type-safe i18n with next-intl, T3 Env, TanStack Query, and Sentry.",
   "locale": "en_US",
   "language": "en-US",
   "domain": "https://nextjs-elite-boilerplate.vercel.app",
@@ -28,7 +28,6 @@
     "tanstack-query",
     "vitest",
     "playwright",
-    "storybook",
     "sentry"
   ],
   "features": [
@@ -39,7 +38,6 @@
     "API layer with ofetch + TanStack Query",
     "React Hook Form + Zod validation",
     "Sentry monitoring + Upstash rate limiting",
-    "Storybook 10 component workshop",
     "Full SEO suite (OpenGraph, Twitter Cards, JSON-LD, sitemap, robots)"
   ],
   "languages": {

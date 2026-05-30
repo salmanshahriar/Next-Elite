@@ -20,25 +20,10 @@
     "src/features/i18n/components/*.tsx",
     "src/features/site/config.ts",
     "src/schemas/*.ts",
-    "src/hooks/*.ts",
-    ".storybook/{main,preview}.ts",
-    "src/**/*.stories.@(ts|tsx)"
+    "src/hooks/*.ts"
   ],
   "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "e2e/**/*.{ts,tsx}"],
-  "ignore": [
-    "src/components/ui/**",
-    "src/components/shared/**",
-    "src/components/icons/**"
-  ],
-  "ignoreDependencies": [
-    "tw-animate-css",
-    "pino-pretty",
-    "@testing-library/user-event",
-    "tsx",
-    "tailwindcss",
-    "@swc/helpers",
-    "eslint-plugin-tailwindcss",
-    "eslint-plugin-jsx-a11y"
-  ],
+  "ignore": ["src/components/ui/**"],
+  "ignoreDependencies": ["tw-animate-css", "pino-pretty", "tailwindcss"],
   "ignoreExportsUsedInFile": true
 }

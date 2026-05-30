@@ -14,18 +14,13 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . && prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}\"",
     "lint:fix": "eslint . --fix && prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}\"",
-    "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}\"",
-    "format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}\"",
     "knip": "knip",
     "check": "npm run typecheck && npm run lint && npm run knip && npm run test",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui",
-    "e2e:webkit": "playwright test --project=webkit",
-    "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build",
+    "test": "vitest run --config config/vitest.config.ts",
+    "test:watch": "vitest --config config/vitest.config.ts",
+    "e2e": "playwright test --config e2e/playwright.config.ts",
+    "e2e:ui": "playwright test --config e2e/playwright.config.ts --ui",
+    "e2e:webkit": "playwright test --config e2e/playwright.config.ts --project=webkit",
     "prepare": "lefthook install"
   },
   "dependencies": {
@@ -64,14 +59,9 @@
     "@eslint/js": "9.39.1",
     "@next/bundle-analyzer": "^16.2.4",
     "@playwright/test": "1.58.2",
-    "@storybook/addon-docs": "^10.3.6",
-    "@storybook/addon-themes": "^10.3.6",
-    "@storybook/nextjs-vite": "^10.3.6",
-    "@swc/helpers": "^0.5.21",
     "@tailwindcss/postcss": "4.2.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
-    "@testing-library/user-event": "^14.6.1",
     "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
@@ -79,9 +69,6 @@
     "eslint": "9.39.1",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-tailwindcss": "^3.18.3",
     "eslint-plugin-unicorn": "^64.0.0",
     "globals": "16.5.0",
     "jsdom": "28.1.0",
@@ -92,11 +79,7 @@
     "prettier": "3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "0.7.2",
-    "storybook": "^10.3.6",
-    "stylelint": "^17.11.0",
-    "stylelint-config-standard": "^40.0.0",
     "tailwindcss": "4.2.1",
-    "tsx": "^4.20.0",
     "typescript": "5.9.3",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.1.0"
@@ -104,5 +87,35 @@
   "overrides": {
     "postcss": "8.5.12",
     "uuid": "^14.0.0"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "singleAttributePerLine": false,
+    "htmlWhitespaceSensitivity": "css",
+    "printWidth": 80,
+    "plugins": [
+      "prettier-plugin-organize-imports",
+      "prettier-plugin-tailwindcss"
+    ],
+    "tailwindFunctions": [
+      "clsx",
+      "cn"
+    ],
+    "tailwindStylesheet": "src/app/globals.css",
+    "tabWidth": 2,
+    "endOfLine": "auto"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "body-max-line-length": [
+        2,
+        "always",
+        200
+      ]
+    }
   }
 }

@@ -12,117 +12,131 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
 
   const features = [
     {
-      icon: '🌐',
-      title: 'i18n that doesn’t fight you',
-      description: 'Type-safe `next-intl` layout primitives.',
-      badges: [{ label: 'i18n', value: '6 locales + RTL' }],
+      icon: '🚀',
+      title: 'Modern stack, lean setup',
+      description: 'Next.js 16 App Router, React 19, Tailwind v4.',
+      badges: [
+        { label: 'Framework', value: 'Next.js 16 + React 19' },
+        { label: 'UI', value: 'Tailwind v4 + shadcn' },
+      ],
       details: [
-        'Cookie-based locale (no URL prefixes)',
-        'Typed keys + autocompletion (safe refactors)',
-        'Direction-aware layout (LTR/RTL)',
+        'RSC-first; client components only when needed',
+        'Ownable shadcn/ui primitives',
+        'API-driven; no forced database layer',
       ],
     },
     {
       icon: '🔐',
-      title: 'Auth + RBAC, server-first',
-      description: 'BetterAuth sessions with permission checks in RSC.',
-      badges: [{ label: 'Auth', value: 'BetterAuth + RBAC' }],
+      title: 'BetterAuth',
+      description: 'Sessions, OAuth, and permission-based RBAC.',
+      badges: [
+        { label: 'Auth', value: 'BetterAuth' },
+        { label: 'Access', value: 'RBAC' },
+      ],
       details: [
         'Email/password + optional Google OAuth',
-        'Permission-based guards (`requireUser`, `requirePermission`)',
-        'Parallel routes for role-agnostic URLs (`/dashboard`)',
-      ],
-    },
-    {
-      icon: '📄',
-      title: 'Config-driven boilerplate',
-      description: 'Single source of truth for site + runtime config.',
-      badges: [
-        { label: 'Testing', value: 'Vitest + Playwright' },
-        { label: 'DX', value: 'Knip + Lefthook' },
-      ],
-      details: [
-        'Typed env split (server vs client) via T3 Env',
-        'Site config drives metadata, sitemap, robots, manifest',
-        'Sane defaults that stay editable, not magical',
-      ],
-    },
-    {
-      icon: '🚀',
-      title: 'Modern stack, minimal ceremony',
-      description: 'Next.js App Router with a clean UI + data layer.',
-      badges: [
-        { label: 'App Router', value: 'Next.js 16' },
-        { label: 'UI', value: 'Tailwind v4 + shadcn/ui' },
-      ],
-      details: [
-        'RSC by default, client components only when needed',
-        'Composable `shadcn/ui` primitives you can own',
-        'API-driven architecture (no forced database layer)',
-      ],
-    },
-    {
-      icon: '🎨',
-      title: 'Forms that scale',
-      description: 'Fast, accessible forms with shared validation.',
-      badges: [{ label: 'Forms', value: 'RHF + Zod' }],
-      details: [
-        'Zod schemas as the single validation source',
-        'React Hook Form for performance + DX',
-        'Password UX with a reusable input component',
+        'Session handling with server-side guards',
+        'requireUser and requirePermission helpers',
       ],
     },
     {
       icon: '🔍',
-      title: 'SEO + PWA, built-in',
-      description: 'Metadata and PWA outputs generated from config.',
-      badges: [{ label: 'SEO/PWA', value: 'Sitemap + Manifest' }],
+      title: 'SEO + PWA, server-first',
+      description: 'Metadata, sitemap, and manifest generated on the server.',
+      badges: [{ label: 'SEO', value: 'OG + JSON-LD' }],
       details: [
-        'Open Graph + Twitter cards + JSON-LD',
-        'Dynamic sitemap + robots.txt generation',
-        'Web manifest wired to the central site config',
+        'Open Graph, Twitter cards, and JSON-LD from site config',
+        'sitemap.ts and robots.ts metadata routes',
+        'Web manifest and canonical URL from site config',
       ],
     },
     {
-      icon: '🧩',
-      title: 'API client + caching',
-      description: 'Typed fetch patterns with caching and retries.',
-      badges: [{ label: 'Data', value: 'ofetch + TanStack Query' }],
+      icon: '🎨',
+      title: 'shadcn/ui component library',
+      description:
+        'Copy-paste components with full TypeScript support and accessible Radix primitives.',
+      badges: [
+        { label: 'UI', value: 'shadcn + Radix' },
+        { label: 'Styling', value: 'CVA + Tailwind v4' },
+      ],
       details: [
-        'One API client wrapper (headers, base URL, errors)',
-        'Queries/mutations with caching + invalidation',
-        'Predictable request behavior (retry/dedupe)',
+        'Button, card, sheet, dropdown, input; source in src/components/ui',
+        'Size, variant, and state props; consistent across every component',
+        'Radix primitives, Lucide icons, and CSS theme tokens',
       ],
     },
     {
-      icon: '📈',
-      title: 'Observability + limits',
-      description: 'Monitoring and traffic control.',
-      badges: [{ label: 'Ops', value: 'Sentry + Upstash' }],
+      icon: '🔀',
+      title: 'Parallel routing',
+      description: 'One URL per feature; role-specific UI via slots.',
+      badges: [{ label: 'Routes', value: '@user · @admin' }],
       details: [
-        'Sentry instrumentation (client + server)',
-        'Upstash rate-limit helper for routes and actions',
-        'Server-only logger for consistent logs',
+        'Same /dashboard path for every role',
+        '@user and @admin slots render the right dashboard',
+        'Layout picks the active slot from permissions',
+      ],
+    },
+    {
+      icon: '🌐',
+      title: 'Type-safe i18n',
+      description: 'Type-safe next-intl with cookie locale and RTL.',
+      badges: [{ label: 'i18n', value: '6 locales + RTL' }],
+      details: [
+        'NEXT_LOCALE cookie; no /en or /fr URL prefixes',
+        'Typed messages via global.d.ts and useTranslations',
+        'Six locales with RTL support for Arabic',
+      ],
+    },
+    {
+      icon: '📝',
+      title: 'Forms + validation',
+      description:
+        'Zod schemas define the rules; React Hook Form handles the UI.',
+      badges: [
+        { label: 'Validation', value: 'Zod' },
+        { label: 'Forms', value: 'React Hook Form' },
+      ],
+      details: [
+        'Dedicated Zod schemas for login, register, and password reset',
+        'Inferred types with z.infer; used in client auth forms',
+        'zodResolver plus InputError for accessible inline errors',
+      ],
+    },
+    {
+      icon: '🛡️',
+      title: 'Type-safe environment',
+      description: 'T3 Env validates every variable with Zod at build time.',
+      badges: [
+        { label: 'Env', value: 'T3 Env' },
+        { label: 'Schema', value: 'Zod' },
+      ],
+      details: [
+        'Server secrets and NEXT_PUBLIC_* client vars in src/libs/env.ts',
+        'Zod validates URLs, booleans, and required auth secrets',
+        'SKIP_ENV_VALIDATION for CI, Vitest, and lint',
       ],
     },
     {
       icon: '🧪',
-      title: 'CI that catches drift',
-      description: 'Type safety, linting, dead-code checks, and tests.',
-      badges: [{ label: 'CI', value: 'Typecheck + Lint + Knip' }],
+      title: 'Developer experience',
+      description: 'Quality gates without tool bloat.',
+      badges: [
+        { label: 'CI', value: 'npm run check' },
+        { label: 'Hooks', value: 'Lefthook' },
+      ],
       details: [
-        'Strict TypeScript for safer refactors',
-        'Knip keeps unused code and deps out',
-        'Vitest + Playwright for confidence',
+        'ESLint + Prettier via lint / lint:fix',
+        'Knip for unused code and dependencies',
+        'Vitest plus Playwright; Check workflow on push and PR',
       ],
     },
   ];
 
   return (
     <div
-      className={`mx-auto max-w-7xl px-4 py-12 ${isRtl ? 'text-right' : 'text-left'}`}
+      className={`mx-auto flex max-w-7xl flex-col gap-12 px-4 pt-12 ${isRtl ? 'text-right' : 'text-left'}`}
     >
-      <div className="mb-10 flex flex-col items-center gap-6 text-center">
+      <div className="flex flex-col items-center gap-6 text-center">
         <div>
           <h1 className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
             Next.js Elite

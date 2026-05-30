@@ -60,7 +60,7 @@ Most Next.js starters either ship the bare minimum or bolt on a database/ORM you
 
 - **Observability & protection** —> [Sentry](https://sentry.io/) instrumentation, `pino` server logging, and optional `@upstash/ratelimit` helpers.
 
-- **Quality gates** —> [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/), [Vitest](https://vitest.dev/) + React Testing Library, [Playwright](https://playwright.dev/) E2E, and [Storybook](https://storybook.js.org/) for isolated UI.
+- **Quality gates** —> [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/), [Vitest](https://vitest.dev/) + React Testing Library, and [Playwright](https://playwright.dev/) E2E.
 
 - **DX automation** —> [Lefthook](https://github.com/evilmartians/lefthook) pre-commit, [Commitlint](https://commitlint.js.org/) commit-msg, [Knip](https://knip.dev/) dead-code/deps hygiene, and GitHub Actions CI.
 
@@ -147,13 +147,12 @@ For instant previews, the boilerplate ships with a **self-contained demo module*
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
+├── config/                   vitest.config.ts, vitest.setup.ts
+├── e2e/                      Playwright E2E + playwright.config.ts
+├── knip.json                 Dead-code & dependency hygiene
 ├── tests/                    Vitest unit/integration tests
 ├── proxy.ts                  Next.js middleware
-├── lefthook.yml              Git hooks (pre-commit, commit-msg)
-├── commitlint.config.js      Conventional Commits
-├── knip.json                 Dead-code & dependency hygiene
-├── playwright.config.ts
-└── vitest.config.ts
+└── lefthook.yml              Git hooks (pre-commit, commit-msg)
 ```
 
 ### Folder conventions
@@ -313,27 +312,22 @@ It drives:
 
 ## Available Scripts
 
-| Command                   | Description                                  |
-| ------------------------- | -------------------------------------------- |
-| `npm run dev`             | Start the dev server (Turbopack)             |
-| `npm run build`           | Production build                             |
-| `npm run start`           | Start the production server                  |
-| `npm run analyze`         | Build with `@next/bundle-analyzer`           |
-| `npm run typecheck`       | `tsc --noEmit`                               |
-| `npm run lint`            | ESLint + Prettier check                      |
-| `npm run lint:fix`        | Auto-fix ESLint + Prettier                   |
-| `npm run format`          | Prettier check                               |
-| `npm run format:fix`      | Prettier write                               |
-| `npm run knip`            | Detect unused files / exports / dependencies |
-| `npm run check`           | typecheck + lint + knip + tests (CI gate)    |
-| `npm run test`            | Vitest run                                   |
-| `npm run test:watch`      | Vitest watch                                 |
-| `npm run test:coverage`   | Vitest with V8 coverage                      |
-| `npm run e2e`             | Playwright E2E                               |
-| `npm run e2e:ui`          | Playwright UI mode                           |
-| `npm run e2e:webkit`      | Playwright WebKit only                       |
-| `npm run storybook`       | Run Storybook on `:6006`                     |
-| `npm run storybook:build` | Static Storybook build                       |
+| Command              | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `npm run dev`        | Start the dev server (Turbopack)             |
+| `npm run build`      | Production build                             |
+| `npm run start`      | Start the production server                  |
+| `npm run analyze`    | Build with `@next/bundle-analyzer`           |
+| `npm run typecheck`  | `tsc --noEmit`                               |
+| `npm run lint`       | ESLint + Prettier check                      |
+| `npm run lint:fix`   | Auto-fix ESLint + Prettier                   |
+| `npm run knip`       | Detect unused files / exports / dependencies |
+| `npm run check`      | typecheck + lint + knip + tests (CI gate)    |
+| `npm run test`       | Vitest run                                   |
+| `npm run test:watch` | Vitest watch                                 |
+| `npm run e2e`        | Playwright E2E                               |
+| `npm run e2e:ui`     | Playwright UI mode                           |
+| `npm run e2e:webkit` | Playwright WebKit only                       |
 
 <br/>
 
@@ -342,7 +336,6 @@ It drives:
 - **Unit / component:** Vitest + React Testing Library. Specs live in `tests/` for fast feedback while you build features.
 - **End-to-end:** Playwright in `e2e/`. `npm run e2e` boots the dev server automatically; `npm run e2e:ui` is great for debugging selectors and replaying failures locally.
 - **WebKit-only setup** (saves disk space): `npx playwright install webkit && npm run e2e:webkit`.
-- **Coverage:** `npm run test:coverage`.
 
 <br/>
 
@@ -351,11 +344,10 @@ It drives:
 - **Lefthook + commitlint**: auto-fix lint/format on staged files and enforce Conventional Commits (keeps PRs consistent).
 - **Knip**: dead-code and dependency hygiene (unused files/exports/deps) so the repo stays clean as it grows.
 - **Type-safe env (T3 Env)**: `src/libs/env.ts` validates server/client env at build time so misconfigurations fail early.
-- **Storybook**: isolated component development; stories live next to components so UI work stays fast and reviewable.
 - **Sentry**: wired through `instrumentation.ts` (server) + `instrumentation-client.ts` (client) for production error visibility.
 - **Upstash utilities**: optional `@upstash/ratelimit` helpers for protecting route handlers and server actions.
 - **Structured logging**: `pino` server logger with pretty output in development.
-- **Renovate** (`renovate.json`) groups non-major updates and automerges patches.
+- **Renovate** (`.github/renovate.json`) groups non-major updates and automerges patches.
 
 <br/>
 

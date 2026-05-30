@@ -1,14 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getLocaleDirection, type Locale } from '@/features/site/config';
+import {
+  getLocaleDirection,
+  siteConfig,
+  type Locale,
+} from '@/features/site/config';
 import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
+
+const deployUrl =
+  'https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate';
+
+const repoUrl = 'https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const t = await getTranslations();
   return {
     title: `${t('about.title')} | ${t('common.appName')}`,
-    description: t('about.description'),
+    description: siteConfig.description,
   };
 };
 
@@ -17,20 +26,14 @@ const AboutPage = async () => {
   const locale = (await getLocale()) as Locale;
   const isRtl = getLocaleDirection(locale) === 'rtl';
 
-  const deployUrl =
-    'https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate';
-
   return (
     <div
-      className={`mx-auto max-w-7xl px-4 py-12 ${isRtl ? 'text-right' : 'text-left'}`}
+      className={`mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:gap-12 ${isRtl ? 'text-right' : 'text-left'}`}
     >
-      <div className="mb-12 text-center">
-        <h1 className="mb-4 bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
+      <div className="text-center">
+        <h1 className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
           {t('title')}
         </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-          {t('description')}
-        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -40,14 +43,13 @@ const AboutPage = async () => {
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-muted-foreground">
             <p>
-              Next.js Elite is a frontend-first boilerplate designed for teams
-              that already have (or plan to build) an API. You get a clean,
-              scalable App Router setup with auth, RBAC, i18n, and a modern DX,
-              without committing to a database layer.
+              Next.js Elite is a frontend-first boilerplate for teams that
+              already have or plan to build an API. You get Next.js 16, React
+              19, Tailwind v4, and shadcn/ui without a forced database layer.
             </p>
             <p>
-              The goal is simple: ship faster while keeping the codebase strict,
-              readable, and production-ready.
+              Auth, RBAC, i18n, SEO, and quality tooling are included so you can
+              focus on product screens and API integration.
             </p>
           </CardContent>
         </Card>
@@ -61,20 +63,21 @@ const AboutPage = async () => {
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
                 <span>
-                  Product teams building dashboards, admin panels, and
-                  authenticated apps
+                  Teams shipping dashboards, admin panels, and authenticated
+                  apps
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
                 <span>
-                  SaaS starters that want a premium DX with strict TypeScript
+                  SaaS starters that want strict TypeScript and lean DX tooling
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
                 <span>
-                  API-driven apps that need caching, routing, and UX patterns
+                  API-driven products that need caching, routing, and polished
+                  UX
                 </span>
               </li>
             </ul>
@@ -82,7 +85,7 @@ const AboutPage = async () => {
         </Card>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>Core features</CardTitle>
@@ -91,15 +94,21 @@ const AboutPage = async () => {
             <ul className="space-y-2">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>BetterAuth sessions + server-first auth helpers</span>
+                <span>BetterAuth with RBAC and parallel /dashboard routes</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>RBAC guards + parallel routes for /dashboard</span>
+                <span>Type-safe i18n; six locales with RTL support</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>Type-safe i18n with cookie-based locale + RTL</span>
+                <span>Server-first SEO, PWA manifest, sitemap, and robots</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-primary">✓</span>
+                <span>
+                  Zod forms and T3 Env for typed validation and config
+                </span>
               </li>
             </ul>
           </CardContent>
@@ -113,15 +122,23 @@ const AboutPage = async () => {
             <ul className="space-y-2">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>Strict TypeScript + ESLint + Prettier</span>
+                <span>
+                  Strict TypeScript; ESLint + Prettier via lint scripts
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>Knip + Lefthook for hygiene and fast hooks</span>
+                <span>Knip and Lefthook for dead code and git hooks</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-primary">✓</span>
-                <span>Storybook + test suites (Vitest / Playwright)</span>
+                <span>
+                  Vitest and Playwright with a GitHub Actions check workflow
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-primary">✓</span>
+                <span>npm run check; typecheck, lint, knip, and tests</span>
               </li>
             </ul>
           </CardContent>
@@ -129,15 +146,25 @@ const AboutPage = async () => {
 
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Ship & deploy</CardTitle>
+            <CardTitle>Ship and deploy</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-sm text-muted-foreground">
-            <p>Deploy to Vercel with one click, then configure env</p>
-            <Button asChild>
-              <a href={deployUrl} target="_blank" rel="noopener noreferrer">
-                Deploy Now
-              </a>
-            </Button>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p>
+              Clone the repo, copy .env.example to .env, and run npm run dev.
+              Deploy to Vercel in one click when you are ready.
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button asChild className="w-full sm:flex-1">
+                <a href={deployUrl} target="_blank" rel="noopener noreferrer">
+                  Deploy Now
+                </a>
+              </Button>
+              <Button asChild variant="secondary" className="w-full sm:flex-1">
+                <a href={repoUrl} target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -6,16 +6,10 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     environment: 'jsdom',
-    setupFiles: './vitest.setup.ts',
+    setupFiles: 'config/vitest.setup.ts',
     globals: true,
     include: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
-    exclude: [
-      '**/node_modules/**',
-      '**/e2e/**',
-      '.next/**',
-      '.storybook/**',
-      '**/*.stories.{ts,tsx}',
-    ],
+    exclude: ['**/node_modules/**', '**/e2e/**', '.next/**'],
     env: {
       SKIP_ENV_VALIDATION: 'true',
     },

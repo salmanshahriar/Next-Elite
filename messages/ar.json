@@ -107,8 +107,7 @@
     }
   },
   "about": {
-    "title": "معلومات عنا",
-    "description": "معلومات عنّا"
+    "title": "معلومات عنا"
   },
   "sidebar": {
     "adminPanel": "لوحة المسؤول",

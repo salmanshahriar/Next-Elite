@@ -89,8 +89,7 @@
     }
   },
   "about": {
-    "title": "About",
-    "description": "Information about us"
+    "title": "About"
   },
 
   "dashboard": {
