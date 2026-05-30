@@ -38,33 +38,22 @@ Most Next.js starters either ship the bare minimum or bolt on a database/ORM you
 
 ## Integrated features
 
-- **Auth (BetterAuth)** —> Email/password with optional Google OAuth, plus an [Upstash Redis](https://upstash.com/) adapter for serverless-friendly sessions. Admin role via `AUTH_ADMIN_EMAILS` / `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`.
-
-- **RBAC + role-based routing** —> Permission-based RBAC (`user`, `admin`) with server-side guards (`requireUser`, `requirePermission`) for Server Components, paired with [parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) (`@admin`, `@user`) so `/dashboard` stays role-agnostic.
-
-- **Type-safe i18n (6 languages)** —> [`next-intl`](https://next-intl.dev/) with **cookie-based locale** (no URL prefix) for English, বাংলা, العربية (RTL), Français, Español, and 简体中文. Keys are type-checked (`t("navigation.home")` works; typos fail compile-time).
-
-- **UI kit** —> [shadcn/ui](https://ui.shadcn.com/) (Radix + CVA + Tailwind) with copy-and-own components.
-
-- **Central site config** —> Single [`src/features/site/site.config.json`](src/features/site/site.config.json) drives app name, SEO, languages, organization, theme, social meta, sitemap, robots, and `manifest.webmanifest`.
-
-- **SEO that scales** —> Open Graph, Twitter Cards, JSON-LD, canonical URLs, language alternates, dynamic sitemap + robots — driven from the central config.
-
-- **Type-safe env** —> [`@t3-oss/env-nextjs`](https://env.t3.gg/) + Zod with server/client split; invalid variables fail early.
-
-- **Forms** —> [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) for fast, accessible forms with shared validation.
-
-- **API layer** —> `ofetch` wrapper for typed HTTP + [TanStack Query](https://tanstack.com/query/latest) for caching, with a worked `users` feature you can copy.
-
-- **Demo mode (opt-in)** —> Self-contained `src/features/auth/demo/` module adds click-to-fill + auto-register behind `NEXT_PUBLIC_DEMO_MODE`. Turn it off (or delete the folder) for production.
-
-- **Observability & protection** —> [Sentry](https://sentry.io/) instrumentation, `pino` server logging, and optional `@upstash/ratelimit` helpers.
-
-- **Quality gates** —> [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/), [Vitest](https://vitest.dev/) + React Testing Library, and [Playwright](https://playwright.dev/) E2E.
-
-- **DX automation** —> [Lefthook](https://github.com/evilmartians/lefthook) pre-commit, [Commitlint](https://commitlint.js.org/) commit-msg, [Knip](https://knip.dev/) dead-code/deps hygiene, and GitHub Actions CI.
-
-- **Health check** —> `GET /api/health` returns `{ "status": "ok" }` for load balancers and probes.
+| Feature | Description |
+| ------- | ----------- |
+| **Auth (BetterAuth)** | Email/password with optional Google OAuth via `/api/auth/*`. Admin role via `AUTH_ADMIN_EMAILS` / `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`. Sessions use BetterAuth defaults (plug in your own storage adapter for multi-instance prod). |
+| **RBAC + role-based routing** | Permission-based RBAC (`user`, `admin`) with server-side guards (`requireUser`, `requirePermission`) for Server Components, paired with [parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) (`@admin`, `@user`) so `/dashboard` stays role-agnostic. |
+| **Type-safe i18n (6 languages)** | [`next-intl`](https://next-intl.dev/) with **cookie-based locale** (no URL prefix) for English, বাংলা, العربية (RTL), Français, Español, and 简体中文. Keys are type-checked (`t("navigation.home")` works; typos fail compile-time). |
+| **UI kit** | [shadcn/ui](https://ui.shadcn.com/) (Radix + CVA + Tailwind) with copy-and-own components. |
+| **Central site config** | Single [`src/features/site/site.config.json`](src/features/site/site.config.json) drives app name, SEO, languages, organization, theme, social meta, sitemap, robots, and `manifest.webmanifest`. |
+| **SEO that scales** | Open Graph, Twitter Cards, JSON-LD, canonical URLs, language alternates, dynamic sitemap + robots — driven from the central config. |
+| **Type-safe env** | [`@t3-oss/env-nextjs`](https://env.t3.gg/) + Zod with server/client split; invalid variables fail early. |
+| **Forms** | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) for fast, accessible forms with shared validation. |
+| **API layer** | `apiFetch` (`ofetch` + Zod) in `src/libs/api-client.ts` defaults to same-origin `/api`; [TanStack Query](https://tanstack.com/query/latest) on the client. Example `users` feature — point at your backend or add route handlers. |
+| **Demo mode (opt-in)** | Self-contained `src/features/auth/demo/` module adds click-to-fill + auto-register behind `NEXT_PUBLIC_DEMO_MODE`. Turn it off (or delete the folder) for production. |
+| **Observability & protection** | [Sentry](https://sentry.io/) instrumentation, `pino` server logging, and optional `getRateLimiter()` in `src/libs/rate-limit.ts` ([Upstash](https://upstash.com/) when `UPSTASH_REDIS_*` is set). |
+| **Quality gates** | [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/), [Vitest](https://vitest.dev/) + React Testing Library, and [Playwright](https://playwright.dev/) E2E. |
+| **DX automation** | [Lefthook](https://github.com/evilmartians/lefthook) pre-commit, [Commitlint](https://commitlint.js.org/) commit-msg, [Knip](https://knip.dev/) dead-code/deps hygiene, [Renovate](https://docs.renovatebot.com/) dependency updates, and GitHub Actions CI. |
+| **Health check** | `GET /api/health` returns `{ "status": "ok" }` for load balancers and probes. |
 
 <br/>
 
@@ -104,10 +93,22 @@ For instant previews, the boilerplate ships with a **self-contained demo module*
 
 ```
 .
-├── .github/workflows/        CI: check.yml + playwright.yml
-├── e2e/                      Playwright E2E specs
+├── .github/
+│   ├── workflows/            CI: check.yml + playwright.yml
+│   └── renovate.json         Dependency updates
+├── config/                   vitest.config.ts, vitest.setup.ts
+├── e2e/                      Playwright specs + playwright.config.ts
 ├── messages/                 next-intl translations (en, bn, ar, fr, es, zh)
 ├── public/                   Static assets
+├── tests/                    Vitest specs (auth, i18n)
+├── components.json           shadcn/ui CLI config
+├── eslint.config.js
+├── knip.json
+├── next.config.mjs
+├── package.json              scripts; Prettier + Commitlint config
+├── proxy.ts                  Next.js middleware (pass-through)
+├── tsconfig.json
+├── lefthook.yml              Git hooks (pre-commit, commit-msg)
 ├── src/
 │   ├── app/                  App Router
 │   │   ├── (auth)/           Login & auth pages
@@ -147,12 +148,7 @@ For instant previews, the boilerplate ships with a **self-contained demo module*
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
-├── config/                   vitest.config.ts, vitest.setup.ts
-├── e2e/                      Playwright E2E + playwright.config.ts
-├── knip.json                 Dead-code & dependency hygiene
-├── tests/                    Vitest unit/integration tests
-├── proxy.ts                  Next.js middleware
-└── lefthook.yml              Git hooks (pre-commit, commit-msg)
+└── ...
 ```
 
 ### Folder conventions
@@ -160,27 +156,49 @@ For instant previews, the boilerplate ships with a **self-contained demo module*
 - **`features/<name>/`** — vertical slices. Anything specific to a feature lives here: components, hooks, schemas, server logic, RBAC.
 - **`libs/`** — cross-cutting infrastructure used by multiple features (env, logger, api client). No business logic.
 - **`schemas/`** — cross-cutting Zod schemas (e.g. paginated API responses) shared across features.
-- **`components/shared/`** — generic, app-level UI (logo, hero, page heading). Not feature-specific.
+- **`components/shared/`** — generic, app-level UI (logo, hero, home sections). Not feature-specific.
 - **`components/ui/`** — `shadcn/ui` primitives. Avoid editing in place; copy & extend.
 
 <br/>
 
 ## Architecture Overview
 
+The big picture: a page is rendered on the server, auth/role is checked there, and any live data is fetched on the client.
+
 ```mermaid
-flowchart LR
-    Client[Browser / RSC] -->|fetch| Edge[Next.js Edge / Node]
-    Edge -->|ofetch + TanStack Query| ExternalAPI[(External REST/GraphQL API)]
-    Edge -->|BetterAuth| Redis[(Upstash Redis)]
-    Edge -->|i18n cookie| NextIntl[next-intl messages]
-    Edge --> Sentry[(Sentry)]
+flowchart TB
+    User([User]) --> Page
+
+    subgraph Server["Server (runs first)"]
+        Page[Page / Layout]
+        Guard["requireUser() / requirePermission()"]
+        Page --> Guard
+        Guard -->|reads session + role| Auth[BetterAuth]
+    end
+
+    subgraph Client["Client (runs in browser)"]
+        Hook["useQuery (TanStack Query)"]
+        Hook -->|apiFetch| Api["/api or your backend URL"]
+    end
+
+    Page -->|sends HTML| User
+    Page -.->|interactive parts| Hook
 ```
+
+**How a request flows:**
+
+1. **User opens a page** — the Server Component renders first.
+2. **Auth + role check** — `requireUser()` / `requirePermission()` read the BetterAuth session and redirect to `/login` or `/unauthorized` if needed.
+3. **HTML is sent** to the browser; translations come from `messages/` via `next-intl`.
+4. **Live data** (lists, forms, etc.) is fetched on the client with TanStack Query → `apiFetch` → your API.
+
+> Optional add-ons: **Sentry** for error tracking and **Upstash Redis** for the rate-limit helper — both activate only when their env vars are set.
 
 ### Auth & RBAC
 
-- BetterAuth runs as a **singleton** in `src/features/auth/lib/auth.ts`. With `UPSTASH_REDIS_REST_URL/TOKEN` set, sessions persist in Redis; otherwise BetterAuth uses its in-memory adapter for local dev.
-- Server Components call `requireUser()` / `requirePermission(...)` from `src/features/auth/rbac/require.ts` to gate pages — invalid sessions redirect to `/login`, unauthorized users redirect to `/unauthorized`.
-- Permissions are derived from the user's role in `rbac/roles.ts` and checked with `hasPermission(...)` from `rbac/can.ts`. Extend the `AuthPermission` union and `ROLE_PERMISSIONS` map as your feature surface grows.
+- BetterAuth runs as a **singleton** in `src/features/auth/lib/auth.ts` and is exposed at **`/api/auth/*`** via `src/app/api/auth/[...all]/route.ts`. Sessions use BetterAuth's **default storage**; add a database or Redis adapter when you need durable or multi-instance sessions.
+- `getCurrentUser()` reads the session, maps `AUTH_ADMIN_EMAILS` to a role, and attaches permissions. Server Components call `requireUser()` / `requirePermission(...)` from `src/features/auth/rbac/require.ts` — invalid sessions redirect to `/login`, unauthorized users to `/unauthorized`.
+- Permissions are defined in `rbac/roles.ts` and checked with `hasPermission(...)` from `rbac/can.ts`. Extend the `AuthPermission` union and `ROLE_PERMISSIONS` map as your feature surface grows.
 
 ```ts
 // Server Component example
@@ -209,17 +227,23 @@ const form = useForm<LoginInput>({
 });
 ```
 
-### Client data fetching
+### API layer (client)
+
+`src/libs/api-client.ts` builds an `ofetch` client with base URL `{NEXT_PUBLIC_APP_URL}/api` (or `/api` in the browser). Responses can be validated with Zod via `apiFetch`. The example `users` feature calls `/users` — add a matching route handler or change `baseURL` to your external API.
 
 ```ts
-import { useQuery } from '@tanstack/react-query';
-import { getUsers } from '@/features/users/api';
+'use client';
 
-const { data } = useQuery({
-  queryKey: ['users', { page: 1 }],
-  queryFn: () => getUsers({ page: 1 }),
-});
+import { useUsers } from '@/features/users/hooks/use-users';
+
+export function UsersList() {
+  const { data, isLoading } = useUsers();
+  if (isLoading) return null;
+  return <ul>{data?.map((u) => <li key={u.id}>{u.name}</li>)}</ul>;
+}
 ```
+
+`useUsers()` wraps TanStack Query with `queryFn: getUsers` from `src/features/users/api.ts`.
 
 <br/>
 
@@ -227,40 +251,11 @@ const { data } = useQuery({
 
 ### Environment variables
 
-`.env.example` documents every variable. They are validated by `src/libs/env.ts` (T3 Env).
+Every variable is documented in [`.env.example`](.env.example) and validated by `src/libs/env.ts` (T3 Env), so invalid values fail fast. A few notes:
 
-- `BETTER_AUTH_URL` is optional. On Vercel it defaults to `https://${VERCEL_URL}` (or `http://localhost:3000` locally).
-- `BETTER_AUTH_SECRET` must be set in production runtime (32+ chars). Builds will pass; if it’s missing at runtime the app logs a warning so you don’t get surprise crashes during deploys.
-
-Example:
-
-```bash
-# BetterAuth
-# BETTER_AUTH_URL=http://localhost:3000           # optional; derived on Vercel
-BETTER_AUTH_SECRET=your_32_char_secret            # openssl rand -base64 32
-
-# Optional — Google OAuth
-NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=false
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-# Optional — admin role mapping (CSV)
-AUTH_ADMIN_EMAILS=admin@yourdomain.com
-NEXT_PUBLIC_AUTH_ADMIN_EMAILS=admin@yourdomain.com
-
-# Demo mode
-NEXT_PUBLIC_DEMO_MODE=true
-
-# Optional — Upstash Redis (rate-limit / persistence)
-UPSTASH_REDIS_REST_URL=
-UPSTASH_REDIS_REST_TOKEN=
-
-# Optional — Sentry
-NEXT_PUBLIC_SENTRY_DSN=
-SENTRY_DSN=
-```
-
-> Set `SKIP_ENV_VALIDATION=true` in CI / Docker build steps if env vars are not yet available.
+- `BETTER_AUTH_URL` is optional — derived from `VERCEL_URL` in production, `http://localhost:3000` locally.
+- `BETTER_AUTH_SECRET` (32+ chars) must be set at runtime in production. A missing secret logs a warning instead of crashing the build.
+- Set `SKIP_ENV_VALIDATION=true` in CI / Docker build steps when env vars aren't available yet.
 
 ### Site & SEO configuration
 
@@ -333,21 +328,9 @@ It drives:
 
 ## Testing
 
-- **Unit / component:** Vitest + React Testing Library. Specs live in `tests/` for fast feedback while you build features.
+- **Unit / component:** Vitest + React Testing Library. Feature specs in `tests/`; colocated `*.test.ts(x)` next to components (e.g. `src/components/ui/`) and libs.
 - **End-to-end:** Playwright in `e2e/`. `npm run e2e` boots the dev server automatically; `npm run e2e:ui` is great for debugging selectors and replaying failures locally.
 - **WebKit-only setup** (saves disk space): `npx playwright install webkit && npm run e2e:webkit`.
-
-<br/>
-
-## DX & Tooling
-
-- **Lefthook + commitlint**: auto-fix lint/format on staged files and enforce Conventional Commits (keeps PRs consistent).
-- **Knip**: dead-code and dependency hygiene (unused files/exports/deps) so the repo stays clean as it grows.
-- **Type-safe env (T3 Env)**: `src/libs/env.ts` validates server/client env at build time so misconfigurations fail early.
-- **Sentry**: wired through `instrumentation.ts` (server) + `instrumentation-client.ts` (client) for production error visibility.
-- **Upstash utilities**: optional `@upstash/ratelimit` helpers for protecting route handlers and server actions.
-- **Structured logging**: `pino` server logger with pretty output in development.
-- **Renovate** (`.github/renovate.json`) groups non-major updates and automerges patches.
 
 <br/>
 
@@ -355,6 +338,7 @@ It drives:
 
 - `.github/workflows/check.yml` — typecheck → lint → knip → unit tests → build, on every push and PR.
 - `.github/workflows/playwright.yml` — full Playwright suite (Chromium, Firefox, WebKit).
+- `.github/renovate.json` — groups non-major dependency updates and automerges patches.
 
 <br/>
 
@@ -379,12 +363,6 @@ Or with Compose:
 ```bash
 docker compose up --build
 ```
-
-<br/>
-
-## Health Check
-
-`GET /api/health` returns `{ "status": "ok" }` for load balancers and Kubernetes probes.
 
 <br/>
 

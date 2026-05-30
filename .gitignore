@@ -32,3 +32,6 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 /.vitest/
+
+.DS_Store
+**/.DS_Store

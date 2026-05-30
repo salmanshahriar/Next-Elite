@@ -33,7 +33,7 @@
   "features": [
     "Type-safe i18n with next-intl (6 languages, RTL support)",
     "Permission-based RBAC with parallel routes",
-    "BetterAuth with Google OAuth and Upstash Redis sessions",
+    "BetterAuth with Google OAuth and permission-based RBAC",
     "Type-safe environment variables with @t3-oss/env-nextjs",
     "API layer with ofetch + TanStack Query",
     "React Hook Form + Zod validation",
