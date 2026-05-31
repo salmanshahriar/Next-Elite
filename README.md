@@ -60,14 +60,13 @@ Most Next.js starters either ship the bare minimum or bolt on a database/ORM you
 ### Prerequisites
 
 - Node.js **22.12** or later
-- **npm 11**
+- **npm**
 
 ### Install & run
 
 ```bash
 git clone https://github.com/salmanshahriar/Nextjs-Elite-Boilerplate.git
 cd Nextjs-Elite-Boilerplate
-npm ci
 npm install
 cp .env.example .env
 npm run dev

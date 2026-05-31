@@ -2,8 +2,8 @@
   "name": "nextjs-elite-boilerplate",
   "type": "module",
   "version": "0.1.0",
+  "author": "salmanshahriar (https://github.com/salmanshahriar)",
   "private": true,
-  "packageManager": "npm@11.11.0",
   "engines": {
     "node": ">=22.12.0"
   },
