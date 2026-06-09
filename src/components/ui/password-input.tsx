@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/libs/utils';
 import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import * as React from 'react';
@@ -35,7 +37,7 @@ function PasswordInput({
           onClick={() => setShowPassword(!showPassword)}
           className={cn(
             'absolute top-0 right-0 h-full cursor-pointer border-l px-3 text-muted-foreground transition-colors hover:text-foreground',
-            error && 'border-l-red-500',
+            error && 'border-l-destructive',
           )}
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >

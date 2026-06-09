@@ -15,15 +15,34 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        primary:
+          'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 [&>span]:transition-transform [&>span]:duration-300 [&>span]:ease-out hover:[&>span]:translate-x-1 [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:ease-out hover:[&>svg]:-translate-x-1',
+        subtle: 'bg-primary/10 text-primary hover:bg-primary/20',
         destructive:
           'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+        destructiveSubtle:
+          'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
         outline:
           'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+        outlineSuccess:
+          'border border-success border-dashed text-success bg-transparent',
+        outlineWarning:
+          'border border-warning border-dashed text-warning bg-transparent',
+        outlineDestructive:
+          'border border-destructive border-dashed text-destructive bg-transparent',
         secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 [&>span]:transition-transform [&>span]:duration-300 [&>span]:ease-out hover:[&>span]:translate-x-1 [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:ease-out hover:[&>svg]:-translate-x-1',
         ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+          'font-semibold hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+        ghostPrimary: 'font-semibold text-primary hover:opacity-70',
+        ghostDestructive: 'font-semibold text-destructive hover:opacity-70',
+        toggle: 'hover:bg-transparent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        accent:
+          'bg-accent text-accent-foreground hover:bg-accent/90 focus-visible:ring-accent/20 dark:focus-visible:ring-accent/40',
+        muted: 'bg-muted text-muted-foreground',
+        success:
+          'bg-success text-success-foreground hover:bg-success/90 focus-visible:ring-success/20 dark:focus-visible:ring-success/40',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

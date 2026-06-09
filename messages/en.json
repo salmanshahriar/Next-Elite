@@ -19,7 +19,9 @@
     "filter": "Filter",
     "reset": "Reset",
     "noData": "No data available",
-    "toggleTheme": "Toggle theme"
+    "toggleTheme": "Toggle theme",
+    "sidebar": "Sidebar",
+    "toggleSidebar": "Toggle Sidebar"
   },
   "theme": {
     "light": "Light",
@@ -36,7 +38,8 @@
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout",
-    "login": "Login"
+    "login": "Login",
+    "uiComponents": "UI Components"
   },
   "auth": {
     "login": {
@@ -85,7 +88,7 @@
       "seo": "Programmatic SEO & Dynamic Metadata",
       "production": "Production-optimized SaaS architecture",
       "stack": "Next.js 16, TypeScript & Tailwind",
-      "ui-experience": "Fully customizable, themeable shadcn/ui components"
+      "ui-experience": "shadcn/ui + custom components with a live showcase"
     }
   },
   "about": {
@@ -116,6 +119,27 @@
     "menu": "Menu",
     "theme": "Theme",
     "language": "Language"
+  },
+  "uiComponents": {
+    "title": "UI Components",
+    "description": "Browse 40+ shadcn/ui primitives and custom components with variants, sizes, and interactive states.",
+    "onThisPage": "On this page",
+    "sections": {
+      "actions": "Actions",
+      "actionsDesc": "Buttons, toggles, and grouped actions.",
+      "forms": "Forms",
+      "formsDesc": "Inputs, selects, and form helpers.",
+      "feedback": "Feedback",
+      "feedbackDesc": "Alerts, badges, progress, and loading states.",
+      "dataDisplay": "Data Display",
+      "dataDisplayDesc": "Cards, tables, avatars, and visual elements.",
+      "navigation": "Navigation",
+      "navigationDesc": "Breadcrumbs, tabs, and menus.",
+      "overlays": "Overlays",
+      "overlaysDesc": "Dialogs, sheets, popovers, and menus.",
+      "layout": "Layout",
+      "layoutDesc": "Accordion, carousel, calendar, and collapsible."
+    }
   },
   "errors": {
     "404": "Page not found",

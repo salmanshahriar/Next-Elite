@@ -19,7 +19,9 @@
     "filter": "Filtrar",
     "reset": "Restablecer",
     "noData": "No hay datos disponibles",
-    "toggleTheme": "Cambiar tema"
+    "toggleTheme": "Cambiar tema",
+    "sidebar": "Barra lateral",
+    "toggleSidebar": "Alternar barra lateral"
   },
   "theme": {
     "light": "Claro",
@@ -36,7 +38,8 @@
     "profile": "Perfil",
     "settings": "Ajustes",
     "logout": "Cerrar sesión",
-    "login": "Iniciar sesión"
+    "login": "Iniciar sesión",
+    "uiComponents": "Componentes UI"
   },
   "auth": {
     "login": {
@@ -115,6 +118,27 @@
     "menu": "Menú",
     "theme": "Tema",
     "language": "Idioma"
+  },
+  "uiComponents": {
+    "title": "Componentes UI",
+    "description": "Explora más de 40 primitivos shadcn/ui y componentes personalizados con variantes, tamaños y estados interactivos.",
+    "onThisPage": "En esta página",
+    "sections": {
+      "actions": "Acciones",
+      "actionsDesc": "Botones, toggles y acciones agrupadas.",
+      "forms": "Formularios",
+      "formsDesc": "Entradas, selectores y ayudas de formulario.",
+      "feedback": "Retroalimentación",
+      "feedbackDesc": "Alertas, insignias, progreso y estados de carga.",
+      "dataDisplay": "Visualización de datos",
+      "dataDisplayDesc": "Tarjetas, tablas, avatares y elementos visuales.",
+      "navigation": "Navegación",
+      "navigationDesc": "Migas de pan, pestañas y menús.",
+      "overlays": "Superposiciones",
+      "overlaysDesc": "Diálogos, paneles, popovers y menús.",
+      "layout": "Diseño",
+      "layoutDesc": "Acordeón, carrusel, calendario y plegable."
+    }
   },
   "errors": {
     "404": "Página no encontrada",

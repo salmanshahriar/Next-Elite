@@ -35,6 +35,12 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
 
+  /* Semantic Colors */
+  --success: oklch(0.627 0.194 149.214);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.205 0 0);
+
   /* Border & Input Colors */
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -118,6 +124,12 @@
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
 
+  /* Semantic Colors */
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.985 0 0);
+
   /* Border & Input Colors */
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
@@ -167,6 +179,10 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -189,6 +205,10 @@
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
 }
 
 /* ========== Base Styles ========== */
@@ -286,15 +306,6 @@
     text-wrap: balance;
   }
 
-  /* ========== Animation Utilities ========== */
-  .animate-in {
-    animation: fadeIn 0.2s ease-in-out;
-  }
-
-  .animate-out {
-    animation: fadeOut 0.2s ease-in-out;
-  }
-
   /* ========== Transition Utilities ========== */
   .transition-theme {
     transition:
@@ -306,25 +317,21 @@
 
 /* ========== Animations ========== */
 
-@keyframes fadeIn {
+@keyframes accordion-down {
   from {
-    opacity: 0;
-    transform: translateY(-4px);
+    height: 0;
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    height: var(--radix-accordion-content-height);
   }
 }
 
-@keyframes fadeOut {
+@keyframes accordion-up {
   from {
-    opacity: 1;
-    transform: translateY(0);
+    height: var(--radix-accordion-content-height);
   }
   to {
-    opacity: 0;
-    transform: translateY(-4px);
+    height: 0;
   }
 }
 

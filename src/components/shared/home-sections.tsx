@@ -1,18 +1,16 @@
 'use client';
 
+import { GithubIcon } from '@/components/icons/github-icon';
+import { VercelIcon } from '@/components/icons/vercel-icon';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
 import { Check, Copy, Terminal } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const deployUrl =
-  'https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite';
-
-const repoUrl = 'https://github.com/salmanshahriar/Next-Elite';
-
 const installLines = [
-  `git clone ${repoUrl}`,
+  `git clone ${githubRepoUrl}`,
   'cd Next-Elite',
   'npm install',
   'cp .env.example .env',
@@ -21,7 +19,11 @@ const installLines = [
 
 const installCommands = installLines.join('\n');
 
-export const HomeGetStartedSection = () => {
+export const HomeGetStartedSection = ({
+  githubStars,
+}: {
+  githubStars?: string | null;
+}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -48,22 +50,28 @@ export const HomeGetStartedSection = () => {
               Deploy to Vercel when you are ready.
             </p>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <Button asChild size="lg" className="w-full sm:w-auto">
-                <a href={deployUrl} target="_blank" rel="noopener noreferrer">
-                  Deploy Now
-                </a>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="w-full sm:w-auto"
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href={vercelDeployUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center gap-2.5 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
               >
-                <a href={repoUrl} target="_blank" rel="noopener noreferrer">
-                  Source code (GitHub)
-                </a>
-              </Button>
+                <VercelIcon className="size-3.5" />
+                Deploy to Vercel
+              </a>
+              <a
+                href={githubRepoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/50"
+              >
+                <GithubIcon className="size-4" />
+                Star on GitHub
+                {githubStars ? (
+                  <span className="text-muted-foreground">{githubStars}</span>
+                ) : null}
+              </a>
             </div>
           </div>
 
@@ -103,7 +111,7 @@ export const HomeGetStartedSection = () => {
                   {installLines.map((line) => (
                     <span key={line} className="flex min-w-0 gap-2">
                       <span
-                        className="shrink-0 text-primary/70 select-none"
+                        className="shrink-0 font-bold text-foreground select-none"
                         aria-hidden
                       >
                         $

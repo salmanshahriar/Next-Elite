@@ -1,13 +1,26 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getLocaleDirection, type Locale } from '@/features/site/config';
+import { GithubIcon } from '@/components/icons/github-icon';
+import { VercelIcon } from '@/components/icons/vercel-icon';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  getLocaleDirection,
+  siteConfig,
+  type Locale,
+} from '@/features/site/config';
+import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
 
-const deployUrl =
-  'https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite';
-
-const repoUrl = 'https://github.com/salmanshahriar/Next-Elite';
-
-const HeroSection = async ({ locale }: { locale: Locale }) => {
+const HeroSection = async ({
+  locale,
+  githubStars,
+}: {
+  locale: Locale;
+  githubStars?: string | null;
+}) => {
   const isRtl = getLocaleDirection(locale) === 'rtl';
 
   const features = [
@@ -16,13 +29,26 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
       title: 'Modern stack, lean setup',
       description: 'Next.js 16 App Router, React 19, Tailwind v4.',
       badges: [
-        { label: 'Framework', value: 'Next.js 16 + React 19' },
-        { label: 'UI', value: 'Tailwind v4 + shadcn' },
+        { label: 'Framework', value: 'Next.js 16 + React 19 + TypeScript' },
       ],
       details: [
         'RSC-first; client components only when needed',
-        'Ownable shadcn/ui primitives',
+        'TypeScript strict mode with path aliases',
         'API-driven; no forced database layer',
+      ],
+    },
+    {
+      icon: '🎨',
+      title: 'shadcn/ui + custom components',
+      description: 'shadcn/ui primitives with custom extensions.',
+      badges: [
+        { label: 'Library', value: '40+ components' },
+        { label: 'Stack', value: 'Radix + CVA' },
+      ],
+      details: [
+        'Live showcase at /ui-components',
+        'Combobox, password input, OTP, and input group',
+        'Buttons, forms, overlays, and data display',
       ],
     },
     {
@@ -51,21 +77,6 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
       ],
     },
     {
-      icon: '🎨',
-      title: 'shadcn/ui component library',
-      description:
-        'Copy-paste components with full TypeScript support and accessible Radix primitives.',
-      badges: [
-        { label: 'UI', value: 'shadcn + Radix' },
-        { label: 'Styling', value: 'CVA + Tailwind v4' },
-      ],
-      details: [
-        'Button, card, sheet, dropdown, input; source in src/components/ui',
-        'Size, variant, and state props; consistent across every component',
-        'Radix primitives, Lucide icons, and CSS theme tokens',
-      ],
-    },
-    {
       icon: '🔀',
       title: 'Parallel routing',
       description: 'One URL per feature; role-specific UI via slots.',
@@ -90,8 +101,7 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
     {
       icon: '📝',
       title: 'Forms + validation',
-      description:
-        'Zod schemas define the rules; React Hook Form handles the UI.',
+      description: 'Zod schemas, React Hook Form for form handling.',
       badges: [
         { label: 'Validation', value: 'Zod' },
         { label: 'Forms', value: 'React Hook Form' },
@@ -136,33 +146,38 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
     <div
       className={`mx-auto flex max-w-7xl flex-col gap-12 px-4 pt-12 ${isRtl ? 'text-right' : 'text-left'}`}
     >
-      <div className="flex flex-col items-center gap-6 text-center">
-        <div>
-          <h1 className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-5xl font-bold text-transparent">
-            Next Elite
+      <div className="flex flex-col items-center gap-6">
+        <header className="space-y-0 text-center">
+          <h1 className="text-5xl font-bold tracking-tight text-foreground">
+            {siteConfig.appName}
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-xl leading-relaxed text-muted-foreground sm:text-2xl">
-            Frontend-first, API-driven Next.js 16 boilerplate with i18n, RBAC,
-            BetterAuth, and a polished DX.
+            {siteConfig.tagline}
           </p>
-        </div>
+        </header>
 
-        <div className="flex w-full max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
-          <Button
-            asChild
-            size="lg"
-            variant="secondary"
-            className="w-full sm:flex-1"
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href={vercelDeployUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center gap-2.5 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
           >
-            <a href={repoUrl} target="_blank" rel="noopener noreferrer">
-              Source code (GitHub)
-            </a>
-          </Button>
-          <Button asChild size="lg" className="w-full sm:flex-1">
-            <a href={deployUrl} target="_blank" rel="noopener noreferrer">
-              Deploy Now
-            </a>
-          </Button>
+            <VercelIcon className="size-3.5" />
+            Deploy to Vercel
+          </a>
+          <a
+            href={githubRepoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/50"
+          >
+            <GithubIcon className="size-4" />
+            Star on GitHub
+            {githubStars ? (
+              <span className="text-muted-foreground">{githubStars}</span>
+            ) : null}
+          </a>
         </div>
       </div>
 
@@ -199,9 +214,9 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
                 ) : null}
 
                 {feature.description && (
-                  <p className="mb-4 text-left text-sm leading-relaxed text-muted-foreground">
+                  <CardDescription className="mb-4 text-left leading-relaxed">
                     {feature.description}
-                  </p>
+                  </CardDescription>
                 )}
 
                 <ul className="w-full space-y-2 text-left">

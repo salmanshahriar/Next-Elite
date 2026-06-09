@@ -19,7 +19,9 @@
     "filter": "筛选",
     "reset": "重置",
     "noData": "暂无数据",
-    "toggleTheme": "切换主题"
+    "toggleTheme": "切换主题",
+    "sidebar": "侧边栏",
+    "toggleSidebar": "切换侧边栏"
   },
   "theme": {
     "light": "浅色",
@@ -36,7 +38,8 @@
     "profile": "个人资料",
     "settings": "设置",
     "logout": "退出登录",
-    "login": "登录"
+    "login": "登录",
+    "uiComponents": "UI 组件"
   },
   "auth": {
     "login": {
@@ -115,6 +118,27 @@
     "menu": "菜单",
     "theme": "主题",
     "language": "语言"
+  },
+  "uiComponents": {
+    "title": "UI 组件",
+    "description": "浏览 40+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
+    "onThisPage": "本页目录",
+    "sections": {
+      "actions": "操作",
+      "actionsDesc": "按钮、开关和组合操作。",
+      "forms": "表单",
+      "formsDesc": "输入框、选择器和表单辅助组件。",
+      "feedback": "反馈",
+      "feedbackDesc": "警告、徽章、进度和加载状态。",
+      "dataDisplay": "数据展示",
+      "dataDisplayDesc": "卡片、表格、头像和视觉元素。",
+      "navigation": "导航",
+      "navigationDesc": "面包屑、标签页和菜单。",
+      "overlays": "浮层",
+      "overlaysDesc": "对话框、抽屉、弹出框和菜单。",
+      "layout": "布局",
+      "layoutDesc": "手风琴、轮播、日历和可折叠组件。"
+    }
   },
   "errors": {
     "404": "页面未找到",

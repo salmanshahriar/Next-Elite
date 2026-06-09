@@ -1,7 +1,7 @@
 {
   "appName": "Next Elite",
   "appType": "Production-Ready SaaS Boilerplate",
-  "tagline": "Frontend-first, API-driven Next.js 16 boilerplate with i18n, RBAC, BetterAuth, and a polished DX.",
+  "tagline": "Frontend-first, API-driven Next.js 16 boilerplate with custom components, i18n, RBAC, BetterAuth, and a polished DX.",
   "title": "Next Elite — Production-Ready SaaS Boilerplate",
   "description": "Frontend-first Next.js 16 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, type-safe i18n with next-intl, T3 Env, TanStack Query, and Sentry.",
   "locale": "en_US",

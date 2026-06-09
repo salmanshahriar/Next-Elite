@@ -19,7 +19,9 @@
     "filter": "Filtrer",
     "reset": "Réinitialiser",
     "noData": "Aucune donnée disponible",
-    "toggleTheme": "Basculer le thème"
+    "toggleTheme": "Basculer le thème",
+    "sidebar": "Barre latérale",
+    "toggleSidebar": "Basculer la barre latérale"
   },
   "theme": {
     "light": "Clair",
@@ -36,7 +38,8 @@
     "profile": "Profil",
     "settings": "Paramètres",
     "logout": "Déconnexion",
-    "login": "Connexion"
+    "login": "Connexion",
+    "uiComponents": "Composants UI"
   },
   "auth": {
     "login": {
@@ -115,6 +118,27 @@
     "menu": "Menu",
     "theme": "Thème",
     "language": "Langue"
+  },
+  "uiComponents": {
+    "title": "Composants UI",
+    "description": "Parcourez plus de 40 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
+    "onThisPage": "Sur cette page",
+    "sections": {
+      "actions": "Actions",
+      "actionsDesc": "Boutons, bascules et actions groupées.",
+      "forms": "Formulaires",
+      "formsDesc": "Champs, sélecteurs et aides de formulaire.",
+      "feedback": "Retour",
+      "feedbackDesc": "Alertes, badges, progression et états de chargement.",
+      "dataDisplay": "Affichage des données",
+      "dataDisplayDesc": "Cartes, tableaux, avatars et éléments visuels.",
+      "navigation": "Navigation",
+      "navigationDesc": "Fil d'Ariane, onglets et menus.",
+      "overlays": "Superpositions",
+      "overlaysDesc": "Dialogues, panneaux, popovers et menus.",
+      "layout": "Mise en page",
+      "layoutDesc": "Accordéon, carrousel, calendrier et repliable."
+    }
   },
   "errors": {
     "404": "Page non trouvée",

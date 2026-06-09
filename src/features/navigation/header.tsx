@@ -46,18 +46,29 @@ const Header = () => {
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/'
-                  ? 'bg-primary/10 text-primary'
+                  ? 'text-primary'
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
             >
               {t('home')}
             </Link>
             <Link
+              href="/ui-components"
+              className={cn(
+                'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                pathname === '/ui-components'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+              )}
+            >
+              {t('uiComponents')}
+            </Link>
+            <Link
               href="/about"
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/about'
-                  ? 'bg-primary/10 text-primary'
+                  ? 'text-primary'
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
             >
@@ -69,7 +80,7 @@ const Header = () => {
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname?.startsWith('/dashboard')
-                    ? 'bg-primary/10 text-primary'
+                    ? 'text-primary'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
               >
@@ -138,11 +149,23 @@ const Header = () => {
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/'
-                    ? 'bg-primary/10 text-primary'
+                    ? 'text-primary'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
               >
                 {t('home')}
+              </Link>
+              <Link
+                href="/ui-components"
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  pathname === '/ui-components'
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                )}
+              >
+                {t('uiComponents')}
               </Link>
               <Link
                 href="/about"
@@ -150,7 +173,7 @@ const Header = () => {
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/about'
-                    ? 'bg-primary/10 text-primary'
+                    ? 'text-primary'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
               >
@@ -163,7 +186,7 @@ const Header = () => {
                   className={cn(
                     'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                     pathname?.startsWith('/dashboard')
-                      ? 'bg-primary/10 text-primary'
+                      ? 'text-primary'
                       : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                   )}
                 >
