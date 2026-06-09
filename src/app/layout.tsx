@@ -107,7 +107,7 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   const dir = getLocaleDirection(locale as Locale);
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
+    <html lang={locale} dir={dir} className="light" suppressHydrationWarning>
       <body className="font-sans antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers initialUser={currentUser}>

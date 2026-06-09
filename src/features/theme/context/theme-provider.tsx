@@ -65,7 +65,7 @@ function getThemeSnapshot(defaultTheme: Theme): Theme {
 
 export const ThemeProvider = ({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'light',
 }: ThemeProviderProps) => {
   const theme = useSyncExternalStore(
     subscribeToThemeStore,

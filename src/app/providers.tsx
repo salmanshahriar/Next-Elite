@@ -18,7 +18,7 @@ const Providers = ({ children, initialUser = null }: ProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="light">
       <TopLoader />
       <QueryClientProvider client={queryClient}>
         <AuthProvider initialUser={initialUser}>
