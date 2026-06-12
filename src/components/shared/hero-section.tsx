@@ -13,6 +13,17 @@ import {
   type Locale,
 } from '@/features/site/config';
 import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
+import {
+  Cpu,
+  FileText,
+  FlaskConical,
+  Globe,
+  Lock,
+  Palette,
+  Search,
+  Shield,
+  Shuffle,
+} from 'lucide-react';
 
 const HeroSection = async ({
   locale,
@@ -25,7 +36,7 @@ const HeroSection = async ({
 
   const features = [
     {
-      icon: '🚀',
+      icon: Cpu,
       title: 'Modern stack, lean setup',
       description: 'Next.js 16 App Router, React 19, Tailwind v4.',
       badges: [
@@ -38,7 +49,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🎨',
+      icon: Palette,
       title: 'shadcn/ui + custom components',
       description: 'shadcn/ui primitives with custom extensions.',
       badges: [
@@ -52,7 +63,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🔐',
+      icon: Lock,
       title: 'BetterAuth',
       description: 'Sessions, OAuth, and permission-based RBAC.',
       badges: [
@@ -66,7 +77,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🔍',
+      icon: Search,
       title: 'SEO + PWA, server-first',
       description: 'Metadata, sitemap, and manifest generated on the server.',
       badges: [{ label: 'SEO', value: 'OG + JSON-LD' }],
@@ -77,7 +88,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🔀',
+      icon: Shuffle,
       title: 'Parallel routing',
       description: 'One URL per feature; role-specific UI via slots.',
       badges: [{ label: 'Routes', value: '@user · @admin' }],
@@ -88,7 +99,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🌐',
+      icon: Globe,
       title: 'Type-safe i18n',
       description: 'Type-safe next-intl with cookie locale and RTL.',
       badges: [{ label: 'i18n', value: '6 locales + RTL' }],
@@ -99,7 +110,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '📝',
+      icon: FileText,
       title: 'Forms + validation',
       description: 'Zod schemas, React Hook Form for form handling.',
       badges: [
@@ -113,7 +124,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🛡️',
+      icon: Shield,
       title: 'Type-safe environment',
       description: 'T3 Env validates every variable with Zod at build time.',
       badges: [
@@ -127,7 +138,7 @@ const HeroSection = async ({
       ],
     },
     {
-      icon: '🧪',
+      icon: FlaskConical,
       title: 'Developer experience',
       description: 'Quality gates without tool bloat.',
       badges: [
@@ -144,7 +155,7 @@ const HeroSection = async ({
 
   return (
     <div
-      className={`mx-auto flex max-w-7xl flex-col gap-12 px-4 pt-12 ${isRtl ? 'text-right' : 'text-left'}`}
+      className={`mx-auto flex max-w-7xl flex-col gap-12 px-4 pt-20 ${isRtl ? 'text-right' : 'text-left'}`}
     >
       <div className="flex flex-col items-center gap-6">
         <header className="space-y-0 text-center">
@@ -181,22 +192,19 @@ const HeroSection = async ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
-          <Card
-            key={feature.title}
-            className="transition-shadow hover:shadow-lg"
-          >
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{feature.icon}</span>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
+          <Card key={feature.title} hover>
+            <CardHeader className="flex flex-col items-center text-center">
+              <div className="relative mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_24px_rgba(118,99,255,0.12)]">
+                <feature.icon className="h-7 w-7" aria-hidden />
               </div>
+              <CardTitle className="text-lg">{feature.title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-col">
+            <CardContent className="flex flex-col items-center text-center">
+              <div className="flex w-full flex-col items-center">
                 {feature.badges?.length ? (
-                  <div className="mb-3 flex flex-wrap gap-2">
+                  <div className="mb-4 flex flex-wrap justify-center gap-2">
                     {feature.badges.map((badge) => (
                       <div
                         key={`${badge.label}:${badge.value}`}
@@ -214,18 +222,20 @@ const HeroSection = async ({
                 ) : null}
 
                 {feature.description && (
-                  <CardDescription className="mb-4 text-left leading-relaxed">
+                  <CardDescription className="mb-4 text-center leading-relaxed">
                     {feature.description}
                   </CardDescription>
                 )}
 
-                <ul className="w-full space-y-2 text-left">
+                <ul className="mt-2 w-full space-y-2 border-t border-border/40 pt-4 text-left">
                   {feature.details.map((detail) => (
                     <li
                       key={detail}
                       className="flex items-start gap-2 text-xs text-muted-foreground"
                     >
-                      <span className="mt-0.5 text-primary">✓</span>
+                      <span className="mt-0.5 font-semibold text-[#9d8cff]">
+                        ✓
+                      </span>
                       <span>{detail}</span>
                     </li>
                   ))}

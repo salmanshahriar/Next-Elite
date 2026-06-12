@@ -1,3 +1,4 @@
+import { fontSans } from '@/app/fonts';
 import Providers from '@/app/providers';
 import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import {
@@ -6,6 +7,7 @@ import {
   siteConfig,
   type Locale,
 } from '@/features/site/config';
+import { cn } from '@/libs/utils';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
@@ -107,8 +109,13 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   const dir = getLocaleDirection(locale as Locale);
 
   return (
-    <html lang={locale} dir={dir} className="light" suppressHydrationWarning>
-      <body className="font-sans antialiased">
+    <html
+      lang={locale}
+      dir={dir}
+      className={cn('light', fontSans.variable)}
+      suppressHydrationWarning
+    >
+      <body className={cn(fontSans.className, 'antialiased')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers initialUser={currentUser}>
             <div className="flex min-h-screen flex-col">{children}</div>

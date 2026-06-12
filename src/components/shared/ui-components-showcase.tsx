@@ -175,6 +175,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { type ReactNode, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type ButtonVariant = NonNullable<
   VariantProps<typeof buttonVariants>['variant']
@@ -348,6 +349,8 @@ export function UiComponentsShowcase() {
   const [collapsibleOpen, setCollapsibleOpen] = useState(false);
   const [progress, setProgress] = useState(45);
   const [activeSection, setActiveSection] = useState<string>(SECTIONS[0].id);
+  const [showAlert, setShowAlert] = useState(true);
+  const [showDestructiveAlert, setShowDestructiveAlert] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -712,22 +715,43 @@ export function UiComponentsShowcase() {
             description={t('sections.feedbackDesc')}
           >
             <ComponentBlock title="Alert">
+              <SubLabel>Interactive</SubLabel>
+              <div className="mb-4 flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setShowAlert((p) => !p)}
+                >
+                  Toggle Default Alert
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setShowDestructiveAlert((p) => !p)}
+                >
+                  Toggle Destructive Alert
+                </Button>
+              </div>
               <SubLabel>Variants</SubLabel>
               <div className="grid gap-4">
-                <Alert>
-                  <AlertCircle className="size-4" />
-                  <AlertTitle>Heads up</AlertTitle>
-                  <AlertDescription>
-                    Default alert for general information.
-                  </AlertDescription>
-                </Alert>
-                <Alert variant="destructive">
-                  <AlertCircle className="size-4" />
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>
-                    Destructive alert for critical messages.
-                  </AlertDescription>
-                </Alert>
+                {showAlert && (
+                  <Alert>
+                    <AlertCircle className="size-4" />
+                    <AlertTitle>Heads up</AlertTitle>
+                    <AlertDescription>
+                      Default alert for general information.
+                    </AlertDescription>
+                  </Alert>
+                )}
+                {showDestructiveAlert && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="size-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                      Destructive alert for critical messages.
+                    </AlertDescription>
+                  </Alert>
+                )}
               </div>
             </ComponentBlock>
 
@@ -825,7 +849,12 @@ export function UiComponentsShowcase() {
                       </p>
                     </CardContent>
                     <CardFooter>
-                      <Button size="sm">Action</Button>
+                      <Button
+                        size="sm"
+                        onClick={() => toast.success('Action clicked!')}
+                      >
+                        Action
+                      </Button>
                     </CardFooter>
                   </Card>
                 </div>
@@ -836,7 +865,11 @@ export function UiComponentsShowcase() {
                       <CardTitle>Notifications</CardTitle>
                       <CardDescription>Manage your alerts.</CardDescription>
                       <CardAction>
-                        <Button size="sm" variant="outline">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => toast.info('Settings clicked!')}
+                        >
                           Settings
                         </Button>
                       </CardAction>

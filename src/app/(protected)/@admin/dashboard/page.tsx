@@ -7,7 +7,7 @@ const AdminDashboardPage = async () => {
   const t = await getTranslations('dashboard.admin');
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 pt-20 md:pt-12">
+    <div className="mx-auto max-w-4xl px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold">{t('title')}</h1>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">

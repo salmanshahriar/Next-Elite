@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* ========== Color Palette - Light Theme ========== */
   /* Base Colors */
@@ -16,8 +18,8 @@
   --popover-foreground: oklch(0.145 0 0);
 
   /* Primary Colors */
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #7663ff;
+  --primary-foreground: #ffffff;
 
   /* Secondary Colors */
   --secondary: oklch(0.97 0 0);
@@ -63,6 +65,32 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
+  /* RGB Base Colors */
+  --primary-purple-rgb: 118, 99, 255;
+  --secondary-purple-rgb: 90, 74, 212;
+
+  /* ========== Glass Card - Light Theme ========== */
+  --glass-card-bg: rgba(255, 255, 255, 0.45);
+  --glass-card-border: rgba(0, 0, 0, 0.08);
+  --glass-card-inset-top: rgba(255, 255, 255, 0.6);
+  --glass-card-inset-bottom: rgba(255, 255, 255, 0.2);
+  --glass-card-ring: rgba(var(--primary-purple-rgb), 0.04);
+  --glass-card-glow-1: rgba(var(--primary-purple-rgb), 0.14);
+  --glass-card-glow-2: rgba(var(--secondary-purple-rgb), 0.05);
+  --glass-card-glow-hover-1: rgba(var(--primary-purple-rgb), 0.2);
+  --glass-card-glow-hover-2: rgba(var(--secondary-purple-rgb), 0.08);
+  --glass-card-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.04),
+    0 0 36px rgba(var(--primary-purple-rgb), 0.04);
+  --glass-card-shadow-hover:
+    0 10px 32px rgba(0, 0, 0, 0.06),
+    0 0 48px rgba(var(--primary-purple-rgb), 0.06);
+  --glass-card-bg-hover: rgba(255, 255, 255, 0.55);
+  --glass-card-border-hover: rgba(var(--primary-purple-rgb), 0.15);
+  --glass-card-inset-top-hover: rgba(255, 255, 255, 0.7);
+  --glass-card-inset-bottom-hover: rgba(255, 255, 255, 0.25);
+  --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.06);
+
   /* ========== Spacing & Layout ========== */
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
@@ -71,8 +99,8 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* ========== Typography ========== */
-  --font-sans: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', 'Courier New', monospace;
+  --font-sans: var(--font-fredoka), system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Courier New', monospace;
 
   /* ========== Transitions ========== */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -105,8 +133,8 @@
   --popover-foreground: oklch(0.985 0 0);
 
   /* Primary Colors */
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #9d8cff;
+  --primary-foreground: #0f0f14;
 
   /* Secondary Colors */
   --secondary: oklch(0.269 0 0);
@@ -151,6 +179,28 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+
+  /* ========== Glass Card - Dark Theme ========== */
+  --glass-card-bg: rgba(15, 15, 20, 0.38);
+  --glass-card-border: rgba(255, 255, 255, 0.1);
+  --glass-card-inset-top: rgba(255, 255, 255, 0.14);
+  --glass-card-inset-bottom: rgba(255, 255, 255, 0.04);
+  --glass-card-ring: rgba(var(--primary-purple-rgb), 0.07);
+  --glass-card-glow-1: rgba(var(--primary-purple-rgb), 0.28);
+  --glass-card-glow-2: rgba(var(--secondary-purple-rgb), 0.1);
+  --glass-card-glow-hover-1: rgba(var(--primary-purple-rgb), 0.36);
+  --glass-card-glow-hover-2: rgba(var(--secondary-purple-rgb), 0.14);
+  --glass-card-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    0 0 36px rgba(var(--primary-purple-rgb), 0.1);
+  --glass-card-shadow-hover:
+    0 10px 32px rgba(0, 0, 0, 0.32),
+    0 0 48px rgba(var(--primary-purple-rgb), 0.16);
+  --glass-card-bg-hover: rgba(15, 15, 20, 0.44);
+  --glass-card-border-hover: rgba(var(--primary-purple-rgb), 0.22);
+  --glass-card-inset-top-hover: rgba(255, 255, 255, 0.16);
+  --glass-card-inset-bottom-hover: rgba(255, 255, 255, 0.05);
+  --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.1);
 }
 
 /* ============================================
@@ -355,4 +405,188 @@
   body {
     @apply text-sm;
   }
+}
+
+/* ========== Premium Glassmorphism Card styles ========== */
+.ui-card {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(20px) saturate(1.55);
+  -webkit-backdrop-filter: blur(20px) saturate(1.55);
+  border: 1px solid var(--glass-card-border);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-card-inset-top),
+    inset 0 -1px 0 0 var(--glass-card-inset-bottom),
+    0 0 0 1px var(--glass-card-ring) inset,
+    var(--glass-card-shadow);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.ui-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ui-card::before {
+  content: '';
+  position: absolute;
+  top: -35%;
+  right: -35%;
+  width: 75%;
+  height: 75%;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 100% 0%,
+    var(--glass-card-glow-1) 0%,
+    var(--glass-card-glow-2) 38%,
+    transparent 68%
+  );
+  filter: blur(10px);
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ui-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 100% 0%,
+      var(--glass-card-glow-2) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.02) 28%,
+      transparent 55%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ui-card:hover {
+  background: var(--glass-card-bg-hover);
+  border-color: var(--glass-card-border-hover);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-card-inset-top-hover),
+    inset 0 -1px 0 0 var(--glass-card-inset-bottom-hover),
+    0 0 0 1px var(--glass-card-ring-hover) inset,
+    var(--glass-card-shadow-hover);
+}
+
+.ui-card:hover::before {
+  opacity: 1;
+  background: radial-gradient(
+    circle at 100% 0%,
+    var(--glass-card-glow-hover-1) 0%,
+    var(--glass-card-glow-hover-2) 40%,
+    transparent 70%
+  );
+}
+
+/* ========== Hover lift effect ========== */
+.ui-hover-lift {
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.ui-hover-lift:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* ========== Primary Gradient Button Style ========== */
+.btn-primary-gradient {
+  background: radial-gradient(
+    92.27% 50% at 50% 50%,
+    rgb(var(--primary-purple-rgb)) 0%,
+    rgb(var(--secondary-purple-rgb)) 100%
+  ) !important;
+  box-shadow: 0 -6px 15px 0 rgba(var(--primary-purple-rgb), 0.67) inset !important;
+  color: #ffffff !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary-gradient:hover {
+  box-shadow: 0 -6px 18px 0 rgba(157, 140, 255, 0.72) inset !important;
+  opacity: 0.95;
+}
+
+/* ========== Sidebar Glassmorphism with Left/Bottom Glow ========== */
+.sidebar-glass {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid var(--glass-card-border);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-card-inset-top),
+    inset 0 -1px 0 0 var(--glass-card-inset-bottom),
+    0 0 0 1px var(--glass-card-ring) inset,
+    var(--glass-card-shadow);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.sidebar-glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-glass::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -40%;
+  width: 110%;
+  height: 60%;
+  transform: translateY(-50%);
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 0% 50%,
+    var(--glass-card-glow-1) 0%,
+    var(--glass-card-glow-2) 42%,
+    transparent 72%
+  );
+  filter: blur(15px);
+  opacity: 0.95;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sidebar-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 0% 50%,
+      var(--glass-card-glow-2) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.01) 30%,
+      transparent 60%
+    );
+  pointer-events: none;
+  z-index: 0;
 }

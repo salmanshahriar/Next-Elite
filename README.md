@@ -11,12 +11,13 @@
 ![Zod](https://img.shields.io/badge/Zod-4-3e67b1?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)
 
-<img src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-Cover.webp" alt="Next Elite - Production-Ready SaaS Boilerplate" />
+[**Live Demo** ↗](https://next-elite-boilerplate.vercel.app/) · [**Use this template** ↗](https://github.com/salmanshahriar/Next-Elite/generate) · [Report Bug ↗](https://github.com/salmanshahriar/Next-Elite/issues) · [Request Feature ↗](https://github.com/salmanshahriar/Next-Elite/issues)
 <br/><br/>
 
-[**Live Demo** ↗](https://next-elite-boilerplate.vercel.app/) · [**Use this template** ↗](https://github.com/salmanshahriar/Next-Elite/generate) · [Report Bug ↗](https://github.com/salmanshahriar/Next-Elite/issues) · [Request Feature ↗](https://github.com/salmanshahriar/Next-Elite/issues)
+<img src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-OG-Image.webp" alt="Next Elite - Production-Ready SaaS Boilerplate" />
+<br/><br/>
 
-<img src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-OG-Image.webp" alt="Next Elite Boilerplate" />
+<img src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-UI-Image.webp" alt="Next Elite Boilerplate" />
 
 </div>
 <br/><br/>

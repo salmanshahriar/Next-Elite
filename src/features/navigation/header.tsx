@@ -1,11 +1,13 @@
 'use client';
 
 import { Logo } from '@/components/shared/logo';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { siteConfig } from '@/features/site/config';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
+import { useScroll } from '@/hooks/use-scroll';
 import { cn } from '@/libs/utils';
 import { Menu, X } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -20,16 +22,24 @@ const Header = () => {
   const pathname = usePathname();
   const isRtl = locale === 'ar';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const scrolled = useScroll(50);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header
+      className={cn(
+        'fixed top-0 z-30 flex w-full flex-col justify-center transition-all',
+        scrolled || mobileMenuOpen
+          ? 'border-b border-border bg-background/95 backdrop-blur-xl'
+          : 'bg-white/0 dark:bg-transparent',
+      )}
+    >
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="z-10 flex items-center">
             <Link
               href="/"
               className={cn(
-                'flex items-center gap-2.5 font-bold text-primary',
+                'flex items-center gap-2.5 font-bold text-foreground',
                 isRtl && 'flex-row-reverse',
               )}
             >
@@ -97,8 +107,13 @@ const Header = () => {
 
             {user ? (
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
+                <div className="flex items-center gap-2 rounded-md bg-muted/50 py-1.5 pr-3 pl-2">
+                  <Avatar className="size-6 h-6 w-6">
+                    <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
+                      {user.email?.split('@')[0]?.slice(0, 2).toUpperCase() ||
+                        'U'}
+                    </AvatarFallback>
+                  </Avatar>
                   <span className="max-w-[120px] truncate text-xs text-muted-foreground">
                     {user.email}
                   </span>
@@ -113,7 +128,7 @@ const Header = () => {
                 </Button>
               </div>
             ) : (
-              <Button asChild size="sm" className="h-8 text-xs">
+              <Button asChild size="sm" className="h-8 rounded-full text-xs">
                 <Link href="/login">{t('login')}</Link>
               </Button>
             )}
@@ -198,8 +213,13 @@ const Header = () => {
             <div className="border-t border-border pt-3">
               {user ? (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
+                  <div className="flex items-center gap-2 rounded-md bg-muted/50 py-1.5 pr-3 pl-2">
+                    <Avatar className="size-6 h-6 w-6">
+                      <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
+                        {user.email?.split('@')[0]?.slice(0, 2).toUpperCase() ||
+                          'U'}
+                      </AvatarFallback>
+                    </Avatar>
                     <span className="truncate text-xs text-muted-foreground">
                       {user.email}
                     </span>
@@ -217,7 +237,7 @@ const Header = () => {
                   </Button>
                 </div>
               ) : (
-                <Button asChild size="sm" className="w-full">
+                <Button asChild size="sm" className="w-full rounded-full">
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                     {t('login')}
                   </Link>

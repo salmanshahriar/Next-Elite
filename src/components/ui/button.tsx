@@ -14,9 +14,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        default: 'btn-primary-gradient text-white',
         primary:
-          'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 [&>span]:transition-transform [&>span]:duration-300 [&>span]:ease-out hover:[&>span]:translate-x-1 [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:ease-out hover:[&>svg]:-translate-x-1',
+          'btn-primary-gradient text-white shadow-sm [&>span]:transition-transform [&>span]:duration-300 [&>span]:ease-out hover:[&>span]:translate-x-1 [&>svg]:transition-transform [&>svg]:duration-300 [&>svg]:ease-out hover:[&>svg]:-translate-x-1',
         subtle: 'bg-primary/10 text-primary hover:bg-primary/20',
         destructive:
           'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',

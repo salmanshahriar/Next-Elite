@@ -63,7 +63,7 @@ const AboutPage = async () => {
         </h1>
       </header>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>What is {siteConfig.appName}?</CardTitle>
@@ -93,7 +93,7 @@ const AboutPage = async () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle>Stack & UI</CardTitle>

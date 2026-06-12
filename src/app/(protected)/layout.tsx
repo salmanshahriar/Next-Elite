@@ -1,6 +1,8 @@
+import { BackgroundGradient } from '@/components/shared/background-gradient';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
 import { Sidebar } from '@/features/navigation/sidebar';
+import { Topbar } from '@/features/navigation/topbar';
 import type { ReactNode } from 'react';
 
 interface ProtectedLayoutProps {
@@ -26,13 +28,17 @@ const ProtectedLayout = async ({
   const slot = (canViewAdmin && admin) || (canViewUser && user) || children;
 
   return (
-    <div className="flex h-screen">
+    <div className="relative flex h-screen overflow-hidden">
+      <BackgroundGradient />
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          {slot}
-        </div>
-      </main>
+      <div className="relative z-10 flex flex-1 flex-col overflow-hidden pt-14 md:pt-0">
+        <Topbar />
+        <main className="flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            {slot}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
