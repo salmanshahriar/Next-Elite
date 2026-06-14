@@ -1,7 +1,7 @@
 {
   "appName": "Next Elite",
   "appType": "An open source production-ready Next.js starter kit",
-  "tagline": "Frontend-first, API-driven Next.js 16 boilerplate with custom ui components, i18n, RBAC, BetterAuth, and a polished DX.",
+  "tagline": "Frontend-first, API-driven Next.js starter with custom ui components, i18n, RBAC, BetterAuth, a polished DX and more.",
   "title": "Next Elite - An open source production-ready Next.js starter kit",
   "description": "Frontend-first Next.js 16 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, type-safe i18n with next-intl, T3 Env, TanStack Query, and Sentry.",
   "locale": "en_US",
