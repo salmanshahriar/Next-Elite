@@ -150,7 +150,8 @@ function SidebarContent({
       <div
         className={cn(
           'border-t border-border bg-muted/10 backdrop-blur-sm',
-          hideSettingsOnDesktop && 'md:hidden',
+          'hidden',
+          !hideSettingsOnDesktop && 'md:block',
         )}
       >
         <div className="p-2">
@@ -314,11 +315,17 @@ export function Sidebar({
     },
   ];
 
-  const mobileTitle = pathname.startsWith('/dashboard')
-    ? user?.role === 'admin'
-      ? labels.adminPanel
-      : labels.userPanel
-    : t('navigation.dashboard');
+  const getPageTitle = () => {
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length === 0) return t('navigation.dashboard');
+    const lastSegment = segments[segments.length - 1];
+    if (!lastSegment || lastSegment === 'dashboard') {
+      return t('navigation.dashboard');
+    }
+    return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
+  };
+
+  const mobileTitle = getPageTitle();
 
   const handleLogoutRequest = () => setLogoutDialogOpen(true);
   const handleConfirmLogout = () => {
@@ -347,7 +354,12 @@ export function Sidebar({
             </SheetTrigger>
             <SheetContent
               side={isRtl ? 'right' : 'left'}
-              className="w-[240px] bg-background/80 p-0 backdrop-blur-xl"
+              className={cn(
+                'sidebar-glass h-screen w-[240px] gap-0 rounded-none border-y-0 p-0',
+                isRtl
+                  ? 'border-r-0 border-l border-border/40'
+                  : 'border-r border-l-0 border-border/40',
+              )}
             >
               <SheetTitle className="sr-only">{t('sidebar.menu')}</SheetTitle>
               <SidebarContent
@@ -373,8 +385,8 @@ export function Sidebar({
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="ml-1 flex cursor-pointer items-center rounded-full border border-border/40 bg-background/40 p-0.5 backdrop-blur-xl transition-all hover:bg-accent/40 focus:outline-hidden">
-                  <Avatar className="h-7 w-7">
+                <button className="ml-1 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:bg-accent/40 focus:outline-hidden">
+                  <Avatar className="h-7 w-7 shrink-0">
                     <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
                       {user.email?.split('@')[0]?.slice(0, 2).toUpperCase() ||
                         'U'}

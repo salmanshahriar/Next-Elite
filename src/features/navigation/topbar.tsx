@@ -114,8 +114,8 @@ export function Topbar() {
         {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex cursor-pointer items-center gap-2 rounded-full border border-border/40 bg-background/40 p-1 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden">
-                <Avatar className="size-8 h-8 w-8">
+              <button className="flex shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border/40 bg-background/40 p-1 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden">
+                <Avatar className="size-8 h-8 w-8 shrink-0">
                   <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
                     {initials}
                   </AvatarFallback>

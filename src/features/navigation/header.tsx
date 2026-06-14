@@ -21,7 +21,7 @@ import { LogOut, Menu, X } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const t = useTranslations('navigation');
@@ -32,19 +32,34 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const scrolled = useScroll(50);
 
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [mobileMenuOpen]);
+
   const initials = user?.email?.split('@')[0]?.slice(0, 2).toUpperCase() || 'U';
 
   return (
     <header
       className={cn(
-        'fixed top-0 z-30 flex w-full flex-col justify-center transition-all',
+        'sticky top-0 z-30 flex w-full flex-col justify-center transition-all duration-300',
         scrolled || mobileMenuOpen
-          ? 'border-b border-border bg-background/95 backdrop-blur-xl'
-          : 'bg-white/0 dark:bg-transparent',
+          ? 'border-b border-border/40 bg-background/95 backdrop-blur-xl'
+          : 'border-b-0 border-transparent bg-white/0 dark:bg-transparent',
       )}
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-[60px] items-center justify-between">
           <div className="z-10 flex items-center">
             <Link
               href="/"
@@ -118,8 +133,8 @@ const Header = () => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex cursor-pointer items-center gap-2 rounded-full border border-border/40 bg-background/40 p-1 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden">
-                    <Avatar className="size-8 h-8 w-8">
+                  <button className="flex shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border/40 bg-background/40 p-1 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden">
+                    <Avatar className="size-8 h-8 w-8 shrink-0">
                       <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
                         {initials}
                       </AvatarFallback>
@@ -167,51 +182,11 @@ const Header = () => {
           <div className="z-10 flex items-center gap-2 md:hidden">
             <ThemeToggle />
             <LanguageSwitcher />
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex cursor-pointer items-center rounded-full border border-border/40 bg-background/40 p-0.5 backdrop-blur-xl transition-all hover:bg-accent/40 focus:outline-hidden">
-                    <Avatar className="h-7 w-7">
-                      <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
-                        {initials}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="max-w-[120px] truncate text-sm leading-none font-medium">
-                        {user.email}
-                      </span>
-                      <span
-                        className={cn(
-                          'inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[10px] font-semibold capitalize',
-                          user.role === 'admin'
-                            ? 'border-primary/20 bg-primary/15 text-primary'
-                            : 'border-border bg-muted text-muted-foreground',
-                        )}
-                      >
-                        {user.role}
-                      </span>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
-                    onClick={() => void signOut()}
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>{t('logout')}</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : null}
             <Button
               variant="ghost"
               size="sm"
               className="h-9 w-9 p-0"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={handleMobileMenuToggle}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -224,9 +199,21 @@ const Header = () => {
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="border-t border-border bg-background md:hidden">
-          <div className="mx-auto max-w-7xl space-y-3 px-4 py-4">
+      <div
+        className={cn(
+          'absolute top-full left-0 z-20 grid w-full overflow-hidden bg-background transition-all duration-300 ease-in-out md:hidden',
+          mobileMenuOpen
+            ? 'grid-rows-[1fr] border-t border-b border-border/40'
+            : 'pointer-events-none grid-rows-[0fr] border-t-0 border-b-0 border-transparent',
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div
+            className={cn(
+              'mx-auto max-w-7xl space-y-3 px-4 py-4 transition-all duration-300 ease-in-out',
+              mobileMenuOpen ? 'translate-y-0' : '-translate-y-4',
+            )}
+          >
             <nav className="flex flex-col gap-1">
               <Link
                 href="/"
@@ -280,18 +267,67 @@ const Header = () => {
               )}
             </nav>
 
-            {!user && (
-              <div className="border-t border-border pt-3">
-                <Button asChild size="sm" className="w-full rounded-full">
+            <div className="flex items-center justify-center gap-4 border-t border-border pt-4">
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex shrink-0 cursor-pointer items-center rounded-full border border-border/40 bg-background/40 p-1 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden">
+                      <Avatar className="size-8 h-8 w-8 shrink-0">
+                        <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="max-w-[120px] truncate pr-2 text-xs font-medium text-foreground">
+                        {user.email}
+                      </span>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="max-w-[120px] truncate text-sm leading-none font-medium">
+                          {user.email}
+                        </span>
+                        <span
+                          className={cn(
+                            'inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[10px] font-semibold capitalize',
+                            user.role === 'admin'
+                              ? 'border-primary/20 bg-primary/15 text-primary'
+                              : 'border-border bg-muted text-muted-foreground',
+                          )}
+                        >
+                          {user.role}
+                        </span>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
+                      onClick={() => {
+                        void signOut();
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>{t('logout')}</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  asChild
+                  size="sm"
+                  className="h-8 rounded-full px-3 text-xs"
+                >
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                     {t('login')}
                   </Link>
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 };

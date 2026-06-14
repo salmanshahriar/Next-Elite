@@ -527,7 +527,6 @@
 /* ========== Sidebar Glassmorphism with Left/Bottom Glow ========== */
 .sidebar-glass {
   isolation: isolate;
-  position: relative;
   overflow: hidden;
   background: var(--background);
   backdrop-filter: blur(24px) saturate(1.6);
@@ -594,7 +593,6 @@
 /* ========== Topbar Glassmorphism with Top/Center Glow ========== */
 .topbar-glass {
   isolation: isolate;
-  position: relative;
   overflow: hidden;
   background: var(--background);
   backdrop-filter: blur(24px) saturate(1.6);

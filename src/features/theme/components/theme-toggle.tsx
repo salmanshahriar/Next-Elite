@@ -19,6 +19,7 @@ export function ThemeToggle({
   const { theme, setTheme } = useTheme();
   const t = useTranslations();
   const lastClickCoords = useRef<{ x: number; y: number } | null>(null);
+  const switchRef = useRef<HTMLDivElement>(null);
 
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -33,12 +34,16 @@ export function ThemeToggle({
     : false;
 
   const toggleTheme = (
-    e?: React.PointerEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+    e?:
+      | React.PointerEvent<HTMLElement>
+      | React.KeyboardEvent<HTMLElement>
+      | React.MouseEvent<HTMLElement>,
   ) => {
     let coords = lastClickCoords.current;
 
     if (!coords) {
-      const rect = e?.currentTarget?.getBoundingClientRect();
+      const element = e?.currentTarget || switchRef.current;
+      const rect = element?.getBoundingClientRect();
       coords = rect
         ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
         : { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -67,7 +72,11 @@ export function ThemeToggle({
   }
 
   const switchComponent = (
-    <div onPointerDown={handlePointerDown} className="inline-flex">
+    <div
+      ref={switchRef}
+      onPointerDown={handlePointerDown}
+      className="inline-flex"
+    >
       <Switch
         checked={isDark}
         onCheckedChange={() => toggleTheme()}
