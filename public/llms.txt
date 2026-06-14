@@ -1,0 +1,125 @@
+# Next Elite — An open source production-ready Next.js starter kit
+
+> A production-ready, frontend-first, and highly optimized Next.js 16 + React 19 + TypeScript starter kit. Built for zero-database setups (API-first), next-intl type-safe i18n, BetterAuth permission-based RBAC, and elite developer experience (DX).
+
+---
+
+## 1. Project Metadata & SEO Tags
+
+- **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
+- **Framework Stack**: Next.js 16 (App Router), React 19, TypeScript 6, Node.js 22 (LTS)
+- **UI & CSS System**: Tailwind CSS v4, shadcn/ui primitives, custom Class Variance Authority (CVA) components, view transitions
+- **Performance Rating**: 100/100 Lighthouse score (Performance, Accessibility, Best Practices, SEO)
+- **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
+- **Keywords**: Next.js 16, React 19, BetterAuth, Role-Based Access Control, next-intl, type-safe i18n, API-driven, sitemap, robots, T3 Env, Vitest, Playwright, Tailwind v4
+
+---
+
+## 2. Core Resources
+
+- **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshotriar/Next-Elite) — Source code, templates, issue tracking.
+- **Production Demo**: [next-elite-boilerplate.vercel.app](https://next-elite-boilerplate.vercel.app/) — Live preview site.
+- **Health Check Endpoint**: `/api/health` — JSON heartbeat probe for load balancers.
+- **Auth Endpoint**: `/api/auth/*` — BetterAuth API route handler.
+
+---
+
+## 3. Key Architectural Pillars
+
+### A. API-First & Database-Free
+Designed to connect directly to any pre-existing backend (REST/GraphQL/BFF) rather than coupling directly to a local database. The server routes check auth states, and the client handles live data caching.
+
+```
+[User] ──> [Server Component Page] ──> [requirePermission() checks BetterAuth]
+                 │
+                 └──> Sends Server HTML (messages from messages/ folder via next-intl)
+                 │
+                 └──> [Client (Browser)] ──> [useQuery / apiFetch] ──> [External Backend API]
+```
+
+### B. Feature-Based Directory Structure
+Code is organized into vertical slices inside `/src/features/` instead of splitting files globally:
+- `auth/` — Credentials, Google OAuth, custom RBAC permissions, and hooks.
+- `theme/` — Global theme provider with pointer-coordinate water-wave animations.
+- `i18n/` — Translation request configs, RTL helpers, and language selectors.
+- `navigation/` — Sidebar, topbar, and mobile drawer headers.
+- `site/` — Configurations from `site.config.json` used for SEO.
+- `users/` — Sample module demonstrating type-safe fetch actions and custom validation hooks.
+
+---
+
+## 4. Feature Specifications
+
+### 🔑 Authentication & RBAC Guards
+- **BetterAuth**: Email/password and Google OAuth supported. Admin list controlled by `AUTH_ADMIN_EMAILS` values.
+- **Access Control**: Roles (`admin`, `user`) with custom `requireUser()` and `requirePermission()` server-side helpers.
+- **Layout Slots**: Dashboard uses parallel routing slots (`@admin` and `@user` under `src/app/(protected)/`) rendering specific components based on the authenticated user's permissions.
+
+### 🌐 Type-Safe i18n (next-intl)
+- Supports 6 default locales: English (`en`), Bengali (`bn`), Arabic (`ar` - RTL), French (`fr`), Spanish (`es`), and Chinese (`zh`).
+- Translation keys are type-checked via a global declarations overlay file (`src/global.d.ts`), causing typescript compilation to fail on invalid message keys.
+- Location pathnames use cookie-based lookup (`NEXT_LOCALE`), avoiding forced URL prefixes.
+
+### 📈 Server-First SEO & PWA
+- Configured via `src/features/site/site.config.json`.
+- Automatically generates OpenGraph cards, Twitter preview cards, and JSON-LD structured schemas.
+- Exposes dynamic `/sitemap.ts`, `/robots.ts`, and a web application manifest `/manifest.ts` (configured at `/manifest.webmanifest`).
+
+### 📝 Forms & Input Validations
+- Driven by Zod validation schemas and React Hook Form.
+- Complete form examples for login, register, and password-reset pages.
+- Standard input error component (`InputError` with `zodResolver`) ensures accessibility and precise inline validation.
+
+### ⚡ Infrastructure & Observability
+- **Error Tracking**: Full Sentry instrumentation for client and server errors.
+- **Server Logging**: Pino logger for structured, high-speed server execution logging.
+- **Rate Limiting**: Optional rate-limiting helper configured using Upstash Redis.
+
+---
+
+## 5. Quick Start & Setup
+
+### Requirements
+- Node.js 22.12+ (or compatible runtimes)
+- npm package manager
+
+### Local Installation
+```bash
+git clone https://github.com/salmanshahriar/Next-Elite.git
+cd Next-Elite
+npm install
+cp .env.example .env
+npm run dev
+```
+
+### Seed Demo Credentials
+If `NEXT_PUBLIC_DEMO_MODE=true` is enabled, the login screen provides quick-fill options:
+- **User Role**: `user@test.com` (Password: `12345678`)
+- **Admin Role**: `admin@test.com` (Password: `12345678`)
+
+### Docker Deployment
+```bash
+# Docker Compose Run
+docker compose up --build
+
+# Standalone Docker Container
+docker build -t next-elite .
+docker run --rm --env-file .env -p 3000:3000 next-elite
+```
+
+---
+
+## 6. Code Quality Gates & CI Pipeline
+
+- `npm run check`: Evaluates type-safety (`tsc`), runs formatting checks (`prettier`), runs code analysis (`knip`), and executes tests.
+- `npm run lint` / `npm run lint:fix`: Enforces formatting.
+- `npm run test` / `npm run test:watch`: Runs unit specs with Vitest.
+- `npm run e2e` / `npm run e2e:ui`: Performs browser test flows with Playwright.
+- `.github/workflows/`: Automated gates check builds on push and pull-requests.
+
+---
+
+## 7. Intended Use Cases
+
+- **Best For**: Multi-role SaaS platforms, multi-lingual web apps (with LTR/RTL demands), frontends designed to consume third-party API gateways.
+- **Overkill For**: Basic single-page brochure sites, or backends tightly coupled to a local database system (API-driven design).
