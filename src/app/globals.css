@@ -654,17 +654,33 @@
 }
 
 /* ========== Theme Change Water-like Wave (View Transitions) ========== */
+@property --reveal-radius {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 @keyframes reveal-in {
   from {
-    clip-path: circle(0% at var(--x) var(--y));
+    --reveal-radius: 0px;
   }
   to {
-    clip-path: circle(150% at var(--x) var(--y));
+    --reveal-radius: 150vmax;
   }
 }
 
 ::view-transition-new(root) {
   animation: reveal-in 0.5s ease-in-out forwards;
+  mask-image: radial-gradient(
+    circle at var(--x) var(--y),
+    black calc(var(--reveal-radius) - 80px),
+    transparent calc(var(--reveal-radius) + 80px)
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at var(--x) var(--y),
+    black calc(var(--reveal-radius) - 80px),
+    transparent calc(var(--reveal-radius) + 80px)
+  );
   mix-blend-mode: normal;
 }
 
