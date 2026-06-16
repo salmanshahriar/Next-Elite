@@ -51,9 +51,11 @@ const dxItems = [
 ];
 
 const AboutPage = async () => {
-  const t = await getTranslations('about');
-  const locale = (await getLocale()) as Locale;
-  const isRtl = getLocaleDirection(locale) === 'rtl';
+  const [t, locale] = await Promise.all([
+    getTranslations('about'),
+    getLocale(),
+  ]);
+  const isRtl = getLocaleDirection(locale as Locale) === 'rtl';
 
   return (
     <div

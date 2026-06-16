@@ -1,5 +1,5 @@
+import { HomeGetStartedSection } from '@/components/shared/get-started-section';
 import HeroSection from '@/components/shared/hero-section';
-import { HomeGetStartedSection } from '@/components/shared/home-sections';
 import type { Locale } from '@/features/site/config';
 import { getGitHubStars } from '@/features/site/github';
 import { getLocale } from 'next-intl/server';

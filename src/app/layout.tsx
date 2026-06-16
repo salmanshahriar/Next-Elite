@@ -12,6 +12,7 @@ import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import './globals.css';
 
@@ -108,11 +109,16 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   ]);
   const dir = getLocaleDirection(locale as Locale);
 
+  // Read the server cookie to apply the correct theme class before first paint.
+  // Falls back to 'light' for first-time visitors (no cookie yet).
+  const cookieStore = await cookies();
+  const theme = cookieStore.get('theme')?.value === 'dark' ? 'dark' : 'light';
+
   return (
     <html
       lang={locale}
       dir={dir}
-      className={cn('light', fontSans.variable)}
+      className={cn(theme, fontSans.variable)}
       suppressHydrationWarning
     >
       <body className={cn(fontSans.className, 'antialiased')}>

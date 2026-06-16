@@ -34,6 +34,10 @@ function applyTheme(theme: Theme) {
   root.classList.remove('light', 'dark');
   root.classList.add(resolvedTheme);
   root.style.colorScheme = resolvedTheme;
+
+  // Persist the resolved theme in a cookie so the server can apply the correct
+  // class on the <html> element before the first paint — prevents dark-mode FOUC.
+  document.cookie = `theme=${resolvedTheme}; path=/; max-age=31536000; SameSite=Lax`;
 }
 
 function subscribeToThemeStore(onStoreChange: () => void) {
