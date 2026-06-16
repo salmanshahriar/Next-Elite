@@ -165,6 +165,30 @@ Or using Docker Compose:
 docker compose up --build
 ```
 
+### Multi-Arch Deploy (ARM64 + AMD64)
+
+The Dockerfile produces images that run on both `linux/amd64` and `linux/arm64`.
+Build a multi-arch image with Buildx:
+
+```bash
+docker buildx create --name multiarch --use   # one-time setup
+docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
+```
+
+This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, etc.).
+
+### Dokploy Deployment
+
+This template is ready for [Dokploy](https://dokploy.com) — the open-source PaaS.
+
+1. Create a new **Application** in Dokploy and point it to your fork of this repo.
+2. Set the build type to **Dockerfile** (auto-detected).
+3. Configure environment variables via the Dokploy UI (see `.env.example` for the full list).
+4. Deploy — Dokploy automatically builds and runs the container with health checks.
+
+The included `HEALTHCHECK` instruction pings `/api/health` so Dokploy
+can monitor and restart the container if it becomes unresponsive.
+
 <br/>
 
 ## Architecture Overview
