@@ -109,8 +109,6 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   ]);
   const dir = getLocaleDirection(locale as Locale);
 
-  // Read the server cookie to apply the correct theme class before first paint.
-  // Falls back to 'light' for first-time visitors (no cookie yet).
   const cookieStore = await cookies();
   const theme = cookieStore.get('theme')?.value === 'dark' ? 'dark' : 'light';
 
