@@ -484,7 +484,7 @@ const secondaryFeatures = [
 // ============================================================================
 // Main HeroSection component
 // ============================================================================
-export function HeroSection({
+function HeroSection({
   locale,
   githubStars,
 }: {
