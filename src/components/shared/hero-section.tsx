@@ -33,9 +33,6 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import TextLink from './text-link';
 
-// ============================================================================
-// 1. HomeCard component (used for main showcase grid)
-// ============================================================================
 export interface HomeCardProps {
   title: string;
   description: string;
@@ -91,9 +88,6 @@ export function HomeCard({
   );
 }
 
-// ============================================================================
-// 2. Component Showcase Grid (Beautiful, reusable components demo)
-// ============================================================================
 export function ComponentShowcaseGrid() {
   const [switchChecked, setSwitchChecked] = useState(true);
   const [checkboxChecked, setCheckboxChecked] = useState(true);
@@ -103,9 +97,7 @@ export function ComponentShowcaseGrid() {
 
   return (
     <div className="flex w-full max-w-lg flex-col items-center justify-center gap-8 select-none md:flex-row md:gap-16">
-      {/* Left Side: Direct Buttons Components Showcase */}
       <div className="flex flex-col items-center gap-4">
-        {/* Row 1: 3 in a row */}
         <div className="flex items-center gap-2.5">
           <Button
             variant="primary"
@@ -130,7 +122,6 @@ export function ComponentShowcaseGrid() {
           </Button>
         </div>
 
-        {/* Row 2: 3 in a row */}
         <div className="flex items-center gap-3">
           <Button
             variant="outlineDestructive"
@@ -157,9 +148,7 @@ export function ComponentShowcaseGrid() {
         </div>
       </div>
 
-      {/* Right Side: Switch and Checkbox in a row, below Date */}
       <div className="flex flex-col items-center justify-center gap-4.5">
-        {/* Row 1: Switch & Checkbox (no text labels) */}
         <div className="flex items-center gap-6">
           <Switch
             checked={switchChecked}
@@ -174,7 +163,6 @@ export function ComponentShowcaseGrid() {
           />
         </div>
 
-        {/* Row 2: Single Date Picker */}
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -207,9 +195,6 @@ export function ComponentShowcaseGrid() {
   );
 }
 
-// ============================================================================
-// 3. ScoreGauge and Lighthouse Dashboard (all 100 scores)
-// ============================================================================
 function ScoreGauge({
   label,
   targetScore,
@@ -258,7 +243,6 @@ function ScoreGauge({
           viewBox="0 0 144 144"
           aria-hidden="true"
         >
-          {/* Background circle */}
           <circle
             cx="72"
             cy="72"
@@ -267,7 +251,6 @@ function ScoreGauge({
             strokeWidth={strokeWidth}
             fill="transparent"
           />
-          {/* Foreground circle with green color */}
           <circle
             cx="72"
             cy="72"
@@ -306,9 +289,6 @@ export function LighthouseDashboard() {
   );
 }
 
-// ============================================================================
-// 4. Auth Demo Visual (Better Auth Logo)
-// ============================================================================
 export function AuthDemoVisual() {
   return (
     <div className="flex items-center justify-center transition-transform duration-200 select-none hover:scale-105">
@@ -327,9 +307,6 @@ export function AuthDemoVisual() {
   );
 }
 
-// ============================================================================
-// 5. Deploy Demo Visual (One-click Deploy button)
-// ============================================================================
 export function DeployDemoVisual() {
   return (
     <a
@@ -351,9 +328,6 @@ export function DeployDemoVisual() {
   );
 }
 
-// ============================================================================
-// 6. FeatureCard sub-component for secondary features
-// ============================================================================
 function FeatureCard({
   icon: IconComponent,
   title,
@@ -411,7 +385,6 @@ function FeatureCard({
   );
 }
 
-// Static data
 const secondaryFeatures = [
   {
     icon: Cpu,
@@ -481,10 +454,7 @@ const secondaryFeatures = [
   },
 ];
 
-// ============================================================================
-// Main HeroSection component
-// ============================================================================
-function HeroSection({
+export function HeroSection({
   locale,
   githubStars,
 }: {
@@ -536,7 +506,6 @@ function HeroSection({
         </div>
       </div>
 
-      {/* Main Visual Showcase Cards Grid */}
       <div className="mx-auto mt-16 mb-10 grid w-full max-w-screen-xl grid-cols-1 gap-6 px-5 md:grid-cols-3 xl:px-0">
         <HomeCard
           title="40+ custom, reusable components"
@@ -563,7 +532,6 @@ function HeroSection({
         />
       </div>
 
-      {/* Secondary Redesigned Feature Cards Grid */}
       <div className="mx-auto mt-12 w-full max-w-screen-xl space-y-8 px-5 xl:px-0">
         <div className="text-center sm:text-left">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
