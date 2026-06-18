@@ -354,8 +354,9 @@ export function Sidebar({
             </SheetTrigger>
             <SheetContent
               side={isRtl ? 'right' : 'left'}
+              showCloseButton={false}
               className={cn(
-                'sidebar-glass h-screen w-[240px] gap-0 rounded-none border-y-0 p-0',
+                'sidebar-glass h-screen w-[240px] max-w-[85vw] gap-0 rounded-none border-y-0 p-0 sm:max-w-[240px]',
                 isRtl
                   ? 'border-r-0 border-l border-border/40'
                   : 'border-r border-l-0 border-border/40',

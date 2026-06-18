@@ -4,15 +4,18 @@ import { cn } from '@/libs/utils';
 
 interface CardProps extends React.ComponentProps<'div'> {
   hover?: boolean;
+  flat?: boolean;
 }
 
-function Card({ className, hover = false, ...props }: CardProps) {
+function Card({ className, hover = false, flat = false, ...props }: CardProps) {
   return (
     <div
       data-slot="card"
       className={cn(
-        'ui-card flex flex-col gap-6 rounded-xl py-6 text-foreground',
-        hover && 'ui-hover-lift',
+        flat
+          ? 'flex flex-col gap-6 rounded-xl border border-border bg-card py-6 text-foreground'
+          : 'ui-card flex flex-col gap-6 rounded-xl py-6 text-foreground',
+        hover && !flat && 'ui-hover-lift',
         className,
       )}
       {...props}

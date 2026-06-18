@@ -127,6 +127,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
+  SheetBody,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -429,6 +430,7 @@ function ComponentBlock({
 }) {
   return (
     <Card
+      flat
       id={id}
       className={cn(
         'scroll-mt-24 gap-0 overflow-hidden py-0',
@@ -754,7 +756,7 @@ export function UiComponentsShowcase() {
           />
         </aside>
 
-        <div className="min-w-0 flex-1 space-y-16">
+        <div className="min-w-0 flex-1 space-y-16 overflow-x-clip">
           <header className="space-y-2 text-center lg:text-left">
             <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
             <p className="text-muted-foreground">{t('description')}</p>
@@ -1327,18 +1329,23 @@ export function UiComponentsShowcase() {
               </div>
             </ComponentBlock>
 
-            <ComponentBlock id="data-display-card" title="Card">
-              <div className="grid gap-6">
-                <div>
-                  <SubLabel>With footer</SubLabel>
-                  <Card className="max-w-sm">
+            <ComponentBlock
+              id="data-display-card"
+              title="Card"
+              allowOverflow
+              className="space-y-8"
+            >
+              <div>
+                <SubLabel>Glass</SubLabel>
+                <div className="grid gap-6 p-1 sm:grid-cols-2">
+                  <Card hover className="max-w-sm">
                     <CardHeader>
                       <CardTitle>Card title</CardTitle>
                       <CardDescription>Card description text.</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground">
-                        Card content area for any layout.
+                        Premium glass card with hover lift.
                       </p>
                     </CardContent>
                     <CardFooter>
@@ -1350,10 +1357,7 @@ export function UiComponentsShowcase() {
                       </Button>
                     </CardFooter>
                   </Card>
-                </div>
-                <div>
-                  <SubLabel>With action</SubLabel>
-                  <Card className="max-w-sm">
+                  <Card hover className="max-w-sm">
                     <CardHeader>
                       <CardTitle>Notifications</CardTitle>
                       <CardDescription>Manage your alerts.</CardDescription>
@@ -1369,7 +1373,51 @@ export function UiComponentsShowcase() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground">
-                        Card with a header action slot.
+                        Glass card with a header action slot.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+              <div>
+                <SubLabel>Flat</SubLabel>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <Card flat className="max-w-sm">
+                    <CardHeader>
+                      <CardTitle>Card title</CardTitle>
+                      <CardDescription>Card description text.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        Simple bordered card without shadow.
+                      </p>
+                    </CardContent>
+                    <CardFooter>
+                      <Button
+                        size="sm"
+                        onClick={() => toast.success('Action clicked!')}
+                      >
+                        Action
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                  <Card flat className="max-w-sm">
+                    <CardHeader>
+                      <CardTitle>Notifications</CardTitle>
+                      <CardDescription>Manage your alerts.</CardDescription>
+                      <CardAction>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => toast.info('Settings clicked!')}
+                        >
+                          Settings
+                        </Button>
+                      </CardAction>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        Flat card with a header action slot.
                       </p>
                     </CardContent>
                   </Card>
@@ -1524,43 +1572,48 @@ export function UiComponentsShowcase() {
               title="Navigation Menu"
               allowOverflow
             >
-              <NavigationMenu viewport={false}>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>
-                      Getting started
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-48 gap-2 p-4">
-                        <li>
-                          <NavigationMenuLink
-                            href="/"
-                            className="block rounded-md p-2 text-sm hover:bg-accent"
-                          >
-                            Introduction
-                          </NavigationMenuLink>
-                        </li>
-                        <li>
-                          <NavigationMenuLink
-                            href="/about"
-                            className="block rounded-md p-2 text-sm hover:bg-accent"
-                          >
-                            About
-                          </NavigationMenuLink>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <NavigationMenuLink
-                      href="/ui-components"
-                      className="rounded-md px-4 py-2 text-sm font-medium hover:bg-accent"
-                    >
-                      Components
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
+              <div className="relative max-w-full overflow-x-clip">
+                <NavigationMenu
+                  viewport={false}
+                  className="inline-flex max-w-full flex-none"
+                >
+                  <NavigationMenuList className="justify-start">
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>
+                        Getting started
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-top-2 data-[motion=from-start]:slide-in-from-top-2 data-[motion=to-end]:slide-out-to-top-2 data-[motion=to-start]:slide-out-to-top-2">
+                        <ul className="grid w-48 gap-2 p-4">
+                          <li>
+                            <NavigationMenuLink
+                              href="/"
+                              className="block rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              Introduction
+                            </NavigationMenuLink>
+                          </li>
+                          <li>
+                            <NavigationMenuLink
+                              href="/about"
+                              className="block rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              About
+                            </NavigationMenuLink>
+                          </li>
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <NavigationMenuLink
+                        href="/ui-components"
+                        className="rounded-md px-4 py-2 text-sm font-medium hover:bg-accent"
+                      >
+                        Components
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
             </ComponentBlock>
           </ShowcaseSection>
 
@@ -1590,23 +1643,46 @@ export function UiComponentsShowcase() {
             </ComponentBlock>
 
             <ComponentBlock id="overlays-sheet" title="Sheet">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline">Open sheet</Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Sheet title</SheetTitle>
-                    <SheetDescription>
-                      Slide-over panel from the edge of the screen.
-                    </SheetDescription>
-                  </SheetHeader>
-                  <SheetFooter>
-                    <Button variant="outline">Cancel</Button>
-                    <Button>Save</Button>
-                  </SheetFooter>
-                </SheetContent>
-              </Sheet>
+              <div className="flex flex-wrap gap-2">
+                {(['right', 'left', 'top', 'bottom'] as const).map((side) => (
+                  <Sheet key={side}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="capitalize">
+                        {side}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side={side}>
+                      <SheetHeader>
+                        <SheetTitle>Sheet from {side}</SheetTitle>
+                        <SheetDescription>
+                          Slide-over panel anchored to the {side} edge.
+                        </SheetDescription>
+                      </SheetHeader>
+                      <SheetBody>
+                        <p className="text-sm text-muted-foreground">
+                          Use sheets for filters, settings, or secondary flows
+                          without leaving the current page. Body content scrolls
+                          when it exceeds the viewport.
+                        </p>
+                        <div className="mt-4 space-y-2">
+                          {Array.from({ length: 6 }, (_, index) => (
+                            <div
+                              key={index}
+                              className="rounded-md border border-border/60 bg-muted/30 px-3 py-2 text-sm"
+                            >
+                              Example row {index + 1}
+                            </div>
+                          ))}
+                        </div>
+                      </SheetBody>
+                      <SheetFooter>
+                        <Button variant="outline">Cancel</Button>
+                        <Button>Save</Button>
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+                ))}
+              </div>
             </ComponentBlock>
 
             <ComponentBlock id="overlays-popover" title="Popover">
