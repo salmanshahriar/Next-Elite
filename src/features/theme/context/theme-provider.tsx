@@ -24,6 +24,46 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
+function syncBrowserThemeColor() {
+  const root = document.documentElement;
+  const pageChrome =
+    getComputedStyle(root).getPropertyValue('--page-chrome-meta').trim() ||
+    (root.classList.contains('dark') ? '#09090b' : '#ede9fe');
+
+  const metas = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (metas.length === 0) {
+    const meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    meta.content = pageChrome;
+    document.head.appendChild(meta);
+    return;
+  }
+
+  metas.forEach((meta) => {
+    meta.setAttribute('content', pageChrome);
+  });
+}
+
+export function setHeaderChromeActive(active: boolean) {
+  if (typeof window === 'undefined') return;
+
+  const root = document.documentElement;
+  const pageChrome = getComputedStyle(root)
+    .getPropertyValue('--page-chrome-meta')
+    .trim();
+  const navChrome = getComputedStyle(root)
+    .getPropertyValue('--nav-chrome-meta')
+    .trim();
+
+  root.style.setProperty(
+    '--browser-chrome-top',
+    active ? navChrome : pageChrome,
+  );
+  root.dataset.headerActive = active ? 'true' : 'false';
+  syncBrowserThemeColor();
+}
+
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -36,6 +76,7 @@ function applyTheme(theme: Theme) {
   root.style.colorScheme = resolvedTheme;
 
   document.cookie = `theme=${resolvedTheme}; path=/; max-age=31536000; SameSite=Lax`;
+  setHeaderChromeActive(root.dataset.headerActive === 'true');
 }
 
 function subscribeToThemeStore(onStoreChange: () => void) {

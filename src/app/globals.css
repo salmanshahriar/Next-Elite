@@ -93,6 +93,10 @@
 
   /* ========== Spacing & Layout ========== */
   --radius: 0.625rem;
+  --page-chrome: #ede9fe;
+  --page-chrome-meta: #ede9fe;
+  --nav-chrome-meta: #ffffff;
+  --browser-chrome-top: var(--page-chrome);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -179,6 +183,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+
+  --page-chrome: #09090b;
+  --page-chrome-meta: #09090b;
+  --nav-chrome-meta: #121212;
+  --browser-chrome-top: var(--page-chrome);
 
   /* ========== Glass Card - Dark Theme ========== */
   --glass-card-bg: rgba(15, 15, 20, 0.38);
@@ -271,15 +280,44 @@
 
   html {
     @apply scroll-smooth;
+    background-color: var(--page-chrome);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  html::before,
+  html::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    pointer-events: none;
+    transition: background-color 300ms ease;
+  }
+
+  html::before {
+    top: 0;
+    height: env(safe-area-inset-top, 0px);
+    background-color: var(--browser-chrome-top);
+  }
+
+  html::after {
+    bottom: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background-color: var(--page-chrome);
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     @apply font-sans;
     @apply transition-colors duration-200;
+    background-color: transparent;
+    min-height: 100dvh;
     min-height: 100vh;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   /* ========== Typography ========== */
@@ -371,6 +409,7 @@
   from {
     height: 0;
   }
+
   to {
     height: var(--radix-accordion-content-height);
   }
@@ -380,6 +419,7 @@
   from {
     height: var(--radix-accordion-content-height);
   }
+
   to {
     height: 0;
   }
@@ -664,6 +704,7 @@
   from {
     --reveal-radius: 0px;
   }
+
   to {
     --reveal-radius: 150vmax;
   }

@@ -130,7 +130,7 @@
       "forms": "Forms",
       "formsDesc": "Inputs, selects, and form helpers.",
       "feedback": "Feedback",
-      "feedbackDesc": "Alerts, badges, progress, and loading states.",
+      "feedbackDesc": "Alerts, toasts, badges, progress, and loading states.",
       "dataDisplay": "Data Display",
       "dataDisplayDesc": "Cards, tables, avatars, and visual elements.",
       "navigation": "Navigation",

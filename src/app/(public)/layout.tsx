@@ -7,7 +7,10 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
     <>
       <BackgroundGradient />
       <Header />
-      <main id="main-content" className="relative z-10 flex-1 pt-[60px]">
+      <main
+        id="main-content"
+        className="relative z-10 flex-1 pt-[calc(60px+env(safe-area-inset-top,0px))]"
+      >
         {children}
       </main>
     </>

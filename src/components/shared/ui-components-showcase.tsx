@@ -1,5 +1,6 @@
 'use client';
 
+import TextLink from '@/components/shared/text-link';
 import {
   Accordion,
   AccordionContent,
@@ -175,7 +176,14 @@ import {
   Sun,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { type ReactNode, useEffect, useState } from 'react';
+import {
+  type MouseEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -183,6 +191,9 @@ type ButtonVariant = NonNullable<
   VariantProps<typeof buttonVariants>['variant']
 >;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>['size']>;
+type ScrollSpyEntry = { id: string; element: HTMLElement };
+
+const SCROLL_LOCK_MS = 700;
 
 const BUTTON_VARIANTS: ButtonVariant[] = [
   'default',
@@ -198,7 +209,6 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
   'ghost',
   'ghostPrimary',
   'ghostDestructive',
-  'link',
   'accent',
   'muted',
   'success',
@@ -264,6 +274,7 @@ const SECTIONS = [
     key: 'feedback',
     items: [
       { id: 'alert', label: 'Alert' },
+      { id: 'toast', label: 'Toast' },
       { id: 'badge', label: 'Badge' },
       { id: 'progress', label: 'Progress' },
       { id: 'spinner', label: 'Spinner' },
@@ -288,6 +299,8 @@ const SECTIONS = [
     items: [
       { id: 'breadcrumb', label: 'Breadcrumb' },
       { id: 'tabs', label: 'Tabs' },
+      { id: 'text-link', label: 'Text Link' },
+      { id: 'navigation-menu', label: 'Navigation Menu' },
     ],
   },
   {
@@ -312,6 +325,68 @@ const SECTIONS = [
     ],
   },
 ] as const;
+
+const COMPONENT_IDS = SECTIONS.flatMap((section) =>
+  section.items.map((item) => `${section.id}-${item.id}`),
+);
+
+const DEFAULT_COMPONENT_ID = COMPONENT_IDS[0] ?? 'actions-button';
+
+const SECTION_BY_COMPONENT_ID = new Map<string, string>(
+  SECTIONS.flatMap((section) =>
+    section.items.map(
+      (item) => [`${section.id}-${item.id}`, section.id] as const,
+    ),
+  ),
+);
+
+function getSectionIdForTarget(id: string) {
+  return SECTION_BY_COMPONENT_ID.get(id);
+}
+
+function isKnownComponentId(id: string) {
+  return SECTION_BY_COMPONENT_ID.has(id);
+}
+
+function collectScrollSpyEntries(ids: readonly string[]) {
+  return ids.flatMap((id) => {
+    const element = document.getElementById(id);
+    return element ? [{ id, element }] : [];
+  });
+}
+
+function resolveActiveComponentId(
+  entries: readonly ScrollSpyEntry[],
+  fallbackId: string,
+) {
+  if (!entries.length) return fallbackId;
+
+  const viewportCenter = window.innerHeight / 2;
+  let closestId = fallbackId;
+  let closestDistance = Infinity;
+
+  for (const { id, element } of entries) {
+    const rect = element.getBoundingClientRect();
+    const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestId = id;
+    }
+  }
+
+  return closestId;
+}
+
+function scrollToComponentCenter(
+  element: HTMLElement,
+  behavior: ScrollBehavior = 'auto',
+) {
+  const rect = element.getBoundingClientRect();
+  const top =
+    rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2;
+  window.scrollTo({ top, behavior });
+}
 
 function ShowcaseSection({
   id,
@@ -343,22 +418,34 @@ function ComponentBlock({
   children,
   className,
   cardClassName,
+  allowOverflow = false,
 }: {
   id?: string;
   title: string;
   children: ReactNode;
   className?: string;
   cardClassName?: string;
+  allowOverflow?: boolean;
 }) {
   return (
     <Card
       id={id}
-      className={cn('scroll-mt-24 gap-0 overflow-hidden py-0', cardClassName)}
+      className={cn(
+        'scroll-mt-24 gap-0 overflow-hidden py-0',
+        allowOverflow && '!overflow-visible',
+        cardClassName,
+      )}
     >
       <CardHeader className="border-b bg-muted/30 py-4">
         <CardTitle className="text-base">{title}</CardTitle>
       </CardHeader>
-      <CardContent className={cn('space-y-6 py-6', className)}>
+      <CardContent
+        className={cn(
+          'space-y-6 py-6',
+          allowOverflow && '!overflow-visible',
+          className,
+        )}
+      >
         {children}
       </CardContent>
     </Card>
@@ -375,6 +462,220 @@ function SubLabel({ children }: { children: ReactNode }) {
 
 function VariantGrid({ children }: { children: ReactNode }) {
   return <div className="flex flex-wrap items-center gap-2">{children}</div>;
+}
+
+function OnThisPageNav({
+  activeTarget,
+  activeSectionId,
+  openSection,
+  onToggleSection,
+  onNavigate,
+  label,
+}: {
+  activeTarget: string;
+  activeSectionId: string | undefined;
+  openSection: string | null;
+  onToggleSection: (sectionId: string, open: boolean) => void;
+  onNavigate: (event: MouseEvent<HTMLAnchorElement>, itemId: string) => void;
+  label: string;
+}) {
+  const t = useTranslations('uiComponents');
+  const activeLinkRef = useRef<HTMLAnchorElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const link = activeLinkRef.current;
+    const nav = navRef.current;
+    if (!link || !nav) return;
+
+    const linkTop = link.offsetTop;
+    const linkBottom = linkTop + link.offsetHeight;
+    const viewTop = nav.scrollTop;
+    const viewBottom = viewTop + nav.clientHeight;
+
+    if (linkTop < viewTop || linkBottom > viewBottom) {
+      link.scrollIntoView({ block: 'nearest' });
+    }
+  }, [activeTarget]);
+
+  return (
+    <nav
+      ref={navRef}
+      className="sticky top-24 max-h-[calc(100vh-8rem)] space-y-1 overflow-y-auto overscroll-y-contain pr-1"
+    >
+      <p className="mb-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+        {label}
+      </p>
+      {SECTIONS.map((section) => {
+        const isActiveSection = activeSectionId === section.id;
+        const isExpanded = openSection === section.id || isActiveSection;
+
+        return (
+          <Collapsible
+            key={section.id}
+            open={isExpanded}
+            onOpenChange={(open) => onToggleSection(section.id, open)}
+          >
+            <CollapsibleTrigger asChild>
+              <button
+                type="button"
+                className="flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <ChevronRight
+                  className={cn(
+                    'mr-1 size-3.5 shrink-0 transition-transform duration-200',
+                    isExpanded && 'rotate-90',
+                  )}
+                />
+                {t(`sections.${section.key}`)}
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-0.5 overflow-hidden pl-4 data-[state=closed]:animate-none data-[state=open]:animate-none">
+              {section.items.map((item) => {
+                const itemId = `${section.id}-${item.id}`;
+                const isItemActive = activeTarget === itemId;
+
+                return (
+                  <a
+                    key={item.id}
+                    ref={isItemActive ? activeLinkRef : undefined}
+                    href={`#${itemId}`}
+                    onClick={(event) => onNavigate(event, itemId)}
+                    className={cn(
+                      'block rounded-md px-3 py-1.5 text-xs transition-colors',
+                      isItemActive
+                        ? 'bg-primary/5 font-medium text-primary'
+                        : 'text-muted-foreground hover:bg-sidebar-accent/30 hover:text-foreground',
+                    )}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </CollapsibleContent>
+          </Collapsible>
+        );
+      })}
+    </nav>
+  );
+}
+
+function useScrollSpy() {
+  const initialSectionId =
+    getSectionIdForTarget(DEFAULT_COMPONENT_ID) ?? SECTIONS[0].id;
+
+  const [activeTarget, setActiveTarget] = useState(DEFAULT_COMPONENT_ID);
+  const [openSection, setOpenSection] = useState<string | null>(
+    initialSectionId,
+  );
+
+  const entriesRef = useRef<ScrollSpyEntry[]>([]);
+  const scrollLockRef = useRef(false);
+  const manualOverrideRef = useRef(false);
+  const activeTargetRef = useRef(activeTarget);
+
+  useEffect(() => {
+    activeTargetRef.current = activeTarget;
+  }, [activeTarget]);
+
+  const activeSectionId = getSectionIdForTarget(activeTarget);
+
+  const syncOpenSection = useCallback((componentId: string) => {
+    const sectionId = getSectionIdForTarget(componentId);
+    if (sectionId) setOpenSection(sectionId);
+  }, []);
+
+  const releaseScrollLock = useCallback(() => {
+    window.setTimeout(() => {
+      scrollLockRef.current = false;
+    }, SCROLL_LOCK_MS);
+  }, []);
+
+  const navigateTo = useCallback(
+    (componentId: string, behavior: ScrollBehavior = 'smooth') => {
+      const element = document.getElementById(componentId);
+      if (!element) return;
+
+      scrollLockRef.current = true;
+      manualOverrideRef.current = false;
+      scrollToComponentCenter(element, behavior);
+
+      activeTargetRef.current = componentId;
+      setActiveTarget(componentId);
+      syncOpenSection(componentId);
+      window.history.replaceState(null, '', `#${componentId}`);
+      releaseScrollLock();
+    },
+    [releaseScrollLock, syncOpenSection],
+  );
+
+  const handleToggleSection = useCallback(
+    (sectionId: string, open: boolean) => {
+      const currentActiveSection = getSectionIdForTarget(
+        activeTargetRef.current,
+      );
+
+      if (!open && sectionId === currentActiveSection) return;
+
+      manualOverrideRef.current = true;
+      setOpenSection(open ? sectionId : (currentActiveSection ?? null));
+    },
+    [],
+  );
+
+  const handleNavigate = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, componentId: string) => {
+      event.preventDefault();
+      navigateTo(componentId, 'smooth');
+    },
+    [navigateTo],
+  );
+
+  useEffect(() => {
+    entriesRef.current = collectScrollSpyEntries(COMPONENT_IDS);
+
+    let frame = 0;
+
+    const onScroll = () => {
+      if (scrollLockRef.current) return;
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const nextId = resolveActiveComponentId(
+          entriesRef.current,
+          activeTargetRef.current,
+        );
+
+        if (nextId === activeTargetRef.current) return;
+
+        activeTargetRef.current = nextId;
+        setActiveTarget(nextId);
+        manualOverrideRef.current = false;
+        syncOpenSection(nextId);
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const hash = window.location.hash.slice(1);
+    if (isKnownComponentId(hash)) {
+      window.setTimeout(() => navigateTo(hash, 'auto'), 0);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [navigateTo, syncOpenSection]);
+
+  return {
+    activeTarget,
+    activeSectionId,
+    openSection,
+    handleToggleSection,
+    handleNavigate,
+  };
 }
 
 function FormShowcase() {
@@ -423,84 +724,34 @@ function FormShowcase() {
 
 export function UiComponentsShowcase() {
   const t = useTranslations('uiComponents');
+  const {
+    activeTarget,
+    activeSectionId,
+    openSection,
+    handleToggleSection,
+    handleNavigate,
+  } = useScrollSpy();
   const [comboboxValue, setComboboxValue] = useState('next');
   const [dropdownChecked, setDropdownChecked] = useState(true);
   const [dropdownRadio, setDropdownRadio] = useState('comfortable');
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [collapsibleOpen, setCollapsibleOpen] = useState(false);
   const [progress, setProgress] = useState(45);
-  const [activeSection, setActiveSection] = useState<string>(SECTIONS[0].id);
   const [showAlert, setShowAlert] = useState(true);
   const [showDestructiveAlert, setShowDestructiveAlert] = useState(true);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        const id = visible[0]?.target.id;
-        if (id) setActiveSection(id);
-      },
-      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.25, 0.5, 1] },
-    );
-
-    SECTIONS.forEach(({ id }) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <TooltipProvider>
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 lg:flex-row lg:gap-12">
         <aside className="hidden shrink-0 text-sidebar-foreground lg:block lg:w-56">
-          <nav className="sticky top-24 space-y-1">
-            <p className="mb-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              {t('onThisPage')}
-            </p>
-            {SECTIONS.map((section) => {
-              const isActive = activeSection === section.id;
-              return (
-                <div key={section.id} className="space-y-0.5">
-                  <a
-                    href={`#${section.id}`}
-                    className={cn(
-                      'block rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                      isActive
-                        ? 'bg-primary/5 font-semibold text-primary'
-                        : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                    )}
-                  >
-                    {t(`sections.${section.key}`)}
-                  </a>
-                  <div
-                    className={cn(
-                      'grid pl-4 transition-all duration-300 ease-in-out',
-                      isActive
-                        ? 'grid-rows-[1fr] py-1 opacity-100'
-                        : 'pointer-events-none grid-rows-[0fr] opacity-0',
-                    )}
-                  >
-                    <div className="space-y-0.5 overflow-hidden">
-                      {section.items.map((item) => (
-                        <a
-                          key={item.id}
-                          href={`#${section.id}-${item.id}`}
-                          className="block rounded-md px-3 py-1 text-xs text-muted-foreground transition-colors hover:bg-sidebar-accent/30 hover:text-foreground"
-                        >
-                          {item.label}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </nav>
+          <OnThisPageNav
+            activeTarget={activeTarget}
+            activeSectionId={activeSectionId}
+            openSection={openSection}
+            onToggleSection={handleToggleSection}
+            onNavigate={handleNavigate}
+            label={t('onThisPage')}
+          />
         </aside>
 
         <div className="min-w-0 flex-1 space-y-16">
@@ -894,6 +1145,109 @@ export function UiComponentsShowcase() {
               </div>
             </ComponentBlock>
 
+            <ComponentBlock id="feedback-toast" title="Toast">
+              <SubLabel>Types</SubLabel>
+              <VariantGrid>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => toast('Default toast message')}
+                >
+                  Default
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => toast.success('Changes saved successfully')}
+                >
+                  Success
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => toast.info('New update available')}
+                >
+                  Info
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => toast.warning('Your session is expiring soon')}
+                >
+                  Warning
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => toast.error('Something went wrong')}
+                >
+                  Error
+                </Button>
+              </VariantGrid>
+              <SubLabel>With description</SubLabel>
+              <VariantGrid>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    toast('Event created', {
+                      description: 'Monday, January 3rd at 6:00pm',
+                    })
+                  }
+                >
+                  With description
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    toast.success('Profile updated', {
+                      description: 'Your changes have been saved.',
+                      action: {
+                        label: 'Undo',
+                        onClick: () => toast.info('Undo clicked'),
+                      },
+                    })
+                  }
+                >
+                  With action
+                </Button>
+              </VariantGrid>
+              <SubLabel>Loading</SubLabel>
+              <VariantGrid>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    const id = toast.loading('Saving changes...');
+                    setTimeout(() => {
+                      toast.success('Saved!', { id });
+                    }, 1500);
+                  }}
+                >
+                  Loading → Success
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    toast.promise(
+                      new Promise<string>((resolve) =>
+                        setTimeout(() => resolve('Done'), 1500),
+                      ),
+                      {
+                        loading: 'Processing...',
+                        success: 'Completed successfully',
+                        error: 'Failed to process',
+                      },
+                    )
+                  }
+                >
+                  Promise
+                </Button>
+              </VariantGrid>
+            </ComponentBlock>
+
             <ComponentBlock id="feedback-badge" title="Badge">
               <SubLabel>Variants</SubLabel>
               <VariantGrid>
@@ -1152,11 +1506,25 @@ export function UiComponentsShowcase() {
               </Tabs>
             </ComponentBlock>
 
+            <ComponentBlock id="navigation-text-link" title="Text Link">
+              <SubLabel>Variants</SubLabel>
+              <div className="flex flex-wrap items-center gap-6">
+                <TextLink href="/about">Default link</TextLink>
+                <TextLink href="/about" variant="underlined">
+                  Underlined link
+                </TextLink>
+                <TextLink href="/about" className="text-primary">
+                  Primary link
+                </TextLink>
+              </div>
+            </ComponentBlock>
+
             <ComponentBlock
+              id="navigation-navigation-menu"
               title="Navigation Menu"
-              cardClassName="overflow-visible"
+              allowOverflow
             >
-              <NavigationMenu>
+              <NavigationMenu viewport={false}>
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>

@@ -342,8 +342,8 @@ function FeatureCard({
   details: string[];
 }) {
   return (
-    <div className="ui-card ui-hover-lift relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
-      <div className="flex items-center gap-3">
+    <div className="ui-card ui-hover-lift relative flex min-h-[15rem] flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-sm sm:p-7">
+      <div className="flex items-center gap-3.5">
         <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
           <IconComponent className="h-5 w-5" />
         </div>
@@ -359,7 +359,7 @@ function FeatureCard({
       </p>
 
       {badges?.length ? (
-        <div className="flex flex-wrap gap-1.5 pt-0.5 select-none">
+        <div className="flex flex-wrap gap-2 select-none">
           {badges.map((badge) => (
             <span
               key={`${badge.label}:${badge.value}`}
@@ -371,13 +371,13 @@ function FeatureCard({
         </div>
       ) : null}
 
-      <ul className="mt-auto space-y-1.5 border-t border-border/40 pt-3 text-[11px] text-muted-foreground">
+      <ul className="mt-auto space-y-2.5 border-t border-border/40 pt-4 text-[11px] text-muted-foreground">
         {details.map((detail) => (
-          <li key={detail} className="flex items-start gap-2">
+          <li key={detail} className="flex items-start gap-2.5">
             <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
               <Check className="h-2.5 w-2.5 stroke-[3]" />
             </div>
-            <span className="leading-tight">{detail}</span>
+            <span className="leading-normal">{detail}</span>
           </li>
         ))}
       </ul>
@@ -506,7 +506,7 @@ function HeroSection({
         </div>
       </div>
 
-      <div className="mx-auto mt-16 mb-10 grid w-full max-w-screen-xl grid-cols-1 gap-6 px-5 md:grid-cols-3 xl:px-0">
+      <div className="mx-auto mt-16 grid w-full max-w-screen-xl grid-cols-1 gap-6 px-5 md:grid-cols-3 xl:px-0">
         <HomeCard
           title="40+ custom, reusable components"
           description="Accelerate your workflow with a vast collection of accessible, fully customizable Tailwind CSS and Radix UI components designed for modern web apps."
@@ -532,7 +532,7 @@ function HeroSection({
         />
       </div>
 
-      <div className="mx-auto mt-12 w-full max-w-screen-xl space-y-8 px-5 xl:px-0">
+      <div className="mx-auto my-12 w-full max-w-screen-xl space-y-6 px-5 xl:px-0">
         <div className="text-center sm:text-left">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             More features

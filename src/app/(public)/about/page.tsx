@@ -1,15 +1,10 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { HomeGetStartedSection } from '@/components/shared/get-started-section';
 import {
   getLocaleDirection,
   siteConfig,
   type Locale,
 } from '@/features/site/config';
+import { getGitHubStars } from '@/features/site/github';
 import { cn } from '@/libs/utils';
 import { Check } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -50,150 +45,106 @@ const dxItems = [
   'npm run check — typecheck, lint, knip, and tests in one command',
 ];
 
+function AboutCard({
+  title,
+  children,
+  isRtl,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isRtl: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        'ui-card ui-hover-lift relative flex min-h-[15rem] flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-sm sm:p-7',
+        isRtl && 'text-right',
+      )}
+    >
+      <h2 className="text-base font-extrabold tracking-tight">
+        <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+          {title}
+        </span>
+      </h2>
+      {children}
+    </div>
+  );
+}
+
+function AboutCheckList({ items, isRtl }: { items: string[]; isRtl: boolean }) {
+  return (
+    <ul
+      className={cn(
+        'mt-auto space-y-2.5 border-t border-border/40 pt-4 text-[11px] text-muted-foreground',
+        isRtl ? 'text-right' : 'text-left',
+      )}
+    >
+      {items.map((item) => (
+        <li
+          key={item}
+          className={cn(
+            'flex items-start gap-2.5',
+            isRtl && 'flex-row-reverse',
+          )}
+        >
+          <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
+            <Check className="h-2.5 w-2.5 stroke-[3]" />
+          </div>
+          <span className="leading-normal">{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 const AboutPage = async () => {
-  const [t, locale] = await Promise.all([
+  const [t, locale, githubStars] = await Promise.all([
     getTranslations('about'),
     getLocale(),
+    getGitHubStars(),
   ]);
   const isRtl = getLocaleDirection(locale as Locale) === 'rtl';
 
   return (
-    <div
-      className={`mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:gap-12 ${isRtl ? 'text-right' : 'text-left'}`}
-    >
-      <header className="text-center lg:text-left">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground">
-          {t('title')}
-        </h1>
-      </header>
+    <div className="flex flex-col gap-12 lg:gap-16">
+      <div className="mx-auto w-full max-w-7xl px-4 pt-12">
+        <div className="mx-auto w-full max-w-screen-xl space-y-8 px-5 sm:space-y-10 xl:px-0">
+          <header className={cn('text-center', !isRtl && 'lg:text-left')}>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              {t('title')}
+            </h1>
+          </header>
 
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>What is {siteConfig.appName}?</CardTitle>
-            <CardDescription>{siteConfig.tagline}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              {siteConfig.description}
-            </p>
-          </CardContent>
-        </Card>
+          <div className="grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 lg:gap-8">
+            <AboutCard title={`What is ${siteConfig.appName}?`} isRtl={isRtl}>
+              <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
+                <p>{siteConfig.tagline}</p>
+                <p>{siteConfig.description}</p>
+              </div>
+            </AboutCard>
 
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>Who is it for?</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            <ul
-              className={cn('space-y-2.5', isRtl ? 'text-right' : 'text-left')}
-            >
-              {audienceItems.map((item) => (
-                <li
-                  key={item}
-                  className={cn(
-                    'flex items-start gap-2.5',
-                    isRtl && 'flex-row-reverse',
-                  )}
-                >
-                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-                    <Check className="h-2.5 w-2.5 stroke-[3]" />
-                  </div>
-                  <span className="leading-normal text-muted-foreground/90">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+            <AboutCard title="Who is it for?" isRtl={isRtl}>
+              <AboutCheckList items={audienceItems} isRtl={isRtl} />
+            </AboutCard>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3 lg:gap-8">
+            <AboutCard title="Stack & UI" isRtl={isRtl}>
+              <AboutCheckList items={stackItems} isRtl={isRtl} />
+            </AboutCard>
+
+            <AboutCard title="Auth & platform" isRtl={isRtl}>
+              <AboutCheckList items={platformItems} isRtl={isRtl} />
+            </AboutCard>
+
+            <AboutCard title="DX & quality" isRtl={isRtl}>
+              <AboutCheckList items={dxItems} isRtl={isRtl} />
+            </AboutCard>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>Stack & UI</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            <ul
-              className={cn('space-y-2.5', isRtl ? 'text-right' : 'text-left')}
-            >
-              {stackItems.map((item) => (
-                <li
-                  key={item}
-                  className={cn(
-                    'flex items-start gap-2.5',
-                    isRtl && 'flex-row-reverse',
-                  )}
-                >
-                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-                    <Check className="h-2.5 w-2.5 stroke-[3]" />
-                  </div>
-                  <span className="leading-normal text-muted-foreground/90">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>Auth & platform</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            <ul
-              className={cn('space-y-2.5', isRtl ? 'text-right' : 'text-left')}
-            >
-              {platformItems.map((item) => (
-                <li
-                  key={item}
-                  className={cn(
-                    'flex items-start gap-2.5',
-                    isRtl && 'flex-row-reverse',
-                  )}
-                >
-                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-                    <Check className="h-2.5 w-2.5 stroke-[3]" />
-                  </div>
-                  <span className="leading-normal text-muted-foreground/90">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>DX & quality</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            <ul
-              className={cn('space-y-2.5', isRtl ? 'text-right' : 'text-left')}
-            >
-              {dxItems.map((item) => (
-                <li
-                  key={item}
-                  className={cn(
-                    'flex items-start gap-2.5',
-                    isRtl && 'flex-row-reverse',
-                  )}
-                >
-                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-                    <Check className="h-2.5 w-2.5 stroke-[3]" />
-                  </div>
-                  <span className="leading-normal text-muted-foreground/90">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
+      <HomeGetStartedSection githubStars={githubStars} />
     </div>
   );
 };

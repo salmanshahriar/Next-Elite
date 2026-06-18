@@ -8,8 +8,8 @@
   "dir": "ltr",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#ede9fe",
+  "theme_color": "#ede9fe",
   "categories": [
     "productivity",
     "developer-tools"

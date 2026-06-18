@@ -15,6 +15,7 @@ import { useAuth } from '@/features/auth/hooks/auth-provider';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { siteConfig } from '@/features/site/config';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
+import { setHeaderChromeActive } from '@/features/theme/context/theme-provider';
 import { useScroll } from '@/hooks/use-scroll';
 import { cn } from '@/libs/utils';
 import { LogOut, Menu, X } from 'lucide-react';
@@ -31,10 +32,25 @@ const Header = () => {
   const isRtl = locale === 'ar';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const scrolled = useScroll(50);
+  const headerActive = scrolled || mobileMenuOpen;
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  useEffect(() => {
+    setHeaderChromeActive(headerActive);
+  }, [headerActive]);
+
+  useEffect(() => {
+    const onThemeChange = () => setHeaderChromeActive(headerActive);
+    window.addEventListener('theme-change', onThemeChange);
+    return () => window.removeEventListener('theme-change', onThemeChange);
+  }, [headerActive]);
+
+  useEffect(() => {
+    return () => setHeaderChromeActive(false);
+  }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -52,10 +68,10 @@ const Header = () => {
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 flex w-full flex-col justify-center transition-all duration-300',
-        scrolled || mobileMenuOpen
+        'sticky top-0 z-30 flex w-full flex-col justify-center pt-[env(safe-area-inset-top,0px)] transition-all duration-300',
+        headerActive
           ? 'border-b border-border/40 bg-background/95 backdrop-blur-xl'
-          : 'border-b-0 border-transparent bg-white/0 dark:bg-transparent',
+          : 'border-b-0 border-transparent bg-transparent',
       )}
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -201,7 +217,7 @@ const Header = () => {
 
       <div
         className={cn(
-          'absolute top-full left-0 z-20 grid w-full overflow-hidden bg-background transition-all duration-300 ease-in-out md:hidden',
+          'absolute top-full left-0 z-20 grid w-full overflow-hidden bg-background/98 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden',
           mobileMenuOpen
             ? 'grid-rows-[1fr] border-t border-b border-border/40'
             : 'pointer-events-none grid-rows-[0fr] border-t-0 border-b-0 border-transparent',

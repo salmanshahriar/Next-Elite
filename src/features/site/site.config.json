@@ -129,8 +129,8 @@
     "appleTouchIcon": "/apple-touch-icon.png"
   },
   "theme": {
-    "dark": "#0a0a0a",
-    "light": "#ffffff"
+    "dark": "#09090b",
+    "light": "#ede9fe"
   },
   "pricing": {
     "model": "freemium",
