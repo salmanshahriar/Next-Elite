@@ -39,6 +39,8 @@ Next Elite is a frontend-first Next.js boilerplate designed to consume APIs (RES
 
 It is feature-based, offering a polished developer experience (DX), built-in role-based access control (RBAC), type-safe internationalization (i18n), and is optimized for speed, SEO, and developer productivity.
 
+Includes **40+ custom & reusable ui components** built on shadcn/ui.
+
 <br/>
 
 <div align="center">

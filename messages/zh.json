@@ -36,7 +36,6 @@
     "language": "语言",
     "dashboard": "仪表板",
     "profile": "个人资料",
-    "settings": "设置",
     "logout": "退出登录",
     "login": "登录",
     "uiComponents": "UI 组件"
@@ -97,6 +96,7 @@
   "dashboard": {
     "admin": {
       "title": "管理员仪表板",
+      "description": "监控平台活动并管理工作区。",
       "totalUsers": "用户总数",
       "activeSessions": "活跃会话",
       "adminUsers": "管理员用户",
@@ -106,18 +106,29 @@
     },
     "user": {
       "title": "用户仪表板",
+      "description": "查看您的账户概览和最近活动。",
       "profile": "用户资料",
       "email": "电子邮件",
       "role": "角色",
       "userId": "用户 ID"
     }
   },
+  "profile": {
+    "title": "个人资料",
+    "description": "查看并更新您的个人账户信息。",
+    "accountInfo": "账户信息",
+    "email": "邮箱",
+    "role": "角色"
+  },
   "sidebar": {
     "adminPanel": "管理面板",
     "userPanel": "用户面板",
+    "admin": "管理员",
+    "user": "用户",
     "menu": "菜单",
     "theme": "主题",
-    "language": "语言"
+    "language": "语言",
+    "tools": "工具"
   },
   "uiComponents": {
     "title": "UI 组件",
@@ -145,6 +156,8 @@
     "401": "未授权",
     "403": "禁止访问",
     "500": "内部服务器错误",
-    "generic": "出错了，请稍后再试。"
+    "generic": "出错了，请稍后再试。",
+    "unauthorizedDescription": "您没有权限访问此页面。",
+    "goToDashboard": "前往仪表板"
   }
 }

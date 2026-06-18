@@ -1,5 +1,6 @@
 'use client';
 
+import { PageHeader } from '@/components/shared/page-header';
 import TextLink from '@/components/shared/text-link';
 import {
   Accordion,
@@ -757,10 +758,7 @@ export function UiComponentsShowcase() {
         </aside>
 
         <div className="min-w-0 flex-1 space-y-16 overflow-x-clip">
-          <header className="space-y-2 text-center lg:text-left">
-            <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
-            <p className="text-muted-foreground">{t('description')}</p>
-          </header>
+          <PageHeader title={t('title')} subtitle={t('description')} />
 
           <ShowcaseSection
             id="actions"

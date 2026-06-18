@@ -1,4 +1,3 @@
-import { BackgroundGradient } from '@/components/shared/background-gradient';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
 import { Sidebar } from '@/features/navigation/sidebar';
@@ -28,13 +27,12 @@ const ProtectedLayout = async ({
   const slot = (canViewAdmin && admin) || (canViewUser && user) || children;
 
   return (
-    <div className="relative flex h-screen overflow-hidden">
-      <BackgroundGradient />
+    <div className="relative flex h-screen min-w-0 overflow-hidden bg-[var(--page-chrome)]">
       <Sidebar />
-      <div className="relative z-10 flex flex-1 flex-col overflow-hidden pt-[60px] md:pt-0">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-[var(--app-header-height)] md:pt-0">
         <Topbar />
-        <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
+          <div className="mx-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
             {slot}
           </div>
         </main>

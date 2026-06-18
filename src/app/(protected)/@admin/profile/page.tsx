@@ -2,9 +2,9 @@ import { PageHeader, PageLayout } from '@/components/shared/page-header';
 import { requirePermission } from '@/features/auth/rbac/require';
 import { getTranslations } from 'next-intl/server';
 
-const AdminDashboardPage = async () => {
+const AdminProfilePage = async () => {
   await requirePermission('dashboard.view:admin');
-  const t = await getTranslations('dashboard.admin');
+  const t = await getTranslations('profile');
 
   return (
     <PageLayout>
@@ -13,4 +13,4 @@ const AdminDashboardPage = async () => {
   );
 };
 
-export default AdminDashboardPage;
+export default AdminProfilePage;

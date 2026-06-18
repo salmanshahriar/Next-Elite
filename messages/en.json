@@ -36,7 +36,6 @@
     "language": "Language",
     "dashboard": "Dashboard",
     "profile": "Profile",
-    "settings": "Settings",
     "logout": "Logout",
     "login": "Login",
     "uiComponents": "UI Components"
@@ -94,10 +93,10 @@
   "about": {
     "title": "About"
   },
-
   "dashboard": {
     "admin": {
       "title": "Admin Dashboard",
+      "description": "Monitor platform activity and manage your workspace.",
       "totalUsers": "Total Users",
       "activeSessions": "Active Sessions",
       "adminUsers": "Admin Users",
@@ -107,18 +106,29 @@
     },
     "user": {
       "title": "User Dashboard",
+      "description": "View your account overview and recent activity.",
       "profile": "User Profile",
       "email": "Email",
       "role": "Role",
       "userId": "User ID"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "description": "View and update your personal account information.",
+    "accountInfo": "Account Information",
+    "email": "Email",
+    "role": "Role"
+  },
   "sidebar": {
     "adminPanel": "Admin Panel",
     "userPanel": "User Panel",
+    "admin": "Admin",
+    "user": "User",
     "menu": "Menu",
     "theme": "Theme",
-    "language": "Language"
+    "language": "Language",
+    "tools": "Tools"
   },
   "uiComponents": {
     "title": "UI Components",
@@ -146,6 +156,8 @@
     "401": "Unauthorized",
     "403": "Forbidden",
     "500": "Internal server error",
-    "generic": "Something went wrong. Please try again."
+    "generic": "Something went wrong. Please try again.",
+    "unauthorizedDescription": "You do not have permission to access this page.",
+    "goToDashboard": "Go to Dashboard"
   }
 }

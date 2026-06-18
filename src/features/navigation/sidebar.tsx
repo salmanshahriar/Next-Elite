@@ -1,6 +1,6 @@
 'use client';
 
-import { Logo } from '@/components/shared/logo';
+import { AppBrand } from '@/components/shared/app-brand';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,37 +24,40 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import type { AuthUser } from '@/features/auth/types';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { siteConfig } from '@/features/site/config';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { cn } from '@/libs/utils';
 import * as Dialog from '@radix-ui/react-dialog';
-import { LayoutDashboard, LogOut, Menu } from 'lucide-react';
+import {
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  UserCircle,
+  type LucideIcon,
+} from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   useCallback,
+  useMemo,
   useState,
   useSyncExternalStore,
-  type ComponentType,
+  type ReactNode,
 } from 'react';
 
-interface MenuItem {
+interface NavItem {
+  id: string;
   label: string;
   href: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: LucideIcon;
 }
 
 interface SidebarContentProps {
-  user: AuthUser | null;
   pathname: string;
   isRtl: boolean;
-  menuItems: MenuItem[];
+  items: NavItem[];
   labels: {
-    adminPanel: string;
-    userPanel: string;
     theme: string;
     language: string;
     logout: string;
@@ -62,175 +65,196 @@ interface SidebarContentProps {
   onLogoutRequest: () => void;
   onItemClick?: () => void;
   isCollapsed?: boolean;
-  hideSettingsOnDesktop?: boolean;
+  showFooter?: boolean;
+}
+
+const SIDEBAR_PANEL_CLASS =
+  'sidebar-glass rounded-none border-y-0 border-[var(--sidebar-glass-edge)]';
+
+function sidebarContentBorder(isRtl: boolean) {
+  return isRtl ? 'border-r-0 border-l' : 'border-r border-l-0';
+}
+
+function isNavActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavTooltip({
+  label,
+  isRtl,
+  children,
+}: {
+  label: string;
+  isRtl: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent side={isRtl ? 'left' : 'right'}>
+        <p>{label}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
+function NavLinkItem({
+  item,
+  pathname,
+  isCollapsed,
+  isRtl,
+  onItemClick,
+}: {
+  item: NavItem;
+  pathname: string;
+  isCollapsed: boolean;
+  isRtl: boolean;
+  onItemClick?: () => void;
+}) {
+  const Icon = item.icon;
+  const isActive = isNavActive(pathname, item.href);
+
+  const link = (
+    <Link
+      href={item.href}
+      onClick={onItemClick}
+      data-active={isActive}
+      className={cn(
+        'sidebar-nav-admin',
+        isCollapsed && 'sidebar-nav-admin-collapsed',
+      )}
+    >
+      <span className="sidebar-nav-admin-icon">
+        <Icon className="h-[18px] w-[18px]" />
+      </span>
+      {!isCollapsed && <span className="truncate">{item.label}</span>}
+    </Link>
+  );
+
+  if (!isCollapsed) return link;
+
+  return (
+    <NavTooltip label={item.label} isRtl={isRtl}>
+      {link}
+    </NavTooltip>
+  );
 }
 
 function SidebarContent({
-  user: _user,
   pathname,
   isRtl,
-  menuItems,
+  items,
   labels,
   onLogoutRequest,
   onItemClick,
   isCollapsed = false,
-  hideSettingsOnDesktop = false,
+  showFooter = false,
 }: SidebarContentProps) {
   return (
     <div
       className={cn(
-        'flex h-full flex-col bg-transparent',
+        'flex h-full min-w-0 flex-col bg-transparent',
         isRtl && 'text-right',
       )}
     >
       <div
         className={cn(
-          'flex items-center border-b border-border/40 transition-all',
-          isCollapsed ? 'h-[60px] justify-center px-2' : 'h-[60px] px-4',
+          'sidebar-header-divider flex w-full min-w-0 items-center justify-center overflow-hidden',
+          isCollapsed ? 'px-1.5' : 'px-3',
         )}
       >
-        <Link
+        <AppBrand
           href="/"
           onClick={onItemClick}
+          showName={!isCollapsed}
+          isRtl={isRtl}
+          size={isCollapsed ? 24 : 26}
           className={cn(
-            'flex items-center gap-2 font-bold text-foreground transition-all',
-            isCollapsed ? 'justify-center' : 'justify-start',
+            'max-w-full min-w-0 justify-center',
+            isCollapsed ? 'w-auto gap-0' : 'w-full',
           )}
-        >
-          <Logo size={28} className="h-7 w-7" />
-          {!isCollapsed && (
-            <span className="text-md leading-tight font-semibold whitespace-nowrap">
-              {siteConfig.appName || siteConfig.title}
-            </span>
-          )}
-        </Link>
+          logoClassName={isCollapsed ? 'h-6 w-6' : 'h-[26px] w-[26px]'}
+          nameClassName="text-sidebar-foreground text-sm font-semibold sm:text-base"
+        />
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-2 py-3">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href;
-          const link = (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onItemClick}
-              className={cn(
-                'flex items-center gap-3 rounded-md px-2.5 py-2 text-sm font-medium transition-all duration-200',
-                isActive
-                  ? 'rounded-l-none border-l-2 border-primary bg-primary/10 pl-2 text-foreground'
-                  : 'text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground',
-                isCollapsed && 'justify-center rounded-md border-l-0 px-2',
-              )}
-            >
-              <Icon
-                className={cn('h-4 w-4 shrink-0', isCollapsed && 'mx-auto')}
-              />
-              {!isCollapsed && <span className="truncate">{item.label}</span>}
-            </Link>
-          );
+      <TooltipProvider delayDuration={0}>
+        <nav className="no-scrollbar min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-2">
+          <ul className="sidebar-nav-group flex w-full min-w-0 flex-col gap-1.5">
+            {items.map((item) => (
+              <li key={item.id}>
+                <NavLinkItem
+                  item={item}
+                  pathname={pathname}
+                  isCollapsed={isCollapsed}
+                  isRtl={isRtl}
+                  onItemClick={onItemClick}
+                />
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          if (isCollapsed) {
-            return (
-              <TooltipProvider key={item.href} delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>{link}</TooltipTrigger>
-                  <TooltipContent side={isRtl ? 'left' : 'right'}>
-                    <p>{item.label}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            );
-          }
-
-          return link;
-        })}
-      </nav>
-
-      <div
-        className={cn(
-          'border-t border-border bg-muted/10 backdrop-blur-sm',
-          'hidden',
-          !hideSettingsOnDesktop && 'md:block',
-        )}
-      >
-        <div className="p-2">
-          {isCollapsed ? (
-            <div className="space-y-0.5">
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
+        {showFooter ? (
+          <div className="border-t border-transparent px-2">
+            <div className="p-2">
+              {isCollapsed ? (
+                <div className="space-y-0.5">
+                  <NavTooltip label={labels.theme} isRtl={isRtl}>
                     <div className="flex items-center justify-center py-1.5">
                       <ThemeToggle />
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent side={isRtl ? 'left' : 'right'}>
-                    <p>{labels.theme}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
+                  </NavTooltip>
+                  <NavTooltip label={labels.language} isRtl={isRtl}>
                     <div className="flex items-center justify-center py-1.5">
                       <LanguageSwitcher />
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent side={isRtl ? 'left' : 'right'}>
-                    <p>{labels.language}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                  </NavTooltip>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <ThemeToggle variant="titled" title={labels.theme} />
+                  <LanguageSwitcher variant="titled" title={labels.language} />
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="flex items-center gap-1.5">
-              <ThemeToggle variant="titled" title={labels.theme} />
-              <LanguageSwitcher variant="titled" title={labels.language} />
-            </div>
-          )}
-        </div>
 
-        <div className="mx-2 h-px bg-border" />
-
-        <div className="space-y-0.5 p-2">
-          {isCollapsed ? (
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="h-8 w-full"
+            <div className="space-y-0.5 p-2">
+              {isCollapsed ? (
+                <NavTooltip label={labels.logout} isRtl={isRtl}>
+                  <button
+                    type="button"
+                    className="sidebar-nav-logout justify-center px-2 py-2"
                     onClick={() => {
                       onLogoutRequest();
                       onItemClick?.();
                     }}
                     aria-label={labels.logout}
                   >
-                    <LogOut className="h-3.5 w-3.5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side={isRtl ? 'left' : 'right'}>
-                  <p>{labels.logout}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          ) : (
-            <Button
-              variant="destructive"
-              size="sm"
-              className="h-8 w-full justify-start gap-2 text-[11px] font-medium"
-              onClick={() => {
-                onLogoutRequest();
-                onItemClick?.();
-              }}
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              <span>{labels.logout}</span>
-            </Button>
-          )}
-        </div>
-      </div>
+                    <span className="sidebar-nav-logout-icon">
+                      <LogOut className="h-[18px] w-[18px]" />
+                    </span>
+                  </button>
+                </NavTooltip>
+              ) : (
+                <button
+                  type="button"
+                  className="sidebar-nav-logout cursor-pointer"
+                  onClick={() => {
+                    onLogoutRequest();
+                    onItemClick?.();
+                  }}
+                >
+                  <span className="sidebar-nav-logout-icon">
+                    <LogOut className="h-[18px] w-[18px]" />
+                  </span>
+                  <span>{labels.logout}</span>
+                </button>
+              )}
+            </div>
+          </div>
+        ) : null}
+      </TooltipProvider>
     </div>
   );
 }
@@ -240,11 +264,14 @@ export const COLLAPSED_STORAGE_EVENT = 'sidebar-collapsed-change';
 
 export function subscribeToCollapsed(onStoreChange: () => void) {
   if (typeof window === 'undefined') return () => {};
+
   const handler = (event: StorageEvent | Event) => {
-    if ('key' in event && event.key && event.key !== COLLAPSED_STORAGE_KEY)
+    if ('key' in event && event.key && event.key !== COLLAPSED_STORAGE_KEY) {
       return;
+    }
     onStoreChange();
   };
+
   window.addEventListener('storage', handler);
   window.addEventListener(COLLAPSED_STORAGE_EVENT, handler);
   return () => {
@@ -258,8 +285,9 @@ export function readCollapsedSnapshot(): string | null {
   return window.localStorage.getItem(COLLAPSED_STORAGE_KEY);
 }
 
-export function parseCollapsed(raw: string | null): boolean {
+function parseCollapsed(raw: string | null): boolean {
   if (!raw) return false;
+
   try {
     return JSON.parse(raw) === true;
   } catch {
@@ -283,11 +311,32 @@ export function useSidebarCollapsed() {
   return [collapsed, setCollapsed] as const;
 }
 
-export function Sidebar({
-  hideSettingsOnDesktop = true,
-}: {
-  hideSettingsOnDesktop?: boolean;
-}) {
+const NAV_ICONS = {
+  dashboard: LayoutDashboard,
+  profile: UserCircle,
+} as const;
+
+function buildNavItems(
+  dashboardLabel: string,
+  profileLabel: string,
+): NavItem[] {
+  return [
+    {
+      id: 'dashboard',
+      label: dashboardLabel,
+      href: '/dashboard',
+      icon: NAV_ICONS.dashboard,
+    },
+    {
+      id: 'profile',
+      label: profileLabel,
+      href: '/profile',
+      icon: NAV_ICONS.profile,
+    },
+  ];
+}
+
+export function Sidebar() {
   const t = useTranslations();
   const { user, signOut } = useAuth();
   const locale = useLocale();
@@ -296,36 +345,29 @@ export function Sidebar({
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+  const [collapsed] = useSidebarCollapsed();
 
-  const [collapsed, _setCollapsed] = useSidebarCollapsed();
+  const items = useMemo(
+    () => buildNavItems(t('navigation.dashboard'), t('navigation.profile')),
+    [t],
+  );
 
-  const labels = {
-    adminPanel: t('sidebar.adminPanel'),
-    userPanel: t('sidebar.userPanel'),
-    theme: t('sidebar.theme'),
-    language: t('sidebar.language'),
-    logout: t('navigation.logout'),
-  };
+  const labels = useMemo(
+    () => ({
+      theme: t('sidebar.theme'),
+      language: t('sidebar.language'),
+      logout: t('navigation.logout'),
+    }),
+    [t],
+  );
 
-  const menuItems: MenuItem[] = [
-    {
-      label: t('navigation.dashboard'),
-      href: '/dashboard',
-      icon: LayoutDashboard,
-    },
-  ];
-
-  const getPageTitle = () => {
-    const segments = pathname.split('/').filter(Boolean);
-    if (segments.length === 0) return t('navigation.dashboard');
-    const lastSegment = segments[segments.length - 1];
-    if (!lastSegment || lastSegment === 'dashboard') {
-      return t('navigation.dashboard');
-    }
-    return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
-  };
-
-  const mobileTitle = getPageTitle();
+  const mobileTitle = useMemo(() => {
+    const segment = pathname.split('/').filter(Boolean).at(-1);
+    if (!segment) return t('navigation.dashboard');
+    if (segment === 'dashboard') return t('navigation.dashboard');
+    if (segment === 'profile') return t('navigation.profile');
+    return segment.charAt(0).toUpperCase() + segment.slice(1);
+  }, [pathname, t]);
 
   const handleLogoutRequest = () => setLogoutDialogOpen(true);
   const handleConfirmLogout = () => {
@@ -334,10 +376,13 @@ export function Sidebar({
     void signOut();
   };
 
+  const userInitials =
+    user?.email?.split('@')[0]?.slice(0, 2).toUpperCase() || 'U';
+
   return (
     <>
       <div
-        className="topbar-glass fixed top-0 right-0 left-0 z-50 flex h-[60px] items-center border-b border-border/40 px-4 md:hidden"
+        className="topbar-glass fixed top-0 right-0 left-0 z-50 flex h-[var(--app-header-height)] items-center border-b border-border/40 px-4 md:hidden"
         dir={isRtl ? 'rtl' : 'ltr'}
       >
         <div className="flex flex-1 items-center justify-start gap-3">
@@ -356,41 +401,36 @@ export function Sidebar({
               side={isRtl ? 'right' : 'left'}
               showCloseButton={false}
               className={cn(
-                'sidebar-glass h-screen w-[240px] max-w-[85vw] gap-0 rounded-none border-y-0 p-0 sm:max-w-[240px]',
-                isRtl
-                  ? 'border-r-0 border-l border-border/40'
-                  : 'border-r border-l-0 border-border/40',
+                SIDEBAR_PANEL_CLASS,
+                'h-screen w-[18rem] max-w-[85vw] gap-0 p-0 sm:max-w-[18rem]',
+                sidebarContentBorder(isRtl),
               )}
             >
               <SheetTitle className="sr-only">{t('sidebar.menu')}</SheetTitle>
               <SidebarContent
-                user={user}
                 pathname={pathname}
                 isRtl={isRtl}
-                menuItems={menuItems}
+                items={items}
                 labels={labels}
                 onLogoutRequest={handleLogoutRequest}
                 onItemClick={() => setMobileOpen(false)}
-                isCollapsed={false}
-                hideSettingsOnDesktop={false}
+                showFooter
               />
             </SheetContent>
           </Sheet>
           <h1 className="truncate text-lg font-semibold">{mobileTitle}</h1>
         </div>
 
-        {/* Mobile right-side controls */}
         <div className="flex items-center gap-1">
           <ThemeToggle />
           <LanguageSwitcher />
-          {user && (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="ml-1 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:bg-accent/40 focus:outline-hidden">
                   <Avatar className="h-7 w-7 shrink-0">
                     <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
-                      {user.email?.split('@')[0]?.slice(0, 2).toUpperCase() ||
-                        'U'}
+                      {userInitials}
                     </AvatarFallback>
                   </Avatar>
                 </button>
@@ -423,28 +463,25 @@ export function Sidebar({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+          ) : null}
         </div>
       </div>
 
       <aside
         className={cn(
-          'sidebar-glass relative z-40 hidden h-screen shrink-0 flex-col rounded-none border-y-0 transition-all duration-300 ease-in-out md:flex',
-          isRtl
-            ? 'border-r-0 border-l border-border/40'
-            : 'border-r border-l-0 border-border/40',
-          collapsed ? 'w-16' : 'w-56',
+          SIDEBAR_PANEL_CLASS,
+          'relative z-40 hidden h-screen shrink-0 flex-col overflow-hidden transition-all duration-300 ease-in-out md:flex',
+          sidebarContentBorder(isRtl),
+          collapsed ? 'w-16' : 'w-[18.125rem]',
         )}
       >
         <SidebarContent
-          user={user}
           pathname={pathname}
           isRtl={isRtl}
-          menuItems={menuItems}
+          items={items}
           labels={labels}
           onLogoutRequest={handleLogoutRequest}
           isCollapsed={collapsed}
-          hideSettingsOnDesktop={hideSettingsOnDesktop}
         />
       </aside>
 

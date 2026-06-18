@@ -38,13 +38,20 @@ export function Topbar() {
   // Extract initials from email
   const initials = user?.email?.split('@')[0]?.slice(0, 2).toUpperCase() || 'U';
 
-  // Generate breadcrumbs from path
   const segments = pathname.split('/').filter(Boolean);
 
+  const segmentLabels: Record<string, string> = {
+    dashboard: t('navigation.dashboard'),
+    profile: t('navigation.profile'),
+  };
+
+  const getSegmentLabel = (segment: string) =>
+    segmentLabels[segment] ??
+    segment.charAt(0).toUpperCase() + segment.slice(1);
+
   return (
-    <header className="topbar-glass sticky top-0 z-30 hidden h-[61px] w-full shrink-0 items-center justify-between border-b border-border/40 px-4 md:flex md:px-6">
+    <header className="topbar-glass sticky top-0 z-30 hidden h-[var(--app-header-height)] w-full shrink-0 items-center justify-between border-b border-border/40 px-4 md:flex md:px-6">
       <div className="flex min-w-0 flex-1 items-center gap-3">
-        {/* Sidebar Toggle Button for Desktop */}
         <Button
           variant="ghost"
           size="icon"
@@ -60,42 +67,32 @@ export function Topbar() {
           )}
         </Button>
 
-        {/* Dynamic Breadcrumbs */}
         <div className="min-w-0 flex-1">
           <Breadcrumb>
             <BreadcrumbList>
-              {segments.length === 1 && segments[0] === 'dashboard' ? (
+              {segments.length === 0 ? (
                 <BreadcrumbItem>
                   <BreadcrumbPage>{t('navigation.dashboard')}</BreadcrumbPage>
                 </BreadcrumbItem>
               ) : (
-                <>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">
-                      {t('navigation.dashboard')}
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  {segments.slice(1).map((segment, index) => {
-                    const isLast = index === segments.length - 2;
-                    const path = `/dashboard/${segments.slice(1, index + 2).join('/')}`;
-                    const displayLabel =
-                      segment.charAt(0).toUpperCase() + segment.slice(1);
-                    return (
-                      <React.Fragment key={path}>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                          {isLast ? (
-                            <BreadcrumbPage>{displayLabel}</BreadcrumbPage>
-                          ) : (
-                            <BreadcrumbLink href={path}>
-                              {displayLabel}
-                            </BreadcrumbLink>
-                          )}
-                        </BreadcrumbItem>
-                      </React.Fragment>
-                    );
-                  })}
-                </>
+                segments.map((segment, index) => {
+                  const isLast = index === segments.length - 1;
+                  const path = `/${segments.slice(0, index + 1).join('/')}`;
+                  const label = getSegmentLabel(segment);
+
+                  return (
+                    <React.Fragment key={path}>
+                      {index > 0 && <BreadcrumbSeparator />}
+                      <BreadcrumbItem>
+                        {isLast ? (
+                          <BreadcrumbPage>{label}</BreadcrumbPage>
+                        ) : (
+                          <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                    </React.Fragment>
+                  );
+                })
               )}
             </BreadcrumbList>
           </Breadcrumb>

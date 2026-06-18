@@ -36,7 +36,6 @@
     "language": "Langue",
     "dashboard": "Tableau de bord",
     "profile": "Profil",
-    "settings": "Paramètres",
     "logout": "Déconnexion",
     "login": "Connexion",
     "uiComponents": "Composants UI"
@@ -97,6 +96,7 @@
   "dashboard": {
     "admin": {
       "title": "Tableau de bord Admin",
+      "description": "Surveillez l'activité de la plateforme et gérez votre espace.",
       "totalUsers": "Total des utilisateurs",
       "activeSessions": "Sessions actives",
       "adminUsers": "Utilisateurs Admin",
@@ -106,18 +106,29 @@
     },
     "user": {
       "title": "Tableau de bord Utilisateur",
+      "description": "Consultez votre compte et votre activité récente.",
       "profile": "Profil Utilisateur",
       "email": "E-mail",
       "role": "Rôle",
       "userId": "ID Utilisateur"
     }
   },
+  "profile": {
+    "title": "Profil",
+    "description": "Consultez et mettez à jour vos informations personnelles.",
+    "accountInfo": "Informations du compte",
+    "email": "E-mail",
+    "role": "Rôle"
+  },
   "sidebar": {
     "adminPanel": "Panneau Admin",
     "userPanel": "Panneau Utilisateur",
+    "admin": "Admin",
+    "user": "Utilisateur",
     "menu": "Menu",
     "theme": "Thème",
-    "language": "Langue"
+    "language": "Langue",
+    "tools": "Outils"
   },
   "uiComponents": {
     "title": "Composants UI",
@@ -145,6 +156,8 @@
     "401": "Non autorisé",
     "403": "Interdit",
     "500": "Erreur interne du serveur",
-    "generic": "Une erreur est survenue. Veuillez réessayer."
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unauthorizedDescription": "Vous n'avez pas la permission d'accéder à cette page.",
+    "goToDashboard": "Aller au tableau de bord"
   }
 }

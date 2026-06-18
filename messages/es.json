@@ -36,7 +36,6 @@
     "language": "Idioma",
     "dashboard": "Panel de control",
     "profile": "Perfil",
-    "settings": "Ajustes",
     "logout": "Cerrar sesión",
     "login": "Iniciar sesión",
     "uiComponents": "Componentes UI"
@@ -97,6 +96,7 @@
   "dashboard": {
     "admin": {
       "title": "Panel de Admin",
+      "description": "Supervisa la actividad de la plataforma y gestiona tu espacio.",
       "totalUsers": "Total de usuarios",
       "activeSessions": "Sesiones activas",
       "adminUsers": "Usuarios Admin",
@@ -106,18 +106,29 @@
     },
     "user": {
       "title": "Panel de Usuario",
+      "description": "Consulta tu cuenta y actividad reciente.",
       "profile": "Perfil de Usuario",
       "email": "Correo electrónico",
       "role": "Rol",
       "userId": "ID de Usuario"
     }
   },
+  "profile": {
+    "title": "Perfil",
+    "description": "Consulta y actualiza tu información personal.",
+    "accountInfo": "Información de la cuenta",
+    "email": "Correo",
+    "role": "Rol"
+  },
   "sidebar": {
     "adminPanel": "Panel de Admin",
     "userPanel": "Panel de Usuario",
+    "admin": "Admin",
+    "user": "Usuario",
     "menu": "Menú",
     "theme": "Tema",
-    "language": "Idioma"
+    "language": "Idioma",
+    "tools": "Herramientas"
   },
   "uiComponents": {
     "title": "Componentes UI",
@@ -145,6 +156,8 @@
     "401": "No autorizado",
     "403": "Prohibido",
     "500": "Error interno del servidor",
-    "generic": "Algo salió mal. Por favor intente de nuevo."
+    "generic": "Algo salió mal. Por favor intente de nuevo.",
+    "unauthorizedDescription": "No tienes permiso para acceder a esta página.",
+    "goToDashboard": "Ir al panel"
   }
 }

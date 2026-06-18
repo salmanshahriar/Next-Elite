@@ -1,6 +1,6 @@
 'use client';
 
-import { Logo } from '@/components/shared/logo';
+import { AppBrand } from '@/components/shared/app-brand';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { siteConfig } from '@/features/site/config';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { setHeaderChromeActive } from '@/features/theme/context/theme-provider';
 import { useScroll } from '@/hooks/use-scroll';
@@ -75,20 +74,9 @@ const Header = () => {
       )}
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-[60px] items-center justify-between">
+        <div className="relative flex h-[var(--app-header-height)] items-center justify-between">
           <div className="z-10 flex items-center">
-            <Link
-              href="/"
-              className={cn(
-                'flex items-center gap-2.5 font-bold text-foreground',
-                isRtl && 'flex-row-reverse',
-              )}
-            >
-              <Logo size={28} className="h-7 w-7" />
-              <span className="text-lg leading-tight font-semibold whitespace-nowrap">
-                {siteConfig.appName || siteConfig.title}
-              </span>
-            </Link>
+            <AppBrand href="/" isRtl={isRtl} />
           </div>
 
           <nav className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 md:flex">

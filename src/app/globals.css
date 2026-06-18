@@ -64,6 +64,34 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-gradient-base: linear-gradient(
+    168deg,
+    #ffffff 0%,
+    #fbf9ff 22%,
+    #f4efff 52%,
+    #ebe3ff 100%
+  );
+  --sidebar-gradient-glow: rgba(var(--primary-purple-rgb), 0.2);
+  --sidebar-gradient-glow-secondary: rgba(var(--secondary-purple-rgb), 0.12);
+  --sidebar-glass-frost-top: rgba(255, 255, 255, 0.62);
+  --sidebar-glass-frost-mid: rgba(255, 255, 255, 0.2);
+  --sidebar-glass-edge: rgba(var(--primary-purple-rgb), 0.14);
+  --sidebar-glass-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+    inset -1px 0 0 0 rgba(var(--primary-purple-rgb), 0.1),
+    6px 0 28px rgba(var(--primary-purple-rgb), 0.07),
+    12px 0 48px rgba(0, 0, 0, 0.03);
+  --sidebar-nav-active: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--primary) 82%, white) 0%,
+    var(--primary) 100%
+  );
+  --sidebar-nav-hover: linear-gradient(
+    135deg,
+    rgba(var(--primary-purple-rgb), 0.1) 0%,
+    rgba(var(--primary-purple-rgb), 0.04) 100%
+  );
+  --sidebar-nav-shadow: 0 4px 18px rgba(var(--primary-purple-rgb), 0.28);
 
   /* RGB Base Colors */
   --primary-purple-rgb: 118, 99, 255;
@@ -106,11 +134,32 @@
   --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.05);
 
   /* ========== Spacing & Layout ========== */
+  --app-header-height: 3.8125rem;
   --radius: 0.625rem;
-  --page-chrome: #ede9fe;
-  --page-chrome-meta: #ede9fe;
+  --page-chrome: #ffffff;
+  --page-chrome-meta: #ffffff;
   --nav-chrome-meta: #ffffff;
   --browser-chrome-top: var(--page-chrome);
+  --page-gradient-right-top: radial-gradient(
+    ellipse 75% 65% at 100% 0%,
+    rgb(233 213 255 / 0.48),
+    transparent 52%
+  );
+  --page-gradient-right-bottom: radial-gradient(
+    ellipse 59% 50% at 100% 100%,
+    rgb(237 233 254 / 0.32),
+    transparent 47%
+  );
+  --page-gradient-left-primary: radial-gradient(
+    ellipse 120% 95% at 0% 50%,
+    rgb(233 213 255 / 0.92),
+    transparent 72%
+  );
+  --page-gradient-left-soft: radial-gradient(
+    ellipse 95% 85% at 0% 50%,
+    rgb(237 233 254 / 0.72),
+    transparent 68%
+  );
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -189,19 +238,53 @@
   --chart-5: oklch(0.645 0.246 16.439);
 
   /* Sidebar Colors */
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.17 0.025 270);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.22 0.03 270);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  --sidebar-gradient-base: linear-gradient(
+    180deg,
+    #12121a 0%,
+    #0e0e14 42%,
+    #09090b 100%
+  );
+  --sidebar-gradient-glow: rgba(var(--primary-purple-rgb), 0.14);
+  --sidebar-gradient-glow-secondary: rgba(var(--secondary-purple-rgb), 0.08);
+  --sidebar-glass-frost-top: rgba(255, 255, 255, 0.035);
+  --sidebar-glass-frost-mid: rgba(var(--primary-purple-rgb), 0.04);
+  --sidebar-glass-edge: rgba(var(--primary-purple-rgb), 0.08);
+  --sidebar-glass-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04), 4px 0 24px rgba(0, 0, 0, 0.28);
+  --sidebar-nav-active: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--primary) 90%, #1a1a24) 0%,
+    color-mix(in oklch, var(--primary) 72%, #0f0f14) 100%
+  );
+  --sidebar-nav-hover: linear-gradient(
+    135deg,
+    rgba(var(--primary-purple-rgb), 0.18) 0%,
+    rgba(var(--primary-purple-rgb), 0.06) 100%
+  );
+  --sidebar-nav-shadow: 0 4px 22px rgba(var(--primary-purple-rgb), 0.32);
 
   --page-chrome: #09090b;
   --page-chrome-meta: #09090b;
   --nav-chrome-meta: #121212;
   --browser-chrome-top: var(--page-chrome);
+  --page-gradient-right-top: radial-gradient(
+    ellipse 75% 65% at 100% 0%,
+    rgba(118, 99, 255, 0.1),
+    transparent 50%
+  );
+  --page-gradient-right-bottom: radial-gradient(
+    ellipse 59% 50% at 100% 100%,
+    rgba(90, 74, 212, 0.06),
+    transparent 45%
+  );
 
   /* ========== Glass Card - Dark Theme ========== */
   --glass-card-bg: color-mix(in oklch, var(--card) 50%, transparent);
@@ -613,23 +696,63 @@
   opacity: 0.95;
 }
 
-/* ========== Sidebar Glassmorphism with Left/Bottom Glow ========== */
+/* ========== Page Background Gradients ========== */
+.page-gradient {
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.page-gradient--fixed {
+  position: fixed;
+  inset: 0;
+}
+
+.page-gradient__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.page-gradient__base {
+  background: transparent;
+}
+
+.page-gradient__right-top {
+  background: var(--page-gradient-right-top);
+}
+
+.page-gradient__right-bottom {
+  background: var(--page-gradient-right-bottom);
+}
+
+.page-gradient__left-primary {
+  background: var(--page-gradient-left-primary);
+}
+
+.page-gradient__left-soft {
+  background: var(--page-gradient-left-soft);
+}
+
+.dark .page-gradient__left-primary,
+.dark .page-gradient__left-soft {
+  display: none;
+}
+
+/* ========== Sidebar Gradient Panel ========== */
 .sidebar-glass {
   isolation: isolate;
   overflow: hidden;
-  background: var(--background);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
-  border: 1px solid var(--glass-card-border);
-  box-shadow:
-    inset 0 1px 0 0 var(--glass-card-inset-top),
-    inset 0 -1px 0 0 var(--glass-card-inset-bottom),
-    0 0 0 1px var(--glass-card-ring) inset,
-    var(--glass-card-shadow);
+  background: var(--sidebar-gradient-base);
+  color: var(--sidebar-foreground);
+  backdrop-filter: blur(32px) saturate(1.75);
+  -webkit-backdrop-filter: blur(32px) saturate(1.75);
+  border-color: var(--sidebar-glass-edge);
+  box-shadow: var(--sidebar-glass-shadow);
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease,
-    background-color 0.3s ease;
+    background 0.3s ease;
 }
 
 .sidebar-glass > * {
@@ -640,20 +763,21 @@
 .sidebar-glass::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: -40%;
-  width: 110%;
-  height: 60%;
-  transform: translateY(-50%);
+  inset: 0;
   border-radius: inherit;
-  background: radial-gradient(
-    circle at 0% 50%,
-    var(--glass-card-glow-1) 0%,
-    var(--glass-card-glow-2) 42%,
-    transparent 72%
-  );
-  filter: blur(15px);
-  opacity: 0.95;
+  background:
+    radial-gradient(
+      ellipse 90% 55% at -8% 18%,
+      var(--sidebar-gradient-glow) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 0% 88%,
+      var(--sidebar-gradient-glow-secondary) 0%,
+      transparent 62%
+    );
+  filter: blur(20px);
+  opacity: 0.9;
   z-index: 0;
   pointer-events: none;
 }
@@ -664,19 +788,63 @@
   inset: 0;
   border-radius: inherit;
   background:
-    radial-gradient(
-      ellipse 80% 60% at 0% 50%,
-      var(--glass-card-glow-2) 0%,
-      transparent 60%
+    linear-gradient(
+      180deg,
+      var(--sidebar-glass-frost-top) 0%,
+      var(--sidebar-glass-frost-mid) 22%,
+      transparent 48%
     ),
     linear-gradient(
-      165deg,
-      var(--glass-card-frost-top) 0%,
-      var(--glass-card-frost-mid) 30%,
-      transparent 60%
+      90deg,
+      rgba(var(--primary-purple-rgb), 0.08) 0%,
+      transparent 18%
+    ),
+    radial-gradient(
+      ellipse 55% 70% at 100% 45%,
+      rgba(var(--primary-purple-rgb), 0.05) 0%,
+      transparent 68%
     );
   pointer-events: none;
   z-index: 0;
+}
+
+.dark .sidebar-glass {
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+}
+
+.dark .sidebar-glass::before {
+  display: none;
+}
+
+.dark .sidebar-glass::after {
+  background: linear-gradient(
+    180deg,
+    var(--sidebar-glass-frost-top) 0%,
+    var(--sidebar-glass-frost-mid) 24%,
+    transparent 46%
+  );
+}
+
+.dark .sidebar-header-divider {
+  border-bottom-color: color-mix(in oklch, var(--primary) 12%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--primary-purple-rgb), 0.04) 0%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklch, var(--primary) 8%, transparent) 50%,
+      transparent 100%
+    );
+  background-size:
+    100% 100%,
+    100% 1px;
+  background-repeat: no-repeat;
+  background-position: top, bottom;
 }
 
 /* ========== Topbar Glassmorphism with Top/Center Glow ========== */
@@ -740,6 +908,173 @@
     );
   pointer-events: none;
   z-index: 0;
+}
+
+/* ========== Sidebar Navigation ========== */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-nav-group {
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklch, var(--primary) 22%, transparent) 50%,
+      transparent 100%
+    )
+    1;
+  padding-block: 0.75rem;
+}
+
+.sidebar-nav-group:first-child {
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-nav-group:last-child {
+  border-bottom: none;
+  border-image: none;
+}
+
+.sidebar-nav-group-label {
+  display: flex;
+  height: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  padding-inline: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: color-mix(in oklch, var(--sidebar-foreground) 70%, transparent);
+}
+
+.sidebar-nav-admin {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  height: 2.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: color-mix(in oklch, var(--sidebar-foreground) 50%, transparent);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.sidebar-nav-admin:hover {
+  background: var(--sidebar-nav-hover);
+  color: var(--sidebar-foreground);
+}
+
+.sidebar-nav-admin[data-active='true'] {
+  background: var(--sidebar-nav-active);
+  color: var(--primary-foreground);
+  font-weight: 500;
+  box-shadow: var(--sidebar-nav-shadow);
+}
+
+.sidebar-nav-admin[data-active='true']:hover {
+  background: var(--sidebar-nav-active);
+  color: var(--primary-foreground);
+  box-shadow: var(--sidebar-nav-shadow);
+}
+
+.sidebar-nav-admin-collapsed {
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  margin-inline: auto;
+}
+
+.sidebar-nav-admin-collapsed[data-active='true'] {
+  background: var(--sidebar-nav-active);
+  color: var(--primary-foreground);
+  box-shadow: var(--sidebar-nav-shadow);
+}
+
+.sidebar-nav-admin-icon {
+  display: flex;
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-nav-logout {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: color-mix(in oklch, var(--destructive) 85%, var(--foreground));
+  transition:
+    background var(--transition-slow),
+    color var(--transition-slow),
+    box-shadow var(--transition-slow);
+}
+
+.sidebar-nav-logout:hover {
+  color: var(--primary-foreground);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    color-mix(in oklch, var(--destructive) 78%, white) 0%,
+    var(--destructive) 100%
+  );
+  box-shadow: 0 4px 18px
+    color-mix(in oklch, var(--destructive) 35%, transparent);
+}
+
+.sidebar-nav-logout-icon {
+  display: flex;
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-header-divider {
+  height: var(--app-header-height);
+  min-height: var(--app-header-height);
+  flex-shrink: 0;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border-bottom: 1px solid color-mix(in oklch, var(--primary) 14%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--primary-purple-rgb), 0.06) 0%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklch, var(--primary) 10%, transparent) 50%,
+      transparent 100%
+    );
+  background-size:
+    100% 100%,
+    100% 1px;
+  background-repeat: no-repeat;
+  background-position: top, bottom;
 }
 
 /* ========== Theme Change Water-like Wave (View Transitions) ========== */
