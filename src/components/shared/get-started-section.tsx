@@ -91,25 +91,16 @@ export const HomeGetStartedSection = ({
   return (
     <section className="mx-auto w-full max-w-7xl min-w-0 px-4 pb-12 sm:pb-16">
       <div className="mx-auto w-full max-w-screen-xl px-5 xl:px-0">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 shadow-xl backdrop-blur-sm sm:rounded-3xl">
-          <div
-            className="pointer-events-none absolute -top-20 -right-20 size-80 rounded-full bg-primary/5 blur-3xl"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute -bottom-20 -left-20 size-80 rounded-full bg-primary/5 blur-3xl"
-            aria-hidden="true"
-          />
-
+        <Card className="relative gap-0 overflow-hidden rounded-2xl py-0 sm:rounded-3xl">
           <div className="relative z-10 grid min-w-0 gap-8 p-6 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-10 lg:p-10">
             <div className="flex min-w-0 flex-col gap-5 lg:col-span-2">
               <div className="space-y-3 sm:space-y-4">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
-                  <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+                  <span className="inline-block bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
                     Get started in minutes
                   </span>
                 </h2>
-                <p className="text-sm leading-relaxed text-foreground/75 sm:text-base lg:text-lg">
+                <p className="text-sm leading-relaxed text-muted-foreground sm:text-base lg:text-lg">
                   Clone the repository, copy the local environment
                   configurations, install dependencies, and launch your
                   developer server instantly. Ready to deploy to Vercel when you
@@ -131,21 +122,24 @@ export const HomeGetStartedSection = ({
                   href={githubRepoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/50 sm:w-auto"
+                  className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full border border-border/60 bg-background/50 px-5 text-sm font-medium text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-background/70 sm:w-auto"
                 >
                   <GithubIcon className="size-4 shrink-0" />
                   Star on GitHub
                   {githubStars ? (
-                    <span className="text-foreground/60">{githubStars}</span>
+                    <span className="text-muted-foreground">{githubStars}</span>
                   ) : null}
                 </a>
               </div>
             </div>
 
-            <Card className="min-w-0 gap-0 overflow-hidden py-0 lg:col-span-3">
-              <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/50 px-4 py-3 sm:px-5">
+            <Card
+              nested
+              className="min-w-0 gap-0 overflow-hidden rounded-xl py-0 lg:col-span-3"
+            >
+              <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-muted/20 px-4 py-3 sm:px-5">
                 <div className="flex min-w-0 items-center gap-2.5">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border/50 bg-background/40 text-muted-foreground">
                     <Terminal className="size-4" aria-hidden />
                   </span>
                   <span className="truncate text-sm font-semibold text-foreground">
@@ -156,7 +150,7 @@ export const HomeGetStartedSection = ({
                   type="button"
                   variant="secondary"
                   size="sm"
-                  className="h-8 shrink-0 gap-1.5 px-3 text-xs"
+                  className="h-8 shrink-0 gap-1.5 border-border/50 bg-background/40 px-3 text-xs backdrop-blur-sm"
                   onClick={handleCopy}
                   aria-label={copied ? 'Copied' : 'Copy commands'}
                 >
@@ -174,7 +168,7 @@ export const HomeGetStartedSection = ({
                 </Button>
               </div>
 
-              <div className="min-w-0 bg-background">
+              <div className="min-w-0 bg-background/20">
                 <pre className="overflow-x-auto overscroll-x-contain p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-sm">
                   <code className="grid min-w-0 gap-2">
                     {installLines.map((line) => (
@@ -197,7 +191,7 @@ export const HomeGetStartedSection = ({
               </div>
             </Card>
           </div>
-        </div>
+        </Card>
       </div>
     </section>
   );

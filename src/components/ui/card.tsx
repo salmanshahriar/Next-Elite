@@ -5,9 +5,16 @@ import { cn } from '@/libs/utils';
 interface CardProps extends React.ComponentProps<'div'> {
   hover?: boolean;
   flat?: boolean;
+  nested?: boolean;
 }
 
-function Card({ className, hover = false, flat = false, ...props }: CardProps) {
+function Card({
+  className,
+  hover = false,
+  flat = false,
+  nested = false,
+  ...props
+}: CardProps) {
   return (
     <div
       data-slot="card"
@@ -15,6 +22,7 @@ function Card({ className, hover = false, flat = false, ...props }: CardProps) {
         flat
           ? 'flex flex-col gap-6 rounded-xl border border-border bg-card py-6 text-foreground'
           : 'ui-card flex flex-col gap-6 rounded-xl py-6 text-foreground',
+        nested && !flat && 'ui-card-nested',
         hover && !flat && 'ui-hover-lift',
         className,
       )}

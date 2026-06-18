@@ -70,26 +70,40 @@
   --secondary-purple-rgb: 90, 74, 212;
 
   /* ========== Glass Card - Light Theme ========== */
-  --glass-card-bg: rgba(255, 255, 255, 0.45);
-  --glass-card-border: rgba(0, 0, 0, 0.08);
-  --glass-card-inset-top: rgba(255, 255, 255, 0.6);
-  --glass-card-inset-bottom: rgba(255, 255, 255, 0.2);
-  --glass-card-ring: rgba(var(--primary-purple-rgb), 0.04);
-  --glass-card-glow-1: rgba(var(--primary-purple-rgb), 0.14);
-  --glass-card-glow-2: rgba(var(--secondary-purple-rgb), 0.05);
-  --glass-card-glow-hover-1: rgba(var(--primary-purple-rgb), 0.2);
-  --glass-card-glow-hover-2: rgba(var(--secondary-purple-rgb), 0.08);
+  --glass-card-bg: color-mix(in oklch, var(--card) 86%, transparent);
+  --glass-card-border: color-mix(in oklch, var(--card) 72%, var(--border));
+  --glass-card-inset-top: color-mix(in oklch, var(--card) 94%, transparent);
+  --glass-card-inset-bottom: color-mix(in oklch, var(--card) 58%, transparent);
+  --glass-card-ring: rgba(var(--primary-purple-rgb), 0.03);
+  --glass-card-glow-1: rgba(var(--primary-purple-rgb), 0.08);
+  --glass-card-glow-2: rgba(var(--secondary-purple-rgb), 0.03);
+  --glass-card-glow-hover-1: rgba(var(--primary-purple-rgb), 0.14);
+  --glass-card-glow-hover-2: rgba(var(--secondary-purple-rgb), 0.05);
+  --glass-card-frost-top: rgba(255, 255, 255, 0.42);
+  --glass-card-frost-mid: rgba(255, 255, 255, 0.16);
   --glass-card-shadow:
     0 8px 28px rgba(0, 0, 0, 0.04),
-    0 0 36px rgba(var(--primary-purple-rgb), 0.04);
+    0 0 36px rgba(var(--primary-purple-rgb), 0.03);
   --glass-card-shadow-hover:
-    0 10px 32px rgba(0, 0, 0, 0.06),
-    0 0 48px rgba(var(--primary-purple-rgb), 0.06);
-  --glass-card-bg-hover: rgba(255, 255, 255, 0.55);
-  --glass-card-border-hover: rgba(var(--primary-purple-rgb), 0.15);
-  --glass-card-inset-top-hover: rgba(255, 255, 255, 0.7);
-  --glass-card-inset-bottom-hover: rgba(255, 255, 255, 0.25);
-  --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.06);
+    0 10px 32px rgba(0, 0, 0, 0.05),
+    0 0 48px rgba(var(--primary-purple-rgb), 0.05);
+  --glass-card-bg-hover: color-mix(in oklch, var(--card) 94%, transparent);
+  --glass-card-border-hover: color-mix(
+    in oklch,
+    var(--card) 80%,
+    var(--primary)
+  );
+  --glass-card-inset-top-hover: color-mix(
+    in oklch,
+    var(--card) 98%,
+    transparent
+  );
+  --glass-card-inset-bottom-hover: color-mix(
+    in oklch,
+    var(--card) 64%,
+    transparent
+  );
+  --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.05);
 
   /* ========== Spacing & Layout ========== */
   --radius: 0.625rem;
@@ -190,25 +204,55 @@
   --browser-chrome-top: var(--page-chrome);
 
   /* ========== Glass Card - Dark Theme ========== */
-  --glass-card-bg: rgba(15, 15, 20, 0.38);
-  --glass-card-border: rgba(255, 255, 255, 0.1);
-  --glass-card-inset-top: rgba(255, 255, 255, 0.14);
-  --glass-card-inset-bottom: rgba(255, 255, 255, 0.04);
+  --glass-card-bg: color-mix(in oklch, var(--card) 50%, transparent);
+  --glass-card-border: color-mix(in oklch, var(--border) 65%, transparent);
+  --glass-card-inset-top: color-mix(
+    in oklch,
+    var(--foreground) 12%,
+    transparent
+  );
+  --glass-card-inset-bottom: color-mix(
+    in oklch,
+    var(--foreground) 4%,
+    transparent
+  );
   --glass-card-ring: rgba(var(--primary-purple-rgb), 0.07);
   --glass-card-glow-1: rgba(var(--primary-purple-rgb), 0.28);
   --glass-card-glow-2: rgba(var(--secondary-purple-rgb), 0.1);
   --glass-card-glow-hover-1: rgba(var(--primary-purple-rgb), 0.36);
   --glass-card-glow-hover-2: rgba(var(--secondary-purple-rgb), 0.14);
+  --glass-card-frost-top: color-mix(
+    in oklch,
+    var(--foreground) 8%,
+    transparent
+  );
+  --glass-card-frost-mid: color-mix(
+    in oklch,
+    var(--foreground) 3%,
+    transparent
+  );
   --glass-card-shadow:
     0 8px 28px rgba(0, 0, 0, 0.28),
     0 0 36px rgba(var(--primary-purple-rgb), 0.1);
   --glass-card-shadow-hover:
     0 10px 32px rgba(0, 0, 0, 0.32),
     0 0 48px rgba(var(--primary-purple-rgb), 0.16);
-  --glass-card-bg-hover: rgba(15, 15, 20, 0.44);
-  --glass-card-border-hover: rgba(var(--primary-purple-rgb), 0.22);
-  --glass-card-inset-top-hover: rgba(255, 255, 255, 0.16);
-  --glass-card-inset-bottom-hover: rgba(255, 255, 255, 0.05);
+  --glass-card-bg-hover: color-mix(in oklch, var(--card) 58%, transparent);
+  --glass-card-border-hover: color-mix(
+    in oklch,
+    var(--primary) 28%,
+    var(--border)
+  );
+  --glass-card-inset-top-hover: color-mix(
+    in oklch,
+    var(--foreground) 14%,
+    transparent
+  );
+  --glass-card-inset-bottom-hover: color-mix(
+    in oklch,
+    var(--foreground) 5%,
+    transparent
+  );
   --glass-card-ring-hover: rgba(var(--primary-purple-rgb), 0.1);
 }
 
@@ -505,8 +549,8 @@
     ),
     linear-gradient(
       165deg,
-      rgba(255, 255, 255, 0.07) 0%,
-      rgba(255, 255, 255, 0.02) 28%,
+      var(--glass-card-frost-top) 0%,
+      var(--glass-card-frost-mid) 28%,
       transparent 55%
     );
   pointer-events: none;
@@ -531,6 +575,11 @@
     var(--glass-card-glow-hover-2) 40%,
     transparent 70%
   );
+}
+
+.ui-card.ui-card-nested {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* ========== Hover lift effect ========== */
@@ -622,8 +671,8 @@
     ),
     linear-gradient(
       165deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.01) 30%,
+      var(--glass-card-frost-top) 0%,
+      var(--glass-card-frost-mid) 30%,
       transparent 60%
     );
   pointer-events: none;
@@ -685,8 +734,8 @@
     ),
     linear-gradient(
       195deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.01) 30%,
+      var(--glass-card-frost-top) 0%,
+      var(--glass-card-frost-mid) 30%,
       transparent 60%
     );
   pointer-events: none;

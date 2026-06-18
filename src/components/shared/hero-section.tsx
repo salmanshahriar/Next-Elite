@@ -4,6 +4,7 @@ import { GithubIcon } from '@/components/icons/github-icon';
 import { VercelIcon } from '@/components/icons/vercel-icon';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Popover,
@@ -17,6 +18,7 @@ import {
   type Locale,
 } from '@/features/site/config';
 import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
+import { cn } from '@/libs/utils';
 import {
   Calendar as CalendarIcon,
   Check,
@@ -33,7 +35,7 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import TextLink from './text-link';
 
-export interface HomeCardProps {
+interface HomeCardProps {
   title: string;
   description: string;
   demo: ReactNode;
@@ -44,7 +46,7 @@ export interface HomeCardProps {
   };
 }
 
-export function HomeCard({
+function HomeCard({
   title,
   description,
   demo,
@@ -52,12 +54,15 @@ export function HomeCard({
   link,
 }: HomeCardProps) {
   return (
-    <div
-      className={`ui-card relative col-span-1 flex h-auto min-h-[24rem] flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-md sm:p-8 ${
-        large ? 'md:col-span-2 md:h-[29rem]' : 'md:h-[29rem]'
-      }`}
+    <Card
+      hover
+      className={cn(
+        'relative col-span-1 h-auto min-h-[22rem] justify-between overflow-hidden rounded-2xl p-4 sm:min-h-[24rem] sm:p-6 md:p-8',
+        'gap-0',
+        large ? 'md:col-span-2 md:h-[29rem]' : 'md:h-[29rem]',
+      )}
     >
-      <div className="mb-4 flex w-full flex-1 items-center justify-center overflow-hidden">
+      <div className="mb-3 flex w-full flex-1 items-center justify-center overflow-hidden px-1 sm:mb-4 sm:px-0">
         {demo}
       </div>
 
@@ -84,11 +89,11 @@ export function HomeCard({
           {description}
         </p>
       </div>
-    </div>
+    </Card>
   );
 }
 
-export function ComponentShowcaseGrid() {
+function ComponentShowcaseGrid() {
   const [switchChecked, setSwitchChecked] = useState(true);
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -278,9 +283,9 @@ function ScoreGauge({
   );
 }
 
-export function LighthouseDashboard() {
+function LighthouseDashboard() {
   return (
-    <div className="grid w-full max-w-3xl grid-cols-2 justify-center gap-x-2 gap-y-4 px-1 sm:grid-cols-4 sm:gap-x-8 sm:px-4 lg:gap-x-12">
+    <div className="grid w-full max-w-3xl grid-cols-2 justify-center gap-x-3 gap-y-3 py-1 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-4 sm:px-4 sm:py-0 lg:gap-x-12">
       <ScoreGauge label="Performance" targetScore={100} delay={100} />
       <ScoreGauge label="Accessibility" targetScore={100} delay={250} />
       <ScoreGauge label="Best Practices" targetScore={100} delay={400} />
@@ -289,7 +294,7 @@ export function LighthouseDashboard() {
   );
 }
 
-export function AuthDemoVisual() {
+function AuthDemoVisual() {
   return (
     <div className="flex items-center justify-center transition-transform duration-200 select-none hover:scale-105">
       <svg
@@ -307,7 +312,7 @@ export function AuthDemoVisual() {
   );
 }
 
-export function DeployDemoVisual() {
+function DeployDemoVisual() {
   return (
     <a
       href={vercelDeployUrl}
@@ -342,7 +347,10 @@ function FeatureCard({
   details: string[];
 }) {
   return (
-    <div className="ui-card ui-hover-lift relative flex min-h-[15rem] flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-sm sm:p-7">
+    <Card
+      hover
+      className="relative min-h-[15rem] gap-4 overflow-hidden rounded-2xl p-4 text-left sm:gap-5 sm:p-6 md:p-7"
+    >
       <div className="flex items-center gap-3.5">
         <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
           <IconComponent className="h-5 w-5" />
@@ -381,7 +389,7 @@ function FeatureCard({
           </li>
         ))}
       </ul>
-    </div>
+    </Card>
   );
 }
 
@@ -465,9 +473,10 @@ function HeroSection({
 
   return (
     <div
-      className={`mx-auto flex max-w-7xl flex-col gap-8 px-4 pt-8 ${
-        isRtl ? 'text-right' : 'text-left'
-      }`}
+      className={cn(
+        'mx-auto flex max-w-7xl flex-col gap-8 px-4 pt-8',
+        isRtl ? 'text-right' : 'text-left',
+      )}
     >
       <div className="flex flex-col items-center gap-4">
         <header className="space-y-0 text-center">
@@ -506,7 +515,7 @@ function HeroSection({
         </div>
       </div>
 
-      <div className="mx-auto mt-16 grid w-full max-w-screen-xl grid-cols-1 gap-6 px-5 md:grid-cols-3 xl:px-0">
+      <div className="mx-auto mt-16 grid w-full max-w-screen-xl grid-cols-1 gap-4 px-4 sm:gap-6 sm:px-5 md:grid-cols-3 xl:px-0">
         <HomeCard
           title="40+ custom, reusable components"
           description="Accelerate your workflow with a vast collection of accessible, fully customizable Tailwind CSS and Radix UI components designed for modern web apps."
@@ -521,7 +530,7 @@ function HeroSection({
         />
         <HomeCard
           title="Blazing Fast Speeds"
-          description="Performance optimized for maximum efficiency. Experience instant page loads, highly optimized static assets, and perfect 100/100 Lighthouse metrics from day one."
+          description="Performance optimized for maximum efficiency. Experience instant page loads, highly optimized static assets, and elite Lighthouse scores across accessibility, SEO, and best practices."
           demo={<LighthouseDashboard />}
           large
         />
@@ -532,13 +541,13 @@ function HeroSection({
         />
       </div>
 
-      <div className="mx-auto my-12 w-full max-w-screen-xl space-y-6 px-5 xl:px-0">
+      <div className="mx-auto my-12 w-full max-w-screen-xl space-y-4 px-4 sm:space-y-6 sm:px-5 xl:px-0">
         <div className="text-center sm:text-left">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             More features
           </h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {secondaryFeatures.map((feature) => (
             <FeatureCard
               key={feature.title}
