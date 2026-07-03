@@ -134,7 +134,7 @@ export const HomeGetStartedSection = ({
             </div>
 
             <Card
-              nested
+              flat
               className="min-w-0 gap-0 overflow-hidden rounded-xl py-0 lg:col-span-3"
             >
               <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-muted/20 px-4 py-3 sm:px-5">
@@ -142,7 +142,7 @@ export const HomeGetStartedSection = ({
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border/50 bg-background/40 text-muted-foreground">
                     <Terminal className="size-4" aria-hidden />
                   </span>
-                  <span className="truncate text-sm font-semibold text-foreground">
+                  <span className="text-sm font-semibold text-foreground">
                     Install & run
                   </span>
                 </div>

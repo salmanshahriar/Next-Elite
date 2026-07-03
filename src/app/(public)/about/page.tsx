@@ -75,7 +75,7 @@ function AboutCheckList({ items, isRtl }: { items: string[]; isRtl: boolean }) {
   return (
     <ul
       className={cn(
-        'mt-auto space-y-2.5 border-t border-border/40 pt-4 text-[11px] text-muted-foreground',
+        'mt-2 space-y-2.5 text-[11px] text-muted-foreground',
         isRtl ? 'text-right' : 'text-left',
       )}
     >

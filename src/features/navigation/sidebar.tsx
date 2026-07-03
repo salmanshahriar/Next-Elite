@@ -1,16 +1,8 @@
 'use client';
 
 import { AppBrand } from '@/components/shared/app-brand';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { UserDropdown } from '@/components/shared/user-dropdown';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Sheet,
   SheetContent,
@@ -69,7 +61,7 @@ interface SidebarContentProps {
 }
 
 const SIDEBAR_PANEL_CLASS =
-  'sidebar-glass rounded-none border-y-0 border-[var(--sidebar-glass-edge)]';
+  'sidebar-glass rounded-none border-y-0 border-sidebar-glass-edge';
 
 function sidebarContentBorder(isRtl: boolean) {
   return isRtl ? 'border-r-0 border-l' : 'border-r border-l-0';
@@ -376,13 +368,10 @@ export function Sidebar() {
     void signOut();
   };
 
-  const userInitials =
-    user?.email?.split('@')[0]?.slice(0, 2).toUpperCase() || 'U';
-
   return (
     <>
       <div
-        className="topbar-glass fixed top-0 right-0 left-0 z-50 flex h-[var(--app-header-height)] items-center border-b border-border/40 px-4 md:hidden"
+        className="topbar-glass fixed top-0 right-0 left-0 z-50 flex h-app-header items-center border-b border-border/40 px-4 md:hidden"
         dir={isRtl ? 'rtl' : 'ltr'}
       >
         <div className="flex flex-1 items-center justify-start gap-3">
@@ -425,44 +414,11 @@ export function Sidebar() {
           <ThemeToggle />
           <LanguageSwitcher />
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="ml-1 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:bg-accent/40 focus:outline-hidden">
-                  <Avatar className="h-7 w-7 shrink-0">
-                    <AvatarFallback className="bg-primary/10 text-[10px] font-semibold text-primary">
-                      {userInitials}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="max-w-[120px] truncate text-sm leading-none font-medium">
-                      {user.email}
-                    </span>
-                    <span
-                      className={cn(
-                        'inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[10px] font-semibold capitalize',
-                        user.role === 'admin'
-                          ? 'border-primary/20 bg-primary/15 text-primary'
-                          : 'border-border bg-muted text-muted-foreground',
-                      )}
-                    >
-                      {user.role}
-                    </span>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
-                  onClick={() => void signOut()}
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>{labels.logout}</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserDropdown
+              onlyAvatar
+              contentClassName="w-56"
+              onLogout={() => setMobileOpen(false)}
+            />
           ) : null}
         </div>
       </div>

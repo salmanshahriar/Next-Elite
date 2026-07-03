@@ -4,7 +4,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main
       id="main-content"
-      className="relative z-10 min-h-screen bg-[var(--page-chrome)]"
+      className="relative z-10 min-h-screen bg-page-chrome"
     >
       {children}
     </main>

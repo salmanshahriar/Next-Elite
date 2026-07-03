@@ -31,10 +31,7 @@ export function AppBrand({
       <Logo size={size} className={cn('h-7 w-7 shrink-0', logoClassName)} />
       {showName ? (
         <span
-          className={cn(
-            'truncate text-lg leading-tight font-semibold whitespace-nowrap',
-            nameClassName,
-          )}
+          className={cn('text-lg leading-tight font-semibold', nameClassName)}
         >
           {siteConfig.appName || siteConfig.title}
         </span>

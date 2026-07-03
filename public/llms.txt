@@ -8,10 +8,10 @@
 
 - **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
 - **Framework Stack**: Next.js 16 (App Router), React 19, TypeScript 6, Node.js 22 (LTS)
-- **UI & CSS System**: Tailwind CSS v4, shadcn/ui primitives, custom Class Variance Authority (CVA) components, view transitions
+- **UI & CSS System**: Tailwind CSS v4 (with custom `@theme` variables for layout chrome, spacing, and borders), shadcn/ui primitives, custom Class Variance Authority (CVA) components, view transitions
 - **Performance Rating**: 100/100 Lighthouse score (Performance, Accessibility, Best Practices, SEO)
 - **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
-- **Keywords**: Next.js 16, React 19, BetterAuth, Role-Based Access Control, next-intl, type-safe i18n, API-driven, sitemap, robots, T3 Env, Vitest, Playwright, Tailwind v4
+- **Keywords**: Next.js 16, React 19, BetterAuth, Role-Based Access Control (RBAC), next-intl, type-safe i18n, API-driven, sitemap, robots, T3 Env, Vitest, Playwright, Tailwind v4, Next.js Boilerplate, SaaS Starter Kit, Next.js SaaS Template, Frontend-First Boilerplate, Zero-Database Starter, API-First Boilerplate, developer template
 
 ---
 
@@ -45,6 +45,7 @@ Code is organized into vertical slices inside `/src/features/` instead of splitt
 - `navigation/` — Sidebar, topbar, and mobile drawer headers.
 - `site/` — Configurations from `site.config.json` used for SEO.
 - `users/` — Sample module demonstrating type-safe fetch actions and custom validation hooks.
+Additionally, generic layout components are placed under `/src/components/shared/` (e.g., the unified `UserDropdown` profile card).
 
 ---
 
@@ -54,6 +55,7 @@ Code is organized into vertical slices inside `/src/features/` instead of splitt
 - **BetterAuth**: Email/password and Google OAuth supported. Admin list controlled by `AUTH_ADMIN_EMAILS` values.
 - **Access Control**: Roles (`admin`, `user`) with custom `requireUser()` and `requirePermission()` server-side helpers.
 - **Layout Slots**: Dashboard uses parallel routing slots (`@admin` and `@user` under `src/app/(protected)/`) rendering specific components based on the authenticated user's permissions.
+- **User Profile Card**: Integrated a unified `<UserDropdown />` component across all headers (public desktop header, mobile header, admin topbar, and dashboard sidebar) which displays the user's avatar, email, and role badge inline in a single row.
 
 ### 🌐 Type-Safe i18n (next-intl)
 - Supports 6 default locales: English (`en`), Bengali (`bn`), Arabic (`ar` - RTL), French (`fr`), Spanish (`es`), and Chinese (`zh`).

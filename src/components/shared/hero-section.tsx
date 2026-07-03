@@ -318,7 +318,7 @@ function DeployDemoVisual() {
       href={vercelDeployUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-mono text-[11px] font-bold text-white transition-transform duration-200 select-none hover:scale-105 dark:bg-white dark:text-black"
+      className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-sans text-xs font-medium text-white transition-transform duration-200 select-none hover:scale-105 dark:bg-white dark:text-black"
     >
       <svg
         viewBox="0 0 75 65"
@@ -337,7 +337,7 @@ function FeatureCard({
   icon: IconComponent,
   title,
   description,
-  badges,
+  badges: _badges,
   details,
 }: {
   icon: LucideIcon;
@@ -351,35 +351,23 @@ function FeatureCard({
       hover
       className="relative min-h-[15rem] gap-4 overflow-hidden rounded-2xl p-4 text-left sm:gap-5 sm:p-6 md:p-7"
     >
-      <div className="flex items-center gap-3.5">
-        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
-          <IconComponent className="h-5 w-5" />
+      <div className="flex items-start gap-3.5">
+        <div className="relative flex aspect-square size-12 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
+          <IconComponent className="size-6" />
         </div>
-        <h3 className="text-base font-extrabold tracking-tight">
-          <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
-            {title}
-          </span>
-        </h3>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-base font-extrabold tracking-tight">
+            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+              {title}
+            </span>
+          </h3>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        </div>
       </div>
 
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        {description}
-      </p>
-
-      {badges?.length ? (
-        <div className="flex flex-wrap gap-2 select-none">
-          {badges.map((badge) => (
-            <span
-              key={`${badge.label}:${badge.value}`}
-              className="inline-flex items-center rounded-md border border-border/40 bg-muted/60 px-2 py-0.5 text-[9px] font-bold text-muted-foreground"
-            >
-              {badge.value}
-            </span>
-          ))}
-        </div>
-      ) : null}
-
-      <ul className="mt-auto space-y-2.5 border-t border-border/40 pt-4 text-[11px] text-muted-foreground">
+      <ul className="mt-6 space-y-2.5 text-[11px] text-muted-foreground">
         {details.map((detail) => (
           <li key={detail} className="flex items-start gap-2.5">
             <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
@@ -486,7 +474,7 @@ function HeroSection({
             </span>
           </h1>
           <p className="mx-auto mt-3 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            {siteConfig.tagline}
+            {siteConfig.appType}
           </p>
         </header>
 
