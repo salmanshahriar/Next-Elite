@@ -35,8 +35,8 @@ function Switch({
         className={cn(
           'group/thumb pointer-events-none relative flex items-center justify-center rounded-full bg-background shadow-xs ring-0 transition-transform dark:data-[state=checked]:bg-primary-foreground dark:data-[state=unchecked]:bg-foreground',
           size === 'default'
-            ? 'size-4 data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0'
-            : 'size-[18px] data-[state=checked]:translate-x-[24px] data-[state=unchecked]:translate-x-[2px]',
+            ? 'size-4 data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0 rtl:data-[state=checked]:-translate-x-[calc(100%-2px)] rtl:data-[state=unchecked]:translate-x-0'
+            : 'size-[18px] data-[state=checked]:translate-x-[24px] data-[state=unchecked]:translate-x-[2px] rtl:data-[state=checked]:-translate-x-[24px] rtl:data-[state=unchecked]:-translate-x-[2px]',
         )}
       >
         {uncheckedIcon && (

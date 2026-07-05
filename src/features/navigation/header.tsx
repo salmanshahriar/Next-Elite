@@ -119,7 +119,7 @@ const Header = () => {
           </nav>
 
           <div className="z-10 hidden items-center gap-2 md:flex">
-            <div className="mr-2 flex items-center gap-1 border-r border-border pr-2">
+            <div className="me-2 flex items-center gap-1 border-e border-border pe-2">
               <ThemeToggle />
               <LanguageSwitcher />
             </div>

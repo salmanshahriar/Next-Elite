@@ -70,7 +70,7 @@ export const UserDropdown = ({
           {!onlyAvatar && (
             <span
               className={cn(
-                'max-w-[120px] truncate pr-2 text-xs font-medium text-foreground',
+                'max-w-[120px] truncate pe-2 text-xs font-medium text-foreground',
                 hideEmailOnMobile ? 'hidden lg:inline-block' : 'inline-block',
               )}
             >

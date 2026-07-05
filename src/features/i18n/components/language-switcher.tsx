@@ -80,7 +80,7 @@ const LanguageSwitcher = ({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="group flex w-full flex-1 cursor-pointer items-center justify-between rounded-md border-0 bg-transparent px-2 text-left transition-all hover:bg-accent/60">
+          <button className="group flex w-full flex-1 cursor-pointer items-center justify-between rounded-md border-0 bg-transparent px-2 text-start transition-all hover:bg-accent/60">
             <span className="truncate text-[11px] font-medium text-muted-foreground transition-colors group-hover:text-foreground">
               {title}
             </span>

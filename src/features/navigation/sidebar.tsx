@@ -380,7 +380,7 @@ export function Sidebar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="-ml-1 h-8 w-8"
+                className="-ms-1 h-8 w-8"
                 aria-label={t('sidebar.menu')}
               >
                 <Menu className="h-5 w-5" />

@@ -48,7 +48,7 @@ const dxItems = [
 function AboutCard({
   title,
   children,
-  isRtl,
+  isRtl: _isRtl,
 }: {
   title: string;
   children: React.ReactNode;
@@ -57,8 +57,7 @@ function AboutCard({
   return (
     <div
       className={cn(
-        'ui-card ui-hover-lift relative flex min-h-[15rem] flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-sm sm:p-7',
-        isRtl && 'text-right',
+        'ui-card ui-hover-lift relative flex min-h-[15rem] flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 text-start shadow-sm sm:p-7',
       )}
     >
       <h2 className="text-base font-extrabold tracking-tight">
@@ -71,22 +70,11 @@ function AboutCard({
   );
 }
 
-function AboutCheckList({ items, isRtl }: { items: string[]; isRtl: boolean }) {
+function AboutCheckList({ items }: { items: string[]; isRtl: boolean }) {
   return (
-    <ul
-      className={cn(
-        'mt-2 space-y-2.5 text-[11px] text-muted-foreground',
-        isRtl ? 'text-right' : 'text-left',
-      )}
-    >
+    <ul className="mt-2 space-y-2.5 text-start text-[11px] text-muted-foreground">
       {items.map((item) => (
-        <li
-          key={item}
-          className={cn(
-            'flex items-start gap-2.5',
-            isRtl && 'flex-row-reverse',
-          )}
-        >
+        <li key={item} className="flex items-start gap-2.5">
           <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
             <Check className="h-2.5 w-2.5 stroke-[3]" />
           </div>

@@ -98,7 +98,7 @@ export function ThemeToggle({
       <div
         onClick={() => toggleTheme()}
         onPointerDown={handlePointerDown}
-        className="group flex w-full flex-1 cursor-pointer items-center justify-between rounded-md border-0 bg-transparent px-2 py-1 text-left transition-all hover:bg-accent/60"
+        className="group flex w-full flex-1 cursor-pointer items-center justify-between rounded-md border-0 bg-transparent px-2 py-1 text-start transition-all hover:bg-accent/60"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {

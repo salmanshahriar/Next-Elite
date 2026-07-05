@@ -90,7 +90,7 @@ export function Topbar() {
       {/* Right Hand Actions */}
       <div className="flex items-center gap-3">
         {/* Theme and Translation Selectors */}
-        <div className="flex items-center gap-1 border-r border-border/40 pr-3">
+        <div className="flex items-center gap-1 border-e border-border/40 pe-3">
           <ThemeToggle />
           <LanguageSwitcher />
         </div>

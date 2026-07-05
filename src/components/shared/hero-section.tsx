@@ -349,7 +349,7 @@ function FeatureCard({
   return (
     <Card
       hover
-      className="relative min-h-[15rem] gap-4 overflow-hidden rounded-2xl p-4 text-left sm:gap-5 sm:p-6 md:p-7"
+      className="relative min-h-[15rem] gap-4 overflow-hidden rounded-2xl p-4 text-start sm:gap-5 sm:p-6 md:p-7"
     >
       <div className="flex items-start gap-3.5">
         <div className="relative flex aspect-square size-12 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
@@ -530,7 +530,7 @@ function HeroSection({
       </div>
 
       <div className="mx-auto my-12 w-full max-w-screen-xl space-y-4 px-4 sm:space-y-6 sm:px-5 xl:px-0">
-        <div className="text-center sm:text-left">
+        <div className="text-center sm:text-start">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             More features
           </h2>
