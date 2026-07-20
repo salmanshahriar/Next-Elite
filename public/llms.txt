@@ -1,4 +1,4 @@
-# Next Elite — An open source production-ready Next.js starter kit
+# Next Elite - An open source production-ready Next.js starter kit
 
 > A production-ready, frontend-first, and highly optimized Next.js 16 + React 19 + TypeScript starter kit. Built for zero-database setups (API-first), next-intl type-safe i18n, BetterAuth permission-based RBAC, and elite developer experience (DX).
 
@@ -9,7 +9,7 @@
 - **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
 - **Framework Stack**: Next.js 16 (App Router), React 19, TypeScript 6, Node.js 22 (LTS)
 - **UI & CSS System**: Tailwind CSS v4 (with custom `@theme` variables for layout chrome, spacing, and borders), shadcn/ui primitives, custom Class Variance Authority (CVA) components, view transitions
-- **Performance Rating**: 100/100 Lighthouse score (Performance, Accessibility, Best Practices, SEO)
+- **Performance**: Optimized for Lighthouse (Performance, Accessibility, Best Practices, SEO)
 - **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
 - **Keywords**: Next.js 16, React 19, BetterAuth, Role-Based Access Control (RBAC), next-intl, type-safe i18n, API-driven, sitemap, robots, T3 Env, Vitest, Playwright, Tailwind v4, Next.js Boilerplate, SaaS Starter Kit, Next.js SaaS Template, Frontend-First Boilerplate, Zero-Database Starter, API-First Boilerplate, developer template
 
@@ -17,10 +17,10 @@
 
 ## 2. Core Resources
 
-- **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshotriar/Next-Elite) — Source code, templates, issue tracking.
-- **Production Demo**: [next-elite-boilerplate.vercel.app](https://next-elite-boilerplate.vercel.app/) — Live preview site.
-- **Health Check Endpoint**: `/api/health` — JSON heartbeat probe for load balancers.
-- **Auth Endpoint**: `/api/auth/*` — BetterAuth API route handler.
+- **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite) - Source code, templates, issue tracking.
+- **Production Demo**: [next-elite-boilerplate.vercel.app](https://next-elite-boilerplate.vercel.app/) - Live preview site.
+- **Health Check Endpoint**: `/api/health` - JSON heartbeat probe for load balancers.
+- **Auth Endpoint**: `/api/auth/*` - BetterAuth API route handler.
 
 ---
 
@@ -34,17 +34,16 @@ Designed to connect directly to any pre-existing backend (REST/GraphQL/BFF) rath
                  │
                  └──> Sends Server HTML (messages from messages/ folder via next-intl)
                  │
-                 └──> [Client (Browser)] ──> [useQuery / apiFetch] ──> [External Backend API]
+                 └──> [Client (Browser)] ──> [TanStack Query] ──> [Your Backend API]
 ```
 
 ### B. Feature-Based Directory Structure
 Code is organized into vertical slices inside `/src/features/` instead of splitting files globally:
-- `auth/` — Credentials, Google OAuth, custom RBAC permissions, and hooks.
-- `theme/` — Global theme provider with pointer-coordinate water-wave animations.
-- `i18n/` — Translation request configs, RTL helpers, and language selectors.
-- `navigation/` — Sidebar, topbar, and mobile drawer headers.
-- `site/` — Configurations from `site.config.json` used for SEO.
-- `users/` — Sample module demonstrating type-safe fetch actions and custom validation hooks.
+- `auth/` - Credentials, Google OAuth, custom RBAC permissions, and hooks.
+- `theme/` - Global theme provider with pointer-coordinate water-wave animations.
+- `i18n/` - Translation request configs, RTL helpers, and language selectors.
+- `navigation/` - Header, sidebar, topbar, and top loader.
+- `site/` - Configurations from `site.config.json` used for SEO.
 Additionally, generic layout components are placed under `/src/components/shared/` (e.g., the unified `UserDropdown` profile card).
 
 ---
@@ -74,8 +73,7 @@ Additionally, generic layout components are placed under `/src/components/shared
 
 ### ⚡ Infrastructure & Observability
 - **Error Tracking**: Full Sentry instrumentation for client and server errors.
-- **Server Logging**: Pino logger for structured, high-speed server execution logging.
-- **Rate Limiting**: Optional rate-limiting helper configured using Upstash Redis.
+- **Health Probes**: `GET /api/health` for load balancers and container orchestration.
 
 ---
 

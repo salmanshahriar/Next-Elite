@@ -84,14 +84,11 @@ Set the environment variables from `.env.example` in your Vercel project (Produc
 
 ### API & Data Fetching
 
-- **TanStack Query (React Query)** - Powerful client-side state management, caching, and data synchronization.
-- **apiFetch Client** - A custom Zod-validated `ofetch` wrapper in `src/libs/api-client.ts` supporting type-safe queries and mutations. Includes a complete `users` example feature.
+- **TanStack Query (React Query)** - Pre-configured `QueryClientProvider` in `src/app/providers.tsx` with sensible defaults (`staleTime`, `gcTime`, retry). Ready to wire `useQuery` / `useMutation` hooks to your REST, GraphQL, or BFF endpoints.
 
 ### Observability & Infrastructure
 
 - **Sentry Integration** - Complete error tracking and performance instrumentation for client and server.
-- **Logging** - Clean, fast server-side logging using `pino`.
-- **Rate Limiting** - Optional rate-limiting helper using Upstash Redis.
 - **Health Probes** - Direct `GET /api/health` endpoint for load balancers.
 
 ### Quality Gates & Tooling
@@ -181,12 +178,12 @@ This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, etc.)
 
 ### Dokploy Deployment
 
-This template is ready for [Dokploy](https://dokploy.com) — the open-source PaaS.
+This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS.
 
 1. Create a new **Application** in Dokploy and point it to your fork of this repo.
 2. Set the build type to **Dockerfile** (auto-detected).
 3. Configure environment variables via the Dokploy UI (see `.env.example` for the full list).
-4. Deploy — Dokploy automatically builds and runs the container with health checks.
+4. Deploy - Dokploy automatically builds and runs the container with health checks.
 
 The included `HEALTHCHECK` instruction pings `/api/health` so Dokploy
 can monitor and restart the container if it becomes unresponsive.
@@ -210,7 +207,7 @@ flowchart TB
 
     subgraph Client["Client (runs in browser)"]
         Hook["useQuery (TanStack Query)"]
-        Hook -->|apiFetch| Api["/api or your backend URL"]
+        Hook -->|fetch| Api["Your backend API"]
     end
 
     Page -->|sends HTML| User
@@ -236,10 +233,10 @@ flowchart TB
 
 **How a request flows:**
 
-1. **User opens a page** — the Server Component renders first.
-2. **Auth + role check** — `requireUser()` / `requirePermission()` read the BetterAuth session and redirect to `/login` or `/unauthorized` if needed.
+1. **User opens a page** - the Server Component renders first.
+2. **Auth + role check** - `requireUser()` / `requirePermission()` read the BetterAuth session and redirect to `/login` or `/unauthorized` if needed.
 3. **HTML is sent** to the browser; translations come from `messages/` via `next-intl`.
-4. **Live data** (lists, forms, etc.) is fetched on the client with TanStack Query → `apiFetch` → your API.
+4. **Live data** (lists, forms, etc.) is fetched on the client with TanStack Query → your API (REST/GraphQL/BFF).
 
 <details>
 <summary><b>View Auth & RBAC Usage</b></summary>
@@ -247,10 +244,14 @@ flowchart TB
 ```ts
 // Server Component example
 import { requirePermission } from '@/features/auth/rbac/require';
+import { getTranslations } from 'next-intl/server';
 
 const AdminDashboardPage = async () => {
-  const user = await requirePermission('dashboard.view:admin');
-  return <h1>Welcome {user.email}</h1>;
+  const [, t] = await Promise.all([
+    requirePermission('dashboard.view:admin'),
+    getTranslations('dashboard.admin'),
+  ]);
+  return <h1>{t('title')}</h1>;
 };
 
 export default AdminDashboardPage;
@@ -299,13 +300,13 @@ const form = useForm<LoginInput>({
 ├── next.config.mjs
 ├── package.json              scripts; Prettier + Commitlint config
 ├── package-lock.json         npm lockfile (single source of truth)
-├── proxy.ts                  Next.js middleware (pass-through)
+├── proxy.ts                  Next.js 16 network proxy (pass-through)
 ├── tsconfig.json
 ├── lefthook.yml              Git hooks (pre-commit, commit-msg)
 ├── src/
 │   ├── app/                  App Router
 │   │   ├── (auth)/           Login & auth pages
-│   │   ├── (public)/         Marketing pages (home, about)
+│   │   ├── (public)/         Marketing pages (home, about, ui-components)
 │   │   ├── (protected)/      Authenticated area + RBAC
 │   │   │   ├── @admin/       Admin dashboard slot
 │   │   │   ├── @user/        User dashboard slot
@@ -330,14 +331,11 @@ const form = useForm<LoginInput>({
 │   │   │   ├── rbac/         permissions, roles, can, require
 │   │   │   └── schemas/      Zod login + register schemas
 │   │   ├── i18n/             next-intl config (routing, request, actions)
-│   │   ├── navigation/       Header + Sidebar
+│   │   ├── navigation/       Header, sidebar, topbar, top loader
 │   │   ├── site/             siteConfig + locale utilities
-│   │   ├── theme/            Theme provider + toggle
-│   │   └── users/            Example feature: api, hooks, schemas
-│   ├── hooks/                Cross-feature hooks
-│   ├── libs/                 Cross-cutting infra (api-client, env, logger,
-│   │                         rate-limit, query-client, utils)
-│   ├── schemas/              Cross-cutting Zod schemas (api responses)
+│   │   └── theme/            Theme provider + toggle
+│   ├── hooks/                Cross-feature hooks (use-scroll)
+│   ├── libs/                 Cross-cutting infra (env, query-client, utils)
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
@@ -354,7 +352,7 @@ const form = useForm<LoginInput>({
 
 Every variable is documented in [`.env.example`](.env.example) and validated by `src/libs/env.ts` (T3 Env).
 
-- `BETTER_AUTH_URL` is optional — derived from `VERCEL_URL` in production, `http://localhost:3000` locally.
+- `BETTER_AUTH_URL` is optional - derived from `VERCEL_URL` in production, `http://localhost:3000` locally.
 - `BETTER_AUTH_SECRET` (32+ chars) must be set at runtime in production. A missing secret logs a warning instead of crashing the build.
 - Set `SKIP_ENV_VALIDATION=true` in CI / Docker build steps when env vars aren't available yet.
 
@@ -367,7 +365,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
   "appName": "Next Elite",
   "domain": "https://yourdomain.com",
   "tagline": "Frontend-first, API-driven, batteries included.",
-  "title": "Next Elite — Production-Ready SaaS Boilerplate",
+  "title": "Next Elite - Production-Ready SaaS Boilerplate",
   "description": "Frontend-first Next.js 16 + React 19 boilerplate with i18n, RBAC and BetterAuth."
 }
 ```
@@ -385,7 +383,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 1. Append the role to the `UserRole` union in `src/features/auth/rbac/permissions.ts`.
 2. Map permissions for the role in `src/features/auth/rbac/roles.ts`.
-3. Optional: add a parallel route slot — `src/app/(protected)/@<role>/...` — and update `(protected)/layout.tsx` to render it based on permissions.
+3. Optional: add a parallel route slot - `src/app/(protected)/@<role>/...` - and update `(protected)/layout.tsx` to render it based on permissions.
 </details>
 
 <br/>
@@ -397,7 +395,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 | Command              | Description                                  |
 | -------------------- | -------------------------------------------- |
-| `npm run dev`        | Start the dev server (Turbopack)             |
+| `npm run dev`        | Start the dev server                         |
 | `npm run build`      | Production build                             |
 | `npm run start`      | Start the production server                  |
 | `npm run analyze`    | Build with `@next/bundle-analyzer`           |
@@ -425,9 +423,9 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 <details>
 <summary><b>CI/CD Pipeline</b></summary>
 
-- `.github/workflows/check.yml` — typecheck → lint → knip → unit tests → build, on every push and PR.
-- `.github/workflows/playwright.yml` — full Playwright suite (Chromium, Firefox, WebKit).
-- `.github/renovate.json` — groups non-major dependency updates and automerges patches.
+- `.github/workflows/check.yml` - typecheck → lint → knip → unit tests → build, on every push and PR.
+- `.github/workflows/playwright.yml` - full Playwright suite (Chromium, Firefox, WebKit).
+- `.github/renovate.json` - groups non-major dependency updates and automerges patches.
 </details>
 
 <br/>
@@ -466,7 +464,5 @@ MIT [LICENSE](LICENSE)
 ### If this boilerplate saved you time, a star helps more devs discover it
 
 [![GitHub stars](https://img.shields.io/github/stars/salmanshahriar/Next-Elite?style=social)](https://github.com/salmanshahriar/Next-Elite/stargazers)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=salmanshahriar/Next-Elite&type=date&legend=bottom-right)](https://www.star-history.com/#salmanshahriar/Next-Elite&type=date&legend=bottom-right)
 
 </div>

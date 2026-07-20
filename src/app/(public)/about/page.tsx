@@ -27,22 +27,22 @@ const audienceItems = [
 const stackItems = [
   'Next.js 16 App Router with React 19 and Tailwind v4',
   '40+ shadcn/ui primitives plus custom components with a live showcase',
-  'ofetch API layer with TanStack Query for server-state caching',
+  'TanStack Query for client-side server-state caching',
   'React Hook Form + Zod for typed forms and inline validation',
 ];
 
 const platformItems = [
   'BetterAuth with email/password, Google OAuth, and permission-based RBAC',
   'Parallel /dashboard routes with @user and @admin slots',
-  'Type-safe i18n via next-intl — 6 locales with Arabic RTL support',
+  'Type-safe i18n via next-intl - 6 locales with Arabic RTL support',
   'Server-first SEO, PWA manifest, sitemap, robots, and JSON-LD',
 ];
 
 const dxItems = [
   'T3 Env for build-time validation of server and client variables',
-  'Sentry monitoring and Upstash rate limiting hooks',
+  'Sentry monitoring for client and server errors',
   'ESLint, Prettier, Knip, Lefthook, Vitest, and Playwright',
-  'npm run check — typecheck, lint, knip, and tests in one command',
+  'npm run check - typecheck, lint, knip, and tests in one command',
 ];
 
 function AboutCard({

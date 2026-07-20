@@ -48,9 +48,9 @@
     "Permission-based RBAC with parallel routes",
     "BetterAuth with Google OAuth and permission-based RBAC",
     "Type-safe environment variables with @t3-oss/env-nextjs",
-    "API layer with ofetch + TanStack Query",
+    "TanStack Query for client-side data caching",
     "React Hook Form + Zod validation",
-    "Sentry monitoring + Upstash rate limiting",
+    "Sentry monitoring for client and server errors",
     "Full SEO suite (OpenGraph, Twitter Cards, JSON-LD, sitemap, robots)"
   ],
   "languages": {
