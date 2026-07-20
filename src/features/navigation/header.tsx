@@ -26,33 +26,28 @@ const Header = () => {
   const headerActive = scrolled || mobileMenuOpen;
 
   const handleMobileMenuToggle = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+    setMobileMenuOpen((open) => {
+      const next = !open;
+      document.body.classList.toggle('overflow-hidden', next);
+      return next;
+    });
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    document.body.classList.remove('overflow-hidden');
   };
 
   useEffect(() => {
     setHeaderChromeActive(headerActive);
-  }, [headerActive]);
-
-  useEffect(() => {
-    const onThemeChange = () => setHeaderChromeActive(headerActive);
-    window.addEventListener('theme-change', onThemeChange);
-    return () => window.removeEventListener('theme-change', onThemeChange);
-  }, [headerActive]);
-
-  useEffect(() => {
     return () => setHeaderChromeActive(false);
-  }, []);
+  }, [headerActive]);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
     return () => {
       document.body.classList.remove('overflow-hidden');
     };
-  }, [mobileMenuOpen]);
+  }, []);
 
   return (
     <header
@@ -171,7 +166,7 @@ const Header = () => {
             <nav className="flex flex-col gap-1">
               <Link
                 href="/"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/'
@@ -183,7 +178,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/ui-components"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/ui-components'
@@ -195,7 +190,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/about"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/about'
@@ -208,7 +203,7 @@ const Header = () => {
               {user && (
                 <Link
                   href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={closeMobileMenu}
                   className={cn(
                     'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                     pathname?.startsWith('/dashboard')
@@ -225,7 +220,7 @@ const Header = () => {
               {user ? (
                 <UserDropdown
                   contentClassName="w-56"
-                  onLogout={() => setMobileMenuOpen(false)}
+                  onLogout={closeMobileMenu}
                 />
               ) : (
                 <Button
@@ -233,7 +228,7 @@ const Header = () => {
                   size="sm"
                   className="h-8 rounded-full px-3 text-xs"
                 >
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/login" onClick={closeMobileMenu}>
                     {t('login')}
                   </Link>
                 </Button>

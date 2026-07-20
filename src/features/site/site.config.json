@@ -139,7 +139,7 @@
   "icons": {
     "favicon": "/favicon.ico",
     "svg": "/icon.svg",
-    "appleTouchIcon": "/apple-touch-icon.png"
+    "appleTouchIcon": "/logo.svg"
   },
   "theme": {
     "dark": "#09090b",

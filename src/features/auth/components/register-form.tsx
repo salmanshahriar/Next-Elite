@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../hooks/auth-provider';
 import { registerSchema, type RegisterInput } from '../schemas/register';
@@ -28,10 +28,6 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
-
-  useEffect(() => {
-    if (!isLoading && user) router.replace('/dashboard');
-  }, [user, isLoading, router]);
 
   const onSubmit = form.handleSubmit(async (values) => {
     setServerError(null);

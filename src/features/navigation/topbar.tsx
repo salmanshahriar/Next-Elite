@@ -87,15 +87,12 @@ export function Topbar() {
         </div>
       </div>
 
-      {/* Right Hand Actions */}
       <div className="flex items-center gap-3">
-        {/* Theme and Translation Selectors */}
         <div className="flex items-center gap-1 border-e border-border/40 pe-3">
           <ThemeToggle />
           <LanguageSwitcher />
         </div>
 
-        {/* User Account Menu */}
         {user && <UserDropdown hideEmailOnMobile />}
       </div>
     </header>

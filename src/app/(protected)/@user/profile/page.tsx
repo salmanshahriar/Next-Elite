@@ -3,8 +3,10 @@ import { requirePermission } from '@/features/auth/rbac/require';
 import { getTranslations } from 'next-intl/server';
 
 const UserProfilePage = async () => {
-  await requirePermission('dashboard.view:user');
-  const t = await getTranslations('profile');
+  const [, t] = await Promise.all([
+    requirePermission('dashboard.view:user'),
+    getTranslations('profile'),
+  ]);
 
   return (
     <PageLayout>

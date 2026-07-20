@@ -402,7 +402,10 @@ function ShowcaseSection({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 space-y-6">
+    <section
+      id={id}
+      className="scroll-mt-24 space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]"
+    >
       <div className="space-y-1">
         <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
         {description ? (

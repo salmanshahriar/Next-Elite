@@ -7,20 +7,20 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
+import { env } from '@/libs/env';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  DemoCredentials,
-  isDemoMode,
-  signInWithDemoFallback,
-  type DemoAccount,
-} from '../demo';
+import { type DemoAccount } from '../demo/accounts';
+import DemoCredentials from '../demo/demo-credentials';
+import { signInWithDemoFallback } from '../demo/sign-in';
 import { useAuth } from '../hooks/auth-provider';
 import { loginSchema, type LoginInput } from '../schemas/login';
+
+const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;
 
 const LoginForm = () => {
   const t = useTranslations('auth.login');
@@ -34,10 +34,6 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
-
-  useEffect(() => {
-    if (!isLoading && user) router.replace('/dashboard');
-  }, [user, isLoading, router]);
 
   const onSubmit = form.handleSubmit(async (values) => {
     setServerError(null);

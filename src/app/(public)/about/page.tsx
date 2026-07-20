@@ -48,11 +48,9 @@ const dxItems = [
 function AboutCard({
   title,
   children,
-  isRtl: _isRtl,
 }: {
   title: string;
   children: React.ReactNode;
-  isRtl: boolean;
 }) {
   return (
     <div
@@ -70,7 +68,7 @@ function AboutCard({
   );
 }
 
-function AboutCheckList({ items }: { items: string[]; isRtl: boolean }) {
+function AboutCheckList({ items }: { items: string[] }) {
   return (
     <ul className="mt-2 space-y-2.5 text-start text-[11px] text-muted-foreground">
       {items.map((item) => (
@@ -104,29 +102,29 @@ const AboutPage = async () => {
           </header>
 
           <div className="grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 lg:gap-8">
-            <AboutCard title={`What is ${siteConfig.appName}?`} isRtl={isRtl}>
+            <AboutCard title={`What is ${siteConfig.appName}?`}>
               <div className="space-y-3 text-xs leading-relaxed text-muted-foreground">
                 <p>{siteConfig.tagline}</p>
                 <p>{siteConfig.description}</p>
               </div>
             </AboutCard>
 
-            <AboutCard title="Who is it for?" isRtl={isRtl}>
-              <AboutCheckList items={audienceItems} isRtl={isRtl} />
+            <AboutCard title="Who is it for?">
+              <AboutCheckList items={audienceItems} />
             </AboutCard>
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3 lg:gap-8">
-            <AboutCard title="Stack & UI" isRtl={isRtl}>
-              <AboutCheckList items={stackItems} isRtl={isRtl} />
+            <AboutCard title="Stack & UI">
+              <AboutCheckList items={stackItems} />
             </AboutCard>
 
-            <AboutCard title="Auth & platform" isRtl={isRtl}>
-              <AboutCheckList items={platformItems} isRtl={isRtl} />
+            <AboutCard title="Auth & platform">
+              <AboutCheckList items={platformItems} />
             </AboutCard>
 
-            <AboutCard title="DX & quality" isRtl={isRtl}>
-              <AboutCheckList items={dxItems} isRtl={isRtl} />
+            <AboutCard title="DX & quality">
+              <AboutCheckList items={dxItems} />
             </AboutCard>
           </div>
         </div>

@@ -200,6 +200,10 @@ function ComponentShowcaseGrid() {
   );
 }
 
+const SCORE_GAUGE_GLOW_STYLE = {
+  filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.45))',
+} as const;
+
 function ScoreGauge({
   label,
   targetScore,
@@ -212,26 +216,37 @@ function ScoreGauge({
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let idleId: number | undefined;
 
-    const timerId = setTimeout(() => {
-      let current = 0;
-      intervalId = setInterval(() => {
-        current += 2;
-        if (current >= targetScore) {
-          setScore(targetScore);
-          clearInterval(intervalId);
-        } else {
-          setScore(current);
-        }
-      }, 15);
-    }, delay);
+    const startAnimation = () => {
+      timeoutId = setTimeout(() => {
+        let current = 0;
+        intervalId = setInterval(() => {
+          current += 2;
+          if (current >= targetScore) {
+            setScore(targetScore);
+            if (intervalId) clearInterval(intervalId);
+          } else {
+            setScore(current);
+          }
+        }, 15);
+      }, delay);
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(startAnimation);
+    } else {
+      startAnimation();
+    }
 
     return () => {
-      clearTimeout(timerId);
-      if (intervalId) {
-        clearInterval(intervalId);
+      if (idleId !== undefined && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId);
       }
+      if (timeoutId) clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
     };
   }, [targetScore, delay]);
 
@@ -267,9 +282,7 @@ function ScoreGauge({
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             className="transition-all duration-75 ease-out"
-            style={{
-              filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.45))',
-            }}
+            style={SCORE_GAUGE_GLOW_STYLE}
           />
         </svg>
         <span className="xs:text-2xl absolute inset-0 flex items-center justify-center text-xl font-black text-success sm:text-4xl">
@@ -337,13 +350,11 @@ function FeatureCard({
   icon: IconComponent,
   title,
   description,
-  badges: _badges,
   details,
 }: {
   icon: LucideIcon;
   title: string;
   description: string;
-  badges?: { label: string; value: string }[];
   details: string[];
 }) {
   return (
@@ -386,7 +397,6 @@ const secondaryFeatures = [
     icon: Cpu,
     title: 'Modern stack, lean setup',
     description: 'Next.js 16 App Router, React 19, Tailwind v4.',
-    badges: [{ label: 'Framework', value: 'Next.js 16 + React 19' }],
     details: [
       'RSC-first; client components only when needed',
       'TypeScript strict mode with path aliases',
@@ -397,7 +407,6 @@ const secondaryFeatures = [
     icon: Search,
     title: 'SEO + PWA, server-first',
     description: 'Metadata, sitemap & manifest generated on server.',
-    badges: [{ label: 'SEO', value: 'OG + JSON-LD' }],
     details: [
       'Open Graph, Twitter cards, and JSON-LD metadata',
       'sitemap.ts and robots.ts metadata routes',
@@ -408,7 +417,6 @@ const secondaryFeatures = [
     icon: Shuffle,
     title: 'Parallel routing',
     description: 'One URL per feature; role-specific UI via slots.',
-    badges: [{ label: 'Routes', value: '@user · @admin' }],
     details: [
       'Same /dashboard path for every role',
       '@user and @admin slots render the right dashboard',
@@ -419,7 +427,6 @@ const secondaryFeatures = [
     icon: Globe,
     title: 'Type-safe i18n',
     description: 'Type-safe next-intl with cookie locale and RTL.',
-    badges: [{ label: 'i18n', value: '6 locales + RTL' }],
     details: [
       'NEXT_LOCALE cookie; no URL prefixes needed',
       'Typed messages via global.d.ts declarations',
@@ -430,7 +437,6 @@ const secondaryFeatures = [
     icon: FileText,
     title: 'Forms + validation',
     description: 'Zod schemas, React Hook Form for form handling.',
-    badges: [{ label: 'Validation', value: 'React Hook Form + Zod' }],
     details: [
       'Zod schemas for login, register, and reset',
       'Inferred types with z.infer inside auth forms',
@@ -441,7 +447,6 @@ const secondaryFeatures = [
     icon: Shield,
     title: 'Type-safe environment',
     description: 'T3 Env validates every variable with Zod.',
-    badges: [{ label: 'Env', value: 'T3 Env + Zod' }],
     details: [
       'Server secrets and NEXT_PUBLIC_* client vars validated',
       'Zod validates URLs, booleans, and required secrets',
@@ -542,7 +547,6 @@ function HeroSection({
               icon={feature.icon}
               title={feature.title}
               description={feature.description}
-              badges={feature.badges}
               details={feature.details}
             />
           ))}
