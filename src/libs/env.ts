@@ -19,7 +19,7 @@ const booleanFromString = z
 const defaultAuthUrl = () => {
   if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return 'http://localhost:3000';
+  return 'http://localhost:6767';
 };
 
 const PLACEHOLDER_AUTH_SECRET = 'PLEASE_SET_BETTER_AUTH_SECRET_32_CHARS_MIN';

@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "singleQuote": true,
+  "singleAttributePerLine": false,
+  "htmlWhitespaceSensitivity": "css",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "sortPackageJson": false,
+  "sortTailwindcss": {
+    "stylesheet": "src/app/globals.css",
+    "functions": ["clsx", "cn"]
+  },
+  "ignorePatterns": [
+    ".next",
+    "node_modules",
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "*.min.js",
+    "public",
+    ".agents"
+  ]
+}

@@ -23,5 +23,6 @@ test('health check returns ok', async ({ request }) => {
 test('login page loads', async ({ page }) => {
   await page.goto('/login');
   await expect(page).toHaveURL(/\/login/);
-  await expect(page.getByRole('textbox', { name: /email/i })).toBeVisible();
+  await expect(page.locator('#email')).toBeVisible();
+  await expect(page.locator('#password')).toBeVisible();
 });

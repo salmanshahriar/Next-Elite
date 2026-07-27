@@ -30,7 +30,6 @@
   },
   "navigation": {
     "home": "Inicio",
-    "about": "Acerca de",
     "services": "Servicios",
     "contact": "Contacto",
     "language": "Idioma",
@@ -89,9 +88,6 @@
       "stack": "Next.js 16, TypeScript y Tailwind",
       "ui-experience": "Componentes shadcn/ui totalmente personalizables"
     }
-  },
-  "about": {
-    "title": "Acerca de"
   },
   "dashboard": {
     "admin": {

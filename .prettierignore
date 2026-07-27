@@ -1,7 +1,0 @@
-.next
-node_modules
-pnpm-lock.yaml
-package-lock.json
-*.min.js
-public
-.agents

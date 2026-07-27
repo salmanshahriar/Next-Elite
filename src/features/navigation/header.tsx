@@ -87,17 +87,6 @@ const Header = () => {
             >
               {t('uiComponents')}
             </Link>
-            <Link
-              href="/about"
-              className={cn(
-                'rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                pathname === '/about'
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
-              )}
-            >
-              {t('about')}
-            </Link>
             {user && (
               <Link
                 href="/dashboard"
@@ -187,18 +176,6 @@ const Header = () => {
                 )}
               >
                 {t('uiComponents')}
-              </Link>
-              <Link
-                href="/about"
-                onClick={closeMobileMenu}
-                className={cn(
-                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                  pathname === '/about'
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
-                )}
-              >
-                {t('about')}
               </Link>
               {user && (
                 <Link

@@ -1558,11 +1558,11 @@ export function UiComponentsShowcase() {
             <ComponentBlock id="navigation-text-link" title="Text Link">
               <SubLabel>Variants</SubLabel>
               <div className="flex flex-wrap items-center gap-6">
-                <TextLink href="/about">Default link</TextLink>
-                <TextLink href="/about" variant="underlined">
+                <TextLink href="/">Default link</TextLink>
+                <TextLink href="/" variant="underlined">
                   Underlined link
                 </TextLink>
-                <TextLink href="/about" className="text-primary">
+                <TextLink href="/" className="text-primary">
                   Primary link
                 </TextLink>
               </div>
@@ -1595,7 +1595,7 @@ export function UiComponentsShowcase() {
                           </li>
                           <li>
                             <NavigationMenuLink
-                              href="/about"
+                              href="/"
                               className="block rounded-md p-2 text-sm hover:bg-accent"
                             >
                               About

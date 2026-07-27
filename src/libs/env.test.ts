@@ -83,7 +83,7 @@ describe('defaultAuthUrl logic', () => {
   function resolveAuthUrl(betterAuthUrl?: string, vercelUrl?: string): string {
     if (betterAuthUrl) return betterAuthUrl;
     if (vercelUrl) return `https://${vercelUrl}`;
-    return 'http://localhost:3000';
+    return 'http://localhost:6767';
   }
 
   it('prioritizes BETTER_AUTH_URL', () => {
@@ -98,9 +98,9 @@ describe('defaultAuthUrl logic', () => {
     );
   });
 
-  it('falls back to localhost:3000 when neither is set', () => {
-    expect(resolveAuthUrl('', '')).toBe('http://localhost:3000');
-    expect(resolveAuthUrl(undefined, undefined)).toBe('http://localhost:3000');
+  it('falls back to localhost:6767 when neither is set', () => {
+    expect(resolveAuthUrl('', '')).toBe('http://localhost:6767');
+    expect(resolveAuthUrl(undefined, undefined)).toBe('http://localhost:6767');
   });
 });
 

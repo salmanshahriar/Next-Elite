@@ -24,9 +24,8 @@ const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;
 
 const LoginForm = () => {
   const t = useTranslations('auth.login');
-  const tCommon = useTranslations('common');
   const router = useRouter();
-  const { signIn, signUp, user, isLoading, signInWithGoogle, isGoogleEnabled } =
+  const { signIn, signUp, signInWithGoogle, isGoogleEnabled, user, isLoading } =
     useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -63,15 +62,7 @@ const LoginForm = () => {
     setServerError(null);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center px-4 py-10">
-        <div>{tCommon('loading')}</div>
-      </div>
-    );
-  }
-
-  if (user) return null;
+  if (!isLoading && user) return null;
 
   const emailError = form.formState.errors.email?.message;
   const passwordError = form.formState.errors.password?.message;
