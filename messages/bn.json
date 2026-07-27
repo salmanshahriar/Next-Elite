@@ -105,8 +105,10 @@
       "rbac": "অ্যাডভান্সড রোল-বেসড অ্যাক্সেস কন্ট্রোল (RBAC)",
       "seo": "প্রোগ্রাম্যাটিক SEO এবং ডায়নামিক মেটাডেটা",
       "production": "প্রোডাকশন-অপ্টিমাইজড SaaS আর্কিটেকচার",
-      "stack": "Next.js 16, TypeScript এবং Tailwind",
-      "ui-experience": "সম্পূর্ণ কাস্টমাইজেবল থিমেবল shadcn/ui কম্পোনেন্টস"
+      "stack": "Next.js 16, React 19, TypeScript এবং Tailwind v4",
+      "ui-experience": "সম্পূর্ণ কাস্টমাইজেবল থিমেবল shadcn/ui কম্পোনেন্টস",
+      "testing": "Vitest + Playwright এবং renderWithProviders হেল্পার",
+      "tooling": "Oxlint + Oxfmt এবং Lefthook pre-commit হুক"
     }
   },
   "profile": {

@@ -105,8 +105,10 @@
       "rbac": "تحكم متقدم في الوصول القائم على الأدوار (RBAC)",
       "seo": "سيو برمجي وبيانات وصفية ديناميكية",
       "production": "بنية SaaS محسنة للإنتاج",
-      "stack": "Next.js 16، TypeScript و Tailwind",
-      "ui-experience": "مكونات shadcn/ui قابلة للتخصيص"
+      "stack": "Next.js 16 و React 19 و TypeScript و Tailwind v4",
+      "ui-experience": "مكونات shadcn/ui قابلة للتخصيص",
+      "testing": "Vitest + Playwright مع renderWithProviders",
+      "tooling": "Oxlint + Oxfmt مع خطافات Lefthook pre-commit"
     }
   },
   "profile": {

@@ -85,8 +85,10 @@
       "rbac": "高级角色访问控制 (RBAC)",
       "seo": "程序化 SEO 和动态元数据",
       "production": "针对生产优化的 SaaS 架构",
-      "stack": "Next.js 16, TypeScript 和 Tailwind",
-      "ui-experience": "完全可定制的 shadcn/ui 组件"
+      "stack": "Next.js 16、React 19、TypeScript 和 Tailwind v4",
+      "ui-experience": "完全可定制的 shadcn/ui 组件",
+      "testing": "Vitest + Playwright，含 renderWithProviders 辅助函数",
+      "tooling": "Oxlint + Oxfmt，配合 Lefthook 预提交钩子"
     }
   },
   "dashboard": {

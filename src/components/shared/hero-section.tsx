@@ -17,20 +17,13 @@ import {
   siteConfig,
   type Locale,
 } from '@/features/site/config';
+import {
+  homeFeatures,
+  renderHighlightedText,
+} from '@/features/site/home-features';
 import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
 import { cn } from '@/libs/utils';
-import {
-  Calendar as CalendarIcon,
-  Check,
-  Cpu,
-  FileText,
-  Globe,
-  Search,
-  Shield,
-  Shuffle,
-  Star,
-  type LucideIcon,
-} from 'lucide-react';
+import { Calendar as CalendarIcon, Check, Star } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import TextLink from './text-link';
@@ -346,17 +339,9 @@ function DeployDemoVisual() {
   );
 }
 
-function FeatureCard({
-  icon: IconComponent,
-  title,
-  description,
-  details,
-}: {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  details: string[];
-}) {
+function FeatureCard({ feature }: { feature: (typeof homeFeatures)[number] }) {
+  const { icon: IconComponent, title, description, details } = feature;
+
   return (
     <Card
       hover
@@ -380,80 +365,19 @@ function FeatureCard({
 
       <ul className="mt-6 space-y-2.5 text-[11px] text-muted-foreground">
         {details.map((detail) => (
-          <li key={detail} className="flex items-start gap-2.5">
+          <li key={detail.text} className="flex items-start gap-2.5">
             <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20">
               <Check className="h-2.5 w-2.5 stroke-[3]" />
             </div>
-            <span className="leading-normal">{detail}</span>
+            <span className="leading-normal">
+              {renderHighlightedText(detail.text, detail.highlights)}
+            </span>
           </li>
         ))}
       </ul>
     </Card>
   );
 }
-
-const secondaryFeatures = [
-  {
-    icon: Cpu,
-    title: 'Modern stack, lean setup',
-    description: 'Next.js 16 App Router, React 19, Tailwind v4.',
-    details: [
-      'RSC-first; client components only when needed',
-      'TypeScript strict mode with path aliases',
-      'API-driven; no forced database layer',
-    ],
-  },
-  {
-    icon: Search,
-    title: 'SEO + PWA, server-first',
-    description: 'Metadata, sitemap & manifest generated on server.',
-    details: [
-      'Open Graph, Twitter cards, and JSON-LD metadata',
-      'sitemap.ts and robots.ts metadata routes',
-      'Web manifest and canonical URL from site config',
-    ],
-  },
-  {
-    icon: Shuffle,
-    title: 'Parallel routing',
-    description: 'One URL per feature; role-specific UI via slots.',
-    details: [
-      'Same /dashboard path for every role',
-      '@user and @admin slots render the right dashboard',
-      'Layout picks the active slot from permissions',
-    ],
-  },
-  {
-    icon: Globe,
-    title: 'Type-safe i18n',
-    description: 'Type-safe next-intl with cookie locale and RTL.',
-    details: [
-      'NEXT_LOCALE cookie; no URL prefixes needed',
-      'Typed messages via global.d.ts declarations',
-      'Six locales with RTL support for Arabic',
-    ],
-  },
-  {
-    icon: FileText,
-    title: 'Forms + validation',
-    description: 'Zod schemas, React Hook Form for form handling.',
-    details: [
-      'Zod schemas for login, register, and reset',
-      'Inferred types with z.infer inside auth forms',
-      'zodResolver plus InputError for accessible inline errors',
-    ],
-  },
-  {
-    icon: Shield,
-    title: 'Type-safe environment',
-    description: 'T3 Env validates every variable with Zod.',
-    details: [
-      'Server secrets and NEXT_PUBLIC_* client vars validated',
-      'Zod validates URLs, booleans, and required secrets',
-      'SKIP_ENV_VALIDATION for CI, Vitest, and lint checks',
-    ],
-  },
-];
 
 function HeroSection({
   locale,
@@ -518,7 +442,7 @@ function HeroSection({
         />
         <HomeCard
           title="Better Auth"
-          description="Enterprise-grade user management powered by BetterAuth. Includes session handling, social logins, and role-based access control out of the box."
+          description="Enterprise-grade auth with Better Auth - email/password, Google OAuth, session handling, and permission-based RBAC out of the box."
           demo={<AuthDemoVisual />}
         />
         <HomeCard
@@ -541,14 +465,8 @@ function HeroSection({
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {secondaryFeatures.map((feature) => (
-            <FeatureCard
-              key={feature.title}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-              details={feature.details}
-            />
+          {homeFeatures.map((feature) => (
+            <FeatureCard key={feature.title} feature={feature} />
           ))}
         </div>
       </div>

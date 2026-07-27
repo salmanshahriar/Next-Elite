@@ -85,8 +85,10 @@
       "rbac": "Contrôle d'accès basé sur les rôles avancé",
       "seo": "SEO programmatique et métadonnées dynamiques",
       "production": "Architecture SaaS optimisée pour la production",
-      "stack": "Next.js 16, TypeScript et Tailwind",
-      "ui-experience": "Composants shadcn/ui entièrement personnalisables et thématiques"
+      "stack": "Next.js 16, React 19, TypeScript et Tailwind v4",
+      "ui-experience": "Composants shadcn/ui entièrement personnalisables et thématiques",
+      "testing": "Vitest + Playwright avec renderWithProviders",
+      "tooling": "Oxlint + Oxfmt avec hooks pre-commit Lefthook"
     }
   },
   "dashboard": {
