@@ -98,6 +98,7 @@
   "overrides": {
     "kysely": "0.28.17",
     "postcss": "8.5.23",
+    "sharp": "0.35.3",
     "uuid": "^14.0.0"
   },
   "commitlint": {
@@ -111,5 +112,12 @@
         200
       ]
     }
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "@sentry/cli@2.58.6": true,
+    "lefthook@2.1.10": true,
+    "@swc/core@1.15.32": true,
+    "sharp@0.35.3": true
   }
 }
