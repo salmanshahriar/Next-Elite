@@ -1,6 +1,11 @@
+import { getCurrentUser } from '@/features/auth/server/get-current-user';
+import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = async ({ children }: { children: ReactNode }) => {
+  const user = await getCurrentUser();
+  if (user) redirect('/dashboard');
+
   return (
     <main
       id="main-content"

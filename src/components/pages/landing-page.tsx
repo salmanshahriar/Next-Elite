@@ -14,29 +14,181 @@ import {
 } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
 import TextLink from '@/components/shared/text-link';
-import {
-  getLocaleDirection,
-  siteConfig,
-  type Locale,
-} from '@/features/site/config';
-import {
-  homeFeatures,
-  renderHighlightedText,
-} from '@/features/site/home-features';
-import { githubRepoUrl, vercelDeployUrl } from '@/features/site/github';
+import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
 import {
   Calendar as CalendarIcon,
   Check,
   Copy,
+  Cpu,
+  FileText,
+  FlaskConical,
+  Globe,
+  Search,
+  Shuffle,
   Star,
   Terminal,
+  type LucideIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
+import { createElement, Fragment, useState } from 'react';
 import { toast } from 'sonner';
 
 const EXTERNAL_LINK = { target: '_blank', rel: 'noopener noreferrer' } as const;
+
+const githubRepoUrl = 'https://github.com/salmanshahriar/Next-Elite';
+
+const vercelDeployUrl =
+  'https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite';
+
+const HIGHLIGHT_CLASS = 'font-semibold text-primary';
+
+type HomeFeatureDetail = {
+  text: string;
+  highlights?: readonly string[];
+};
+
+type HomeFeature = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  details: readonly HomeFeatureDetail[];
+};
+
+function renderHighlightedText(
+  text: string,
+  highlights: readonly string[] = [],
+): ReactNode {
+  if (highlights.length === 0) return text;
+
+  const pattern = highlights
+    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('|');
+  const parts = text.split(new RegExp(`(${pattern})`, 'g')).filter(Boolean);
+
+  return parts.map((part, index) =>
+    highlights.includes(part)
+      ? createElement('span', { key: index, className: HIGHLIGHT_CLASS }, part)
+      : createElement(Fragment, { key: index }, part),
+  );
+}
+
+const homeFeatures: readonly HomeFeature[] = [
+  {
+    icon: Cpu,
+    title: 'Modern stack, lean setup',
+    description: 'API-first Next.js starter. No database bundled.',
+    details: [
+      {
+        text: 'Next.js 16, React 19, and TypeScript ready to go',
+        highlights: ['Next.js 16', 'React 19', 'TypeScript'],
+      },
+      {
+        text: 'Organized feature folders in src/features/',
+        highlights: ['src/features/'],
+      },
+      {
+        text: 'Tailwind CSS 4, shadcn/ui, and TanStack Query included',
+        highlights: ['Tailwind CSS 4', 'shadcn/ui', 'TanStack Query'],
+      },
+    ],
+  },
+  {
+    icon: Search,
+    title: 'SEO + PWA, server-first',
+    description: 'Server-built SEO and installable PWA.',
+    details: [
+      {
+        text: 'site.config.json powers SEO, sitemap, robots, and manifest',
+        highlights: ['site.config.json'],
+      },
+      {
+        text: 'Open Graph, Twitter cards, and JSON-LD for rich previews',
+        highlights: ['Open Graph', 'JSON-LD'],
+      },
+      {
+        text: 'llms.txt for AI discovery; Sentry and /api/health monitoring',
+        highlights: ['llms.txt', 'Sentry', '/api/health'],
+      },
+    ],
+  },
+  {
+    icon: FlaskConical,
+    title: 'Testing & quality gates',
+    description: 'Tests and lint in one command.',
+    details: [
+      {
+        text: 'Oxlint + Oxfmt, Knip, Lefthook, and Commitlint on commit',
+        highlights: ['Oxlint + Oxfmt', 'Knip', 'Lefthook'],
+      },
+      {
+        text: 'Vitest unit tests with renderWithProviders helper',
+        highlights: ['Vitest', 'renderWithProviders'],
+      },
+      {
+        text: 'Playwright end-to-end tests in local dev and CI',
+        highlights: ['Playwright'],
+      },
+    ],
+  },
+  {
+    icon: Shuffle,
+    title: 'Parallel routing',
+    description: 'Auth and role-based dashboards.',
+    details: [
+      {
+        text: '@admin and @user slots, one /dashboard URL for all',
+        highlights: ['@admin', '@user', '/dashboard'],
+      },
+      {
+        text: 'Email, password, and Google sign-in with Better Auth',
+        highlights: ['Better Auth'],
+      },
+      {
+        text: 'Admin and user roles protected with requirePermission',
+        highlights: ['requirePermission'],
+      },
+    ],
+  },
+  {
+    icon: Globe,
+    title: 'Type-safe i18n',
+    description: 'Six languages. No locale in the URL.',
+    details: [
+      {
+        text: 'English, Bengali, Arabic RTL, French, Spanish, and Chinese',
+        highlights: ['RTL'],
+      },
+      {
+        text: 'NEXT_LOCALE cookie remembers language without /en prefixes',
+        highlights: ['NEXT_LOCALE'],
+      },
+      {
+        text: 'next-intl catches missing translation keys at build time',
+        highlights: ['next-intl'],
+      },
+    ],
+  },
+  {
+    icon: FileText,
+    title: 'Forms + validation',
+    description: 'Accessible forms with Zod validation.',
+    details: [
+      {
+        text: 'Zod schemas for login, sign-up, and password reset',
+        highlights: ['Zod'],
+      },
+      {
+        text: 'React Hook Form + zodResolver for type-safe input',
+        highlights: ['React Hook Form', 'zodResolver'],
+      },
+      {
+        text: 'InputError shows helpful inline messages per field',
+        highlights: ['InputError'],
+      },
+    ],
+  },
+];
 
 const GRADIENT_TEXT =
   'bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent';
@@ -199,19 +351,12 @@ function LandingActions({
   );
 }
 
-function HeroSection({
-  locale,
-  githubStars,
-}: {
-  locale: Locale;
-  githubStars?: string | null;
-}) {
+function HeroSection({ githubStars }: { githubStars?: string | null }) {
   const [switchChecked, setSwitchChecked] = useState(true);
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(2026, 5, 17),
   );
-  const isRtl = getLocaleDirection(locale) === 'rtl';
   const demoButtonClass =
     'h-9 w-24 cursor-default rounded-xl text-sm font-medium shadow-sm';
   const formattedDate = selectedDate?.toLocaleDateString('en-US', {
@@ -220,12 +365,7 @@ function HeroSection({
   });
 
   return (
-    <section
-      className={cn(
-        'mx-auto flex max-w-7xl flex-col gap-8 px-4 pt-20',
-        isRtl ? 'text-right' : 'text-left',
-      )}
-    >
+    <section className="mx-auto flex max-w-7xl flex-col gap-8 px-4 pt-20 text-start">
       <div className="flex flex-col items-center gap-4">
         <header className="space-y-0 text-center">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
@@ -547,16 +687,10 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
   );
 }
 
-export function LandingPage({
-  locale,
-  githubStars,
-}: {
-  locale: Locale;
-  githubStars?: string | null;
-}) {
+export function LandingPage({ githubStars }: { githubStars?: string | null }) {
   return (
     <div className="flex flex-col gap-12 lg:gap-16">
-      <HeroSection locale={locale} githubStars={githubStars} />
+      <HeroSection githubStars={githubStars} />
       <FeaturesSection />
       <FooterSection githubStars={githubStars} />
     </div>

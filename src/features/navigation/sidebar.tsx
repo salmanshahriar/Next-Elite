@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
+import { useIsRtl } from '@/features/i18n/use-is-rtl';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { cn } from '@/libs/utils';
@@ -27,7 +28,7 @@ import {
   UserCircle,
   type LucideIcon,
 } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -47,7 +48,6 @@ interface NavItem {
 
 interface SidebarContentProps {
   pathname: string;
-  isRtl: boolean;
   items: NavItem[];
   logoutLabel?: string;
   onLogoutRequest?: () => void;
@@ -70,23 +70,17 @@ const NAV_SCROLL_CLASS =
 const LOGOUT_BUTTON_CLASS =
   'flex w-full items-center gap-2 overflow-hidden rounded-md text-sm font-medium text-destructive/85 transition-colors hover:bg-destructive hover:text-primary-foreground';
 
-function sidebarContentBorder(isRtl: boolean) {
-  return isRtl ? 'border-r-0 border-l' : 'border-r border-l-0';
-}
-
-function isNavActive(pathname: string, href: string): boolean {
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
+const SIDEBAR_BORDER_CLASS = 'border-e border-s-0';
 
 function NavTooltip({
   label,
-  isRtl,
   children,
 }: {
   label: string;
-  isRtl: boolean;
   children: ReactNode;
 }) {
+  const isRtl = useIsRtl();
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
@@ -101,13 +95,11 @@ function NavLinkItem({
   item,
   pathname,
   isCollapsed,
-  isRtl,
   onItemClick,
 }: {
   item: NavItem;
   pathname: string;
   isCollapsed: boolean;
-  isRtl: boolean;
   onItemClick?: () => void;
 }) {
   const Icon = item.icon;
@@ -134,16 +126,15 @@ function NavLinkItem({
 
   if (!isCollapsed) return link;
 
-  return (
-    <NavTooltip label={item.label} isRtl={isRtl}>
-      {link}
-    </NavTooltip>
-  );
+  return <NavTooltip label={item.label}>{link}</NavTooltip>;
+}
+
+function isNavActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 function SidebarContent({
   pathname,
-  isRtl,
   items,
   logoutLabel,
   onLogoutRequest,
@@ -152,12 +143,7 @@ function SidebarContent({
   showFooter = false,
 }: SidebarContentProps) {
   return (
-    <div
-      className={cn(
-        'flex h-full min-w-0 flex-col bg-transparent',
-        isRtl && 'text-right',
-      )}
-    >
+    <div className="flex h-full min-w-0 flex-col bg-transparent text-start">
       <div
         className={cn(
           'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center justify-center overflow-hidden',
@@ -168,7 +154,6 @@ function SidebarContent({
           href="/"
           onClick={onItemClick}
           showName={!isCollapsed}
-          isRtl={isRtl}
           size={isCollapsed ? 24 : 26}
           className={cn(
             'max-w-full min-w-0 justify-center',
@@ -188,7 +173,6 @@ function SidebarContent({
                   item={item}
                   pathname={pathname}
                   isCollapsed={isCollapsed}
-                  isRtl={isRtl}
                   onItemClick={onItemClick}
                 />
               </li>
@@ -278,9 +262,8 @@ export function useSidebarCollapsed() {
 export function Sidebar() {
   const t = useTranslations();
   const { user, signOut } = useAuth();
-  const locale = useLocale();
+  const isRtl = useIsRtl();
   const pathname = usePathname();
-  const isRtl = locale === 'ar';
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
@@ -323,10 +306,7 @@ export function Sidebar() {
 
   return (
     <>
-      <div
-        dir={isRtl ? 'rtl' : 'ltr'}
-        className="fixed inset-x-0 top-0 z-50 flex h-app-header items-center justify-between rounded-none border-0 border-b border-border/40 bg-background px-4 md:hidden dark:border-border/60 dark:bg-card"
-      >
+      <div className="fixed inset-x-0 top-0 z-50 flex h-app-header items-center justify-between rounded-none border-0 border-b border-border/40 bg-background px-4 md:hidden dark:border-border/60 dark:bg-card">
         <div className="flex flex-1 items-center justify-start gap-3">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
@@ -344,14 +324,13 @@ export function Sidebar() {
               showCloseButton={false}
               className={cn(
                 SIDEBAR_SURFACE_CLASS,
+                SIDEBAR_BORDER_CLASS,
                 'h-screen w-[18rem] max-w-[85vw] gap-0 rounded-none bg-background p-0 sm:max-w-[18rem] dark:bg-card',
-                sidebarContentBorder(isRtl),
               )}
             >
               <SheetTitle className="sr-only">{t('sidebar.menu')}</SheetTitle>
               <SidebarContent
                 pathname={pathname}
-                isRtl={isRtl}
                 items={items}
                 logoutLabel={logoutLabel}
                 onLogoutRequest={handleLogoutRequest}
@@ -379,14 +358,13 @@ export function Sidebar() {
       <aside
         className={cn(
           SIDEBAR_PANEL_CLASS,
+          SIDEBAR_BORDER_CLASS,
           'relative z-40 hidden h-[calc(100dvh-1rem)] shrink-0 flex-col overflow-hidden transition-all duration-300 ease-in-out md:flex',
-          sidebarContentBorder(isRtl),
           collapsed ? 'w-16' : 'w-[18.125rem]',
         )}
       >
         <SidebarContent
           pathname={pathname}
-          isRtl={isRtl}
           items={items}
           isCollapsed={collapsed}
         />

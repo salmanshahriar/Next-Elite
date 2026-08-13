@@ -337,7 +337,6 @@ const form = useForm<LoginInput>({
 │   │   ├── navigation/       Header, sidebar, topbar, top loader
 │   │   ├── site/             siteConfig + locale utilities
 │   │   └── theme/            Theme provider + toggle
-│   ├── hooks/                Cross-feature hooks
 │   ├── libs/                 Cross-cutting infra (env, query-client, utils)
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init

@@ -2,11 +2,12 @@ import 'server-only';
 
 import { env } from '@/libs/env';
 import { headers } from 'next/headers';
+import { cache } from 'react';
 import { auth } from '../lib/auth';
 import { getPermissionsForRole, getRoleFromEmail } from '../rbac/roles';
 import type { AuthUser } from '../types';
 
-export async function getCurrentUser(): Promise<AuthUser | null> {
+export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -23,4 +24,4 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   } catch {
     return null;
   }
-}
+});

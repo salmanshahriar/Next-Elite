@@ -9,17 +9,15 @@ import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { setHeaderChromeActive } from '@/features/theme/context/theme-provider';
 import { cn } from '@/libs/utils';
 import { Menu, X } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const Header = () => {
   const t = useTranslations('navigation');
-  const locale = useLocale();
   const { user } = useAuth();
   const pathname = usePathname();
-  const isRtl = locale === 'ar';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollOpacity, setScrollOpacity] = useState(0);
   const headerActive = scrollOpacity > 0.05 || mobileMenuOpen;
@@ -74,7 +72,7 @@ const Header = () => {
       <div className="relative z-10 px-3 md:px-4 lg:px-8">
         <div className="flex h-app-header items-center justify-between gap-3 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
           <div className="flex min-w-0 items-center justify-start">
-            <AppBrand href="/" isRtl={isRtl} />
+            <AppBrand href="/" />
           </div>
 
           <nav className="hidden items-center gap-1 md:flex">

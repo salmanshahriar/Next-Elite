@@ -1,15 +1,41 @@
 import { LandingPage } from '@/components/pages/landing-page';
-import type { Locale } from '@/features/site/config';
-import { getGitHubStars } from '@/features/site/github';
-import { getLocale } from 'next-intl/server';
+
+const githubRepoApi = 'https://api.github.com/repos/salmanshahriar/Next-Elite';
+
+function formatGitHubStars(count: number) {
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`;
+  }
+
+  return String(count);
+}
+
+async function getGitHubStars() {
+  try {
+    const response = await fetch(githubRepoApi, {
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as { stargazers_count?: number };
+
+    if (typeof data.stargazers_count !== 'number') {
+      return null;
+    }
+
+    return formatGitHubStars(data.stargazers_count);
+  } catch {
+    return null;
+  }
+}
 
 const HomePage = async () => {
-  const [locale, githubStars] = await Promise.all([
-    getLocale(),
-    getGitHubStars(),
-  ]);
+  const githubStars = await getGitHubStars();
 
-  return <LandingPage locale={locale as Locale} githubStars={githubStars} />;
+  return <LandingPage githubStars={githubStars} />;
 };
 
 export default HomePage;

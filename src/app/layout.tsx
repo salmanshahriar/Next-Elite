@@ -111,18 +111,25 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   const dir = getLocaleDirection(locale as Locale);
 
   const cookieStore = await cookies();
-  const theme = cookieStore.get('theme')?.value === 'dark' ? 'dark' : 'light';
+  const themeCookie = cookieStore.get('theme')?.value;
+  const defaultTheme =
+    themeCookie === 'dark' ||
+    themeCookie === 'light' ||
+    themeCookie === 'system'
+      ? themeCookie
+      : 'light';
+  const htmlTheme = defaultTheme === 'dark' ? 'dark' : 'light';
 
   return (
     <html
       lang={locale}
       dir={dir}
-      className={cn(theme, fontSans.variable)}
+      className={cn(htmlTheme, fontSans.variable)}
       suppressHydrationWarning
     >
       <body className={cn(fontSans.className, 'antialiased')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers initialUser={currentUser}>
+          <Providers defaultTheme={defaultTheme} initialUser={currentUser}>
             <div className="relative flex min-h-screen flex-col bg-background">
               <div
                 aria-hidden

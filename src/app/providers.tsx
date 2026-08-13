@@ -13,13 +13,18 @@ import { Toaster } from 'sonner';
 interface ProvidersProps {
   children: ReactNode;
   initialUser?: AuthUser | null;
+  defaultTheme?: 'light' | 'dark' | 'system';
 }
 
-const Providers = ({ children, initialUser = null }: ProvidersProps) => {
+const Providers = ({
+  children,
+  initialUser = null,
+  defaultTheme = 'light',
+}: ProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider defaultTheme={defaultTheme}>
       <TopLoader />
       <QueryClientProvider client={queryClient}>
         <AuthProvider initialUser={initialUser}>

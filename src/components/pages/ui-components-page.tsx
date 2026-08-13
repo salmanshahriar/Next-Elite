@@ -364,7 +364,8 @@ function getSectionIdForTarget(id: string) {
 
 function isKnownNavTarget(id: string) {
   return (
-    SECTION_BY_COMPONENT_ID.has(id) || SECTION_IDS.includes(id as (typeof SECTION_IDS)[number])
+    SECTION_BY_COMPONENT_ID.has(id) ||
+    SECTION_IDS.includes(id as (typeof SECTION_IDS)[number])
   );
 }
 
@@ -535,7 +536,10 @@ function ComponentsSidebarNav({
     <nav
       ref={navRef}
       aria-label={label}
-      className={cn('space-y-4 overflow-y-auto overscroll-y-contain', className)}
+      className={cn(
+        'space-y-4 overflow-y-auto overscroll-y-contain',
+        className,
+      )}
     >
       {showLabel ? (
         <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">

@@ -13,7 +13,6 @@ interface AppBrandProps {
   showName?: boolean;
   size?: number;
   onClick?: () => void;
-  isRtl?: boolean;
 }
 
 export function AppBrand({
@@ -24,7 +23,6 @@ export function AppBrand({
   showName = true,
   size = 28,
   onClick,
-  isRtl = false,
 }: AppBrandProps) {
   const content = (
     <>
@@ -40,8 +38,7 @@ export function AppBrand({
   );
 
   const classes = cn(
-    'flex min-w-0 items-center gap-2.5 font-bold text-foreground',
-    isRtl && 'flex-row-reverse',
+    'flex min-w-0 items-center gap-2.5 font-bold text-foreground rtl:flex-row-reverse',
     className,
   );
 
