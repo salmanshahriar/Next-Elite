@@ -9,7 +9,7 @@ const withNextIntl = createNextIntlPlugin('./src/features/i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
   reactStrictMode: true,
   poweredByHeader: false,
   allowedDevOrigins: ['127.0.0.1'],
