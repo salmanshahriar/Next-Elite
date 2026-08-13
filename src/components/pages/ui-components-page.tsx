@@ -171,6 +171,7 @@ import {
   Heart,
   Italic,
   Mail,
+  Menu,
   Moon,
   Search,
   Settings,
@@ -343,6 +344,10 @@ const COMPONENT_IDS = SECTIONS.flatMap((section) =>
   section.items.map((item) => `${section.id}-${item.id}`),
 );
 
+const SECTION_IDS = SECTIONS.map((section) => section.id);
+
+const NAV_TARGET_IDS = [...SECTION_IDS, ...COMPONENT_IDS] as const;
+
 const DEFAULT_COMPONENT_ID = COMPONENT_IDS[0] ?? 'actions-button';
 
 const SECTION_BY_COMPONENT_ID = new Map<string, string>(
@@ -357,8 +362,10 @@ function getSectionIdForTarget(id: string) {
   return SECTION_BY_COMPONENT_ID.get(id);
 }
 
-function isKnownComponentId(id: string) {
-  return SECTION_BY_COMPONENT_ID.has(id);
+function isKnownNavTarget(id: string) {
+  return (
+    SECTION_BY_COMPONENT_ID.has(id) || SECTION_IDS.includes(id as (typeof SECTION_IDS)[number])
+  );
 }
 
 type ScrollSpyEntry = { id: string; element: HTMLElement };
@@ -370,7 +377,7 @@ function collectScrollSpyEntries(ids: readonly string[]) {
   });
 }
 
-function resolveActiveComponentId(
+function resolveActiveTargetId(
   entries: readonly ScrollSpyEntry[],
   fallbackId: string,
 ) {
@@ -393,24 +400,15 @@ function resolveActiveComponentId(
   return closestId;
 }
 
-function scrollToComponentCenter(
+function scrollToTarget(
   element: HTMLElement,
   behavior: ScrollBehavior = 'auto',
 ) {
-  const rect = element.getBoundingClientRect();
-  const top =
-    rect.top + window.scrollY - window.innerHeight / 2 + rect.height / 2;
-  window.scrollTo({ top, behavior });
+  element.scrollIntoView({ behavior, block: 'start' });
 }
 
 function useScrollSpy() {
-  const initialSectionId =
-    getSectionIdForTarget(DEFAULT_COMPONENT_ID) ?? SECTIONS[0].id;
-
   const [activeTarget, setActiveTarget] = useState(DEFAULT_COMPONENT_ID);
-  const [openSection, setOpenSection] = useState<string | null>(
-    initialSectionId,
-  );
 
   const entriesRef = useRef<ScrollSpyEntry[]>([]);
   const scrollLockRef = useRef(false);
@@ -420,12 +418,11 @@ function useScrollSpy() {
     activeTargetRef.current = activeTarget;
   }, [activeTarget]);
 
-  const activeSectionId = getSectionIdForTarget(activeTarget);
-
-  const syncOpenSection = useCallback((componentId: string) => {
-    const sectionId = getSectionIdForTarget(componentId);
-    if (sectionId) setOpenSection(sectionId);
-  }, []);
+  const activeSectionId =
+    getSectionIdForTarget(activeTarget) ??
+    (SECTION_IDS.includes(activeTarget as (typeof SECTION_IDS)[number])
+      ? activeTarget
+      : undefined);
 
   const releaseScrollLock = useCallback(() => {
     window.setTimeout(() => {
@@ -434,45 +431,31 @@ function useScrollSpy() {
   }, []);
 
   const navigateTo = useCallback(
-    (componentId: string, behavior: ScrollBehavior = 'smooth') => {
-      const element = document.getElementById(componentId);
+    (targetId: string, behavior: ScrollBehavior = 'smooth') => {
+      const element = document.getElementById(targetId);
       if (!element) return;
 
       scrollLockRef.current = true;
-      scrollToComponentCenter(element, behavior);
+      scrollToTarget(element, behavior);
 
-      activeTargetRef.current = componentId;
-      setActiveTarget(componentId);
-      syncOpenSection(componentId);
-      window.history.replaceState(null, '', `#${componentId}`);
+      activeTargetRef.current = targetId;
+      setActiveTarget(targetId);
+      window.history.replaceState(null, '', `#${targetId}`);
       releaseScrollLock();
     },
-    [releaseScrollLock, syncOpenSection],
-  );
-
-  const handleToggleSection = useCallback(
-    (sectionId: string, open: boolean) => {
-      const currentActiveSection = getSectionIdForTarget(
-        activeTargetRef.current,
-      );
-
-      if (!open && sectionId === currentActiveSection) return;
-
-      setOpenSection(open ? sectionId : (currentActiveSection ?? null));
-    },
-    [],
+    [releaseScrollLock],
   );
 
   const handleNavigate = useCallback(
-    (event: MouseEvent<HTMLAnchorElement>, componentId: string) => {
+    (event: MouseEvent<HTMLAnchorElement>, targetId: string) => {
       event.preventDefault();
-      navigateTo(componentId, 'smooth');
+      navigateTo(targetId, 'smooth');
     },
     [navigateTo],
   );
 
   useEffect(() => {
-    entriesRef.current = collectScrollSpyEntries(COMPONENT_IDS);
+    entriesRef.current = collectScrollSpyEntries(NAV_TARGET_IDS);
 
     let frame = 0;
 
@@ -481,7 +464,7 @@ function useScrollSpy() {
 
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const nextId = resolveActiveComponentId(
+        const nextId = resolveActiveTargetId(
           entriesRef.current,
           activeTargetRef.current,
         );
@@ -490,7 +473,6 @@ function useScrollSpy() {
 
         activeTargetRef.current = nextId;
         setActiveTarget(nextId);
-        syncOpenSection(nextId);
       });
     };
 
@@ -498,7 +480,7 @@ function useScrollSpy() {
     onScroll();
 
     const hash = window.location.hash.slice(1);
-    if (isKnownComponentId(hash)) {
+    if (isKnownNavTarget(hash)) {
       window.setTimeout(() => navigateTo(hash, 'auto'), 0);
     }
 
@@ -506,31 +488,29 @@ function useScrollSpy() {
       window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(frame);
     };
-  }, [navigateTo, syncOpenSection]);
+  }, [navigateTo]);
 
   return {
     activeTarget,
     activeSectionId,
-    openSection,
-    handleToggleSection,
     handleNavigate,
   };
 }
 
-function OnThisPageNav({
+function ComponentsSidebarNav({
   activeTarget,
   activeSectionId,
-  openSection,
-  onToggleSection,
   onNavigate,
   label,
+  className,
+  showLabel = true,
 }: {
   activeTarget: string;
   activeSectionId: string | undefined;
-  openSection: string | null;
-  onToggleSection: (sectionId: string, open: boolean) => void;
-  onNavigate: (event: MouseEvent<HTMLAnchorElement>, itemId: string) => void;
+  onNavigate: (event: MouseEvent<HTMLAnchorElement>, targetId: string) => void;
   label: string;
+  className?: string;
+  showLabel?: boolean;
 }) {
   const t = useTranslations('uiComponents');
   const activeLinkRef = useRef<HTMLAnchorElement>(null);
@@ -554,64 +534,64 @@ function OnThisPageNav({
   return (
     <nav
       ref={navRef}
-      className="sticky top-24 max-h-[calc(100vh-8rem)] space-y-1 overflow-y-auto overscroll-y-contain pr-1"
+      aria-label={label}
+      className={cn('space-y-4 overflow-y-auto overscroll-y-contain', className)}
     >
-      <p className="mb-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-        {label}
-      </p>
+      {showLabel ? (
+        <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+          {label}
+        </p>
+      ) : null}
       {SECTIONS.map((section) => {
-        const isActiveSection = activeSectionId === section.id;
-        const isExpanded = openSection === section.id || isActiveSection;
+        const isActiveSection =
+          activeTarget === section.id || activeSectionId === section.id;
 
         return (
-          <Collapsible
-            key={section.id}
-            open={isExpanded}
-            onOpenChange={(open) => onToggleSection(section.id, open)}
-          >
-            <CollapsibleTrigger asChild>
-              <button
-                type="button"
-                className="flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <ChevronRight
-                  className={cn(
-                    'mr-1 size-3.5 shrink-0 transition-transform duration-200',
-                    isExpanded && 'rotate-90',
-                  )}
-                />
-                {t(`sections.${section.key}`)}
-              </button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-0.5 overflow-hidden pl-4 data-[state=closed]:animate-none data-[state=open]:animate-none">
+          <div key={section.id} className="space-y-1">
+            <a
+              href={`#${section.id}`}
+              onClick={(event) => onNavigate(event, section.id)}
+              className={cn(
+                'block rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
+                isActiveSection
+                  ? 'text-primary'
+                  : 'text-foreground hover:text-primary',
+              )}
+            >
+              {t(`sections.${section.key}`)}
+            </a>
+            <ul className="space-y-0.5 border-s border-border/40 ps-3">
               {section.items.map((item) => {
                 const itemId = `${section.id}-${item.id}`;
                 const isItemActive = activeTarget === itemId;
 
                 return (
-                  <a
-                    key={item.id}
-                    ref={isItemActive ? activeLinkRef : undefined}
-                    href={`#${itemId}`}
-                    onClick={(event) => onNavigate(event, itemId)}
-                    className={cn(
-                      'block rounded-md px-3 py-1.5 text-xs transition-colors',
-                      isItemActive
-                        ? 'bg-primary/5 font-medium text-primary'
-                        : 'text-muted-foreground hover:bg-sidebar-accent/30 hover:text-foreground',
-                    )}
-                  >
-                    {item.label}
-                  </a>
+                  <li key={item.id}>
+                    <a
+                      href={`#${itemId}`}
+                      ref={isItemActive ? activeLinkRef : undefined}
+                      onClick={(event) => onNavigate(event, itemId)}
+                      className={cn(
+                        'block rounded-md px-2 py-1.5 text-xs transition-colors',
+                        isItemActive
+                          ? 'bg-primary/8 font-medium text-primary'
+                          : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
                 );
               })}
-            </CollapsibleContent>
-          </Collapsible>
+            </ul>
+          </div>
         );
       })}
     </nav>
   );
 }
+
+const SCROLL_MARGIN_CLASS = 'scroll-mt-24';
 
 const SUB_LABEL =
   'mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase';
@@ -630,7 +610,10 @@ function ShowcaseSection({
   return (
     <section
       id={id}
-      className="scroll-mt-24 space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]"
+      className={cn(
+        'space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]',
+        SCROLL_MARGIN_CLASS,
+      )}
     >
       <div className="space-y-1">
         <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
@@ -663,7 +646,8 @@ function ComponentBlock({
       flat
       id={id}
       className={cn(
-        'scroll-mt-24 gap-0 overflow-hidden py-0',
+        SCROLL_MARGIN_CLASS,
+        'gap-0 overflow-hidden py-0',
         allowOverflow && '!overflow-visible',
         cardClassName,
       )}
@@ -806,13 +790,8 @@ const ICON_DEMOS = [
 
 export function UiComponentsPage() {
   const t = useTranslations('uiComponents');
-  const {
-    activeTarget,
-    activeSectionId,
-    openSection,
-    handleToggleSection,
-    handleNavigate,
-  } = useScrollSpy();
+  const { activeTarget, activeSectionId, handleNavigate } = useScrollSpy();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [comboboxValue, setComboboxValue] = useState('next');
   const [dropdownChecked, setDropdownChecked] = useState(true);
   const [dropdownRadio, setDropdownRadio] = useState('comfortable');
@@ -822,22 +801,61 @@ export function UiComponentsPage() {
   const [showAlert, setShowAlert] = useState(true);
   const [showDestructiveAlert, setShowDestructiveAlert] = useState(true);
 
+  const handleSidebarNavigate = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, targetId: string) => {
+      handleNavigate(event, targetId);
+      setMobileNavOpen(false);
+    },
+    [handleNavigate],
+  );
+
   return (
     <TooltipProvider>
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 lg:flex-row lg:gap-12">
-        <aside className="hidden shrink-0 text-sidebar-foreground lg:block lg:w-56">
-          <OnThisPageNav
-            activeTarget={activeTarget}
-            activeSectionId={activeSectionId}
-            openSection={openSection}
-            onToggleSection={handleToggleSection}
-            onNavigate={handleNavigate}
-            label={t('onThisPage')}
-          />
+      <div className="mx-auto flex w-full max-w-[90rem]">
+        <aside className="hidden w-56 shrink-0 border-e border-border/40 md:block lg:w-64">
+          <div className="sticky top-24 max-h-[calc(100dvh-8rem)] px-4 py-6">
+            <ComponentsSidebarNav
+              activeTarget={activeTarget}
+              activeSectionId={activeSectionId}
+              onNavigate={handleNavigate}
+              label={t('onThisPage')}
+              className="max-h-[calc(100dvh-9rem)] pr-2"
+            />
+          </div>
         </aside>
 
-        <div className="min-w-0 flex-1 space-y-16 overflow-x-clip">
-          <PageHeader title={t('title')} subtitle={t('description')} />
+        <div className="min-w-0 flex-1 space-y-16 overflow-x-clip px-4 py-6 md:px-6 lg:px-8">
+          <div className="space-y-6">
+            <PageHeader title={t('title')} subtitle={t('description')} />
+            <div className="md:hidden">
+              <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Menu className="size-4" />
+                    {t('onThisPage')}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[min(18rem,85vw)] p-0">
+                  <SheetHeader className="border-b border-border/40 px-4 py-4">
+                    <SheetTitle>{t('onThisPage')}</SheetTitle>
+                    <SheetDescription className="sr-only">
+                      {t('description')}
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="px-4 py-4">
+                    <ComponentsSidebarNav
+                      activeTarget={activeTarget}
+                      activeSectionId={activeSectionId}
+                      onNavigate={handleSidebarNavigate}
+                      label={t('onThisPage')}
+                      showLabel={false}
+                      className="max-h-[calc(100dvh-8rem)]"
+                    />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
 
           <ShowcaseSection
             id="actions"

@@ -64,7 +64,7 @@ const Header = () => {
       <div
         aria-hidden
         className={cn(
-          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
+          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background/90 shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
           headerActive
             ? 'border-border/40 dark:border-border/60'
             : 'border-b-transparent md:border-transparent',
