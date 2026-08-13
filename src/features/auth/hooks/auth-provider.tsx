@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { authClient } from '../lib/auth-client';
 import { hasPermission } from '../rbac/can';
-import { getPermissionsForRole, getRoleFromEmail } from '../rbac/roles';
+import { getPermissionsForRole } from '../rbac/roles';
 import type { AuthPermission, AuthUser } from '../types';
 
 interface AuthContextValue {
@@ -46,15 +46,12 @@ export function AuthProvider({
 
   const user = useMemo<AuthUser | null>(() => {
     if (!session?.user?.email) return initialUser;
-    const role = getRoleFromEmail(
-      session.user.email,
-      env.NEXT_PUBLIC_AUTH_ADMIN_EMAILS,
-    );
+    if (initialUser?.email === session.user.email) return initialUser;
     return {
       id: session.user.id ?? session.user.email,
       email: session.user.email,
-      role,
-      permissions: getPermissionsForRole(role),
+      role: 'user',
+      permissions: getPermissionsForRole('user'),
     };
   }, [session, initialUser]);
 

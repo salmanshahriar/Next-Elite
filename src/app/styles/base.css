@@ -1,0 +1,157 @@
+@layer base {
+  * {
+    @apply border-border;
+    @apply outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth;
+    background-color: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html::before,
+  html::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    pointer-events: none;
+    transition: background-color 300ms ease;
+  }
+
+  html::before {
+    top: 0;
+    height: env(safe-area-inset-top, 0px);
+    background-color: var(--browser-chrome-top);
+  }
+
+  html::after {
+    bottom: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background-color: var(--background);
+  }
+
+  body {
+    @apply text-foreground;
+    @apply font-sans;
+    @apply transition-colors duration-200;
+    background-color: transparent;
+    min-height: 100dvh;
+    min-height: 100vh;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* ========== Typography ========== */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold;
+    @apply tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  /* ========== Focus Styles ========== */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  /* ========== Selection Styles ========== */
+  ::selection {
+    @apply bg-primary/20 text-primary-foreground;
+  }
+
+  /* ========== Scrollbar Styles ========== */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(
+        in oklch,
+        var(--muted-foreground) 35%,
+        transparent
+      )
+      var(--muted);
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-muted-foreground/25;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/45;
+  }
+}
+
+/* ========== Animations ========== */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+/* ========== RTL Support ========== */
+
+[dir='rtl'] {
+  direction: rtl;
+}
+
+[dir='ltr'] {
+  direction: ltr;
+}
+
+/* ========== Print Styles ========== */
+
+@media print {
+  * {
+    @apply bg-transparent text-foreground;
+  }
+
+  body {
+    @apply text-sm;
+  }
+}

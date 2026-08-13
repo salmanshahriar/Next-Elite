@@ -60,7 +60,7 @@ export const UserDropdown = ({
           >
             <AvatarFallback
               className={cn(
-                'font-semibold text-primary',
+                'bg-primary/8 font-semibold text-primary',
                 onlyAvatar ? 'text-[10px]' : 'text-xs',
               )}
             >

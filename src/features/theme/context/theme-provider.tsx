@@ -26,22 +26,22 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 function syncBrowserThemeColor() {
   const root = document.documentElement;
-  const pageChrome =
-    getComputedStyle(root).getPropertyValue('--page-chrome-meta').trim() ||
-    (root.classList.contains('dark') ? '#09090b' : '#ede9fe');
+  const themeColor =
+    getComputedStyle(root).getPropertyValue('--background').trim() ||
+    (root.classList.contains('dark') ? '#09090b' : '#ffffff');
 
   const metas = document.querySelectorAll('meta[name="theme-color"]');
 
   if (metas.length === 0) {
     const meta = document.createElement('meta');
     meta.name = 'theme-color';
-    meta.content = pageChrome;
+    meta.content = themeColor;
     document.head.appendChild(meta);
     return;
   }
 
   metas.forEach((meta) => {
-    meta.setAttribute('content', pageChrome);
+    meta.setAttribute('content', themeColor);
   });
 }
 
@@ -49,17 +49,12 @@ export function setHeaderChromeActive(active: boolean) {
   if (typeof window === 'undefined') return;
 
   const root = document.documentElement;
-  const pageChrome = getComputedStyle(root)
-    .getPropertyValue('--page-chrome-meta')
+  const background = getComputedStyle(root)
+    .getPropertyValue('--background')
     .trim();
-  const navChrome = getComputedStyle(root)
-    .getPropertyValue('--nav-chrome-meta')
-    .trim();
+  const card = getComputedStyle(root).getPropertyValue('--card').trim();
 
-  root.style.setProperty(
-    '--browser-chrome-top',
-    active ? navChrome : pageChrome,
-  );
+  root.style.setProperty('--browser-chrome-top', active ? card : background);
   root.dataset.headerActive = active ? 'true' : 'false';
   syncBrowserThemeColor();
 }

@@ -63,7 +63,7 @@ Set the environment variables from `.env.example` in your Vercel project (Produc
 
 ### Frameworks & Core
 
-- **Next.js 16 (App Router)** - Fast, modern React framework with full support for React 19 features (Server/Client components, Server Actions).
+- **Next.js 16.3 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19 features (Server/Client components, Server Actions).
 - **TypeScript 6** - End-to-end type safety for rock-solid refactoring and developer experience.
 - **Node.js 22** - Built on the latest LTS runtime.
 - **Feature-Based Architecture** - Structured around self-contained vertical slices/feature folders under `src/features/` for maximum modularity and clean separation of concerns.
@@ -90,13 +90,14 @@ Set the environment variables from `.env.example` in your Vercel project (Produc
 ### Observability & Infrastructure
 
 - **Sentry Integration** - Complete error tracking and performance instrumentation for client and server.
+- **Vercel Analytics** - Built-in page analytics via `@vercel/analytics`.
 - **Health Probes** - Direct `GET /api/health` endpoint for load balancers.
 
 ### Quality Gates & Tooling
 
 - **Testing Suite** - Unit/component testing with Vitest and React Testing Library, and E2E testing with Playwright.
 - **Hygiene & Linting** - [Oxlint](https://oxc.rs/docs/guide/usage/linter) and [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) for fast linting and formatting, plus Knip for dead code/dependency hygiene.
-- **Git Hook Automation** - Lefthook pre-commit hooks (oxlint + oxfmt) and Commitlint to maintain codebase quality.
+- **Git Hook Automation** - Lefthook pre-commit hooks (oxlint + oxfmt), Commitlint for conventional commits, and a pre-push hook that runs `npm run check`.
 
 <br/>
 
@@ -304,7 +305,7 @@ const form = useForm<LoginInput>({
 ├── package-lock.json         npm lockfile (single source of truth)
 ├── proxy.ts                  Next.js 16 network proxy (pass-through)
 ├── tsconfig.json
-├── lefthook.yml              Git hooks (pre-commit, commit-msg)
+├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
 ├── src/
 │   ├── app/                  App Router
 │   │   ├── (auth)/           Login & auth pages
@@ -336,7 +337,7 @@ const form = useForm<LoginInput>({
 │   │   ├── navigation/       Header, sidebar, topbar, top loader
 │   │   ├── site/             siteConfig + locale utilities
 │   │   └── theme/            Theme provider + toggle
-│   ├── hooks/                Cross-feature hooks (use-scroll)
+│   ├── hooks/                Cross-feature hooks
 │   ├── libs/                 Cross-cutting infra (env, query-client, utils)
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
@@ -368,7 +369,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
   "domain": "https://yourdomain.com",
   "tagline": "Frontend-first, API-driven, batteries included.",
   "title": "Next Elite - Production-Ready SaaS Boilerplate",
-  "description": "Frontend-first Next.js 16 + React 19 boilerplate with i18n, RBAC and BetterAuth."
+  "description": "Frontend-first Next.js 16.3 + React 19 boilerplate with i18n, RBAC and BetterAuth."
 }
 ```
 
@@ -401,10 +402,17 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 | --------------------------------- | ---------------------------------------- |
 | `npm run dev`                     | Start the dev server (port 6767)         |
 | `npm run build`                   | Production build                         |
-| `npm run start`                   | Start the production server              |
+| `npm run start`                   | Start the production server (port 6767)  |
+| `npm run start:standalone`        | Run standalone server (Playwright CI)    |
 | `npm run analyze`                 | Build with `@next/bundle-analyzer`       |
-| `npm run check`                   | CI gate: typecheck + lint + knip + tests |
+| `npm run typecheck`               | `tsc --noEmit`                           |
+| `npm run lint`                    | Oxlint + Oxfmt check                     |
 | `npm run lint:fix`                | Auto-fix with Oxlint + Oxfmt             |
+| `npm run format`                  | Format with Oxfmt                        |
+| `npm run format:check`            | Check formatting with Oxfmt              |
+| `npm run knip`                    | Detect unused files / exports / deps     |
+| `npm run check`                   | CI gate: typecheck + lint + knip + tests |
+| `npm run test`                    | Vitest run                               |
 | `npm run test:watch`              | Vitest watch mode                        |
 | `npm run playwright:install`      | Download Playwright browsers             |
 | `npm run playwright:install:deps` | Install OS libs for browsers (Linux)     |
@@ -425,7 +433,7 @@ Install the [Oxc VS Code extension](https://marketplace.visualstudio.com/items?i
 <summary><b>Testing Details</b></summary>
 
 - **Unit / component:** Vitest + React Testing Library (`config/vitest.config.ts`). Use `renderWithProviders` from `@tests/utils/render` for components that need app context (i18n, theme, auth, React Query). Plain `render` is fine for isolated UI primitives.
-- **End-to-end:** Playwright in `e2e/` on port **6767** (`127.0.0.1`). Local runs use `next dev` (all browsers); CI uses production `next start` (Chromium only). Run `playwright:install` before the first E2E run; on Linux, WebKit needs `playwright:install:deps` (sudo). Stop `npm run dev` before `npm run e2e` — E2E starts its own server.
+- **End-to-end:** Playwright in `e2e/` on port **6767** (`127.0.0.1`). Local runs use `next dev` (all browsers); CI uses production `next start` (Chromium only). Run `playwright:install` before the first E2E run; on Linux, WebKit needs `playwright:install:deps` (sudo). Stop `npm run dev` before `npm run e2e` - E2E starts its own server.
 
 </details>
 

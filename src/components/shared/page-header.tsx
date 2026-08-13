@@ -54,7 +54,7 @@ export function PageLayout({
       className={cn(
         'flex w-full min-w-0 flex-col gap-6',
         centered &&
-          'min-h-[calc(100dvh-8.5rem)] justify-center md:min-h-[calc(100dvh-var(--app-header-height))]',
+          'min-h-[calc(100dvh-var(--app-header-height))] justify-center',
         className,
       )}
     >

@@ -49,19 +49,26 @@ interface SidebarContentProps {
   pathname: string;
   isRtl: boolean;
   items: NavItem[];
-  labels: {
-    theme: string;
-    language: string;
-    logout: string;
-  };
-  onLogoutRequest: () => void;
+  logoutLabel?: string;
+  onLogoutRequest?: () => void;
   onItemClick?: () => void;
   isCollapsed?: boolean;
   showFooter?: boolean;
 }
 
-const SIDEBAR_PANEL_CLASS =
-  'sidebar-glass rounded-none border-y-0 border-sidebar-glass-edge';
+const SIDEBAR_SURFACE_CLASS =
+  'rounded-xl border border-border/40 bg-background/90 dark:border-border/60 dark:bg-background';
+
+const SIDEBAR_PANEL_CLASS = cn(SIDEBAR_SURFACE_CLASS, 'm-2');
+
+const NAV_LINK_CLASS =
+  'flex w-full max-w-full items-center gap-2 overflow-hidden rounded-md text-sm font-medium text-sidebar-foreground/50 transition-colors hover:bg-primary/8 hover:text-sidebar-foreground data-[active=true]:bg-primary/8 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/8 data-[active=true]:hover:text-primary';
+
+const NAV_SCROLL_CLASS =
+  'min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+
+const LOGOUT_BUTTON_CLASS =
+  'flex w-full items-center gap-2 overflow-hidden rounded-md text-sm font-medium text-destructive/85 transition-colors hover:bg-destructive hover:text-primary-foreground';
 
 function sidebarContentBorder(isRtl: boolean) {
   return isRtl ? 'border-r-0 border-l' : 'border-r border-l-0';
@@ -112,11 +119,13 @@ function NavLinkItem({
       onClick={onItemClick}
       data-active={isActive}
       className={cn(
-        'sidebar-nav-admin',
-        isCollapsed && 'sidebar-nav-admin-collapsed',
+        NAV_LINK_CLASS,
+        isCollapsed
+          ? 'mx-auto h-10 w-10 justify-center p-0'
+          : 'h-11 px-3 py-2.5',
       )}
     >
-      <span className="sidebar-nav-admin-icon">
+      <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center">
         <Icon className="h-[18px] w-[18px]" />
       </span>
       {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -136,7 +145,7 @@ function SidebarContent({
   pathname,
   isRtl,
   items,
-  labels,
+  logoutLabel,
   onLogoutRequest,
   onItemClick,
   isCollapsed = false,
@@ -151,7 +160,7 @@ function SidebarContent({
     >
       <div
         className={cn(
-          'sidebar-header-divider flex w-full min-w-0 items-center justify-center overflow-hidden',
+          'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center justify-center overflow-hidden',
           isCollapsed ? 'px-1.5' : 'px-3',
         )}
       >
@@ -171,8 +180,8 @@ function SidebarContent({
       </div>
 
       <TooltipProvider delayDuration={0}>
-        <nav className="no-scrollbar min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-2">
-          <ul className="sidebar-nav-group flex w-full min-w-0 flex-col gap-1.5">
+        <nav className={NAV_SCROLL_CLASS}>
+          <ul className="flex w-full min-w-0 flex-col gap-1.5 pt-1 pb-2">
             {items.map((item) => (
               <li key={item.id}>
                 <NavLinkItem
@@ -190,59 +199,22 @@ function SidebarContent({
         {showFooter ? (
           <div className="border-t border-transparent px-2">
             <div className="p-2">
-              {isCollapsed ? (
-                <div className="space-y-0.5">
-                  <NavTooltip label={labels.theme} isRtl={isRtl}>
-                    <div className="flex items-center justify-center py-1.5">
-                      <ThemeToggle />
-                    </div>
-                  </NavTooltip>
-                  <NavTooltip label={labels.language} isRtl={isRtl}>
-                    <div className="flex items-center justify-center py-1.5">
-                      <LanguageSwitcher />
-                    </div>
-                  </NavTooltip>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5">
-                  <ThemeToggle variant="titled" title={labels.theme} />
-                  <LanguageSwitcher variant="titled" title={labels.language} />
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-0.5 p-2">
-              {isCollapsed ? (
-                <NavTooltip label={labels.logout} isRtl={isRtl}>
-                  <button
-                    type="button"
-                    className="sidebar-nav-logout justify-center px-2 py-2"
-                    onClick={() => {
-                      onLogoutRequest();
-                      onItemClick?.();
-                    }}
-                    aria-label={labels.logout}
-                  >
-                    <span className="sidebar-nav-logout-icon">
-                      <LogOut className="h-[18px] w-[18px]" />
-                    </span>
-                  </button>
-                </NavTooltip>
-              ) : (
-                <button
-                  type="button"
-                  className="sidebar-nav-logout cursor-pointer"
-                  onClick={() => {
-                    onLogoutRequest();
-                    onItemClick?.();
-                  }}
-                >
-                  <span className="sidebar-nav-logout-icon">
-                    <LogOut className="h-[18px] w-[18px]" />
-                  </span>
-                  <span>{labels.logout}</span>
-                </button>
-              )}
+              <button
+                type="button"
+                className={cn(
+                  LOGOUT_BUTTON_CLASS,
+                  'cursor-pointer px-4 py-2.5',
+                )}
+                onClick={() => {
+                  onLogoutRequest?.();
+                  onItemClick?.();
+                }}
+              >
+                <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center">
+                  <LogOut className="h-[18px] w-[18px]" />
+                </span>
+                <span>{logoutLabel}</span>
+              </button>
             </div>
           </div>
         ) : null}
@@ -251,10 +223,10 @@ function SidebarContent({
   );
 }
 
-export const COLLAPSED_STORAGE_KEY = 'sidebar-collapsed';
-export const COLLAPSED_STORAGE_EVENT = 'sidebar-collapsed-change';
+const COLLAPSED_STORAGE_KEY = 'sidebar-collapsed';
+const COLLAPSED_STORAGE_EVENT = 'sidebar-collapsed-change';
 
-export function subscribeToCollapsed(onStoreChange: () => void) {
+function subscribeToCollapsed(onStoreChange: () => void) {
   if (typeof window === 'undefined') return () => {};
 
   const handler = (event: StorageEvent | Event) => {
@@ -272,7 +244,7 @@ export function subscribeToCollapsed(onStoreChange: () => void) {
   };
 }
 
-export function readCollapsedSnapshot(): string | null {
+function readCollapsedSnapshot(): string | null {
   if (typeof window === 'undefined') return null;
   return window.localStorage.getItem(COLLAPSED_STORAGE_KEY);
 }
@@ -303,31 +275,6 @@ export function useSidebarCollapsed() {
   return [collapsed, setCollapsed] as const;
 }
 
-const NAV_ICONS = {
-  dashboard: LayoutDashboard,
-  profile: UserCircle,
-} as const;
-
-function buildNavItems(
-  dashboardLabel: string,
-  profileLabel: string,
-): NavItem[] {
-  return [
-    {
-      id: 'dashboard',
-      label: dashboardLabel,
-      href: '/dashboard',
-      icon: NAV_ICONS.dashboard,
-    },
-    {
-      id: 'profile',
-      label: profileLabel,
-      href: '/profile',
-      icon: NAV_ICONS.profile,
-    },
-  ];
-}
-
 export function Sidebar() {
   const t = useTranslations();
   const { user, signOut } = useAuth();
@@ -340,18 +287,24 @@ export function Sidebar() {
   const [collapsed] = useSidebarCollapsed();
 
   const items = useMemo(
-    () => buildNavItems(t('navigation.dashboard'), t('navigation.profile')),
+    () => [
+      {
+        id: 'dashboard',
+        label: t('navigation.dashboard'),
+        href: '/dashboard',
+        icon: LayoutDashboard,
+      },
+      {
+        id: 'profile',
+        label: t('navigation.profile'),
+        href: '/profile',
+        icon: UserCircle,
+      },
+    ],
     [t],
   );
 
-  const labels = useMemo(
-    () => ({
-      theme: t('sidebar.theme'),
-      language: t('sidebar.language'),
-      logout: t('navigation.logout'),
-    }),
-    [t],
-  );
+  const logoutLabel = t('navigation.logout');
 
   const mobileTitle = useMemo(() => {
     const segment = pathname.split('/').filter(Boolean).at(-1);
@@ -371,8 +324,8 @@ export function Sidebar() {
   return (
     <>
       <div
-        className="topbar-glass fixed top-0 right-0 left-0 z-50 flex h-app-header items-center border-b border-border/40 px-4 md:hidden"
         dir={isRtl ? 'rtl' : 'ltr'}
+        className="fixed inset-x-0 top-0 z-50 flex h-app-header items-center justify-between rounded-none border-0 border-b border-border/40 bg-background px-4 md:hidden dark:border-border/60 dark:bg-card"
       >
         <div className="flex flex-1 items-center justify-start gap-3">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -390,8 +343,8 @@ export function Sidebar() {
               side={isRtl ? 'right' : 'left'}
               showCloseButton={false}
               className={cn(
-                SIDEBAR_PANEL_CLASS,
-                'h-screen w-[18rem] max-w-[85vw] gap-0 p-0 sm:max-w-[18rem]',
+                SIDEBAR_SURFACE_CLASS,
+                'h-screen w-[18rem] max-w-[85vw] gap-0 rounded-none bg-background p-0 sm:max-w-[18rem] dark:bg-card',
                 sidebarContentBorder(isRtl),
               )}
             >
@@ -400,7 +353,7 @@ export function Sidebar() {
                 pathname={pathname}
                 isRtl={isRtl}
                 items={items}
-                labels={labels}
+                logoutLabel={logoutLabel}
                 onLogoutRequest={handleLogoutRequest}
                 onItemClick={() => setMobileOpen(false)}
                 showFooter
@@ -426,7 +379,7 @@ export function Sidebar() {
       <aside
         className={cn(
           SIDEBAR_PANEL_CLASS,
-          'relative z-40 hidden h-screen shrink-0 flex-col overflow-hidden transition-all duration-300 ease-in-out md:flex',
+          'relative z-40 hidden h-[calc(100dvh-1rem)] shrink-0 flex-col overflow-hidden transition-all duration-300 ease-in-out md:flex',
           sidebarContentBorder(isRtl),
           collapsed ? 'w-16' : 'w-[18.125rem]',
         )}
@@ -435,8 +388,6 @@ export function Sidebar() {
           pathname={pathname}
           isRtl={isRtl}
           items={items}
-          labels={labels}
-          onLogoutRequest={handleLogoutRequest}
           isCollapsed={collapsed}
         />
       </aside>

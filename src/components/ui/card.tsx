@@ -1,33 +1,65 @@
 import * as React from 'react';
 
+import { BlurGlow } from '@/components/shared/blur-glow';
 import { cn } from '@/libs/utils';
 
+const CARD_SURFACE_CLASS =
+  'relative isolate overflow-hidden border border-border/40 bg-background/80 shadow-sm backdrop-blur-md transition-[border-color,box-shadow,background-color] duration-300 hover:border-border hover:bg-background/90 hover:shadow-md dark:border-border/60 dark:bg-card dark:hover:border-border dark:hover:bg-card/95';
+
+const CARD_GLOW_CLASS =
+  'pointer-events-none absolute -top-12 -right-12 h-[140px] w-[140px] opacity-80';
+
+const CARD_SOLID_CLASS =
+  'relative isolate overflow-hidden border border-border/40 bg-background shadow-sm dark:border-border/60 dark:bg-card';
+
 interface CardProps extends React.ComponentProps<'div'> {
-  hover?: boolean;
   flat?: boolean;
   nested?: boolean;
+  variant?: 'solid' | 'glow';
 }
 
 function Card({
   className,
-  hover = false,
   flat = false,
   nested = false,
+  variant = 'solid',
+  children,
   ...props
 }: CardProps) {
+  if (flat) {
+    return (
+      <div
+        data-slot="card"
+        className={cn(
+          'flex flex-col gap-6 rounded-xl border border-border bg-card py-6 text-foreground',
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       data-slot="card"
       className={cn(
-        flat
-          ? 'flex flex-col gap-6 rounded-xl border border-border bg-card py-6 text-foreground'
-          : 'ui-card flex flex-col gap-6 rounded-xl py-6 text-foreground',
-        nested && !flat && 'ui-card-nested',
-        hover && !flat && 'ui-hover-lift',
+        'flex flex-col rounded-xl py-6 text-foreground',
+        variant === 'glow' ? CARD_SURFACE_CLASS : CARD_SOLID_CLASS,
+        nested && 'backdrop-blur-none',
         className,
       )}
       {...props}
-    />
+    >
+      {variant === 'glow' && !nested ? (
+        <BlurGlow
+          color="rgba(118, 99, 255, 0.14)"
+          className={CARD_GLOW_CLASS}
+        />
+      ) : null}
+      <div className="relative z-[1] flex flex-col gap-6">{children}</div>
+    </div>
   );
 }
 

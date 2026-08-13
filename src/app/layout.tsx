@@ -1,5 +1,6 @@
 import { fontSans } from '@/app/fonts';
 import Providers from '@/app/providers';
+import { BlurGlow } from '@/components/shared/blur-glow';
 import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import {
   baseUrl,
@@ -23,7 +24,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#09090b' },
-    { media: '(prefers-color-scheme: light)', color: '#ede9fe' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
   ],
 };
 
@@ -122,7 +123,20 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
       <body className={cn(fontSans.className, 'antialiased')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers initialUser={currentUser}>
-            <div className="flex min-h-screen flex-col">{children}</div>
+            <div className="relative flex min-h-screen flex-col bg-background">
+              <div
+                aria-hidden
+                className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+              >
+                <BlurGlow
+                  color="var(--glow-accent)"
+                  className="bottom-0 left-0 h-[520px] w-[520px] -translate-x-1/4 translate-y-1/4"
+                />
+              </div>
+              <div className="relative z-10 flex min-h-screen flex-col">
+                {children}
+              </div>
+            </div>
           </Providers>
         </NextIntlClientProvider>
         <Analytics />

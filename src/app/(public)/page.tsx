@@ -1,5 +1,4 @@
-import { HomeGetStartedSection } from '@/components/shared/get-started-section';
-import HeroSection from '@/components/shared/hero-section';
+import { LandingPage } from '@/components/pages/landing-page';
 import type { Locale } from '@/features/site/config';
 import { getGitHubStars } from '@/features/site/github';
 import { getLocale } from 'next-intl/server';
@@ -10,12 +9,7 @@ const HomePage = async () => {
     getGitHubStars(),
   ]);
 
-  return (
-    <div className="flex flex-col gap-12 lg:gap-16">
-      <HeroSection locale={locale as Locale} githubStars={githubStars} />
-      <HomeGetStartedSection githubStars={githubStars} />
-    </div>
-  );
+  return <LandingPage locale={locale as Locale} githubStars={githubStars} />;
 };
 
 export default HomePage;

@@ -193,7 +193,6 @@ type ButtonVariant = NonNullable<
   VariantProps<typeof buttonVariants>['variant']
 >;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>['size']>;
-type ScrollSpyEntry = { id: string; element: HTMLElement };
 
 const SCROLL_LOCK_MS = 700;
 
@@ -218,6 +217,8 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 
 const BUTTON_SIZES: ButtonSize[] = ['sm', 'default', 'lg'];
 
+const ICON_BUTTON_SIZES = ['icon', 'icon-sm', 'icon-lg'] as const;
+
 const BADGE_VARIANTS = [
   'default',
   'secondary',
@@ -240,6 +241,16 @@ const COMBOBOX_OPTIONS = [
   { label: 'TypeScript', value: 'ts' },
   { label: 'Tailwind CSS', value: 'tailwind' },
 ];
+
+const RADIO_OPTIONS = [
+  { value: 'default', id: 'r1', label: 'Default' },
+  { value: 'comfortable', id: 'r2', label: 'Comfortable' },
+  { value: 'compact', id: 'r3', label: 'Compact' },
+] as const;
+
+const SHEET_SIDES = ['right', 'left', 'top', 'bottom'] as const;
+
+const CAROUSEL_SLIDES = ['Slide 1', 'Slide 2', 'Slide 3'] as const;
 
 const SECTIONS = [
   {
@@ -350,6 +361,8 @@ function isKnownComponentId(id: string) {
   return SECTION_BY_COMPONENT_ID.has(id);
 }
 
+type ScrollSpyEntry = { id: string; element: HTMLElement };
+
 function collectScrollSpyEntries(ids: readonly string[]) {
   return ids.flatMap((id) => {
     const element = document.getElementById(id);
@@ -390,84 +403,118 @@ function scrollToComponentCenter(
   window.scrollTo({ top, behavior });
 }
 
-function ShowcaseSection({
-  id,
-  title,
-  description,
-  children,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-24 space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]"
-    >
-      <div className="space-y-1">
-        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
-        {description ? (
-          <p className="text-sm text-muted-foreground">{description}</p>
-        ) : null}
-      </div>
-      <div className="space-y-8">{children}</div>
-    </section>
-  );
-}
+function useScrollSpy() {
+  const initialSectionId =
+    getSectionIdForTarget(DEFAULT_COMPONENT_ID) ?? SECTIONS[0].id;
 
-function ComponentBlock({
-  id,
-  title,
-  children,
-  className,
-  cardClassName,
-  allowOverflow = false,
-}: {
-  id?: string;
-  title: string;
-  children: ReactNode;
-  className?: string;
-  cardClassName?: string;
-  allowOverflow?: boolean;
-}) {
-  return (
-    <Card
-      flat
-      id={id}
-      className={cn(
-        'scroll-mt-24 gap-0 overflow-hidden py-0',
-        allowOverflow && '!overflow-visible',
-        cardClassName,
-      )}
-    >
-      <CardHeader className="border-b bg-muted/30 py-4">
-        <CardTitle className="text-base">{title}</CardTitle>
-      </CardHeader>
-      <CardContent
-        className={cn(
-          'space-y-6 py-6',
-          allowOverflow && '!overflow-visible',
-          className,
-        )}
-      >
-        {children}
-      </CardContent>
-    </Card>
+  const [activeTarget, setActiveTarget] = useState(DEFAULT_COMPONENT_ID);
+  const [openSection, setOpenSection] = useState<string | null>(
+    initialSectionId,
   );
-}
 
-function SubLabel({ children }: { children: ReactNode }) {
-  return (
-    <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-      {children}
-    </p>
+  const entriesRef = useRef<ScrollSpyEntry[]>([]);
+  const scrollLockRef = useRef(false);
+  const activeTargetRef = useRef(activeTarget);
+
+  useEffect(() => {
+    activeTargetRef.current = activeTarget;
+  }, [activeTarget]);
+
+  const activeSectionId = getSectionIdForTarget(activeTarget);
+
+  const syncOpenSection = useCallback((componentId: string) => {
+    const sectionId = getSectionIdForTarget(componentId);
+    if (sectionId) setOpenSection(sectionId);
+  }, []);
+
+  const releaseScrollLock = useCallback(() => {
+    window.setTimeout(() => {
+      scrollLockRef.current = false;
+    }, SCROLL_LOCK_MS);
+  }, []);
+
+  const navigateTo = useCallback(
+    (componentId: string, behavior: ScrollBehavior = 'smooth') => {
+      const element = document.getElementById(componentId);
+      if (!element) return;
+
+      scrollLockRef.current = true;
+      scrollToComponentCenter(element, behavior);
+
+      activeTargetRef.current = componentId;
+      setActiveTarget(componentId);
+      syncOpenSection(componentId);
+      window.history.replaceState(null, '', `#${componentId}`);
+      releaseScrollLock();
+    },
+    [releaseScrollLock, syncOpenSection],
   );
-}
 
-function VariantGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-wrap items-center gap-2">{children}</div>;
+  const handleToggleSection = useCallback(
+    (sectionId: string, open: boolean) => {
+      const currentActiveSection = getSectionIdForTarget(
+        activeTargetRef.current,
+      );
+
+      if (!open && sectionId === currentActiveSection) return;
+
+      setOpenSection(open ? sectionId : (currentActiveSection ?? null));
+    },
+    [],
+  );
+
+  const handleNavigate = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, componentId: string) => {
+      event.preventDefault();
+      navigateTo(componentId, 'smooth');
+    },
+    [navigateTo],
+  );
+
+  useEffect(() => {
+    entriesRef.current = collectScrollSpyEntries(COMPONENT_IDS);
+
+    let frame = 0;
+
+    const onScroll = () => {
+      if (scrollLockRef.current) return;
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const nextId = resolveActiveComponentId(
+          entriesRef.current,
+          activeTargetRef.current,
+        );
+
+        if (nextId === activeTargetRef.current) return;
+
+        activeTargetRef.current = nextId;
+        setActiveTarget(nextId);
+        syncOpenSection(nextId);
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const hash = window.location.hash.slice(1);
+    if (isKnownComponentId(hash)) {
+      window.setTimeout(() => navigateTo(hash, 'auto'), 0);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [navigateTo, syncOpenSection]);
+
+  return {
+    activeTarget,
+    activeSectionId,
+    openSection,
+    handleToggleSection,
+    handleNavigate,
+  };
 }
 
 function OnThisPageNav({
@@ -566,122 +613,83 @@ function OnThisPageNav({
   );
 }
 
-function useScrollSpy() {
-  const initialSectionId =
-    getSectionIdForTarget(DEFAULT_COMPONENT_ID) ?? SECTIONS[0].id;
+const SUB_LABEL =
+  'mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase';
 
-  const [activeTarget, setActiveTarget] = useState(DEFAULT_COMPONENT_ID);
-  const [openSection, setOpenSection] = useState<string | null>(
-    initialSectionId,
+function ShowcaseSection({
+  id,
+  title,
+  description,
+  children,
+}: {
+  id: string;
+  title: string;
+  description?: string;
+  children: ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      className="scroll-mt-24 space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]"
+    >
+      <div className="space-y-1">
+        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+        {description ? (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        ) : null}
+      </div>
+      <div className="space-y-8">{children}</div>
+    </section>
   );
+}
 
-  const entriesRef = useRef<ScrollSpyEntry[]>([]);
-  const scrollLockRef = useRef(false);
-  const manualOverrideRef = useRef(false);
-  const activeTargetRef = useRef(activeTarget);
-
-  useEffect(() => {
-    activeTargetRef.current = activeTarget;
-  }, [activeTarget]);
-
-  const activeSectionId = getSectionIdForTarget(activeTarget);
-
-  const syncOpenSection = useCallback((componentId: string) => {
-    const sectionId = getSectionIdForTarget(componentId);
-    if (sectionId) setOpenSection(sectionId);
-  }, []);
-
-  const releaseScrollLock = useCallback(() => {
-    window.setTimeout(() => {
-      scrollLockRef.current = false;
-    }, SCROLL_LOCK_MS);
-  }, []);
-
-  const navigateTo = useCallback(
-    (componentId: string, behavior: ScrollBehavior = 'smooth') => {
-      const element = document.getElementById(componentId);
-      if (!element) return;
-
-      scrollLockRef.current = true;
-      manualOverrideRef.current = false;
-      scrollToComponentCenter(element, behavior);
-
-      activeTargetRef.current = componentId;
-      setActiveTarget(componentId);
-      syncOpenSection(componentId);
-      window.history.replaceState(null, '', `#${componentId}`);
-      releaseScrollLock();
-    },
-    [releaseScrollLock, syncOpenSection],
+function ComponentBlock({
+  id,
+  title,
+  children,
+  className,
+  cardClassName,
+  allowOverflow = false,
+}: {
+  id?: string;
+  title: string;
+  children: ReactNode;
+  className?: string;
+  cardClassName?: string;
+  allowOverflow?: boolean;
+}) {
+  return (
+    <Card
+      flat
+      id={id}
+      className={cn(
+        'scroll-mt-24 gap-0 overflow-hidden py-0',
+        allowOverflow && '!overflow-visible',
+        cardClassName,
+      )}
+    >
+      <CardHeader className="border-b bg-muted/30 py-4">
+        <CardTitle className="text-base">{title}</CardTitle>
+      </CardHeader>
+      <CardContent
+        className={cn(
+          'space-y-6 py-6',
+          allowOverflow && '!overflow-visible',
+          className,
+        )}
+      >
+        {children}
+      </CardContent>
+    </Card>
   );
+}
 
-  const handleToggleSection = useCallback(
-    (sectionId: string, open: boolean) => {
-      const currentActiveSection = getSectionIdForTarget(
-        activeTargetRef.current,
-      );
+function SubLabel({ children }: { children: ReactNode }) {
+  return <p className={SUB_LABEL}>{children}</p>;
+}
 
-      if (!open && sectionId === currentActiveSection) return;
-
-      manualOverrideRef.current = true;
-      setOpenSection(open ? sectionId : (currentActiveSection ?? null));
-    },
-    [],
-  );
-
-  const handleNavigate = useCallback(
-    (event: MouseEvent<HTMLAnchorElement>, componentId: string) => {
-      event.preventDefault();
-      navigateTo(componentId, 'smooth');
-    },
-    [navigateTo],
-  );
-
-  useEffect(() => {
-    entriesRef.current = collectScrollSpyEntries(COMPONENT_IDS);
-
-    let frame = 0;
-
-    const onScroll = () => {
-      if (scrollLockRef.current) return;
-
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const nextId = resolveActiveComponentId(
-          entriesRef.current,
-          activeTargetRef.current,
-        );
-
-        if (nextId === activeTargetRef.current) return;
-
-        activeTargetRef.current = nextId;
-        setActiveTarget(nextId);
-        manualOverrideRef.current = false;
-        syncOpenSection(nextId);
-      });
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    const hash = window.location.hash.slice(1);
-    if (isKnownComponentId(hash)) {
-      window.setTimeout(() => navigateTo(hash, 'auto'), 0);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, [navigateTo, syncOpenSection]);
-
-  return {
-    activeTarget,
-    activeSectionId,
-    openSection,
-    handleToggleSection,
-    handleNavigate,
-  };
+function VariantGrid({ children }: { children: ReactNode }) {
+  return <div className="flex flex-wrap items-center gap-2">{children}</div>;
 }
 
 function FormShowcase() {
@@ -728,7 +736,75 @@ function FormShowcase() {
   );
 }
 
-export function UiComponentsShowcase() {
+function ShowcasePreviewCard({
+  flat,
+  withAction,
+}: {
+  flat?: boolean;
+  withAction?: boolean;
+}) {
+  return (
+    <Card flat={flat} variant={flat ? 'solid' : 'glow'} className="max-w-sm">
+      <CardHeader>
+        <CardTitle>{withAction ? 'Notifications' : 'Card title'}</CardTitle>
+        <CardDescription>
+          {withAction ? 'Manage your alerts.' : 'Card description text.'}
+        </CardDescription>
+        {withAction ? (
+          <CardAction>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => toast.info('Settings clicked!')}
+            >
+              Settings
+            </Button>
+          </CardAction>
+        ) : null}
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          {flat
+            ? withAction
+              ? 'Flat card with a header action slot.'
+              : 'Simple bordered card without shadow.'
+            : withAction
+              ? 'Glass card with a header action slot.'
+              : 'Premium glass card with glow.'}
+        </p>
+      </CardContent>
+      {!withAction ? (
+        <CardFooter>
+          <Button size="sm" onClick={() => toast.success('Action clicked!')}>
+            Action
+          </Button>
+        </CardFooter>
+      ) : null}
+    </Card>
+  );
+}
+
+const TOAST_TYPE_DEMOS = [
+  { label: 'Default', action: () => toast('Default toast message') },
+  {
+    label: 'Success',
+    action: () => toast.success('Changes saved successfully'),
+  },
+  { label: 'Info', action: () => toast.info('New update available') },
+  {
+    label: 'Warning',
+    action: () => toast.warning('Your session is expiring soon'),
+  },
+  { label: 'Error', action: () => toast.error('Something went wrong') },
+] as const;
+
+const ICON_DEMOS = [
+  { icon: Heart, className: 'size-6 text-destructive' },
+  { icon: Star, className: 'size-6 text-warning' },
+  { icon: Settings, className: 'size-6 text-primary' },
+] as const;
+
+export function UiComponentsPage() {
   const t = useTranslations('uiComponents');
   const {
     activeTarget,
@@ -784,15 +860,11 @@ export function UiComponentsShowcase() {
                     {size}
                   </Button>
                 ))}
-                <Button size="icon" aria-label="Star">
-                  <Star className="size-4" />
-                </Button>
-                <Button size="icon-sm" aria-label="Star">
-                  <Star className="size-4" />
-                </Button>
-                <Button size="icon-lg" aria-label="Star">
-                  <Star className="size-4" />
-                </Button>
+                {ICON_BUTTON_SIZES.map((size) => (
+                  <Button key={size} size={size} aria-label="Star">
+                    <Star className="size-4" />
+                  </Button>
+                ))}
               </VariantGrid>
               <SubLabel>States</SubLabel>
               <VariantGrid>
@@ -939,18 +1011,12 @@ export function UiComponentsShowcase() {
             <ComponentBlock id="forms-radio-group" title="Radio Group">
               <div className="max-w-xs">
                 <RadioGroup defaultValue="comfortable">
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem value="default" id="r1" />
-                    <Label htmlFor="r1">Default</Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem value="comfortable" id="r2" />
-                    <Label htmlFor="r2">Comfortable</Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <RadioGroupItem value="compact" id="r3" />
-                    <Label htmlFor="r3">Compact</Label>
-                  </div>
+                  {RADIO_OPTIONS.map(({ value, id, label }) => (
+                    <div key={value} className="flex items-center gap-2">
+                      <RadioGroupItem value={value} id={id} />
+                      <Label htmlFor={id}>{label}</Label>
+                    </div>
+                  ))}
                 </RadioGroup>
               </div>
             </ComponentBlock>
@@ -1151,41 +1217,16 @@ export function UiComponentsShowcase() {
             <ComponentBlock id="feedback-toast" title="Toast">
               <SubLabel>Types</SubLabel>
               <VariantGrid>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => toast('Default toast message')}
-                >
-                  Default
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => toast.success('Changes saved successfully')}
-                >
-                  Success
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => toast.info('New update available')}
-                >
-                  Info
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => toast.warning('Your session is expiring soon')}
-                >
-                  Warning
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => toast.error('Something went wrong')}
-                >
-                  Error
-                </Button>
+                {TOAST_TYPE_DEMOS.map(({ label, action }) => (
+                  <Button
+                    key={label}
+                    size="sm"
+                    variant="outline"
+                    onClick={action}
+                  >
+                    {label}
+                  </Button>
+                ))}
               </VariantGrid>
               <SubLabel>With description</SubLabel>
               <VariantGrid>
@@ -1339,89 +1380,15 @@ export function UiComponentsShowcase() {
               <div>
                 <SubLabel>Glass</SubLabel>
                 <div className="grid gap-6 p-1 sm:grid-cols-2">
-                  <Card hover className="max-w-sm">
-                    <CardHeader>
-                      <CardTitle>Card title</CardTitle>
-                      <CardDescription>Card description text.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Premium glass card with hover lift.
-                      </p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button
-                        size="sm"
-                        onClick={() => toast.success('Action clicked!')}
-                      >
-                        Action
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                  <Card hover className="max-w-sm">
-                    <CardHeader>
-                      <CardTitle>Notifications</CardTitle>
-                      <CardDescription>Manage your alerts.</CardDescription>
-                      <CardAction>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => toast.info('Settings clicked!')}
-                        >
-                          Settings
-                        </Button>
-                      </CardAction>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Glass card with a header action slot.
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <ShowcasePreviewCard />
+                  <ShowcasePreviewCard withAction />
                 </div>
               </div>
               <div>
                 <SubLabel>Flat</SubLabel>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  <Card flat className="max-w-sm">
-                    <CardHeader>
-                      <CardTitle>Card title</CardTitle>
-                      <CardDescription>Card description text.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Simple bordered card without shadow.
-                      </p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button
-                        size="sm"
-                        onClick={() => toast.success('Action clicked!')}
-                      >
-                        Action
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                  <Card flat className="max-w-sm">
-                    <CardHeader>
-                      <CardTitle>Notifications</CardTitle>
-                      <CardDescription>Manage your alerts.</CardDescription>
-                      <CardAction>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => toast.info('Settings clicked!')}
-                        >
-                          Settings
-                        </Button>
-                      </CardAction>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Flat card with a header action slot.
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <ShowcasePreviewCard flat />
+                  <ShowcasePreviewCard flat withAction />
                 </div>
               </div>
             </ComponentBlock>
@@ -1472,9 +1439,9 @@ export function UiComponentsShowcase() {
             <ComponentBlock id="data-display-icon" title="Icon">
               <SubLabel>Lucide icons</SubLabel>
               <div className="flex items-center gap-4">
-                <Icon iconNode={Heart} className="size-6 text-destructive" />
-                <Icon iconNode={Star} className="size-6 text-warning" />
-                <Icon iconNode={Settings} className="size-6 text-primary" />
+                {ICON_DEMOS.map(({ icon, className }) => (
+                  <Icon key={className} iconNode={icon} className={className} />
+                ))}
               </div>
             </ComponentBlock>
 
@@ -1645,7 +1612,7 @@ export function UiComponentsShowcase() {
 
             <ComponentBlock id="overlays-sheet" title="Sheet">
               <div className="flex flex-wrap gap-2">
-                {(['right', 'left', 'top', 'bottom'] as const).map((side) => (
+                {SHEET_SIDES.map((side) => (
                   <Sheet key={side}>
                     <SheetTrigger asChild>
                       <Button variant="outline" className="capitalize">
@@ -1810,7 +1777,7 @@ export function UiComponentsShowcase() {
             <ComponentBlock id="layout-carousel" title="Carousel">
               <Carousel className="mx-auto max-w-sm">
                 <CarouselContent>
-                  {['Slide 1', 'Slide 2', 'Slide 3'].map((slide) => (
+                  {CAROUSEL_SLIDES.map((slide) => (
                     <CarouselItem key={slide}>
                       <div className="flex h-32 items-center justify-center rounded-lg border bg-muted/50">
                         <span className="text-lg font-medium">{slide}</span>

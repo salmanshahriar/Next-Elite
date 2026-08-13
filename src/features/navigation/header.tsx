@@ -7,7 +7,6 @@ import { useAuth } from '@/features/auth/hooks/auth-provider';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { setHeaderChromeActive } from '@/features/theme/context/theme-provider';
-import { useScroll } from '@/hooks/use-scroll';
 import { cn } from '@/libs/utils';
 import { Menu, X } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -22,8 +21,19 @@ const Header = () => {
   const pathname = usePathname();
   const isRtl = locale === 'ar';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const scrolled = useScroll(50);
-  const headerActive = scrolled || mobileMenuOpen;
+  const [scrollOpacity, setScrollOpacity] = useState(0);
+  const headerActive = scrollOpacity > 0.05 || mobileMenuOpen;
+  const surfaceOpacity = mobileMenuOpen ? 1 : scrollOpacity;
+
+  useEffect(() => {
+    const updateScrollOpacity = () => {
+      setScrollOpacity(Math.min(1, Math.max(0, window.scrollY / 72)));
+    };
+
+    updateScrollOpacity();
+    window.addEventListener('scroll', updateScrollOpacity, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrollOpacity);
+  }, []);
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen((open) => {
@@ -50,28 +60,31 @@ const Header = () => {
   }, []);
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 z-30 flex w-full flex-col justify-center pt-[env(safe-area-inset-top,0px)] transition-all duration-300',
-        headerActive
-          ? 'border-b border-border/40 bg-background/95 backdrop-blur-xl'
-          : 'border-b-0 border-transparent bg-transparent',
-      )}
-    >
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-app-header items-center justify-between">
-          <div className="z-10 flex items-center">
+    <header className="relative sticky top-0 z-30 mx-0 shrink-0 rounded-none md:top-2 md:mx-2 md:rounded-xl">
+      <div
+        aria-hidden
+        className={cn(
+          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
+          headerActive
+            ? 'border-border/40 dark:border-border/60'
+            : 'border-b-transparent md:border-transparent',
+        )}
+        style={{ opacity: surfaceOpacity }}
+      />
+      <div className="relative z-10 px-3 md:px-4 lg:px-8">
+        <div className="flex h-app-header items-center justify-between gap-3 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+          <div className="flex min-w-0 items-center justify-start">
             <AppBrand href="/" isRtl={isRtl} />
           </div>
 
-          <nav className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             <Link
               href="/"
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/'
                   ? 'text-primary'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                  : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
               )}
             >
               {t('home')}
@@ -82,7 +95,7 @@ const Header = () => {
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/ui-components'
                   ? 'text-primary'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                  : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
               )}
             >
               {t('uiComponents')}
@@ -94,7 +107,7 @@ const Header = () => {
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname?.startsWith('/dashboard')
                     ? 'text-primary'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                    : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
                 {t('dashboard')}
@@ -102,8 +115,8 @@ const Header = () => {
             )}
           </nav>
 
-          <div className="z-10 hidden items-center gap-2 md:flex">
-            <div className="me-2 flex items-center gap-1 border-e border-border pe-2">
+          <div className="hidden items-center justify-end gap-2 md:flex">
+            <div className="me-2 flex items-center gap-1 border-e border-border/40 pe-2">
               <ThemeToggle />
               <LanguageSwitcher />
             </div>
@@ -117,7 +130,7 @@ const Header = () => {
             )}
           </div>
 
-          <div className="z-10 flex items-center gap-2 md:hidden">
+          <div className="flex shrink-0 items-center justify-end gap-1 md:hidden">
             <ThemeToggle />
             <LanguageSwitcher />
             <Button
@@ -139,16 +152,16 @@ const Header = () => {
 
       <div
         className={cn(
-          'absolute top-full left-0 z-20 grid w-full overflow-hidden bg-background/98 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden',
+          'relative z-10 grid overflow-hidden border-t transition-[border-color,grid-template-rows] duration-300 ease-out md:hidden',
           mobileMenuOpen
-            ? 'grid-rows-[1fr] border-t border-b border-border/40'
-            : 'pointer-events-none grid-rows-[0fr] border-t-0 border-b-0 border-transparent',
+            ? 'grid-rows-[1fr] border-border/40'
+            : 'pointer-events-none grid-rows-[0fr] border-transparent',
         )}
       >
         <div className="min-h-0 overflow-hidden">
           <div
             className={cn(
-              'mx-auto max-w-7xl space-y-3 px-4 py-4 transition-all duration-300 ease-in-out',
+              'space-y-3 px-4 py-4 transition-all duration-300 ease-in-out sm:px-6',
               mobileMenuOpen ? 'translate-y-0' : '-translate-y-4',
             )}
           >
@@ -160,7 +173,7 @@ const Header = () => {
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/'
                     ? 'text-primary'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                    : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
                 {t('home')}
@@ -172,7 +185,7 @@ const Header = () => {
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/ui-components'
                     ? 'text-primary'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                    : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
                 {t('uiComponents')}
@@ -185,7 +198,7 @@ const Header = () => {
                     'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                     pathname?.startsWith('/dashboard')
                       ? 'text-primary'
-                      : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                      : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                   )}
                 >
                   {t('dashboard')}
@@ -193,7 +206,7 @@ const Header = () => {
               )}
             </nav>
 
-            <div className="flex items-center justify-center gap-4 border-t border-border pt-4">
+            <div className="flex items-center justify-center gap-4 border-t border-border/40 pt-4">
               {user ? (
                 <UserDropdown
                   contentClassName="w-56"

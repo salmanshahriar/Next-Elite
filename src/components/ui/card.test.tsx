@@ -111,18 +111,6 @@ describe('Card', () => {
     ).toBeInTheDocument();
   });
 
-  it('applies hover class when hover prop is true', () => {
-    const { container } = render(<Card hover>x</Card>);
-    const card = container.querySelector('[data-slot="card"]');
-    expect(card?.className).toContain('ui-hover-lift');
-  });
-
-  it('does not apply hover class by default', () => {
-    const { container } = render(<Card>x</Card>);
-    const card = container.querySelector('[data-slot="card"]');
-    expect(card?.className).not.toContain('ui-hover-lift');
-  });
-
   it('applies custom className', () => {
     const { container } = render(<Card className="my-custom">x</Card>);
     const card = container.querySelector('[data-slot="card"]');

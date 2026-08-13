@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { UserDropdown } from '@/components/shared/user-dropdown';
 import {
   Breadcrumb,
@@ -18,6 +16,7 @@ import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
+import { Fragment } from 'react';
 import { useSidebarCollapsed } from './sidebar';
 
 export function Topbar() {
@@ -38,12 +37,12 @@ export function Topbar() {
     segment.charAt(0).toUpperCase() + segment.slice(1);
 
   return (
-    <header className="topbar-glass sticky top-0 z-30 hidden h-app-header w-full shrink-0 items-center justify-between border-b border-border/40 px-4 md:flex md:px-6">
+    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-xl border border-border/40 bg-background/90 px-4 md:flex md:px-6 dark:border-border/60 dark:bg-background">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
-          className="hidden h-8 w-8 cursor-pointer text-muted-foreground hover:bg-accent/40 hover:text-foreground md:flex"
+          className="h-8 w-8 text-muted-foreground hover:bg-accent/40 hover:text-foreground"
           onClick={() => setCollapsed(!collapsed)}
           aria-expanded={!collapsed}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -69,7 +68,7 @@ export function Topbar() {
                   const label = getSegmentLabel(segment);
 
                   return (
-                    <React.Fragment key={path}>
+                    <Fragment key={path}>
                       {index > 0 && <BreadcrumbSeparator />}
                       <BreadcrumbItem>
                         {isLast ? (
@@ -78,7 +77,7 @@ export function Topbar() {
                           <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
                         )}
                       </BreadcrumbItem>
-                    </React.Fragment>
+                    </Fragment>
                   );
                 })
               )}
