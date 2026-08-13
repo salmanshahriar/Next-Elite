@@ -4,9 +4,9 @@ import { AppBrand } from '@/components/shared/app-brand';
 import { UserDropdown } from '@/components/shared/user-dropdown';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { ThemeToggle } from '@/features/theme/components/theme-toggle';
-import { setHeaderChromeActive } from '@/features/theme/context/theme-provider';
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
+import { setHeaderChromeActive } from '@/components/shared/theme-provider';
 import { cn } from '@/libs/utils';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -62,7 +62,7 @@ const Header = () => {
       <div
         aria-hidden
         className={cn(
-          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background/90 shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
+          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
           headerActive
             ? 'border-border/40 dark:border-border/60'
             : 'border-b-transparent md:border-transparent',

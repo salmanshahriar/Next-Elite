@@ -14,11 +14,14 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { type DemoAccount } from '../demo/accounts';
-import DemoCredentials from '../demo/demo-credentials';
-import { signInWithDemoFallback } from '../demo/sign-in';
-import { useAuth } from '../hooks/auth-provider';
-import { loginSchema, type LoginInput } from '../schemas/login';
+import { type DemoAccount } from '../../features/auth/demo/accounts';
+import DemoCredentials from '../../features/auth/demo/demo-credentials';
+import { signInWithDemoFallback } from '../../features/auth/demo/sign-in';
+import { useAuth } from '../../features/auth/hooks/auth-provider';
+import {
+  loginSchema,
+  type LoginInput,
+} from '../../features/auth/schemas/login';
 
 const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;
 

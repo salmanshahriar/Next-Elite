@@ -13,8 +13,11 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../hooks/auth-provider';
-import { registerSchema, type RegisterInput } from '../schemas/register';
+import { useAuth } from '../../features/auth/hooks/auth-provider';
+import {
+  registerSchema,
+  type RegisterInput,
+} from '../../features/auth/schemas/register';
 
 const RegisterForm = () => {
   const t = useTranslations('auth.register');

@@ -1,5 +1,5 @@
 import { BlurGlow } from '@/components/shared/blur-glow';
-import Header from '@/features/navigation/header';
+import Header from '@/components/shared/header';
 import type { ReactNode } from 'react';
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {

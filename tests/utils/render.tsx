@@ -1,6 +1,6 @@
 import { AuthProvider } from '@/features/auth/hooks/auth-provider';
 import type { AuthUser } from '@/features/auth/types';
-import { ThemeProvider } from '@/features/theme/context/theme-provider';
+import { ThemeProvider } from '@/components/shared/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, type RenderOptions } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';

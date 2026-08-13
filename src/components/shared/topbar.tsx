@@ -11,13 +11,13 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { ThemeToggle } from '@/features/theme/components/theme-toggle';
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
-import { useSidebarCollapsed } from './sidebar';
+import { useSidebarCollapsed } from '../../components/shared/sidebar';
 
 export function Topbar() {
   const t = useTranslations();
@@ -37,7 +37,7 @@ export function Topbar() {
     segment.charAt(0).toUpperCase() + segment.slice(1);
 
   return (
-    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-xl border border-border/40 bg-background/90 px-4 md:flex md:px-6 dark:border-border/60 dark:bg-background">
+    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-xl border border-border/40 bg-background/80 px-4 backdrop-blur-md md:flex md:px-6 dark:border-border/60 dark:bg-background">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <Button
           variant="ghost"

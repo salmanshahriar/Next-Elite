@@ -15,7 +15,7 @@ import { cn } from '@/libs/utils';
 import { ChevronDown, Globe } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
-import { setLocaleAction } from '../locale-actions';
+import { setLocaleAction } from '../../features/i18n/locale-actions';
 
 const localeLabels: Record<string, string> = supportedLocales.reduce(
   (acc, code) => {

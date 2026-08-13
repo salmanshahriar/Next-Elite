@@ -17,8 +17,8 @@ import {
 } from '@/components/ui/tooltip';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
 import { useIsRtl } from '@/features/i18n/use-is-rtl';
-import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { ThemeToggle } from '@/features/theme/components/theme-toggle';
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { cn } from '@/libs/utils';
 import * as Dialog from '@radix-ui/react-dialog';
 import {
@@ -57,7 +57,7 @@ interface SidebarContentProps {
 }
 
 const SIDEBAR_SURFACE_CLASS =
-  'rounded-xl border border-border/40 bg-background/90 dark:border-border/60 dark:bg-background';
+  'rounded-xl border border-border/40 bg-background/80 dark:border-border/60 dark:bg-background backdrop-blur-md';
 
 const SIDEBAR_PANEL_CLASS = cn(SIDEBAR_SURFACE_CLASS, 'm-2');
 
@@ -306,7 +306,7 @@ export function Sidebar() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 flex h-app-header items-center justify-between rounded-none border-0 border-b border-border/40 bg-background px-4 md:hidden dark:border-border/60 dark:bg-card">
+      <div className="fixed inset-x-0 top-0 z-50 flex h-app-header items-center justify-between rounded-none border-0 border-b border-border/40 bg-background/80 px-4 md:hidden dark:border-border/60 dark:bg-card">
         <div className="flex flex-1 items-center justify-start gap-3">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
@@ -325,7 +325,7 @@ export function Sidebar() {
               className={cn(
                 SIDEBAR_SURFACE_CLASS,
                 SIDEBAR_BORDER_CLASS,
-                'h-screen w-[18rem] max-w-[85vw] gap-0 rounded-none bg-background p-0 sm:max-w-[18rem] dark:bg-card',
+                'h-screen w-[18rem] max-w-[85vw] gap-0 rounded-none bg-background/80 p-0 sm:max-w-[18rem] dark:bg-card',
               )}
             >
               <SheetTitle className="sr-only">{t('sidebar.menu')}</SheetTitle>
@@ -373,7 +373,7 @@ export function Sidebar() {
       <Dialog.Root open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[60] bg-black/50" />
-          <Dialog.Content className="fixed top-1/2 left-1/2 z-[70] w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background p-6 shadow-lg">
+          <Dialog.Content className="fixed top-1/2 left-1/2 z-[70] w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background/80 p-6 shadow-lg">
             <Dialog.Title className="text-base font-semibold">
               {t('auth.logout.title')}
             </Dialog.Title>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from '@/features/theme/context/theme-provider';
+import { useTheme } from '@/components/shared/theme-provider';
 
 export function ThemeOverlay() {
   const { theme } = useTheme();
