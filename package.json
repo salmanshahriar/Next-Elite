@@ -27,7 +27,7 @@
     "e2e:webkit": "playwright test --config e2e/playwright.config.ts --project=webkit",
     "playwright:install": "playwright install chromium firefox webkit",
     "playwright:install:deps": "playwright install-deps",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install || true"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
