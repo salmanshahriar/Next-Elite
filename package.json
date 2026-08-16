@@ -99,7 +99,8 @@
     "kysely": "0.28.17",
     "postcss": "8.5.26",
     "sharp": "0.35.3",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.0",
+    "@swc/helpers": "0.5.15"
   },
   "commitlint": {
     "extends": [
