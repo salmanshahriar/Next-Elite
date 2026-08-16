@@ -135,8 +135,7 @@
     "linkedin": "https://linkedin.com/company/yourcompany"
   },
   "images": {
-    "og": "/Nextjs-Elite-OG-Image.webp",
-    "cover": "/Nextjs-Elite-Cover.webp",
+    "og": "/Next-Elite-OG.webp",
     "logo": "/logo.svg",
     "ogWidth": 1200,
     "ogHeight": 630

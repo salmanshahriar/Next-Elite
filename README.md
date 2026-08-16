@@ -1,5 +1,25 @@
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%">
+        <img src="./public/Next-Elite-Home.webp" alt="Next Elite Home" />
+      </td>
+      <td width="50%">
+        <img src="./public/Nextjs-Elite-UI-Components.webp" alt="Next Elite UI Components" />
+      </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        <img src="./public/Next-Elite-Auth.webp" alt="Next Elite Auth" />
+      </td>
+      <td width="50%">
+        <img src="./public/Next-Elite-Admin.webp" alt="Next Elite Admin Dashboard" />
+      </td>
+    </tr>
+  </table>
+</div>
+
 <a href="https://next-elite-boilerplate.vercel.app/">
-  <img alt="Next Elite - Production-Ready SaaS Boilerplate" src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-OG-Image.webp" />
   <h1 align="center">Next Elite</h1>
 </a>
 
@@ -40,12 +60,6 @@ Next Elite is a frontend-first Next.js boilerplate designed to consume APIs (RES
 It is feature-based, offering a polished developer experience (DX), built-in role-based access control (RBAC), type-safe internationalization (i18n), and is optimized for speed, SEO, and developer productivity.
 
 Includes **40+ custom & reusable ui components** built on shadcn/ui.
-
-<br/>
-
-<div align="center">
-  <img src="https://next-elite-boilerplate.vercel.app/Nextjs-Elite-UI-Image.webp" alt="Next Elite Boilerplate UI" />
-</div>
 
 <br/>
 
@@ -104,7 +118,7 @@ Set the environment variables from `.env.example` in your Vercel project (Produc
 ## Lighthouse report
 
 <div align="center">
-  <img src="./public/lighthouse.webp" alt="Lighthouse test results" width="600" />
+  <img src="./public/Next-Elite-LightHouse.webp" alt="Lighthouse test results" width="600" />
 </div>
 
 <br/>

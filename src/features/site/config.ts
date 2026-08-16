@@ -55,7 +55,6 @@ const siteConfigSchema = z.object({
   social: z.record(z.string().min(1), z.string().min(1)),
   images: z.object({
     og: z.string().min(1),
-    cover: z.string().min(1),
     logo: z.string().min(1),
     ogWidth: z.number().positive(),
     ogHeight: z.number().positive(),
