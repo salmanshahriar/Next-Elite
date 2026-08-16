@@ -35,6 +35,7 @@
     "language": "Langue",
     "dashboard": "Tableau de bord",
     "profile": "Profil",
+    "settings": "Paramètres",
     "logout": "Déconnexion",
     "login": "Connexion",
     "uiComponents": "Composants UI"
@@ -117,6 +118,13 @@
     "accountInfo": "Informations du compte",
     "email": "E-mail",
     "role": "Rôle"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Gérez les paramètres et préférences de votre espace de travail.",
+    "preferences": "Préférences",
+    "theme": "Thème",
+    "language": "Langue"
   },
   "sidebar": {
     "adminPanel": "Panneau Admin",

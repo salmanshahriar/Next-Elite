@@ -35,6 +35,7 @@
     "language": "Language",
     "dashboard": "Dashboard",
     "profile": "Profile",
+    "settings": "Settings",
     "logout": "Logout",
     "login": "Login",
     "uiComponents": "UI Components"
@@ -117,6 +118,13 @@
     "accountInfo": "Account Information",
     "email": "Email",
     "role": "Role"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your workspace settings and preferences.",
+    "preferences": "Preferences",
+    "theme": "Theme",
+    "language": "Language"
   },
   "sidebar": {
     "adminPanel": "Admin Panel",

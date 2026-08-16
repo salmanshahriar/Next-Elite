@@ -41,10 +41,6 @@ const ProtectedLayout = async ({
           color="rgba(118, 99, 255, 0.28)"
           className="top-0 right-0 h-[480px] w-[480px] translate-x-1/4 -translate-y-1/4"
         />
-        <BlurGlow
-          color="rgba(118, 99, 255, 0.28)"
-          className="bottom-2 left-10 h-[520px] w-[520px] -translate-x-1/4 translate-y-1/4"
-        />
       </div>
       <Sidebar />
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-app-header md:pt-0">

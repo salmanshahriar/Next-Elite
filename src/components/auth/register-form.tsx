@@ -8,7 +8,6 @@ import InputError from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -51,7 +50,7 @@ const RegisterForm = () => {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-4 py-10">
+      <div className="flex w-full items-center justify-center py-10">
         <div>{tCommon('loading')}</div>
       </div>
     );
@@ -62,18 +61,12 @@ const RegisterForm = () => {
   const errors = form.formState.errors;
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <Card flat className="w-full max-w-md pb-10">
-        <CardHeader className="relative flex min-h-[3.5rem] flex-row items-center justify-center px-12">
-          <Button
-            variant="subtle"
-            size="icon"
-            className="absolute start-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full"
-            onClick={() => router.push('/')}
-            aria-label="Go back"
-          >
-            <ArrowLeft className="h-4 w-4 transition-transform rtl:rotate-180" />
-          </Button>
+    <div className="flex w-full items-center justify-center py-4">
+      <Card
+        flat
+        className="w-full max-w-md border-0 bg-transparent pb-10 shadow-none"
+      >
+        <CardHeader className="flex flex-row items-center justify-center px-4">
           <CardTitle className="text-center text-2xl">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent>

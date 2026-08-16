@@ -35,6 +35,7 @@
     "language": "Idioma",
     "dashboard": "Panel de control",
     "profile": "Perfil",
+    "settings": "Ajustes",
     "logout": "Cerrar sesión",
     "login": "Iniciar sesión",
     "uiComponents": "Componentes UI"
@@ -113,10 +114,17 @@
   },
   "profile": {
     "title": "Perfil",
-    "description": "Consulta y actualiza tu información personal.",
+    "description": "Ver y actualizar su información de cuenta personal.",
     "accountInfo": "Información de la cuenta",
-    "email": "Correo",
+    "email": "Correo electrónico",
     "role": "Rol"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "description": "Gestiona la configuración y preferencias de tu espacio de trabajo.",
+    "preferences": "Preferencias",
+    "theme": "Tema",
+    "language": "Idioma"
   },
   "sidebar": {
     "adminPanel": "Panel de Admin",

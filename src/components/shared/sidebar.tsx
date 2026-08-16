@@ -25,6 +25,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  Settings,
   UserCircle,
   type LucideIcon,
 } from 'lucide-react';
@@ -49,11 +50,11 @@ interface NavItem {
 interface SidebarContentProps {
   pathname: string;
   items: NavItem[];
+  settingsLabel?: string;
   logoutLabel?: string;
   onLogoutRequest?: () => void;
   onItemClick?: () => void;
   isCollapsed?: boolean;
-  showFooter?: boolean;
 }
 
 const SIDEBAR_SURFACE_CLASS =
@@ -68,7 +69,7 @@ const NAV_SCROLL_CLASS =
   'min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
 
 const LOGOUT_BUTTON_CLASS =
-  'flex w-full items-center gap-2 overflow-hidden rounded-md text-sm font-medium text-destructive/85 transition-colors hover:bg-destructive hover:text-primary-foreground';
+  'flex w-full max-w-full items-center gap-2 overflow-hidden rounded-md text-sm font-medium text-sidebar-foreground/50 transition-colors hover:bg-destructive/10 hover:text-destructive';
 
 const SIDEBAR_BORDER_CLASS = 'border-e border-s-0';
 
@@ -129,6 +130,43 @@ function NavLinkItem({
   return <NavTooltip label={item.label}>{link}</NavTooltip>;
 }
 
+function LogoutButtonItem({
+  label,
+  isCollapsed,
+  onLogoutRequest,
+  onItemClick,
+}: {
+  label: string;
+  isCollapsed: boolean;
+  onLogoutRequest?: () => void;
+  onItemClick?: () => void;
+}) {
+  const button = (
+    <button
+      type="button"
+      onClick={() => {
+        onLogoutRequest?.();
+        onItemClick?.();
+      }}
+      className={cn(
+        LOGOUT_BUTTON_CLASS,
+        isCollapsed
+          ? 'mx-auto h-10 w-10 justify-center p-0'
+          : 'h-11 px-3 py-2.5',
+      )}
+    >
+      <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center">
+        <LogOut className="h-[18px] w-[18px]" />
+      </span>
+      {!isCollapsed && <span className="truncate">{label}</span>}
+    </button>
+  );
+
+  if (!isCollapsed) return button;
+
+  return <NavTooltip label={label}>{button}</NavTooltip>;
+}
+
 function isNavActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -136,11 +174,11 @@ function isNavActive(pathname: string, href: string): boolean {
 function SidebarContent({
   pathname,
   items,
-  logoutLabel,
+  settingsLabel = 'Settings',
+  logoutLabel = 'Logout',
   onLogoutRequest,
   onItemClick,
   isCollapsed = false,
-  showFooter = false,
 }: SidebarContentProps) {
   return (
     <div className="flex h-full min-w-0 flex-col bg-transparent text-start">
@@ -180,28 +218,25 @@ function SidebarContent({
           </ul>
         </nav>
 
-        {showFooter ? (
-          <div className="border-t border-transparent px-2">
-            <div className="p-2">
-              <button
-                type="button"
-                className={cn(
-                  LOGOUT_BUTTON_CLASS,
-                  'cursor-pointer px-4 py-2.5',
-                )}
-                onClick={() => {
-                  onLogoutRequest?.();
-                  onItemClick?.();
-                }}
-              >
-                <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center">
-                  <LogOut className="h-[18px] w-[18px]" />
-                </span>
-                <span>{logoutLabel}</span>
-              </button>
-            </div>
-          </div>
-        ) : null}
+        <div className="mt-auto flex flex-col gap-1.5 p-2">
+          <NavLinkItem
+            item={{
+              id: 'settings',
+              label: settingsLabel,
+              href: '/settings',
+              icon: Settings,
+            }}
+            pathname={pathname}
+            isCollapsed={isCollapsed}
+            onItemClick={onItemClick}
+          />
+          <LogoutButtonItem
+            label={logoutLabel}
+            isCollapsed={isCollapsed}
+            onLogoutRequest={onLogoutRequest}
+            onItemClick={onItemClick}
+          />
+        </div>
       </TooltipProvider>
     </div>
   );
@@ -287,6 +322,9 @@ export function Sidebar() {
     [t],
   );
 
+  const settingsLabel = t.has('navigation.settings')
+    ? t('navigation.settings')
+    : 'Settings';
   const logoutLabel = t('navigation.logout');
 
   const mobileTitle = useMemo(() => {
@@ -294,8 +332,9 @@ export function Sidebar() {
     if (!segment) return t('navigation.dashboard');
     if (segment === 'dashboard') return t('navigation.dashboard');
     if (segment === 'profile') return t('navigation.profile');
+    if (segment === 'settings') return settingsLabel;
     return segment.charAt(0).toUpperCase() + segment.slice(1);
-  }, [pathname, t]);
+  }, [pathname, settingsLabel, t]);
 
   const handleLogoutRequest = () => setLogoutDialogOpen(true);
   const handleConfirmLogout = () => {
@@ -332,10 +371,10 @@ export function Sidebar() {
               <SidebarContent
                 pathname={pathname}
                 items={items}
+                settingsLabel={settingsLabel}
                 logoutLabel={logoutLabel}
                 onLogoutRequest={handleLogoutRequest}
                 onItemClick={() => setMobileOpen(false)}
-                showFooter
               />
             </SheetContent>
           </Sheet>
@@ -366,6 +405,9 @@ export function Sidebar() {
         <SidebarContent
           pathname={pathname}
           items={items}
+          settingsLabel={settingsLabel}
+          logoutLabel={logoutLabel}
+          onLogoutRequest={handleLogoutRequest}
           isCollapsed={collapsed}
         />
       </aside>

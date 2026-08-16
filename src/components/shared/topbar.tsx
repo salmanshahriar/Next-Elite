@@ -30,6 +30,9 @@ export function Topbar() {
   const segmentLabels: Record<string, string> = {
     dashboard: t('navigation.dashboard'),
     profile: t('navigation.profile'),
+    settings: t.has('navigation.settings')
+      ? t('navigation.settings')
+      : 'Settings',
   };
 
   const getSegmentLabel = (segment: string) =>

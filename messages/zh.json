@@ -35,6 +35,7 @@
     "language": "语言",
     "dashboard": "仪表板",
     "profile": "个人资料",
+    "settings": "设置",
     "logout": "退出登录",
     "login": "登录",
     "uiComponents": "UI 组件"
@@ -115,8 +116,15 @@
     "title": "个人资料",
     "description": "查看并更新您的个人账户信息。",
     "accountInfo": "账户信息",
-    "email": "邮箱",
+    "email": "电子邮件",
     "role": "角色"
+  },
+  "settings": {
+    "title": "设置",
+    "description": "管理您的工作区设置和偏好。",
+    "preferences": "偏好设置",
+    "theme": "主题",
+    "language": "语言"
   },
   "sidebar": {
     "adminPanel": "管理面板",

@@ -35,6 +35,7 @@
     "language": "ভাষা",
     "dashboard": "ড্যাশবোর্ড",
     "profile": "প্রোফাইল",
+    "settings": "সেটিংস",
     "logout": "লগআউট",
     "login": "লগইন",
     "uiComponents": "UI কম্পোনেন্ট"
@@ -117,6 +118,13 @@
     "accountInfo": "অ্যাকাউন্ট তথ্য",
     "email": "ইমেইল",
     "role": "ভূমিকা"
+  },
+  "settings": {
+    "title": "সেটিংস",
+    "description": "আপনার ওয়ার্কস্পেস সেটিংস এবং পছন্দসমূহ পরিচালনা করুন।",
+    "preferences": "পছন্দসমূহ",
+    "theme": "থিম",
+    "language": "ভাষা"
   },
   "sidebar": {
     "adminPanel": "অ্যাডমিন প্যানেল",
