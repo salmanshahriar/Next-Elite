@@ -62,7 +62,10 @@ function CalendarMonthCaption({
           goToMonth(next);
         }}
       >
-        <SelectTrigger className="z-50 h-7 w-[118px] gap-1 border-0 bg-transparent px-2 text-sm font-medium shadow-none focus:ring-0">
+        <SelectTrigger
+          aria-label="Month"
+          className="z-50 h-7 w-[118px] gap-1 border-0 bg-transparent px-2 text-sm font-medium shadow-none focus:ring-0"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -82,7 +85,10 @@ function CalendarMonthCaption({
           goToMonth(next);
         }}
       >
-        <SelectTrigger className="z-50 h-7 w-[76px] gap-1 border-0 bg-transparent px-2 text-sm font-medium shadow-none focus:ring-0">
+        <SelectTrigger
+          aria-label="Year"
+          className="z-50 h-7 w-[76px] gap-1 border-0 bg-transparent px-2 text-sm font-medium shadow-none focus:ring-0"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="max-h-52">

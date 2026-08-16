@@ -1,5 +1,5 @@
 # Multi-arch supported: build with
-#   docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
+# docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
 # Works natively on Dokploy, Docker, and any container platform.
 FROM node:22-alpine AS base
 WORKDIR /app

@@ -13,7 +13,7 @@
   --popover-foreground: oklch(0.145 0 0);
 
   /* Primary Colors */
-  --primary: #7663ff;
+  --primary: #5c4beb;
   --primary-foreground: #ffffff;
 
   /* Secondary Colors */
@@ -22,7 +22,7 @@
 
   /* Muted Colors */
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.46 0 0);
 
   /* Accent Colors */
   --accent: oklch(0.97 0 0);
@@ -33,7 +33,7 @@
   --destructive-foreground: oklch(0.577 0.245 27.325);
 
   /* Semantic Colors */
-  --success: oklch(0.627 0.194 149.214);
+  --success: oklch(0.52 0.194 149.214);
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.769 0.188 70.08);
   --warning-foreground: oklch(0.205 0 0);

@@ -467,6 +467,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
                   <Button
                     variant="outline"
                     size="sm"
+                    aria-label="Demo pick date button"
                     className="h-10 w-36 shrink-0 cursor-pointer items-center justify-start gap-2 rounded-xl border-border/80 px-4 text-sm font-medium hover:border-primary/50 hover:bg-muted/30"
                   >
                     <CalendarIcon className="size-4 shrink-0 text-muted-foreground" />
