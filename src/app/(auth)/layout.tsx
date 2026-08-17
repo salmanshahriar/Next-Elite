@@ -14,7 +14,7 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
       id="main-content"
       className="relative flex h-[98svh] bg-background/80 md:m-2"
     >
-      <section className="relative flex w-full flex-col items-center justify-center rounded-xl border border-border/40 bg-primary/10 p-6 md:w-2/3">
+      <section className="relative hidden items-center justify-center rounded-xl border border-border/40 bg-primary/10 p-6 md:flex md:w-2/3 md:flex-col">
         <div className="absolute h-full w-full">
           <AuthAnimation
             variant="square"
