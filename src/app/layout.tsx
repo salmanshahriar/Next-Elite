@@ -123,7 +123,7 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
     <html
       lang={locale}
       dir={dir}
-      className={cn(htmlTheme, fontSans.variable)}
+      className={htmlTheme}
       suppressHydrationWarning
     >
       <body className={cn(fontSans.className, 'antialiased')}>

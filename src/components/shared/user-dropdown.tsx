@@ -83,31 +83,28 @@ export const UserDropdown = ({
         className={cn('w-64', contentClassName)}
         align={align}
       >
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex items-center gap-2 py-1.5">
-            <Avatar className="size-8 h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+        <DropdownMenuLabel className="py-3 font-normal">
+          <div className="flex flex-col items-center justify-center gap-3 text-center">
+            <Avatar className="h-14 w-14 border-2 border-primary/20 shadow-xs">
+              <AvatarFallback className="bg-primary/10 text-base font-bold text-primary">
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <span
-              className={cn(
-                'truncate text-sm font-semibold text-foreground',
-                hideEmailOnMobile ? 'max-w-[140px]' : 'max-w-[120px]',
-              )}
-            >
-              {user.email}
-            </span>
-            <span
-              className={cn(
-                'inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[10px] font-semibold capitalize',
-                user.role === 'admin'
-                  ? 'border-primary/20 bg-primary/15 text-primary'
-                  : 'border-border bg-muted text-muted-foreground',
-              )}
-            >
-              {user.role}
-            </span>
+            <div className="flex w-full min-w-0 items-center justify-center gap-2 px-1">
+              <span className="max-w-[140px] truncate text-sm font-semibold text-foreground">
+                {user.email}
+              </span>
+              <span
+                className={cn(
+                  'inline-flex shrink-0 items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize',
+                  user.role === 'admin'
+                    ? 'border-primary/30 bg-primary/15 text-primary'
+                    : 'border-border bg-muted text-muted-foreground',
+                )}
+              >
+                {user.role}
+              </span>
+            </div>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
-import LoaderIcon from '@/components/icons/loader-icon';
+import { LoaderIcon } from '@/components/icons';
 import Case from '@/components/shared/case';
 import { cn } from '@/libs/utils';
 

@@ -70,10 +70,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
-  /* ========== Typography ========== */
-  --font-sans: var(--font-fredoka), system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, 'Cascadia Code', 'Courier New', monospace;
 }
 
 /* ========== Dark Theme Overrides ========== */
@@ -149,10 +145,6 @@
    ============================================ */
 
 @theme {
-  /* Typography */
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-
   /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);

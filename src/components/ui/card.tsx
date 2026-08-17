@@ -31,7 +31,7 @@ function Card({
       <div
         data-slot="card"
         className={cn(
-          'flex flex-col gap-6 rounded-xl border border-border bg-card py-6 text-foreground',
+          'flex flex-col gap-6 rounded-md border border-border bg-card py-6 text-foreground',
           className,
         )}
         {...props}
@@ -45,7 +45,7 @@ function Card({
     <div
       data-slot="card"
       className={cn(
-        'flex flex-col rounded-xl py-6 text-foreground',
+        'flex flex-col rounded-md py-6 text-foreground',
         variant === 'glow' ? CARD_SURFACE_CLASS : CARD_SOLID_CLASS,
         nested && 'backdrop-blur-none',
         className,

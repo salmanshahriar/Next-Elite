@@ -1,6 +1,6 @@
-import { AuthTopbar } from '@/components/auth/auth-topbar';
 import AuthAnimation from '@/components/auth/auth-animation';
-import { AppBrand } from '@/components/shared/app-brand';
+import { AuthTopbar } from '@/components/auth/auth-topbar';
+import { AppBrand } from '@/components/layout/app-brand';
 import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';

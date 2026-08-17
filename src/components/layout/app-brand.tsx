@@ -1,9 +1,9 @@
 'use client';
 
+import { Logo } from '@/components/shared/logo';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
 import Link from 'next/link';
-import { Logo } from './logo';
 
 interface AppBrandProps {
   href?: string;
@@ -29,7 +29,10 @@ export function AppBrand({
       <Logo size={size} className={cn('h-7 w-7 shrink-0', logoClassName)} />
       {showName ? (
         <span
-          className={cn('text-lg leading-tight font-semibold', nameClassName)}
+          className={cn(
+            'truncate text-lg leading-tight font-semibold group-data-[state=collapsed]:hidden',
+            nameClassName,
+          )}
         >
           {siteConfig.appName || siteConfig.title}
         </span>

@@ -1,7 +1,6 @@
 'use client';
 
-import { GithubIcon } from '@/components/icons/github-icon';
-import { VercelIcon } from '@/components/icons/vercel-icon';
+import { BetterAuthIcon, GithubIcon, VercelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
@@ -501,14 +500,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
             {...EXTERNAL_LINK}
             className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-sans text-xs font-medium text-white transition-transform duration-200 select-none hover:scale-105 dark:bg-white dark:text-black"
           >
-            <svg
-              viewBox="0 0 75 65"
-              fill="currentColor"
-              className="h-3 w-auto"
-              aria-hidden="true"
-            >
-              <path d="M37.5 0L75 65H0L37.5 0Z" />
-            </svg>
+            <VercelIcon className="h-3 w-auto" />
             Deploy to Vercel
           </a>
         </HeroCard>
@@ -535,17 +527,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
           description="Enterprise-grade auth with Better Auth - email/password, Google OAuth, session handling, and permission-based RBAC out of the box."
         >
           <div className="flex items-center justify-center transition-transform duration-200 select-none hover:scale-105">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 400 300"
-              className="h-28 w-auto shrink-0 text-foreground"
-              aria-hidden="true"
-            >
-              <path
-                fill="currentColor"
-                d="M200 0h200v300H200V200h100V100H200zM0 0h100v100h100v100H100v100H0z"
-              />
-            </svg>
+            <BetterAuthIcon className="h-28 w-auto shrink-0 text-foreground" />
           </div>
         </HeroCard>
       </div>
@@ -557,16 +539,12 @@ function FeaturesSection() {
   return (
     <section className="mx-auto w-full max-w-7xl min-w-0 px-4">
       <div className="mx-auto w-full max-w-screen-xl space-y-4 px-5 sm:space-y-6 xl:px-0">
-        <h2 className="text-center text-2xl font-extrabold tracking-tight text-foreground sm:text-start sm:text-3xl">
+        <h2 className="text-center text-2xl font-extrabold tracking-tight text-foreground">
           More features
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {homeFeatures.map(({ icon: Icon, title, description, details }) => (
-            <Card
-              key={title}
-              variant="glow"
-              className="relative min-h-[15rem] gap-4 overflow-hidden rounded-2xl p-4 text-start sm:gap-5 sm:p-6 md:p-7"
-            >
+            <Card key={title} variant="glow" className="p-6">
               <div className="flex items-start gap-3.5">
                 <div className="relative flex aspect-square size-12 shrink-0 items-center justify-center rounded-full border border-[#7663ff]/25 bg-gradient-to-br from-[#7663ff]/20 to-[#392ea3]/10 text-[#9d8cff] shadow-[0_0_12px_rgba(118,99,255,0.15)]">
                   <Icon className="size-6" />
@@ -606,8 +584,8 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
   return (
     <section className="mx-auto w-full max-w-7xl min-w-0 px-4 pb-12 sm:pb-16">
       <div className="mx-auto w-full max-w-screen-xl px-5 xl:px-0">
-        <Card className="relative gap-0 overflow-hidden rounded-2xl py-0 sm:rounded-3xl">
-          <div className="relative z-10 grid min-w-0 gap-8 p-6 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-10 lg:p-10">
+        <Card className="p-0">
+          <div className="grid min-w-0 gap-8 p-6 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-10 lg:p-10">
             <div className="flex min-w-0 flex-col gap-5 lg:col-span-2">
               <div className="space-y-3 sm:space-y-4">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
@@ -627,7 +605,7 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
 
             <Card
               flat
-              className="min-w-0 gap-0 overflow-hidden rounded-xl py-0 lg:col-span-3"
+              className="min-w-0 gap-0 overflow-hidden rounded-md py-0 lg:col-span-3"
               dir="ltr"
             >
               <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-muted/20 px-4 py-3 sm:px-5">

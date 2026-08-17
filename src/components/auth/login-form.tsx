@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
-import { GoogleIcon } from '@/components/icons/google-icon';
+import { GoogleIcon } from '@/components/icons';
 import { PasswordInput } from '@/components/ui/password-input';
 import { env } from '@/libs/env';
 import { zodResolver } from '@hookform/resolvers/zod';

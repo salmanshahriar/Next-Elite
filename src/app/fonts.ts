@@ -1,8 +1,6 @@
-import { Fredoka } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
-export const fontSans = Fredoka({
+export const fontSans = Inter({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-fredoka',
   display: 'swap',
 });

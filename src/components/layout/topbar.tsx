@@ -1,5 +1,7 @@
 'use client';
 
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { UserDropdown } from '@/components/shared/user-dropdown';
 import {
   Breadcrumb,
@@ -10,20 +12,18 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import LanguageSwitcher from '@/components/shared/language-switcher';
-import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
-import { useSidebarCollapsed } from '../../components/shared/sidebar';
 
 export function Topbar() {
   const t = useTranslations();
   const { user } = useAuth();
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useSidebarCollapsed();
+  const { open, toggleSidebar } = useSidebar();
 
   const segments = pathname.split('/').filter(Boolean);
 
@@ -40,20 +40,20 @@ export function Topbar() {
     segment.charAt(0).toUpperCase() + segment.slice(1);
 
   return (
-    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-xl border border-border/40 bg-background/80 px-4 backdrop-blur-md md:flex md:px-6 dark:border-border/60 dark:bg-background">
+    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-md border border-border/40 bg-background/80 px-4 backdrop-blur-md md:flex md:px-6 dark:border-border/60 dark:bg-background">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           className="h-8 w-8 text-muted-foreground hover:bg-accent/40 hover:text-foreground"
-          onClick={() => setCollapsed(!collapsed)}
-          aria-expanded={!collapsed}
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          onClick={toggleSidebar}
+          aria-expanded={open}
+          aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
         >
-          {collapsed ? (
-            <PanelLeftOpen className="h-4 w-4" />
-          ) : (
+          {open ? (
             <PanelLeftClose className="h-4 w-4" />
+          ) : (
+            <PanelLeftOpen className="h-4 w-4" />
           )}
         </Button>
 

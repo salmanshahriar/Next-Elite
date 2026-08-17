@@ -1,12 +1,12 @@
 'use client';
 
-import { AppBrand } from '@/components/shared/app-brand';
+import { AppBrand } from '@/components/layout/app-brand';
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { setHeaderChromeActive } from '@/components/shared/theme-provider';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { UserDropdown } from '@/components/shared/user-dropdown';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import LanguageSwitcher from '@/components/shared/language-switcher';
-import { ThemeToggle } from '@/components/shared/theme-toggle';
-import { setHeaderChromeActive } from '@/components/shared/theme-provider';
 import { cn } from '@/libs/utils';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -58,11 +58,11 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="relative sticky top-0 z-30 mx-0 shrink-0 rounded-none md:top-2 md:mx-2 md:rounded-xl">
+    <header className="relative sticky top-0 z-30 mx-0 shrink-0 rounded-none md:top-2 md:mx-2 md:rounded-md">
       <div
         aria-hidden
         className={cn(
-          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background shadow-sm backdrop-blur-md md:rounded-xl md:border dark:bg-card',
+          'pointer-events-none absolute inset-0 rounded-none border-0 border-b bg-background shadow-sm backdrop-blur-md md:rounded-md md:border dark:bg-card',
           headerActive
             ? 'border-border/40 dark:border-border/60'
             : 'border-b-transparent md:border-transparent',
@@ -71,7 +71,7 @@ const Header = () => {
       />
       <div className="relative z-10 px-3 md:px-4 lg:px-8">
         <div className="flex h-app-header items-center justify-between gap-3 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
-          <div className="flex min-w-0 items-center justify-start">
+          <div className="flex items-center justify-start">
             <AppBrand href="/" />
           </div>
 
