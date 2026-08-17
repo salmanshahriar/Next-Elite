@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.1",
-    "@commitlint/config-conventional": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.2",
     "@next/bundle-analyzer": "16.3.0",
     "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "4.3.3",
