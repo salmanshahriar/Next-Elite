@@ -1,3 +1,18 @@
+<h1 align="center">Next Elite</h1>
+
+<p align="center">
+  An open-source, frontend-first Next.js boilerplate built for an API-driven workflow, no attached database required. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished, production-ready starting point out of the box with pre-built auth layouts, role-based dashboard layouts, and 40+ custom & reusable UI components.
+</p>
+
+<p align="center">
+  <a href="https://next-elite-boilerplate.vercel.app/"><strong>🚀 Live Demo</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
+</p>
+
+<br/>
+
 <div align="center">
   <table>
     <tr>
@@ -19,61 +34,34 @@
   </table>
 </div>
 
-<a href="https://next-elite-boilerplate.vercel.app/">
-  <h1 align="center">Next Elite</h1>
-</a>
-
-<p align="center">
-  A production-ready, frontend-first Next.js boilerplate with i18n, RBAC, BetterAuth, and a polished DX out of the box.
-</p>
-
-<p align="center">
-  <a href="https://github.com/salmanshahriar/Next-Elite">
-    <img src="https://img.shields.io/github/stars/salmanshahriar/Next-Elite?label=salmanshahriar%2FNext-Elite" alt="Next Elite repo star count" />
-  </a>
-  <a href="https://github.com/salmanshahriar/Next-Elite/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/salmanshahriar/Next-Elite?color=22c55e" alt="Next Elite License" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://next-elite-boilerplate.vercel.app/"><strong>Live Demo</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>Use this Template</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>Report Bug</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>Request Feature</strong></a>
-</p>
-
-<p align="center">
-  <a href="#introduction"><strong>Introduction</strong></a> ·
-  <a href="#one-click-deploy"><strong>One-click Deploy</strong></a> ·
-  <a href="#tech-stack--features"><strong>Tech Stack + Features</strong></a> ·
-  <a href="#quick-start"><strong>Quick Start</strong></a> ·
-  <a href="#architecture-overview"><strong>Architecture Overview</strong></a> ·
-  <a href="#configuration"><strong>Configuration</strong></a>
-</p>
 <br/>
 
-## Introduction
+**Highlights & Features:**
 
-Next Elite is a frontend-first Next.js boilerplate designed to consume APIs (REST/GraphQL/BFF) instead of owning a database, allowing you to drop it on top of any backend you already have.
-
-It is feature-based, offering a polished developer experience (DX), built-in role-based access control (RBAC), type-safe internationalization (i18n), and is optimized for speed, SEO, and developer productivity.
-
-Includes **40+ custom & reusable ui components** built on shadcn/ui.
+- ⚡ **Next.js 16.3 + React 19** - Fast App Router, Turbopack, and Server Actions
+- 🔥 **TypeScript 6** - End-to-end type safety across components and routes
+- ✨ **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
+- 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
+- 🔐 **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
+- 🖼️ **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
+- 🎨 **40+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
+- 📚 **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
+- 📝 **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
+- 🧪 **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
 
 <br/>
 
 ## One-click Deploy
 
-You can deploy this template to Vercel with the button below:
+Deploy directly to Vercel:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite)
 
-Set the environment variables from `.env.example` in your Vercel project (Production + Preview).
+Set environment variables from `.env.example` in Vercel project settings.
 
 <br/>
 
-## Tech Stack + Features
+## Tech Stack + Details
 
 ### Frameworks & Core
 
@@ -84,8 +72,10 @@ Set the environment variables from `.env.example` in your Vercel project (Produc
 
 ### Authentication & Access Control
 
-- **BetterAuth** - Out-of-the-box email/password and OAuth (Google) authentication using `/api/auth/*` route handlers. Configure admin emails via `AUTH_ADMIN_EMAILS` or `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`.
+- **BetterAuth** - Out-of-the-box email/password and Google OAuth authentication using `/api/auth/*` route handlers. Configure admin emails via `AUTH_ADMIN_EMAILS` or `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`.
+- **Auth UI & Layout** - Split-pane authentication pages with custom WebGL particle background animation, sticky topbar with back navigation, theme toggle, and language switcher.
 - **Role-Based Access Control (RBAC)** - Flexible RBAC (`user` and `admin` roles) with server-side guards (`requireUser`, `requirePermission`) and parallel route slots (`@admin`, `@user`) for role-agnostic routing.
+- **Dashboard & Navigation** - Modern sidebar navigation with fixed bottom Settings (`/settings`) and Logout actions, collapsible state, mobile sheet, and topbar breadcrumbs.
 
 ### Internationalization (i18n)
 
@@ -297,9 +287,6 @@ const form = useForm<LoginInput>({
 
 ## Project Structure
 
-<details>
-<summary><b>View Directory Structure</b></summary>
-
 ```
 .
 ├── .github/
@@ -322,11 +309,11 @@ const form = useForm<LoginInput>({
 ├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
 ├── src/
 │   ├── app/                  App Router
-│   │   ├── (auth)/           Login & auth pages
+│   │   ├── (auth)/           Login, register, & reset-password pages
 │   │   ├── (public)/         Marketing pages (home, ui-components)
 │   │   ├── (protected)/      Authenticated area + RBAC
-│   │   │   ├── @admin/       Admin dashboard slot
-│   │   │   ├── @user/        User dashboard slot
+│   │   │   ├── @admin/       Admin slots (dashboard, profile, settings)
+│   │   │   ├── @user/        User slots (dashboard, profile, settings)
 │   │   │   └── layout.tsx    Picks slot based on permissions
 │   │   ├── api/              Route handlers (BetterAuth, health)
 │   │   ├── layout.tsx        Root layout, SEO, providers
@@ -335,30 +322,26 @@ const form = useForm<LoginInput>({
 │   │   ├── robots.ts         robots.txt
 │   │   └── sitemap.ts        Dynamic sitemap
 │   ├── components/
-│   │   ├── shared/           App-level shared components
-│   │   ├── icons/            Icon components
+│   │   ├── auth/             Auth forms, topbar & WebGL animation canvas
+│   │   ├── icons/            SVG icon components (Google, GitHub, Vercel)
+│   │   ├── shared/           App navigation (sidebar, topbar, theme-toggle)
 │   │   └── ui/               shadcn/ui primitives
 │   ├── features/             Feature modules (vertical slices)
 │   │   ├── auth/             BetterAuth + RBAC
 │   │   │   ├── lib/          auth + auth-client (BetterAuth singletons)
 │   │   │   ├── server/       Server-only helpers (getCurrentUser)
 │   │   │   ├── hooks/        Auth provider + useAuth hook
-│   │   │   ├── components/   Login form, register form
 │   │   │   ├── demo/         Self-contained demo module (delete for prod)
 │   │   │   ├── rbac/         permissions, roles, can, require
 │   │   │   └── schemas/      Zod login + register schemas
 │   │   ├── i18n/             next-intl config (routing, request, actions)
-│   │   ├── navigation/       Header, sidebar, topbar, top loader
-│   │   ├── site/             siteConfig + locale utilities
-│   │   └── theme/            Theme provider + toggle
+│   │   └── site/             siteConfig + locale utilities
 │   ├── libs/                 Cross-cutting infra (env, query-client, utils)
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
 └── ...
 ```
-
-</details>
 
 <br/>
 
