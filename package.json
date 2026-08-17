@@ -65,7 +65,7 @@
     "nextjs-toploader": "^3.9.17",
     "postprocessing": "^6.39.4",
     "react": "19.2.8",
-    "react-day-picker": "^9.14.0",
+    "react-day-picker": "^10.0.1",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.85.0",
     "server-only": "^0.0.1",
