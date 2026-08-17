@@ -159,7 +159,7 @@ const homeFeatures: readonly HomeFeature[] = [
         highlights: ['RTL'],
       },
       {
-        text: 'NEXT_LOCALE cookie remembers language without /en prefixes',
+        text: 'NEXT_LOCALE cookie remembers language without prefixes',
         highlights: ['NEXT_LOCALE'],
       },
       {
@@ -193,7 +193,7 @@ const GRADIENT_TEXT =
   'bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent';
 
 const HERO_CARD =
-  'relative col-span-1 h-auto min-h-[22rem] overflow-hidden rounded-2xl p-4 sm:min-h-[24rem] sm:p-6 md:p-8 [&>div]:flex [&>div]:h-full [&>div]:w-full [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div]:gap-4 sm:[&>div]:gap-6';
+  'relative col-span-1 h-auto min-h-[22rem] overflow-hidden rounded-md p-4 sm:min-h-[24rem] sm:p-6 md:p-8 [&>div]:flex [&>div]:h-full [&>div]:w-full [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div]:gap-4 sm:[&>div]:gap-6';
 
 const INSTALL_LINES = [
   `git clone ${githubRepoUrl}`,
@@ -357,7 +357,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
     new Date(2026, 5, 17),
   );
   const demoButtonClass =
-    'h-9 w-24 cursor-default rounded-xl text-sm font-medium shadow-sm';
+    'h-9 w-24 cursor-default rounded-md text-sm font-medium shadow-sm';
   const formattedDate = selectedDate?.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -424,14 +424,14 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
                 <Button
                   variant="outlineDestructive"
                   size="sm"
-                  className="h-9 w-24 cursor-default rounded-xl text-sm font-medium"
+                  className="h-9 w-24 cursor-default rounded-md text-sm font-medium"
                 >
                   Destructive
                 </Button>
                 <Button
                   loading
                   size="sm"
-                  className="h-9 w-24 cursor-default rounded-xl text-sm font-medium shadow-xs"
+                  className="h-9 w-24 cursor-default rounded-md text-sm font-medium shadow-xs"
                 >
                   Loading
                 </Button>
@@ -439,7 +439,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
                   variant="primary"
                   size="icon"
                   aria-label="Demo star button"
-                  className="hidden h-9 w-9 cursor-default rounded-xl shadow-xs sm:inline-flex"
+                  className="hidden h-9 w-9 cursor-default rounded-md shadow-xs sm:inline-flex"
                 >
                   <Star className="size-4 shrink-0 fill-primary-foreground text-primary-foreground" />
                 </Button>
@@ -467,7 +467,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
                     variant="outline"
                     size="sm"
                     aria-label="Demo pick date button"
-                    className="h-10 w-36 shrink-0 cursor-pointer items-center justify-start gap-2 rounded-xl border-border/80 px-4 text-sm font-medium hover:border-primary/50 hover:bg-muted/30"
+                    className="h-10 w-36 shrink-0 cursor-pointer items-center justify-start gap-2 rounded-md border-border/80 px-4 text-sm font-medium hover:border-primary/50 hover:bg-muted/30"
                   >
                     <CalendarIcon className="size-4 shrink-0 text-muted-foreground" />
                     <span className="truncate" suppressHydrationWarning>

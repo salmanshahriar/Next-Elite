@@ -316,16 +316,21 @@ const form = useForm<LoginInput>({
 │   │   │   ├── @user/        User slots (dashboard, profile, settings)
 │   │   │   └── layout.tsx    Picks slot based on permissions
 │   │   ├── api/              Route handlers (BetterAuth, health)
-│   │   ├── layout.tsx        Root layout, SEO, providers
+│   │   ├── styles/           Design system tokens, base CSS, & animations
+│   │   ├── fonts.ts          Inter typography configuration
+│   │   ├── layout.tsx        Root layout, SEO, Inter font, providers
 │   │   ├── providers.tsx     Theme + Auth + TanStack Query
 │   │   ├── manifest.ts       Web app manifest
 │   │   ├── robots.ts         robots.txt
 │   │   └── sitemap.ts        Dynamic sitemap
 │   ├── components/
-│   │   ├── auth/             Auth forms, topbar & WebGL animation canvas
-│   │   ├── icons/            SVG icon components (Google, GitHub, Vercel)
-│   │   ├── shared/           App navigation (sidebar, topbar, theme-toggle)
-│   │   └── ui/               shadcn/ui primitives
+│   │   ├── auth/             Auth forms & particle animation canvas
+│   │   ├── icons/            Centralized SVG icon components & barrel export
+│   │   ├── layout/           App shell, navigation sidebars, topbar & branding
+│   │   ├── pages/            Landing page & UI components page modules
+│   │   ├── shared/           User dropdown, text links, theme & language controls
+│   │   └── ui/               40+ shadcn/ui primitives
+│   ├── config/               App navigation & feature flags configuration
 │   ├── features/             Feature modules (vertical slices)
 │   │   ├── auth/             BetterAuth + RBAC
 │   │   │   ├── lib/          auth + auth-client (BetterAuth singletons)
@@ -336,6 +341,7 @@ const form = useForm<LoginInput>({
 │   │   │   └── schemas/      Zod login + register schemas
 │   │   ├── i18n/             next-intl config (routing, request, actions)
 │   │   └── site/             siteConfig + locale utilities
+│   ├── hooks/                Shared React hooks (useMobile, etc.)
 │   ├── libs/                 Cross-cutting infra (env, query-client, utils)
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
