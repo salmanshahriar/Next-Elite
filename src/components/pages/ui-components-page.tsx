@@ -190,68 +190,10 @@ import {
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-type ButtonVariant = NonNullable<
-  VariantProps<typeof buttonVariants>['variant']
->;
-type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>['size']>;
-
 const SCROLL_LOCK_MS = 700;
-
-const BUTTON_VARIANTS: ButtonVariant[] = [
-  'default',
-  'primary',
-  'subtle',
-  'destructive',
-  'destructiveSubtle',
-  'outline',
-  'outlineSuccess',
-  'outlineWarning',
-  'outlineDestructive',
-  'secondary',
-  'ghost',
-  'ghostPrimary',
-  'ghostDestructive',
-  'accent',
-  'muted',
-  'success',
-];
-
-const BUTTON_SIZES: ButtonSize[] = ['sm', 'default', 'lg'];
-
-const ICON_BUTTON_SIZES = ['icon', 'icon-sm', 'icon-lg'] as const;
-
-const BADGE_VARIANTS = [
-  'default',
-  'secondary',
-  'success',
-  'warning',
-  'destructive',
-  'outline',
-  'successSubtle',
-  'primaryOutline',
-  'successOutline',
-  'warningOutline',
-  'destructiveOutline',
-] as const;
-
-const PROGRESS_VARIANTS = ['default', 'success', 'destructive'] as const;
-
-const COMBOBOX_OPTIONS = [
-  { label: 'Next.js', value: 'next' },
-  { label: 'React', value: 'react' },
-  { label: 'TypeScript', value: 'ts' },
-  { label: 'Tailwind CSS', value: 'tailwind' },
-];
-
-const RADIO_OPTIONS = [
-  { value: 'default', id: 'r1', label: 'Default' },
-  { value: 'comfortable', id: 'r2', label: 'Comfortable' },
-  { value: 'compact', id: 'r3', label: 'Compact' },
-] as const;
-
-const SHEET_SIDES = ['right', 'left', 'top', 'bottom'] as const;
-
-const CAROUSEL_SLIDES = ['Slide 1', 'Slide 2', 'Slide 3'] as const;
+const SCROLL_MARGIN_CLASS = 'scroll-mt-24';
+const SUB_LABEL =
+  'mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase';
 
 const SECTIONS = [
   {
@@ -345,9 +287,7 @@ const COMPONENT_IDS = SECTIONS.flatMap((section) =>
 );
 
 const SECTION_IDS = SECTIONS.map((section) => section.id);
-
 const NAV_TARGET_IDS = [...SECTION_IDS, ...COMPONENT_IDS] as const;
-
 const DEFAULT_COMPONENT_ID = COMPONENT_IDS[0] ?? 'actions-button';
 
 const SECTION_BY_COMPONENT_ID = new Map<string, string>(
@@ -358,30 +298,30 @@ const SECTION_BY_COMPONENT_ID = new Map<string, string>(
   ),
 );
 
-function getSectionIdForTarget(id: string) {
+const getSectionIdForTarget = (id: string) => {
   return SECTION_BY_COMPONENT_ID.get(id);
-}
+};
 
-function isKnownNavTarget(id: string) {
+const isKnownNavTarget = (id: string) => {
   return (
     SECTION_BY_COMPONENT_ID.has(id) ||
     SECTION_IDS.includes(id as (typeof SECTION_IDS)[number])
   );
-}
+};
 
 type ScrollSpyEntry = { id: string; element: HTMLElement };
 
-function collectScrollSpyEntries(ids: readonly string[]) {
+const collectScrollSpyEntries = (ids: readonly string[]) => {
   return ids.flatMap((id) => {
     const element = document.getElementById(id);
     return element ? [{ id, element }] : [];
   });
-}
+};
 
-function resolveActiveTargetId(
+const resolveActiveTargetId = (
   entries: readonly ScrollSpyEntry[],
   fallbackId: string,
-) {
+) => {
   if (!entries.length) return fallbackId;
 
   const viewportCenter = window.innerHeight / 2;
@@ -399,16 +339,16 @@ function resolveActiveTargetId(
   }
 
   return closestId;
-}
+};
 
-function scrollToTarget(
+const scrollToTarget = (
   element: HTMLElement,
   behavior: ScrollBehavior = 'auto',
-) {
+) => {
   element.scrollIntoView({ behavior, block: 'start' });
-}
+};
 
-function useScrollSpy() {
+const useScrollSpy = () => {
   const [activeTarget, setActiveTarget] = useState(DEFAULT_COMPONENT_ID);
 
   const entriesRef = useRef<ScrollSpyEntry[]>([]);
@@ -496,9 +436,9 @@ function useScrollSpy() {
     activeSectionId,
     handleNavigate,
   };
-}
+};
 
-function ComponentsSidebarNav({
+const ComponentsSidebarNav = ({
   activeTarget,
   activeSectionId,
   onNavigate,
@@ -512,7 +452,7 @@ function ComponentsSidebarNav({
   label: string;
   className?: string;
   showLabel?: boolean;
-}) {
+}) => {
   const t = useTranslations('uiComponents');
   const activeLinkRef = useRef<HTMLAnchorElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -593,14 +533,9 @@ function ComponentsSidebarNav({
       })}
     </nav>
   );
-}
+};
 
-const SCROLL_MARGIN_CLASS = 'scroll-mt-24';
-
-const SUB_LABEL =
-  'mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase';
-
-function ShowcaseSection({
+const ShowcaseSection = ({
   id,
   title,
   description,
@@ -610,7 +545,7 @@ function ShowcaseSection({
   title: string;
   description?: string;
   children: ReactNode;
-}) {
+}) => {
   return (
     <section
       id={id}
@@ -628,9 +563,9 @@ function ShowcaseSection({
       <div className="space-y-8">{children}</div>
     </section>
   );
-}
+};
 
-function ComponentBlock({
+const ComponentBlock = ({
   id,
   title,
   children,
@@ -644,7 +579,7 @@ function ComponentBlock({
   className?: string;
   cardClassName?: string;
   allowOverflow?: boolean;
-}) {
+}) => {
   return (
     <Card
       flat
@@ -670,17 +605,173 @@ function ComponentBlock({
       </CardContent>
     </Card>
   );
-}
+};
 
-function SubLabel({ children }: { children: ReactNode }) {
+const SubLabel = ({ children }: { children: ReactNode }) => {
   return <p className={SUB_LABEL}>{children}</p>;
-}
+};
 
-function VariantGrid({ children }: { children: ReactNode }) {
+const VariantGrid = ({ children }: { children: ReactNode }) => {
   return <div className="flex flex-wrap items-center gap-2">{children}</div>;
-}
+};
 
-function FormShowcase() {
+type ButtonVariant = NonNullable<
+  VariantProps<typeof buttonVariants>['variant']
+>;
+type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>['size']>;
+
+const BUTTON_VARIANTS: ButtonVariant[] = [
+  'default',
+  'primary',
+  'subtle',
+  'destructive',
+  'destructiveSubtle',
+  'outline',
+  'outlineSuccess',
+  'outlineWarning',
+  'outlineDestructive',
+  'secondary',
+  'ghost',
+  'ghostPrimary',
+  'ghostDestructive',
+  'accent',
+  'muted',
+  'success',
+];
+
+const BUTTON_SIZES: ButtonSize[] = ['sm', 'default', 'lg'];
+const ICON_BUTTON_SIZES = ['icon', 'icon-sm', 'icon-lg'] as const;
+
+const ActionsShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+  return (
+    <ShowcaseSection
+      id="actions"
+      title={t('sections.actions')}
+      description={t('sections.actionsDesc')}
+    >
+      <ComponentBlock id="actions-button" title="Button">
+        <SubLabel>Variants</SubLabel>
+        <VariantGrid>
+          {BUTTON_VARIANTS.map((variant) => (
+            <Button key={variant} variant={variant}>
+              {variant}
+            </Button>
+          ))}
+        </VariantGrid>
+        <SubLabel>Sizes</SubLabel>
+        <VariantGrid>
+          {BUTTON_SIZES.map((size) => (
+            <Button key={size} size={size}>
+              {size}
+            </Button>
+          ))}
+          {ICON_BUTTON_SIZES.map((size) => (
+            <Button key={size} size={size} aria-label="Star">
+              <Star className="size-4" />
+            </Button>
+          ))}
+        </VariantGrid>
+        <SubLabel>States</SubLabel>
+        <VariantGrid>
+          <Button loading>Loading</Button>
+          <Button disabled>Disabled</Button>
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock id="actions-button-group" title="Button Group">
+        <SubLabel>Horizontal</SubLabel>
+        <ButtonGroup>
+          <Button variant="outline">Left</Button>
+          <ButtonGroupSeparator />
+          <Button variant="outline">Center</Button>
+          <ButtonGroupSeparator />
+          <Button variant="outline">Right</Button>
+        </ButtonGroup>
+        <SubLabel>With text addon</SubLabel>
+        <ButtonGroup>
+          <ButtonGroupText>https://</ButtonGroupText>
+          <Button variant="outline">Copy</Button>
+        </ButtonGroup>
+        <SubLabel>Vertical</SubLabel>
+        <ButtonGroup orientation="vertical" className="w-fit">
+          <Button variant="outline" size="sm">
+            Top
+          </Button>
+          <Button variant="outline" size="sm">
+            Middle
+          </Button>
+          <Button variant="outline" size="sm">
+            Bottom
+          </Button>
+        </ButtonGroup>
+      </ComponentBlock>
+
+      <ComponentBlock id="actions-toggle" title="Toggle">
+        <SubLabel>Variants</SubLabel>
+        <VariantGrid>
+          <Toggle aria-label="Bold">
+            <Bold className="size-4" />
+          </Toggle>
+          <Toggle variant="outline" aria-label="Italic">
+            <Italic className="size-4" />
+          </Toggle>
+        </VariantGrid>
+        <SubLabel>Sizes</SubLabel>
+        <VariantGrid>
+          <Toggle size="sm" aria-label="Align left">
+            <AlignLeft className="size-4" />
+          </Toggle>
+          <Toggle size="default" aria-label="Align center">
+            <AlignCenter className="size-4" />
+          </Toggle>
+          <Toggle size="lg" aria-label="Align right">
+            <AlignRight className="size-4" />
+          </Toggle>
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock id="actions-toggle-group" title="Toggle Group">
+        <SubLabel>Single</SubLabel>
+        <ToggleGroup type="single" defaultValue="left">
+          <ToggleGroupItem value="left" aria-label="Align left">
+            <AlignLeft className="size-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="center" aria-label="Align center">
+            <AlignCenter className="size-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="right" aria-label="Align right">
+            <AlignRight className="size-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
+        <SubLabel>Multiple</SubLabel>
+        <ToggleGroup type="multiple">
+          <ToggleGroupItem value="bold" aria-label="Bold">
+            <Bold className="size-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="italic" aria-label="Italic">
+            <Italic className="size-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const COMBOBOX_OPTIONS = [
+  { label: 'Next.js', value: 'next' },
+  { label: 'React', value: 'react' },
+  { label: 'TypeScript', value: 'ts' },
+  { label: 'Tailwind CSS', value: 'tailwind' },
+];
+
+const RADIO_OPTIONS = [
+  { value: 'default', id: 'r1', label: 'Default' },
+  { value: 'comfortable', id: 'r2', label: 'Comfortable' },
+  { value: 'compact', id: 'r3', label: 'Compact' },
+] as const;
+
+const FormShowcase = () => {
   const form = useForm({
     defaultValues: { email: '', bio: '' },
   });
@@ -722,15 +813,447 @@ function FormShowcase() {
       </form>
     </Form>
   );
-}
+};
 
-function ShowcasePreviewCard({
+const FormsShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+  const [comboboxValue, setComboboxValue] = useState('next');
+
+  return (
+    <ShowcaseSection
+      id="forms"
+      title={t('sections.forms')}
+      description={t('sections.formsDesc')}
+    >
+      <ComponentBlock id="forms-input" title="Input">
+        <SubLabel>States</SubLabel>
+        <div className="grid max-w-md gap-4">
+          <Input placeholder="Default input" />
+          <Input placeholder="Disabled" disabled />
+          <Input placeholder="Invalid" aria-invalid />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-textarea" title="Textarea">
+        <SubLabel>States</SubLabel>
+        <div className="grid max-w-md gap-4">
+          <Textarea placeholder="Write something..." />
+          <Textarea placeholder="Disabled" disabled />
+          <Textarea placeholder="Invalid" aria-invalid />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-label" title="Label">
+        <div className="flex max-w-md flex-col gap-2">
+          <Label htmlFor="demo-email">Email address</Label>
+          <Input id="demo-email" placeholder="you@example.com" />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-select" title="Select">
+        <div className="max-w-xs">
+          <Select defaultValue="react">
+            <SelectTrigger>
+              <SelectValue placeholder="Select framework" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="next">Next.js</SelectItem>
+              <SelectItem value="react">React</SelectItem>
+              <SelectItem value="vue">Vue</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-checkbox" title="Checkbox">
+        <div className="grid max-w-md gap-4">
+          <div className="flex items-center gap-2">
+            <Checkbox id="terms" />
+            <Label htmlFor="terms">Accept terms and conditions</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox id="terms-disabled" disabled />
+            <Label htmlFor="terms-disabled">Disabled</Label>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-radio-group" title="Radio Group">
+        <div className="max-w-xs">
+          <RadioGroup defaultValue="comfortable">
+            {RADIO_OPTIONS.map(({ value, id, label }) => (
+              <div key={value} className="flex items-center gap-2">
+                <RadioGroupItem value={value} id={id} />
+                <Label htmlFor={id}>{label}</Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-switch" title="Switch">
+        <div className="grid max-w-md gap-6">
+          <div>
+            <SubLabel>Sizes</SubLabel>
+            <VariantGrid>
+              <div className="flex items-center gap-2">
+                <Switch id="airplane-default" />
+                <Label htmlFor="airplane-default">Default Size</Label>
+              </div>
+              <div className="ml-6 flex items-center gap-2">
+                <Switch id="airplane-lg" size="lg" />
+                <Label htmlFor="airplane-lg">Large Size</Label>
+              </div>
+            </VariantGrid>
+          </div>
+
+          <div>
+            <SubLabel>With Icons</SubLabel>
+            <VariantGrid>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="switch-icons"
+                  size="lg"
+                  checkedIcon={
+                    <Moon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
+                  }
+                  uncheckedIcon={
+                    <Sun className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
+                  }
+                />
+                <Label htmlFor="switch-icons">Icon Toggle Switch</Label>
+              </div>
+            </VariantGrid>
+          </div>
+
+          <div>
+            <SubLabel>States</SubLabel>
+            <VariantGrid>
+              <div className="flex items-center gap-2">
+                <Switch id="airplane-disabled" disabled />
+                <Label htmlFor="airplane-disabled">Disabled</Label>
+              </div>
+            </VariantGrid>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-combobox" title="Combobox">
+        <div className="max-w-xs">
+          <Combobox
+            options={COMBOBOX_OPTIONS}
+            value={comboboxValue}
+            onChange={setComboboxValue}
+            placeholder="Select framework"
+          />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-input-group" title="Input Group">
+        <div className="grid max-w-md gap-6">
+          <div>
+            <SubLabel>Start addon</SubLabel>
+            <InputGroup>
+              <InputGroupAddon>
+                <InputGroupText>
+                  <Mail className="size-4" />
+                </InputGroupText>
+              </InputGroupAddon>
+              <InputGroupInput placeholder="Email" />
+            </InputGroup>
+          </div>
+          <div>
+            <SubLabel>End addon</SubLabel>
+            <InputGroup>
+              <InputGroupInput placeholder="Search..." />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton>
+                  <Search className="size-4" />
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
+          <div>
+            <SubLabel>Textarea</SubLabel>
+            <InputGroup>
+              <InputGroupTextarea placeholder="Write a message..." />
+            </InputGroup>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-input-otp" title="Input OTP">
+        <div className="w-fit">
+          <InputOTP maxLength={6}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-password-input" title="Password Input">
+        <div className="grid max-w-md gap-6">
+          <div>
+            <SubLabel>Default</SubLabel>
+            <div className="max-w-xs">
+              <PasswordInput placeholder="Enter password" />
+            </div>
+          </div>
+          <div>
+            <SubLabel>With error</SubLabel>
+            <div className="max-w-xs">
+              <PasswordInput
+                placeholder="With error"
+                error
+                errorMessage="Password is required"
+              />
+            </div>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-input-error" title="Input Error">
+        <div className="grid max-w-md gap-2">
+          <Label htmlFor="demo-error-input">Username</Label>
+          <Input id="demo-error-input" placeholder="johndoe" aria-invalid />
+          <InputError message="This field is required" />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-form" title="Form">
+        <FormShowcase />
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const TOAST_TYPE_DEMOS = [
+  { label: 'Default', action: () => toast('Default toast message') },
+  {
+    label: 'Success',
+    action: () => toast.success('Changes saved successfully'),
+  },
+  { label: 'Info', action: () => toast.info('New update available') },
+  {
+    label: 'Warning',
+    action: () => toast.warning('Your session is expiring soon'),
+  },
+  { label: 'Error', action: () => toast.error('Something went wrong') },
+] as const;
+
+const BADGE_VARIANTS = [
+  'default',
+  'secondary',
+  'success',
+  'warning',
+  'destructive',
+  'outline',
+  'successSubtle',
+  'primaryOutline',
+  'successOutline',
+  'warningOutline',
+  'destructiveOutline',
+] as const;
+
+const PROGRESS_VARIANTS = ['default', 'success', 'destructive'] as const;
+
+const FeedbackShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+  const [progress, setProgress] = useState(45);
+  const [showAlert, setShowAlert] = useState(true);
+  const [showDestructiveAlert, setShowDestructiveAlert] = useState(true);
+
+  return (
+    <ShowcaseSection
+      id="feedback"
+      title={t('sections.feedback')}
+      description={t('sections.feedbackDesc')}
+    >
+      <ComponentBlock id="feedback-alert" title="Alert">
+        <SubLabel>Interactive</SubLabel>
+        <div className="mb-4 flex flex-wrap gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowAlert((p) => !p)}
+          >
+            Toggle Default Alert
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowDestructiveAlert((p) => !p)}
+          >
+            Toggle Destructive Alert
+          </Button>
+        </div>
+        <SubLabel>Variants</SubLabel>
+        <div className="grid gap-4">
+          {showAlert && (
+            <Alert>
+              <AlertCircle className="size-4" />
+              <AlertTitle>Heads up</AlertTitle>
+              <AlertDescription>
+                Default alert for general information.
+              </AlertDescription>
+            </Alert>
+          )}
+          {showDestructiveAlert && (
+            <Alert variant="destructive">
+              <AlertCircle className="size-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                Destructive alert for critical messages.
+              </AlertDescription>
+            </Alert>
+          )}
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="feedback-toast" title="Toast">
+        <SubLabel>Types</SubLabel>
+        <VariantGrid>
+          {TOAST_TYPE_DEMOS.map(({ label, action }) => (
+            <Button key={label} size="sm" variant="outline" onClick={action}>
+              {label}
+            </Button>
+          ))}
+        </VariantGrid>
+        <SubLabel>With description</SubLabel>
+        <VariantGrid>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              toast('Event created', {
+                description: 'Monday, January 3rd at 6:00pm',
+              })
+            }
+          >
+            With description
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              toast.success('Profile updated', {
+                description: 'Your changes have been saved.',
+                action: {
+                  label: 'Undo',
+                  onClick: () => toast.info('Undo clicked'),
+                },
+              })
+            }
+          >
+            With action
+          </Button>
+        </VariantGrid>
+        <SubLabel>Loading</SubLabel>
+        <VariantGrid>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              const id = toast.loading('Saving changes...');
+              setTimeout(() => {
+                toast.success('Saved!', { id });
+              }, 1500);
+            }}
+          >
+            Loading → Success
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              toast.promise(
+                new Promise<string>((resolve) =>
+                  setTimeout(() => resolve('Done'), 1500),
+                ),
+                {
+                  loading: 'Processing...',
+                  success: 'Completed successfully',
+                  error: 'Failed to process',
+                },
+              )
+            }
+          >
+            Promise
+          </Button>
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock id="feedback-badge" title="Badge">
+        <SubLabel>Variants</SubLabel>
+        <VariantGrid>
+          {BADGE_VARIANTS.map((variant) => (
+            <Badge key={variant} variant={variant}>
+              {variant}
+            </Badge>
+          ))}
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock id="feedback-progress" title="Progress">
+        <SubLabel>Variants</SubLabel>
+        <div className="max-w-md space-y-4">
+          {PROGRESS_VARIANTS.map((variant) => (
+            <Progress key={variant} value={progress} variant={variant} />
+          ))}
+        </div>
+        <SubLabel>Interactive</SubLabel>
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setProgress((p) => Math.max(0, p - 10))}
+          >
+            -10
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setProgress((p) => Math.min(100, p + 10))}
+          >
+            +10
+          </Button>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="feedback-spinner" title="Spinner">
+        <Spinner className="size-6" />
+      </ComponentBlock>
+
+      <ComponentBlock id="feedback-skeleton" title="Skeleton">
+        <SubLabel>Profile placeholder</SubLabel>
+        <div className="flex items-center gap-4">
+          <Skeleton className="size-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-48" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+        </div>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const ShowcasePreviewCard = ({
   flat,
   withAction,
 }: {
   flat?: boolean;
   withAction?: boolean;
-}) {
+}) => {
   return (
     <Card flat={flat} variant={flat ? 'solid' : 'glow'} className="max-w-sm">
       <CardHeader>
@@ -770,21 +1293,7 @@ function ShowcasePreviewCard({
       ) : null}
     </Card>
   );
-}
-
-const TOAST_TYPE_DEMOS = [
-  { label: 'Default', action: () => toast('Default toast message') },
-  {
-    label: 'Success',
-    action: () => toast.success('Changes saved successfully'),
-  },
-  { label: 'Info', action: () => toast.info('New update available') },
-  {
-    label: 'Warning',
-    action: () => toast.warning('Your session is expiring soon'),
-  },
-  { label: 'Error', action: () => toast.error('Something went wrong') },
-] as const;
+};
 
 const ICON_DEMOS = [
   { icon: Heart, className: 'size-6 text-destructive' },
@@ -792,18 +1301,491 @@ const ICON_DEMOS = [
   { icon: Settings, className: 'size-6 text-primary' },
 ] as const;
 
-export function UiComponentsPage() {
+const DataDisplayShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+
+  return (
+    <ShowcaseSection
+      id="data-display"
+      title={t('sections.dataDisplay')}
+      description={t('sections.dataDisplayDesc')}
+    >
+      <ComponentBlock id="data-display-avatar" title="Avatar">
+        <div className="grid gap-6">
+          <div>
+            <SubLabel>With image</SubLabel>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
+          <div>
+            <SubLabel>Fallback</SubLabel>
+            <Avatar>
+              <AvatarFallback>NE</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock
+        id="data-display-card"
+        title="Card"
+        allowOverflow
+        className="space-y-8"
+      >
+        <div>
+          <SubLabel>Glass</SubLabel>
+          <div className="grid gap-6 p-1 sm:grid-cols-2">
+            <ShowcasePreviewCard />
+            <ShowcasePreviewCard withAction />
+          </div>
+        </div>
+        <div>
+          <SubLabel>Flat</SubLabel>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <ShowcasePreviewCard flat />
+            <ShowcasePreviewCard flat withAction />
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="data-display-table" title="Table">
+        <Table>
+          <TableCaption>Team members and their roles.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Alice</TableCell>
+              <TableCell>
+                <Badge variant="success">Active</Badge>
+              </TableCell>
+              <TableCell>Admin</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Bob</TableCell>
+              <TableCell>
+                <Badge variant="secondary">Away</Badge>
+              </TableCell>
+              <TableCell>User</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={2}>Total</TableCell>
+              <TableCell>2 members</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </ComponentBlock>
+
+      <ComponentBlock id="data-display-separator" title="Separator">
+        <div className="space-y-2">
+          <p className="text-sm">Above separator</p>
+          <Separator />
+          <p className="text-sm">Below separator</p>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="data-display-icon" title="Icon">
+        <SubLabel>Lucide icons</SubLabel>
+        <div className="flex items-center gap-4">
+          {ICON_DEMOS.map(({ icon, className }) => (
+            <Icon key={className} iconNode={icon} className={className} />
+          ))}
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock
+        id="data-display-placeholder-pattern"
+        title="Placeholder Pattern"
+      >
+        <div className="relative h-32 overflow-hidden rounded-lg border">
+          <PlaceholderPattern className="absolute inset-0 size-full stroke-muted-foreground/20" />
+        </div>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const NavigationShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+
+  return (
+    <ShowcaseSection
+      id="navigation"
+      title={t('sections.navigation')}
+      description={t('sections.navigationDesc')}
+    >
+      <ComponentBlock id="navigation-breadcrumb" title="Breadcrumb">
+        <div className="grid gap-6">
+          <div>
+            <SubLabel>Default</SubLabel>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/ui-components">
+                    Components
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <div>
+            <SubLabel>With ellipsis</SubLabel>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbEllipsis />
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Current</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="navigation-tabs" title="Tabs">
+        <Tabs defaultValue="account" className="max-w-md">
+          <TabsList>
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account" className="pt-4 text-sm">
+            Manage your account settings.
+          </TabsContent>
+          <TabsContent value="password" className="pt-4 text-sm">
+            Change your password here.
+          </TabsContent>
+          <TabsContent value="settings" className="pt-4 text-sm">
+            Configure app preferences.
+          </TabsContent>
+        </Tabs>
+      </ComponentBlock>
+
+      <ComponentBlock id="navigation-text-link" title="Text Link">
+        <SubLabel>Variants</SubLabel>
+        <div className="flex flex-wrap items-center gap-6">
+          <TextLink href="/">Default link</TextLink>
+          <TextLink href="/" variant="underlined">
+            Underlined link
+          </TextLink>
+          <TextLink href="/" className="text-primary">
+            Primary link
+          </TextLink>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock
+        id="navigation-navigation-menu"
+        title="Navigation Menu"
+        allowOverflow
+      >
+        <div className="relative max-w-full overflow-x-clip">
+          <NavigationMenu
+            viewport={false}
+            className="inline-flex max-w-full flex-none"
+          >
+            <NavigationMenuList className="justify-start">
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+                <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-top-2 data-[motion=from-start]:slide-in-from-top-2 data-[motion=to-end]:slide-out-to-top-2 data-[motion=to-start]:slide-out-to-top-2">
+                  <ul className="grid w-48 gap-2 p-4">
+                    <li>
+                      <NavigationMenuLink
+                        href="/"
+                        className="block rounded-md p-2 text-sm hover:bg-accent"
+                      >
+                        Introduction
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink
+                        href="/"
+                        className="block rounded-md p-2 text-sm hover:bg-accent"
+                      >
+                        About
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/ui-components"
+                  className="rounded-md px-4 py-2 text-sm font-medium hover:bg-accent"
+                >
+                  Components
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const SHEET_SIDES = ['right', 'left', 'top', 'bottom'] as const;
+
+const OverlaysShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+  const [dropdownChecked, setDropdownChecked] = useState(true);
+  const [dropdownRadio, setDropdownRadio] = useState('comfortable');
+
+  return (
+    <ShowcaseSection
+      id="overlays"
+      title={t('sections.overlays')}
+      description={t('sections.overlaysDesc')}
+    >
+      <ComponentBlock id="overlays-dialog" title="Dialog">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Open dialog</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Dialog title</DialogTitle>
+              <DialogDescription>
+                Dialog description with actions below.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline">Cancel</Button>
+              <Button>Confirm</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </ComponentBlock>
+
+      <ComponentBlock id="overlays-sheet" title="Sheet">
+        <div className="flex flex-wrap gap-2">
+          {SHEET_SIDES.map((side) => (
+            <Sheet key={side}>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="capitalize">
+                  {side}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side={side}>
+                <SheetHeader>
+                  <SheetTitle>Sheet from {side}</SheetTitle>
+                  <SheetDescription>
+                    Slide-over panel anchored to the {side} edge.
+                  </SheetDescription>
+                </SheetHeader>
+                <SheetBody>
+                  <p className="text-sm text-muted-foreground">
+                    Use sheets for filters, settings, or secondary flows without
+                    leaving the current page. Body content scrolls when it
+                    exceeds the viewport.
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    {Array.from({ length: 6 }, (_, index) => (
+                      <div
+                        key={index}
+                        className="rounded-md border border-border/60 bg-muted/30 px-3 py-2 text-sm"
+                      >
+                        Example row {index + 1}
+                      </div>
+                    ))}
+                  </div>
+                </SheetBody>
+                <SheetFooter>
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Save</Button>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          ))}
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="overlays-popover" title="Popover">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline">Open popover</Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64">
+            <p className="text-sm">
+              Popover content for contextual actions or info.
+            </p>
+          </PopoverContent>
+        </Popover>
+      </ComponentBlock>
+
+      <ComponentBlock id="overlays-tooltip" title="Tooltip">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline">Hover me</Button>
+          </TooltipTrigger>
+          <TooltipContent>Tooltip content</TooltipContent>
+        </Tooltip>
+      </ComponentBlock>
+
+      <ComponentBlock id="overlays-dropdown-menu" title="Dropdown Menu">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Open menu</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-52">
+            <DropdownMenuLabel>My account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuCheckboxItem
+              checked={dropdownChecked}
+              onCheckedChange={setDropdownChecked}
+            >
+              Show notifications
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={dropdownRadio}
+              onValueChange={setDropdownRadio}
+            >
+              <DropdownMenuRadioItem value="default">
+                Default
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="comfortable">
+                Comfortable
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>More options</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Export</DropdownMenuItem>
+                <DropdownMenuItem>Import</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const CAROUSEL_SLIDES = ['Slide 1', 'Slide 2', 'Slide 3'] as const;
+
+const LayoutShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <ShowcaseSection
+      id="layout"
+      title={t('sections.layout')}
+      description={t('sections.layoutDesc')}
+    >
+      <ComponentBlock id="layout-accordion" title="Accordion">
+        <SubLabel>Single collapsible</SubLabel>
+        <Accordion type="single" collapsible className="max-w-lg">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It uses Radix UI primitives under the hood.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It matches your boilerplate theme tokens.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </ComponentBlock>
+
+      <ComponentBlock id="layout-collapsible" title="Collapsible">
+        <Collapsible
+          open={collapsibleOpen}
+          onOpenChange={setCollapsibleOpen}
+          className="max-w-md space-y-2"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium">3 starred repositories</p>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <ChevronRight
+                  className={cn(
+                    'size-4 transition-transform',
+                    collapsibleOpen && 'rotate-90',
+                  )}
+                />
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <CollapsibleContent className="space-y-2">
+            <div className="rounded-md border px-4 py-2 text-sm">
+              next-elite
+            </div>
+            <div className="rounded-md border px-4 py-2 text-sm">shadcn-ui</div>
+          </CollapsibleContent>
+        </Collapsible>
+      </ComponentBlock>
+
+      <ComponentBlock id="layout-carousel" title="Carousel">
+        <Carousel className="mx-auto max-w-sm">
+          <CarouselContent>
+            {CAROUSEL_SLIDES.map((slide) => (
+              <CarouselItem key={slide}>
+                <div className="flex h-32 items-center justify-center rounded-lg border bg-muted/50">
+                  <span className="text-lg font-medium">{slide}</span>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="top-1/2 left-2 -translate-y-1/2" />
+          <CarouselNext className="top-1/2 right-2 -translate-y-1/2" />
+        </Carousel>
+      </ComponentBlock>
+
+      <ComponentBlock id="layout-calendar" title="Calendar">
+        <SubLabel>Single date</SubLabel>
+        <div className="w-fit">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-lg border"
+          />
+        </div>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+export const UiComponentsPage = () => {
   const t = useTranslations('uiComponents');
   const { activeTarget, activeSectionId, handleNavigate } = useScrollSpy();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [comboboxValue, setComboboxValue] = useState('next');
-  const [dropdownChecked, setDropdownChecked] = useState(true);
-  const [dropdownRadio, setDropdownRadio] = useState('comfortable');
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
-  const [progress, setProgress] = useState(45);
-  const [showAlert, setShowAlert] = useState(true);
-  const [showDestructiveAlert, setShowDestructiveAlert] = useState(true);
 
   const handleSidebarNavigate = useCallback(
     (event: MouseEvent<HTMLAnchorElement>, targetId: string) => {
@@ -861,971 +1843,15 @@ export function UiComponentsPage() {
             </div>
           </div>
 
-          <ShowcaseSection
-            id="actions"
-            title={t('sections.actions')}
-            description={t('sections.actionsDesc')}
-          >
-            <ComponentBlock id="actions-button" title="Button">
-              <SubLabel>Variants</SubLabel>
-              <VariantGrid>
-                {BUTTON_VARIANTS.map((variant) => (
-                  <Button key={variant} variant={variant}>
-                    {variant}
-                  </Button>
-                ))}
-              </VariantGrid>
-              <SubLabel>Sizes</SubLabel>
-              <VariantGrid>
-                {BUTTON_SIZES.map((size) => (
-                  <Button key={size} size={size}>
-                    {size}
-                  </Button>
-                ))}
-                {ICON_BUTTON_SIZES.map((size) => (
-                  <Button key={size} size={size} aria-label="Star">
-                    <Star className="size-4" />
-                  </Button>
-                ))}
-              </VariantGrid>
-              <SubLabel>States</SubLabel>
-              <VariantGrid>
-                <Button loading>Loading</Button>
-                <Button disabled>Disabled</Button>
-              </VariantGrid>
-            </ComponentBlock>
-
-            <ComponentBlock id="actions-button-group" title="Button Group">
-              <SubLabel>Horizontal</SubLabel>
-              <ButtonGroup>
-                <Button variant="outline">Left</Button>
-                <ButtonGroupSeparator />
-                <Button variant="outline">Center</Button>
-                <ButtonGroupSeparator />
-                <Button variant="outline">Right</Button>
-              </ButtonGroup>
-              <SubLabel>With text addon</SubLabel>
-              <ButtonGroup>
-                <ButtonGroupText>https://</ButtonGroupText>
-                <Button variant="outline">Copy</Button>
-              </ButtonGroup>
-              <SubLabel>Vertical</SubLabel>
-              <ButtonGroup orientation="vertical" className="w-fit">
-                <Button variant="outline" size="sm">
-                  Top
-                </Button>
-                <Button variant="outline" size="sm">
-                  Middle
-                </Button>
-                <Button variant="outline" size="sm">
-                  Bottom
-                </Button>
-              </ButtonGroup>
-            </ComponentBlock>
-
-            <ComponentBlock id="actions-toggle" title="Toggle">
-              <SubLabel>Variants</SubLabel>
-              <VariantGrid>
-                <Toggle aria-label="Bold">
-                  <Bold className="size-4" />
-                </Toggle>
-                <Toggle variant="outline" aria-label="Italic">
-                  <Italic className="size-4" />
-                </Toggle>
-              </VariantGrid>
-              <SubLabel>Sizes</SubLabel>
-              <VariantGrid>
-                <Toggle size="sm" aria-label="Align left">
-                  <AlignLeft className="size-4" />
-                </Toggle>
-                <Toggle size="default" aria-label="Align center">
-                  <AlignCenter className="size-4" />
-                </Toggle>
-                <Toggle size="lg" aria-label="Align right">
-                  <AlignRight className="size-4" />
-                </Toggle>
-              </VariantGrid>
-            </ComponentBlock>
-
-            <ComponentBlock id="actions-toggle-group" title="Toggle Group">
-              <SubLabel>Single</SubLabel>
-              <ToggleGroup type="single" defaultValue="left">
-                <ToggleGroupItem value="left" aria-label="Align left">
-                  <AlignLeft className="size-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="center" aria-label="Align center">
-                  <AlignCenter className="size-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="right" aria-label="Align right">
-                  <AlignRight className="size-4" />
-                </ToggleGroupItem>
-              </ToggleGroup>
-              <SubLabel>Multiple</SubLabel>
-              <ToggleGroup type="multiple">
-                <ToggleGroupItem value="bold" aria-label="Bold">
-                  <Bold className="size-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="italic" aria-label="Italic">
-                  <Italic className="size-4" />
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="forms"
-            title={t('sections.forms')}
-            description={t('sections.formsDesc')}
-          >
-            <ComponentBlock id="forms-input" title="Input">
-              <SubLabel>States</SubLabel>
-              <div className="grid max-w-md gap-4">
-                <Input placeholder="Default input" />
-                <Input placeholder="Disabled" disabled />
-                <Input placeholder="Invalid" aria-invalid />
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-textarea" title="Textarea">
-              <SubLabel>States</SubLabel>
-              <div className="grid max-w-md gap-4">
-                <Textarea placeholder="Write something..." />
-                <Textarea placeholder="Disabled" disabled />
-                <Textarea placeholder="Invalid" aria-invalid />
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-label" title="Label">
-              <div className="flex max-w-md flex-col gap-2">
-                <Label htmlFor="demo-email">Email address</Label>
-                <Input id="demo-email" placeholder="you@example.com" />
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-select" title="Select">
-              <div className="max-w-xs">
-                <Select defaultValue="react">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select framework" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="next">Next.js</SelectItem>
-                    <SelectItem value="react">React</SelectItem>
-                    <SelectItem value="vue">Vue</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-checkbox" title="Checkbox">
-              <div className="grid max-w-md gap-4">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="terms" />
-                  <Label htmlFor="terms">Accept terms and conditions</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="terms-disabled" disabled />
-                  <Label htmlFor="terms-disabled">Disabled</Label>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-radio-group" title="Radio Group">
-              <div className="max-w-xs">
-                <RadioGroup defaultValue="comfortable">
-                  {RADIO_OPTIONS.map(({ value, id, label }) => (
-                    <div key={value} className="flex items-center gap-2">
-                      <RadioGroupItem value={value} id={id} />
-                      <Label htmlFor={id}>{label}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-switch" title="Switch">
-              <div className="grid max-w-md gap-6">
-                <div>
-                  <SubLabel>Sizes</SubLabel>
-                  <VariantGrid>
-                    <div className="flex items-center gap-2">
-                      <Switch id="airplane-default" />
-                      <Label htmlFor="airplane-default">Default Size</Label>
-                    </div>
-                    <div className="ml-6 flex items-center gap-2">
-                      <Switch id="airplane-lg" size="lg" />
-                      <Label htmlFor="airplane-lg">Large Size</Label>
-                    </div>
-                  </VariantGrid>
-                </div>
-
-                <div>
-                  <SubLabel>With Icons</SubLabel>
-                  <VariantGrid>
-                    <div className="flex items-center gap-2">
-                      <Switch
-                        id="switch-icons"
-                        size="lg"
-                        checkedIcon={
-                          <Moon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
-                        }
-                        uncheckedIcon={
-                          <Sun className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
-                        }
-                      />
-                      <Label htmlFor="switch-icons">Icon Toggle Switch</Label>
-                    </div>
-                  </VariantGrid>
-                </div>
-
-                <div>
-                  <SubLabel>States</SubLabel>
-                  <VariantGrid>
-                    <div className="flex items-center gap-2">
-                      <Switch id="airplane-disabled" disabled />
-                      <Label htmlFor="airplane-disabled">Disabled</Label>
-                    </div>
-                  </VariantGrid>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-combobox" title="Combobox">
-              <div className="max-w-xs">
-                <Combobox
-                  options={COMBOBOX_OPTIONS}
-                  value={comboboxValue}
-                  onChange={setComboboxValue}
-                  placeholder="Select framework"
-                />
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-input-group" title="Input Group">
-              <div className="grid max-w-md gap-6">
-                <div>
-                  <SubLabel>Start addon</SubLabel>
-                  <InputGroup>
-                    <InputGroupAddon>
-                      <InputGroupText>
-                        <Mail className="size-4" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <InputGroupInput placeholder="Email" />
-                  </InputGroup>
-                </div>
-                <div>
-                  <SubLabel>End addon</SubLabel>
-                  <InputGroup>
-                    <InputGroupInput placeholder="Search..." />
-                    <InputGroupAddon align="inline-end">
-                      <InputGroupButton>
-                        <Search className="size-4" />
-                      </InputGroupButton>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </div>
-                <div>
-                  <SubLabel>Textarea</SubLabel>
-                  <InputGroup>
-                    <InputGroupTextarea placeholder="Write a message..." />
-                  </InputGroup>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-input-otp" title="Input OTP">
-              <div className="w-fit">
-                <InputOTP maxLength={6}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-password-input" title="Password Input">
-              <div className="grid max-w-md gap-6">
-                <div>
-                  <SubLabel>Default</SubLabel>
-                  <div className="max-w-xs">
-                    <PasswordInput placeholder="Enter password" />
-                  </div>
-                </div>
-                <div>
-                  <SubLabel>With error</SubLabel>
-                  <div className="max-w-xs">
-                    <PasswordInput
-                      placeholder="With error"
-                      error
-                      errorMessage="Password is required"
-                    />
-                  </div>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-input-error" title="Input Error">
-              <div className="grid max-w-md gap-2">
-                <Label htmlFor="demo-error-input">Username</Label>
-                <Input
-                  id="demo-error-input"
-                  placeholder="johndoe"
-                  aria-invalid
-                />
-                <InputError message="This field is required" />
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="forms-form" title="Form">
-              <FormShowcase />
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="feedback"
-            title={t('sections.feedback')}
-            description={t('sections.feedbackDesc')}
-          >
-            <ComponentBlock id="feedback-alert" title="Alert">
-              <SubLabel>Interactive</SubLabel>
-              <div className="mb-4 flex flex-wrap gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setShowAlert((p) => !p)}
-                >
-                  Toggle Default Alert
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setShowDestructiveAlert((p) => !p)}
-                >
-                  Toggle Destructive Alert
-                </Button>
-              </div>
-              <SubLabel>Variants</SubLabel>
-              <div className="grid gap-4">
-                {showAlert && (
-                  <Alert>
-                    <AlertCircle className="size-4" />
-                    <AlertTitle>Heads up</AlertTitle>
-                    <AlertDescription>
-                      Default alert for general information.
-                    </AlertDescription>
-                  </Alert>
-                )}
-                {showDestructiveAlert && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="size-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                      Destructive alert for critical messages.
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="feedback-toast" title="Toast">
-              <SubLabel>Types</SubLabel>
-              <VariantGrid>
-                {TOAST_TYPE_DEMOS.map(({ label, action }) => (
-                  <Button
-                    key={label}
-                    size="sm"
-                    variant="outline"
-                    onClick={action}
-                  >
-                    {label}
-                  </Button>
-                ))}
-              </VariantGrid>
-              <SubLabel>With description</SubLabel>
-              <VariantGrid>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    toast('Event created', {
-                      description: 'Monday, January 3rd at 6:00pm',
-                    })
-                  }
-                >
-                  With description
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    toast.success('Profile updated', {
-                      description: 'Your changes have been saved.',
-                      action: {
-                        label: 'Undo',
-                        onClick: () => toast.info('Undo clicked'),
-                      },
-                    })
-                  }
-                >
-                  With action
-                </Button>
-              </VariantGrid>
-              <SubLabel>Loading</SubLabel>
-              <VariantGrid>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    const id = toast.loading('Saving changes...');
-                    setTimeout(() => {
-                      toast.success('Saved!', { id });
-                    }, 1500);
-                  }}
-                >
-                  Loading → Success
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    toast.promise(
-                      new Promise<string>((resolve) =>
-                        setTimeout(() => resolve('Done'), 1500),
-                      ),
-                      {
-                        loading: 'Processing...',
-                        success: 'Completed successfully',
-                        error: 'Failed to process',
-                      },
-                    )
-                  }
-                >
-                  Promise
-                </Button>
-              </VariantGrid>
-            </ComponentBlock>
-
-            <ComponentBlock id="feedback-badge" title="Badge">
-              <SubLabel>Variants</SubLabel>
-              <VariantGrid>
-                {BADGE_VARIANTS.map((variant) => (
-                  <Badge key={variant} variant={variant}>
-                    {variant}
-                  </Badge>
-                ))}
-              </VariantGrid>
-            </ComponentBlock>
-
-            <ComponentBlock id="feedback-progress" title="Progress">
-              <SubLabel>Variants</SubLabel>
-              <div className="max-w-md space-y-4">
-                {PROGRESS_VARIANTS.map((variant) => (
-                  <Progress key={variant} value={progress} variant={variant} />
-                ))}
-              </div>
-              <SubLabel>Interactive</SubLabel>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setProgress((p) => Math.max(0, p - 10))}
-                >
-                  -10
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setProgress((p) => Math.min(100, p + 10))}
-                >
-                  +10
-                </Button>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="feedback-spinner" title="Spinner">
-              <Spinner className="size-6" />
-            </ComponentBlock>
-
-            <ComponentBlock id="feedback-skeleton" title="Skeleton">
-              <SubLabel>Profile placeholder</SubLabel>
-              <div className="flex items-center gap-4">
-                <Skeleton className="size-12 rounded-full" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-48" />
-                  <Skeleton className="h-4 w-32" />
-                </div>
-              </div>
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="data-display"
-            title={t('sections.dataDisplay')}
-            description={t('sections.dataDisplayDesc')}
-          >
-            <ComponentBlock id="data-display-avatar" title="Avatar">
-              <div className="grid gap-6">
-                <div>
-                  <SubLabel>With image</SubLabel>
-                  <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="Avatar"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                </div>
-                <div>
-                  <SubLabel>Fallback</SubLabel>
-                  <Avatar>
-                    <AvatarFallback>NE</AvatarFallback>
-                  </Avatar>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock
-              id="data-display-card"
-              title="Card"
-              allowOverflow
-              className="space-y-8"
-            >
-              <div>
-                <SubLabel>Glass</SubLabel>
-                <div className="grid gap-6 p-1 sm:grid-cols-2">
-                  <ShowcasePreviewCard />
-                  <ShowcasePreviewCard withAction />
-                </div>
-              </div>
-              <div>
-                <SubLabel>Flat</SubLabel>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <ShowcasePreviewCard flat />
-                  <ShowcasePreviewCard flat withAction />
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="data-display-table" title="Table">
-              <Table>
-                <TableCaption>Team members and their roles.</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Role</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Alice</TableCell>
-                    <TableCell>
-                      <Badge variant="success">Active</Badge>
-                    </TableCell>
-                    <TableCell>Admin</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Bob</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">Away</Badge>
-                    </TableCell>
-                    <TableCell>User</TableCell>
-                  </TableRow>
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell>2 members</TableCell>
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </ComponentBlock>
-
-            <ComponentBlock id="data-display-separator" title="Separator">
-              <div className="space-y-2">
-                <p className="text-sm">Above separator</p>
-                <Separator />
-                <p className="text-sm">Below separator</p>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="data-display-icon" title="Icon">
-              <SubLabel>Lucide icons</SubLabel>
-              <div className="flex items-center gap-4">
-                {ICON_DEMOS.map(({ icon, className }) => (
-                  <Icon key={className} iconNode={icon} className={className} />
-                ))}
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock
-              id="data-display-placeholder-pattern"
-              title="Placeholder Pattern"
-            >
-              <div className="relative h-32 overflow-hidden rounded-lg border">
-                <PlaceholderPattern className="absolute inset-0 size-full stroke-muted-foreground/20" />
-              </div>
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="navigation"
-            title={t('sections.navigation')}
-            description={t('sections.navigationDesc')}
-          >
-            <ComponentBlock id="navigation-breadcrumb" title="Breadcrumb">
-              <div className="grid gap-6">
-                <div>
-                  <SubLabel>Default</SubLabel>
-                  <Breadcrumb>
-                    <BreadcrumbList>
-                      <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        <BreadcrumbLink href="/ui-components">
-                          Components
-                        </BreadcrumbLink>
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                      </BreadcrumbItem>
-                    </BreadcrumbList>
-                  </Breadcrumb>
-                </div>
-                <div>
-                  <SubLabel>With ellipsis</SubLabel>
-                  <Breadcrumb>
-                    <BreadcrumbList>
-                      <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        <BreadcrumbEllipsis />
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        <BreadcrumbPage>Current</BreadcrumbPage>
-                      </BreadcrumbItem>
-                    </BreadcrumbList>
-                  </Breadcrumb>
-                </div>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="navigation-tabs" title="Tabs">
-              <Tabs defaultValue="account" className="max-w-md">
-                <TabsList>
-                  <TabsTrigger value="account">Account</TabsTrigger>
-                  <TabsTrigger value="password">Password</TabsTrigger>
-                  <TabsTrigger value="settings">Settings</TabsTrigger>
-                </TabsList>
-                <TabsContent value="account" className="pt-4 text-sm">
-                  Manage your account settings.
-                </TabsContent>
-                <TabsContent value="password" className="pt-4 text-sm">
-                  Change your password here.
-                </TabsContent>
-                <TabsContent value="settings" className="pt-4 text-sm">
-                  Configure app preferences.
-                </TabsContent>
-              </Tabs>
-            </ComponentBlock>
-
-            <ComponentBlock id="navigation-text-link" title="Text Link">
-              <SubLabel>Variants</SubLabel>
-              <div className="flex flex-wrap items-center gap-6">
-                <TextLink href="/">Default link</TextLink>
-                <TextLink href="/" variant="underlined">
-                  Underlined link
-                </TextLink>
-                <TextLink href="/" className="text-primary">
-                  Primary link
-                </TextLink>
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock
-              id="navigation-navigation-menu"
-              title="Navigation Menu"
-              allowOverflow
-            >
-              <div className="relative max-w-full overflow-x-clip">
-                <NavigationMenu
-                  viewport={false}
-                  className="inline-flex max-w-full flex-none"
-                >
-                  <NavigationMenuList className="justify-start">
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>
-                        Getting started
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-top-2 data-[motion=from-start]:slide-in-from-top-2 data-[motion=to-end]:slide-out-to-top-2 data-[motion=to-start]:slide-out-to-top-2">
-                        <ul className="grid w-48 gap-2 p-4">
-                          <li>
-                            <NavigationMenuLink
-                              href="/"
-                              className="block rounded-md p-2 text-sm hover:bg-accent"
-                            >
-                              Introduction
-                            </NavigationMenuLink>
-                          </li>
-                          <li>
-                            <NavigationMenuLink
-                              href="/"
-                              className="block rounded-md p-2 text-sm hover:bg-accent"
-                            >
-                              About
-                            </NavigationMenuLink>
-                          </li>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink
-                        href="/ui-components"
-                        className="rounded-md px-4 py-2 text-sm font-medium hover:bg-accent"
-                      >
-                        Components
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </div>
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="overlays"
-            title={t('sections.overlays')}
-            description={t('sections.overlaysDesc')}
-          >
-            <ComponentBlock id="overlays-dialog" title="Dialog">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline">Open dialog</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Dialog title</DialogTitle>
-                    <DialogDescription>
-                      Dialog description with actions below.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button variant="outline">Cancel</Button>
-                    <Button>Confirm</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </ComponentBlock>
-
-            <ComponentBlock id="overlays-sheet" title="Sheet">
-              <div className="flex flex-wrap gap-2">
-                {SHEET_SIDES.map((side) => (
-                  <Sheet key={side}>
-                    <SheetTrigger asChild>
-                      <Button variant="outline" className="capitalize">
-                        {side}
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side={side}>
-                      <SheetHeader>
-                        <SheetTitle>Sheet from {side}</SheetTitle>
-                        <SheetDescription>
-                          Slide-over panel anchored to the {side} edge.
-                        </SheetDescription>
-                      </SheetHeader>
-                      <SheetBody>
-                        <p className="text-sm text-muted-foreground">
-                          Use sheets for filters, settings, or secondary flows
-                          without leaving the current page. Body content scrolls
-                          when it exceeds the viewport.
-                        </p>
-                        <div className="mt-4 space-y-2">
-                          {Array.from({ length: 6 }, (_, index) => (
-                            <div
-                              key={index}
-                              className="rounded-md border border-border/60 bg-muted/30 px-3 py-2 text-sm"
-                            >
-                              Example row {index + 1}
-                            </div>
-                          ))}
-                        </div>
-                      </SheetBody>
-                      <SheetFooter>
-                        <Button variant="outline">Cancel</Button>
-                        <Button>Save</Button>
-                      </SheetFooter>
-                    </SheetContent>
-                  </Sheet>
-                ))}
-              </div>
-            </ComponentBlock>
-
-            <ComponentBlock id="overlays-popover" title="Popover">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline">Open popover</Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64">
-                  <p className="text-sm">
-                    Popover content for contextual actions or info.
-                  </p>
-                </PopoverContent>
-              </Popover>
-            </ComponentBlock>
-
-            <ComponentBlock id="overlays-tooltip" title="Tooltip">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline">Hover me</Button>
-                </TooltipTrigger>
-                <TooltipContent>Tooltip content</TooltipContent>
-              </Tooltip>
-            </ComponentBlock>
-
-            <ComponentBlock id="overlays-dropdown-menu" title="Dropdown Menu">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">Open menu</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-52">
-                  <DropdownMenuLabel>My account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    Profile
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuCheckboxItem
-                    checked={dropdownChecked}
-                    onCheckedChange={setDropdownChecked}
-                  >
-                    Show notifications
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={dropdownRadio}
-                    onValueChange={setDropdownRadio}
-                  >
-                    <DropdownMenuRadioItem value="default">
-                      Default
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="comfortable">
-                      Comfortable
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      More options
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>Export</DropdownMenuItem>
-                      <DropdownMenuItem>Import</DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ComponentBlock>
-          </ShowcaseSection>
-
-          <ShowcaseSection
-            id="layout"
-            title={t('sections.layout')}
-            description={t('sections.layoutDesc')}
-          >
-            <ComponentBlock id="layout-accordion" title="Accordion">
-              <SubLabel>Single collapsible</SubLabel>
-              <Accordion type="single" collapsible className="max-w-lg">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It uses Radix UI primitives under the hood.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>Is it styled?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It matches your boilerplate theme tokens.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </ComponentBlock>
-
-            <ComponentBlock id="layout-collapsible" title="Collapsible">
-              <Collapsible
-                open={collapsibleOpen}
-                onOpenChange={setCollapsibleOpen}
-                className="max-w-md space-y-2"
-              >
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium">3 starred repositories</p>
-                  <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <ChevronRight
-                        className={cn(
-                          'size-4 transition-transform',
-                          collapsibleOpen && 'rotate-90',
-                        )}
-                      />
-                    </Button>
-                  </CollapsibleTrigger>
-                </div>
-                <CollapsibleContent className="space-y-2">
-                  <div className="rounded-md border px-4 py-2 text-sm">
-                    next-elite
-                  </div>
-                  <div className="rounded-md border px-4 py-2 text-sm">
-                    shadcn-ui
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </ComponentBlock>
-
-            <ComponentBlock id="layout-carousel" title="Carousel">
-              <Carousel className="mx-auto max-w-sm">
-                <CarouselContent>
-                  {CAROUSEL_SLIDES.map((slide) => (
-                    <CarouselItem key={slide}>
-                      <div className="flex h-32 items-center justify-center rounded-lg border bg-muted/50">
-                        <span className="text-lg font-medium">{slide}</span>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="top-1/2 left-2 -translate-y-1/2" />
-                <CarouselNext className="top-1/2 right-2 -translate-y-1/2" />
-              </Carousel>
-            </ComponentBlock>
-
-            <ComponentBlock id="layout-calendar" title="Calendar">
-              <SubLabel>Single date</SubLabel>
-              <div className="w-fit">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="rounded-lg border"
-                />
-              </div>
-            </ComponentBlock>
-          </ShowcaseSection>
+          <ActionsShowcaseSection />
+          <FormsShowcaseSection />
+          <FeedbackShowcaseSection />
+          <DataDisplayShowcaseSection />
+          <NavigationShowcaseSection />
+          <OverlaysShowcaseSection />
+          <LayoutShowcaseSection />
         </div>
       </div>
     </TooltipProvider>
   );
-}
+};
