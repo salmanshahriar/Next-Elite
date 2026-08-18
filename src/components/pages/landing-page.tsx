@@ -30,312 +30,115 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { createElement, Fragment, useState } from 'react';
+import { createElement, Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-type HomeFeatureDetail = {
-  text: string;
-  highlights?: readonly string[];
-};
-
-type HomeFeature = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  details: readonly HomeFeatureDetail[];
-};
-
-function renderHighlightedText(
-  text: string,
-  highlights: readonly string[] = [],
-): ReactNode {
-  if (highlights.length === 0) return text;
-
-  const pattern = highlights
-    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('|');
-  const parts = text.split(new RegExp(`(${pattern})`, 'g')).filter(Boolean);
-
-  return parts.map((part, index) =>
-    highlights.includes(part)
-      ? createElement(
-          'span',
-          { key: index, className: 'font-semibold text-primary' },
-          part,
-        )
-      : createElement(Fragment, { key: index }, part),
-  );
-}
-
-const homeFeatures: readonly HomeFeature[] = [
-  {
-    icon: Cpu,
-    title: 'Modern stack, lean setup',
-    description: 'API-first Next.js starter. No database bundled.',
-    details: [
-      {
-        text: 'Next.js 16, React 19, and TypeScript ready to go',
-        highlights: ['Next.js 16', 'React 19', 'TypeScript'],
-      },
-      {
-        text: 'Organized feature folders in src/features/',
-        highlights: ['src/features/'],
-      },
-      {
-        text: 'Tailwind CSS 4, shadcn/ui, and TanStack Query included',
-        highlights: ['Tailwind CSS 4', 'shadcn/ui', 'TanStack Query'],
-      },
-    ],
-  },
-  {
-    icon: Search,
-    title: 'SEO + PWA, server-first',
-    description: 'Server-built SEO and installable PWA.',
-    details: [
-      {
-        text: 'site.config.json powers SEO, sitemap, robots, and manifest',
-        highlights: ['site.config.json'],
-      },
-      {
-        text: 'Open Graph, Twitter cards, and JSON-LD for rich previews',
-        highlights: ['Open Graph', 'JSON-LD'],
-      },
-      {
-        text: 'llms.txt for AI discovery; Sentry and /api/health monitoring',
-        highlights: ['llms.txt', 'Sentry', '/api/health'],
-      },
-    ],
-  },
-  {
-    icon: FlaskConical,
-    title: 'Testing & quality gates',
-    description: 'Tests and lint in one command.',
-    details: [
-      {
-        text: 'Oxlint + Oxfmt, Knip, Lefthook, and Commitlint on commit',
-        highlights: ['Oxlint + Oxfmt', 'Knip', 'Lefthook'],
-      },
-      {
-        text: 'Vitest unit tests with renderWithProviders helper',
-        highlights: ['Vitest', 'renderWithProviders'],
-      },
-      {
-        text: 'Playwright end-to-end tests in local dev and CI',
-        highlights: ['Playwright'],
-      },
-    ],
-  },
-  {
-    icon: Shuffle,
-    title: 'Parallel routing',
-    description: 'Auth and role-based dashboards.',
-    details: [
-      {
-        text: '@admin and @user slots, one /dashboard URL for all',
-        highlights: ['@admin', '@user', '/dashboard'],
-      },
-      {
-        text: 'Email, password, and Google sign-in with Better Auth',
-        highlights: ['Better Auth'],
-      },
-      {
-        text: 'Admin and user roles protected with requirePermission',
-        highlights: ['requirePermission'],
-      },
-    ],
-  },
-  {
-    icon: Globe,
-    title: 'Type-safe i18n',
-    description: 'Six languages. No locale in the URL.',
-    details: [
-      {
-        text: 'English, Bengali, Arabic RTL, French, Spanish, and Chinese',
-        highlights: ['RTL'],
-      },
-      {
-        text: 'NEXT_LOCALE cookie remembers language without prefixes',
-        highlights: ['NEXT_LOCALE'],
-      },
-      {
-        text: 'next-intl catches missing translation keys at build time',
-        highlights: ['next-intl'],
-      },
-    ],
-  },
-  {
-    icon: FileText,
-    title: 'Forms + validation',
-    description: 'Accessible forms with Zod validation.',
-    details: [
-      {
-        text: 'Zod schemas for login, sign-up, and password reset',
-        highlights: ['Zod'],
-      },
-      {
-        text: 'React Hook Form + zodResolver for type-safe input',
-        highlights: ['React Hook Form', 'zodResolver'],
-      },
-      {
-        text: 'InputError shows helpful inline messages per field',
-        highlights: ['InputError'],
-      },
-    ],
-  },
-];
-
-const INSTALL_LINES: readonly string[] = [
-  'git clone https://github.com/salmanshahriar/Next-Elite',
-  'cd Next-Elite',
-  'npm install',
-  'cp .env.example .env',
-  'npm run dev',
-];
-
-const INSTALL_COMMANDS: string = INSTALL_LINES.join('\n');
-
-const LIGHTHOUSE_SCORES = [
-  { label: 'Performance', delay: 100 },
-  { label: 'Accessibility', delay: 250 },
-  { label: 'Best Practices', delay: 400 },
-  { label: 'SEO', delay: 550 },
-] as const;
-
-function formatInstallLine(line: string): ReactNode {
-  const parts = line.split(' ');
-  const cmd = parts[0];
-  const sub = parts[1];
-  const rest = parts.slice(2).join(' ');
-
-  if (cmd === 'git' && sub === 'clone') {
-    return (
-      <>
-        <span className="font-semibold text-primary">git clone</span>{' '}
-        <span className="text-foreground/80">{rest}</span>
-      </>
-    );
-  }
-  if (cmd === 'cd' || cmd === 'cp') {
-    return (
-      <>
-        <span className="font-semibold text-primary">{cmd}</span>{' '}
-        <span className="text-foreground/80">{parts.slice(1).join(' ')}</span>
-      </>
-    );
-  }
-  if (cmd === 'npm' && sub === 'run') {
-    return (
-      <>
-        <span className="font-semibold text-primary">npm run</span>{' '}
-        <span className="font-semibold text-success">{rest}</span>
-      </>
-    );
-  }
-  if (cmd === 'npm') {
-    return <span className="font-semibold text-primary">{line}</span>;
-  }
-  return <span className="text-foreground/80">{line}</span>;
-}
-
-async function copyInstallCommands(
-  setCopied: (value: boolean) => void,
-): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(INSTALL_COMMANDS);
-    setCopied(true);
-    toast.success('Copied to clipboard');
-    window.setTimeout(() => setCopied(false), 2000);
-  } catch {
-    toast.error('Could not copy commands');
-  }
-}
-
-function HeroCard({
-  large,
-  title,
-  description,
-  children,
-}: {
-  large?: boolean;
-  title: ReactNode;
-  description: string;
-  children: ReactNode;
-}) {
+export const LandingPage = () => {
   return (
-    <Card
-      className={cn(
-        'flex h-auto min-h-[22rem] flex-col items-center justify-center gap-6 rounded-md p-6 text-center sm:min-h-[24rem] sm:p-8 md:h-[29rem]',
-        large && 'md:col-span-2',
-      )}
-    >
-      <div className="flex w-full items-center justify-center overflow-hidden">
-        {children}
-      </div>
-      <div className="max-w-xl text-center">
-        <h2 className="mb-2 text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-          {title}
-        </h2>
-        <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-          {description}
-        </p>
-      </div>
-    </Card>
-  );
-}
-
-function LandingActions({
-  githubStars,
-  stacked,
-}: {
-  githubStars?: string | null;
-  stacked?: boolean;
-}) {
-  const width = stacked ? 'h-11 w-full sm:w-auto' : 'h-11';
-
-  return (
-    <div
-      className={cn(
-        'flex flex-wrap items-center gap-3',
-        stacked ? 'flex-col sm:flex-row' : 'justify-center',
-      )}
-    >
-      <a
-        href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          'inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90',
-          width,
-        )}
-      >
-        <VercelIcon className="size-3.5 shrink-0" />
-        Deploy to Vercel
-      </a>
-      <a
-        href="https://github.com/salmanshahriar/Next-Elite"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          'inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50',
-          width,
-        )}
-      >
-        <GithubIcon className="size-4 shrink-0" />
-        Star on GitHub
-        {githubStars ? (
-          <span className="text-muted-foreground">{githubStars}</span>
-        ) : null}
-      </a>
+    <div className="flex flex-col gap-12 lg:gap-16">
+      <HeroSection />
+      <FeaturesSection />
+      <FooterSection />
     </div>
   );
-}
+};
 
-function HeroSection({ githubStars }: { githubStars?: string | null }) {
+const HeroSection = () => {
+  const [githubStars, setGithubStars] = useState<string | null>(null);
   const [switchChecked, setSwitchChecked] = useState<boolean>(true);
   const [checkboxChecked, setCheckboxChecked] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(2026, 5, 17),
   );
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('https://api.github.com/repos/salmanshahriar/Next-Elite')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { stargazers_count?: number } | null) => {
+        if (isMounted && typeof data?.stargazers_count === 'number') {
+          const count = data.stargazers_count;
+          const formatted =
+            count >= 1000
+              ? `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
+              : String(count);
+          setGithubStars(formatted);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const LIGHTHOUSE_SCORES = [
+    { label: 'Performance', delay: 100 },
+    { label: 'Accessibility', delay: 250 },
+    { label: 'Best Practices', delay: 400 },
+    { label: 'SEO', delay: 550 },
+  ] as const;
+
+  const HeroCard = ({
+    large,
+    title,
+    description,
+    children,
+  }: {
+    large?: boolean;
+    title: ReactNode;
+    description: string;
+    children: ReactNode;
+  }) => {
+    return (
+      <Card
+        className={cn(
+          'flex h-auto min-h-[22rem] flex-col items-center justify-center gap-6 rounded-md p-6 text-center sm:min-h-[24rem] sm:p-8 md:h-[29rem]',
+          large && 'md:col-span-2',
+        )}
+      >
+        <div className="flex w-full items-center justify-center overflow-hidden">
+          {children}
+        </div>
+        <div className="max-w-xl text-center">
+          <h2 className="mb-2 text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
+            {title}
+          </h2>
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        </div>
+      </Card>
+    );
+  };
+
+  const HeroActions = () => {
+    return (
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+        >
+          <VercelIcon className="size-3.5 shrink-0" />
+          Deploy to Vercel
+        </a>
+        <a
+          href="https://github.com/salmanshahriar/Next-Elite"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50"
+        >
+          <GithubIcon className="size-4 shrink-0" />
+          Star on GitHub
+          {githubStars ? (
+            <span className="text-muted-foreground">{githubStars}</span>
+          ) : null}
+        </a>
+      </div>
+    );
+  };
+
   const formattedDate = selectedDate?.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -350,7 +153,7 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
         <p className="mx-auto max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-xl">
           {siteConfig.appType}
         </p>
-        <LandingActions githubStars={githubStars} />
+        <HeroActions />
       </header>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -513,9 +316,160 @@ function HeroSection({ githubStars }: { githubStars?: string | null }) {
       </div>
     </section>
   );
-}
+};
 
-function FeaturesSection() {
+const FeaturesSection = () => {
+  type HomeFeatureDetail = {
+    text: string;
+    highlights?: readonly string[];
+  };
+
+  type HomeFeature = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+    details: readonly HomeFeatureDetail[];
+  };
+
+  const renderHighlightedText = (
+    text: string,
+    highlights: readonly string[] = [],
+  ): ReactNode => {
+    if (highlights.length === 0) return text;
+
+    const pattern = highlights
+      .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('|');
+    const parts = text.split(new RegExp(`(${pattern})`, 'g')).filter(Boolean);
+
+    return parts.map((part, index) =>
+      highlights.includes(part)
+        ? createElement(
+            'span',
+            { key: index, className: 'font-semibold text-primary' },
+            part,
+          )
+        : createElement(Fragment, { key: index }, part),
+    );
+  };
+
+  const homeFeatures: readonly HomeFeature[] = [
+    {
+      icon: Cpu,
+      title: 'Modern stack, lean setup',
+      description: 'API-first Next.js starter. No database bundled.',
+      details: [
+        {
+          text: 'Next.js 16, React 19, and TypeScript ready to go',
+          highlights: ['Next.js 16', 'React 19', 'TypeScript'],
+        },
+        {
+          text: 'Organized feature folders in src/features/',
+          highlights: ['src/features/'],
+        },
+        {
+          text: 'Tailwind CSS 4, shadcn/ui, and TanStack Query included',
+          highlights: ['Tailwind CSS 4', 'shadcn/ui', 'TanStack Query'],
+        },
+      ],
+    },
+    {
+      icon: Search,
+      title: 'SEO + PWA, server-first',
+      description: 'Server-built SEO and installable PWA.',
+      details: [
+        {
+          text: 'site.config.json powers SEO, sitemap, robots, and manifest',
+          highlights: ['site.config.json'],
+        },
+        {
+          text: 'Open Graph, Twitter cards, and JSON-LD for rich previews',
+          highlights: ['Open Graph', 'JSON-LD'],
+        },
+        {
+          text: 'llms.txt for AI discovery; Sentry and /api/health monitoring',
+          highlights: ['llms.txt', 'Sentry', '/api/health'],
+        },
+      ],
+    },
+    {
+      icon: FlaskConical,
+      title: 'Testing & quality gates',
+      description: 'Tests and lint in one command.',
+      details: [
+        {
+          text: 'Oxlint + Oxfmt, Knip, Lefthook, and Commitlint on commit',
+          highlights: ['Oxlint + Oxfmt', 'Knip', 'Lefthook'],
+        },
+        {
+          text: 'Vitest unit tests with renderWithProviders helper',
+          highlights: ['Vitest', 'renderWithProviders'],
+        },
+        {
+          text: 'Playwright end-to-end tests in local dev and CI',
+          highlights: ['Playwright'],
+        },
+      ],
+    },
+    {
+      icon: Shuffle,
+      title: 'Parallel routing',
+      description: 'Auth and role-based dashboards.',
+      details: [
+        {
+          text: '@admin and @user slots, one /dashboard URL for all',
+          highlights: ['@admin', '@user', '/dashboard'],
+        },
+        {
+          text: 'Email, password, and Google sign-in with Better Auth',
+          highlights: ['Better Auth'],
+        },
+        {
+          text: 'Admin and user roles protected with requirePermission',
+          highlights: ['requirePermission'],
+        },
+      ],
+    },
+    {
+      icon: Globe,
+      title: 'Type-safe i18n',
+      description: 'Six languages. No locale in the URL.',
+      details: [
+        {
+          text: 'English, Bengali, Arabic RTL, French, Spanish, and Chinese',
+          highlights: ['RTL'],
+        },
+        {
+          text: 'NEXT_LOCALE cookie remembers language without prefixes',
+          highlights: ['NEXT_LOCALE'],
+        },
+        {
+          text: 'next-intl catches missing translation keys at build time',
+          highlights: ['next-intl'],
+        },
+      ],
+    },
+    {
+      icon: FileText,
+      title: 'Forms + validation',
+      description: 'Accessible forms with Zod validation.',
+      details: [
+        {
+          text: 'Zod schemas for login, sign-up, and password reset',
+          highlights: ['Zod'],
+        },
+        {
+          text: 'React Hook Form + zodResolver for type-safe input',
+          highlights: ['React Hook Form', 'zodResolver'],
+        },
+        {
+          text: 'InputError shows helpful inline messages per field',
+          highlights: ['InputError'],
+        },
+      ],
+    },
+  ];
+
   return (
     <section className="mx-auto max-w-7xl space-y-6 px-4">
       <h2 className="text-center text-2xl font-extrabold tracking-tight">
@@ -537,7 +491,7 @@ function FeaturesSection() {
                 </p>
               </div>
             </div>
-            <ul className="mt-6 space-y-2.5 text-[9px] text-muted-foreground md:text-[11px]">
+            <ul className="mt-6 space-y-2.5 text-[11px] text-muted-foreground">
               {details.map((detail) => (
                 <li key={detail.text} className="flex items-start gap-2.5">
                   <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -554,10 +508,116 @@ function FeaturesSection() {
       </div>
     </section>
   );
-}
+};
 
-function FooterSection({ githubStars }: { githubStars?: string | null }) {
+const FooterSection = () => {
   const [copied, setCopied] = useState<boolean>(false);
+  const [githubStars, setGithubStars] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('https://api.github.com/repos/salmanshahriar/Next-Elite')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { stargazers_count?: number } | null) => {
+        if (isMounted && typeof data?.stargazers_count === 'number') {
+          const count = data.stargazers_count;
+          const formatted =
+            count >= 1000
+              ? `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
+              : String(count);
+          setGithubStars(formatted);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const INSTALL_LINES: readonly string[] = [
+    'git clone https://github.com/salmanshahriar/Next-Elite',
+    'cd Next-Elite',
+    'npm install',
+    'cp .env.example .env',
+    'npm run dev',
+  ];
+
+  const INSTALL_COMMANDS: string = INSTALL_LINES.join('\n');
+
+  const FooterActions = () => {
+    return (
+      <div className="flex flex-col flex-wrap items-center gap-3 sm:flex-row">
+        <a
+          href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:w-auto"
+        >
+          <VercelIcon className="size-3.5 shrink-0" />
+          Deploy to Vercel
+        </a>
+        <a
+          href="https://github.com/salmanshahriar/Next-Elite"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50 sm:w-auto"
+        >
+          <GithubIcon className="size-4 shrink-0" />
+          Star on GitHub
+          {githubStars ? (
+            <span className="text-muted-foreground">{githubStars}</span>
+          ) : null}
+        </a>
+      </div>
+    );
+  };
+
+  const formatInstallLine = (line: string): ReactNode => {
+    const parts = line.split(' ');
+    const cmd = parts[0];
+    const sub = parts[1];
+    const rest = parts.slice(2).join(' ');
+
+    if (cmd === 'git' && sub === 'clone') {
+      return (
+        <>
+          <span className="font-semibold text-primary">git clone</span>{' '}
+          <span className="text-foreground/80">{rest}</span>
+        </>
+      );
+    }
+    if (cmd === 'cd' || cmd === 'cp') {
+      return (
+        <>
+          <span className="font-semibold text-primary">{cmd}</span>{' '}
+          <span className="text-foreground/80">{parts.slice(1).join(' ')}</span>
+        </>
+      );
+    }
+    if (cmd === 'npm' && sub === 'run') {
+      return (
+        <>
+          <span className="font-semibold text-primary">npm run</span>{' '}
+          <span className="font-semibold text-success">{rest}</span>
+        </>
+      );
+    }
+    if (cmd === 'npm') {
+      return <span className="font-semibold text-primary">{line}</span>;
+    }
+    return <span className="text-foreground/80">{line}</span>;
+  };
+
+  const copyInstallCommands = async (): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(INSTALL_COMMANDS);
+      setCopied(true);
+      toast.success('Copied to clipboard');
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error('Could not copy commands');
+    }
+  };
 
   return (
     <section className="mx-auto max-w-7xl px-4 pb-16">
@@ -574,7 +634,7 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
                 application as you like and deploy.
               </p>
             </div>
-            <LandingActions githubStars={githubStars} stacked />
+            <FooterActions />
           </div>
 
           <Card
@@ -596,7 +656,7 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
                 variant="secondary"
                 size="sm"
                 className="h-8 gap-1.5 border-border/50 bg-background/40 px-3 text-xs backdrop-blur-sm"
-                onClick={() => copyInstallCommands(setCopied)}
+                onClick={() => copyInstallCommands()}
                 aria-label={copied ? 'Copied' : 'Copy commands'}
               >
                 {copied ? (
@@ -637,14 +697,4 @@ function FooterSection({ githubStars }: { githubStars?: string | null }) {
       </Card>
     </section>
   );
-}
-
-export function LandingPage({ githubStars }: { githubStars?: string | null }) {
-  return (
-    <div className="flex flex-col gap-12 lg:gap-16">
-      <HeroSection githubStars={githubStars} />
-      <FeaturesSection />
-      <FooterSection githubStars={githubStars} />
-    </div>
-  );
-}
+};
