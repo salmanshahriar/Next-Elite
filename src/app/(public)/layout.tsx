@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="relative mx-auto flex min-h-screen w-full max-w-7xl min-w-0 flex-1 flex-col bg-background backdrop-blur-md">
-      <div className="pointer-events-none sticky top-0 z-0 h-dvh shrink-0">
+    <div className="relative mx-auto flex min-h-screen w-full max-w-7xl min-w-0 flex-1 flex-col overflow-x-hidden bg-background backdrop-blur-md sm:overflow-x-visible">
+      <div className="pointer-events-none sticky top-0 z-0 h-dvh shrink-0 overflow-hidden sm:overflow-visible">
         <div className="relative h-full w-full">
           <BlurGlow
             color="rgba(118, 99, 255, 0.28)"

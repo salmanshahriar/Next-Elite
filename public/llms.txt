@@ -139,7 +139,7 @@ docker run --rm --env-file .env -p 6767:6767 next-elite
 ## 7. Public Routes
 
 - `/` - Home (marketing)
-- `/ui-components` - Live component showcase (40+ components)
+- `/ui-components` - Live component showcase (50+ components)
 - `/login`, `/register`, `/password-reset` - Auth pages
 - `/dashboard` - Role-based dashboard (parallel `@admin` / `@user` slots)
 - `/profile` - User profile

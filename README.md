@@ -1,7 +1,7 @@
 <h1 align="center">Next Elite</h1>
 
 <p align="center">
-  An open-source, frontend-first Next.js boilerplate built for an API-driven workflow, no attached database required. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished, production-ready starting point out of the box with pre-built auth layouts, role-based dashboard layouts, and 40+ custom & reusable UI components.
+  An open-source, frontend-first Next.js boilerplate built for an API-driven workflow, no attached database required. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished, production-ready starting point out of the box with pre-built auth layouts, role-based dashboard layouts, and 50+ custom & reusable UI components.
 </p>
 
 <p align="center">
@@ -44,7 +44,7 @@
 - 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
 - 🔐 **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
 - 🖼️ **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
-- 🎨 **40+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
+- 🎨 **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
 - 📚 **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
 - 📝 **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
 - 🧪 **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
@@ -329,7 +329,7 @@ const form = useForm<LoginInput>({
 │   │   ├── layout/           App shell, navigation sidebars, topbar & branding
 │   │   ├── pages/            Landing page & UI components page modules
 │   │   ├── shared/           User dropdown, text links, theme & language controls
-│   │   └── ui/               40+ shadcn/ui primitives
+│   │   └── ui/               50+ shadcn/ui primitives
 │   ├── config/               App navigation & feature flags configuration
 │   ├── features/             Feature modules (vertical slices)
 │   │   ├── auth/             BetterAuth + RBAC

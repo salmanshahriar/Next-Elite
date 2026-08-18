@@ -138,7 +138,7 @@
   },
   "uiComponents": {
     "title": "UI 组件",
-    "description": "浏览 40+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
+    "description": "浏览 50+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
     "onThisPage": "本页目录",
     "sections": {
       "actions": "操作",

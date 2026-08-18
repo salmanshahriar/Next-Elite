@@ -138,7 +138,7 @@
   },
   "uiComponents": {
     "title": "Composants UI",
-    "description": "Parcourez plus de 40 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
+    "description": "Parcourez plus de 50 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
     "onThisPage": "Sur cette page",
     "sections": {
       "actions": "Actions",
