@@ -34,7 +34,7 @@ const ProtectedLayout = async ({
 
   return (
     <AppShell variant="sidebar">
-      <div className="relative flex min-h-screen w-full min-w-0 flex-1 overflow-hidden border-0 bg-primary/20 backdrop-blur-md md:border md:border-border/40">
+      <div className="relative flex h-svh max-h-svh w-full min-w-0 flex-1 overflow-hidden border-0 bg-primary/20 backdrop-blur-md md:border md:border-border/40">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
@@ -46,6 +46,10 @@ const ProtectedLayout = async ({
           <BlurGlow
             color="rgba(118, 99, 255, 0.28)"
             className="top-0 right-0 h-[480px] w-[480px] translate-x-1/4 -translate-y-1/4"
+          />
+          <BlurGlow
+            color="rgba(118, 99, 255, 0.28)"
+            className="bottom-0 left-10 h-[480px] w-[480px] translate-x-1/4 translate-y-1/4"
           />
         </div>
         {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
