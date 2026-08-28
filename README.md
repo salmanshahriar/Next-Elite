@@ -14,20 +14,27 @@
 <br/>
 
 <div align="center">
+  <video src="./public/Next-Elite-Overview.mp4" width="100%" controls autoplay loop muted></video>
+  <br/>
+  <br/>
   <table>
     <tr>
-      <td width="50%">
+      <td width="50%" align="center">
+        <h4>Next Elite</h4>
         <img src="./public/Next-Elite-Home.webp" alt="Next Elite Home" />
       </td>
-      <td width="50%">
+      <td width="50%" align="center">
+        <h4>50+ Custom Components</h4>
         <img src="./public/Nextjs-Elite-UI-Components.webp" alt="Next Elite UI Components" />
       </td>
     </tr>
     <tr>
-      <td width="50%">
+      <td width="50%" align="center">
+        <h4>Auth Layouts</h4>
         <img src="./public/Next-Elite-Auth.webp" alt="Next Elite Auth" />
       </td>
-      <td width="50%">
+      <td width="50%" align="center">
+        <h4>Dashboard Layouts</h4>
         <img src="./public/Next-Elite-Admin.webp" alt="Next Elite Admin Dashboard" />
       </td>
     </tr>
