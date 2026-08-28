@@ -12,7 +12,7 @@ import {
   type Locale,
 } from '@/features/site/config';
 import { cn } from '@/libs/utils';
-import { ChevronDown, Globe } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
 import { setLocaleAction } from '../../features/i18n/locale-actions';
@@ -85,7 +85,10 @@ const LanguageSwitcher = ({
               {title}
             </span>
             <span className="flex h-9 items-center gap-1.5">
-              <Globe className="h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-foreground" />
+              <Icon
+                name="globe"
+                className="h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-foreground"
+              />
               <span className="text-[11px] font-semibold text-muted-foreground transition-colors group-hover:text-foreground">
                 {localeShortCodes[currentLocale]}
               </span>
@@ -102,11 +105,11 @@ const LanguageSwitcher = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex cursor-pointer items-center gap-1.5 rounded-md border-0 bg-transparent px-2 py-1.5 text-muted-foreground transition-all hover:text-foreground focus:outline-hidden">
-          <Globe className="h-4 w-4" />
+          <Icon name="globe" className="h-4 w-4" />
           <span className="text-xs font-semibold tracking-wide">
             {localeShortCodes[currentLocale]}
           </span>
-          <ChevronDown className="h-3 w-3 opacity-60" />
+          <Icon name="down" className="h-3 w-3 opacity-60" />
           <span className="sr-only">Change language</span>
         </button>
       </DropdownMenuTrigger>

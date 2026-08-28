@@ -8,7 +8,7 @@ import { UserDropdown } from '@/components/shared/user-dropdown';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
 import { cn } from '@/libs/utils';
-import { Menu, X } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -139,9 +139,9 @@ const Header = () => {
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
+                <Icon name="close" className="h-5 w-5" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Icon name="menu" className="h-5 w-5" />
               )}
             </Button>
           </div>

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
 import { cn } from '@/libs/utils';
-import { LogOut } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 
 interface UserDropdownProps {
@@ -112,7 +112,7 @@ export const UserDropdown = ({
           className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
           onClick={() => void handleSignOut()}
         >
-          <LogOut className="h-4 w-4" />
+          <Icon name="logout" weight="fill" className="h-4 w-4" />
           <span>{t('logout')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

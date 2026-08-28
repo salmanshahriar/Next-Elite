@@ -14,7 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
@@ -40,7 +40,7 @@ export function Topbar() {
     segment.charAt(0).toUpperCase() + segment.slice(1);
 
   return (
-    <header className="sticky top-2 z-30 me-2 mt-2 mb-2 hidden h-app-header shrink-0 items-center justify-between rounded-md border border-border/40 bg-background/80 px-4 backdrop-blur-md md:flex md:px-6 dark:border-border/60 dark:bg-background">
+    <header className="sticky top-0 z-30 hidden h-app-header shrink-0 items-center justify-between border-b border-border/40 bg-muted/70 px-4 sm:px-6 md:flex lg:px-8 dark:border-border/60 dark:bg-background">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <Button
           variant="ghost"
@@ -50,11 +50,7 @@ export function Topbar() {
           aria-expanded={open}
           aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
         >
-          {open ? (
-            <PanelLeftClose className="h-4 w-4" />
-          ) : (
-            <PanelLeftOpen className="h-4 w-4" />
-          )}
+          <Icon name="sidebarSimple" weight="fill" className="h-4 w-4" />
         </Button>
 
         <div className="min-w-0 flex-1">

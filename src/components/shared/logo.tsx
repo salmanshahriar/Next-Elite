@@ -2,7 +2,7 @@
 
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
-import { Globe } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import Image from 'next/image';
 
 interface LogoProps {
@@ -56,5 +56,5 @@ export function Logo({ className, size = 28 }: LogoProps) {
       />
     );
   }
-  return <Globe className={cn('h-5 w-5 shrink-0', className)} />;
+  return <Icon name="globe" className={cn('h-5 w-5 shrink-0', className)} />;
 }

@@ -3,7 +3,7 @@
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/components/shared/theme-provider';
 import { cn } from '@/libs/utils';
-import { Moon, Sun } from 'lucide-react';
+import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import { useRef, useSyncExternalStore } from 'react';
 
@@ -83,10 +83,16 @@ export function ThemeToggle({
         size="lg"
         className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted-foreground/20 dark:data-[state=unchecked]:bg-muted-foreground/25"
         checkedIcon={
-          <Moon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
+          <Icon
+            name="moon"
+            className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in"
+          />
         }
         uncheckedIcon={
-          <Sun className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
+          <Icon
+            name="sun"
+            className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in"
+          />
         }
         aria-label={t('common.toggleTheme')}
       />

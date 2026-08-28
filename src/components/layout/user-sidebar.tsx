@@ -25,14 +25,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
-import {
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Settings,
-  UserCircle,
-  type LucideIcon,
-} from 'lucide-react';
+import { Icon, type IconName } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -42,7 +35,7 @@ interface NavItem {
   id: string;
   label: string;
   href: string;
-  icon: LucideIcon;
+  icon: IconName;
 }
 
 export function UserSidebar() {
@@ -59,13 +52,13 @@ export function UserSidebar() {
         id: 'dashboard',
         label: t('navigation.dashboard'),
         href: '/dashboard',
-        icon: LayoutDashboard,
+        icon: 'dashboard',
       },
       {
         id: 'profile',
         label: t('navigation.profile'),
         href: '/profile',
-        icon: UserCircle,
+        icon: 'user',
       },
     ],
     [t],
@@ -99,7 +92,6 @@ export function UserSidebar() {
       <SidebarContent>
         <SidebarMenu>
           {userNavItems.map((item) => {
-            const Icon = item.icon;
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
@@ -111,7 +103,11 @@ export function UserSidebar() {
                   onClick={onItemClick}
                 >
                   <Link href={item.href}>
-                    <Icon className="size-4.5 shrink-0" />
+                    <Icon
+                      name={item.icon}
+                      className="size-4.5 shrink-0"
+                      weight="fill"
+                    />
                     <span className="truncate group-data-[state=collapsed]:hidden">
                       {item.label}
                     </span>
@@ -133,7 +129,11 @@ export function UserSidebar() {
               onClick={onItemClick}
             >
               <Link href="/settings">
-                <Settings className="size-4.5 shrink-0" />
+                <Icon
+                  name="settings"
+                  className="size-4.5 shrink-0"
+                  weight="fill"
+                />
                 <span className="truncate group-data-[state=collapsed]:hidden">
                   {settingsLabel}
                 </span>
@@ -150,7 +150,7 @@ export function UserSidebar() {
                 onItemClick?.();
               }}
             >
-              <LogOut className="size-4.5 shrink-0" />
+              <Icon name="logout" className="size-4.5 shrink-0" weight="fill" />
               <span className="truncate group-data-[state=collapsed]:hidden">
                 {logoutLabel}
               </span>
@@ -172,7 +172,7 @@ export function UserSidebar() {
             onClick={toggleSidebar}
             aria-label={t('sidebar.menu')}
           >
-            <Menu className="h-5 w-5" />
+            <Icon name="menu" className="h-5 w-5" />
           </Button>
           <h1 className="truncate text-lg font-semibold">{mobileTitle}</h1>
         </div>

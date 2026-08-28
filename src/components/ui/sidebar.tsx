@@ -169,7 +169,7 @@ export function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          'flex h-full w-64 flex-col bg-background/80 backdrop-blur-md',
+          'flex h-full w-64 flex-col border-e border-border bg-background',
           className,
         )}
         {...props}
@@ -190,7 +190,7 @@ export function Sidebar({
           data-slot="sidebar"
           data-mobile="true"
           showCloseButton={false}
-          className="h-screen w-64 max-w-[85vw] gap-0 rounded-none border-s-0 border-e border-border/40 bg-background/80 p-0 backdrop-blur-md sm:max-w-[16rem] dark:border-border/60 dark:bg-card"
+          className="h-screen w-64 max-w-[85vw] gap-0 rounded-none border-s-0 border-e border-border/40 bg-background p-0 sm:max-w-[16rem] dark:border-border/60 dark:bg-card"
           side={side}
         >
           <div className="flex h-full w-full flex-col">{children}</div>
@@ -205,7 +205,7 @@ export function Sidebar({
       data-slot="sidebar"
       data-state={state}
       className={cn(
-        'group relative z-40 m-2 hidden h-[calc(100dvh-1rem)] shrink-0 flex-col overflow-hidden rounded-md border border-border/40 bg-background/80 backdrop-blur-md transition-all duration-300 ease-in-out md:flex dark:border-border/60 dark:bg-background',
+        'group relative z-40 hidden h-screen shrink-0 flex-col overflow-hidden border-e border-border bg-background transition-all duration-300 ease-in-out md:flex dark:bg-card',
         state === 'collapsed' ? 'w-16' : 'w-64',
         className,
       )}
@@ -309,7 +309,7 @@ export function SidebarHeader({
       data-slot="sidebar-header"
       data-sidebar="header"
       className={cn(
-        'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center overflow-hidden px-[18px]',
+        'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center overflow-hidden px-4',
         className,
       )}
       {...props}
@@ -325,7 +325,7 @@ export function SidebarFooter({
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
-      className={cn('mt-auto flex flex-col gap-1 p-2', className)}
+      className={cn('mt-auto flex flex-col gap-1 px-4 py-2', className)}
       {...props}
     />
   );
@@ -354,7 +354,7 @@ export function SidebarContent({
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        'min-w-0 flex-1 [scrollbar-width:none] overflow-x-hidden overflow-y-auto px-2 py-2 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+        'min-w-0 flex-1 [scrollbar-width:none] overflow-x-hidden overflow-y-auto px-4 py-2 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
         className,
       )}
       {...props}
@@ -459,7 +459,7 @@ export function SidebarMenuItem({
 }
 
 const sidebarMenuButtonVariants = cva(
-  'flex h-10 w-full max-w-full items-center justify-start gap-2.5 overflow-hidden rounded-md px-[15px] py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-primary/10 hover:text-sidebar-foreground data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/10 data-[active=true]:hover:text-primary',
+  'flex h-10 w-full max-w-full items-center justify-start gap-2.5 overflow-hidden rounded-sm px-[15px] py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-primary/10 hover:text-sidebar-foreground data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/10 data-[active=true]:hover:text-primary',
   {
     variants: {
       variant: {
