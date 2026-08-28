@@ -18,7 +18,7 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
           className="top-20 left-0 h-[480px] w-[480px] -translate-x-1/4"
         />
       </div>
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl min-w-0 flex-1 flex-col overflow-x-hidden">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl min-w-0 flex-1 flex-col overflow-x-clip">
         <Header />
         <main id="main-content" className="min-w-0 flex-1">
           {children}

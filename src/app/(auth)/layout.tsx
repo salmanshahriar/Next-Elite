@@ -12,9 +12,9 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main
       id="main-content"
-      className="relative flex h-[98svh] bg-background/80 md:m-2"
+      className="relative flex h-[96svh] bg-background/80 md:m-4"
     >
-      <section className="relative hidden items-center justify-center rounded-xl border border-border/40 bg-primary/10 p-6 md:flex md:w-2/3 md:flex-col">
+      <section className="bg-blur-md relative hidden items-center justify-center rounded-xl border border-border/40 bg-primary/10 p-6 md:flex md:w-1/2 md:flex-col">
         <div className="absolute h-full w-full">
           <AuthAnimation
             variant="square"
@@ -28,7 +28,7 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
             rippleIntensityScale={1.7}
             speed={0.5}
             transparent
-            edgeFade={0.1}
+            edgeFade={0.05}
           />
         </div>
         <AppBrand
@@ -39,7 +39,7 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
         />
       </section>
 
-      <section className="flex w-full flex-col p-4 pt-0 md:w-1/3 md:p-6 md:pt-0">
+      <section className="flex w-full flex-col p-4 pt-0 md:w-1/2 md:p-6 md:pt-0">
         <AuthTopbar />
         <div className="flex flex-1 items-center justify-center">
           {children}
