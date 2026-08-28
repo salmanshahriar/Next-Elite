@@ -14,7 +14,7 @@
 <br/>
 
 <div align="center">
-  <video src="https://github.com/salmanshahriar/Next-Elite/raw/main/public/Next-Elite-Overview.mp4" width="100%" controls autoplay loop muted></video>
+  ![Next Elite Overview](./public/Next-Elite-Overview.mp4)
   <br/>
   <br/>
   <table>
