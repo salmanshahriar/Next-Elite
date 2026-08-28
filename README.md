@@ -13,10 +13,11 @@
 
 <br/>
 
+https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
+
+ <br/>
+
 <div align="center">
-  <video src="https://github.com/salmanshahriar/Next-Elite/raw/main/public/Next-Elite-Overview.mp4" width="100%" controls autoplay loop muted></video>
-  <br/>
-  <br/>
   <table>
     <tr>
       <td width="50%" align="center">
