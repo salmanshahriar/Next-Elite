@@ -96,7 +96,7 @@
     "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "overrides": {
     "kysely": "0.28.17",
