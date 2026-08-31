@@ -59,9 +59,7 @@ https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
 
 <br/>
 
-## One-click Deploy
-
-Deploy directly to Vercel:
+## One-click Deploy to Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite)
 
@@ -180,9 +178,6 @@ docker compose up --build
 
 ### Multi-Arch Deploy (ARM64 + AMD64)
 
-The Dockerfile produces images that run on both `linux/amd64` and `linux/arm64`.
-Build a multi-arch image with Buildx:
-
 ```bash
 docker buildx create --name multiarch --use   # one-time setup
 docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
@@ -198,9 +193,6 @@ This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS
 2. Set the build type to **Dockerfile** (auto-detected).
 3. Configure environment variables via the Dokploy UI (see `.env.example` for the full list).
 4. Deploy - Dokploy automatically builds and runs the container with health checks.
-
-The included `HEALTHCHECK` instruction pings `/api/health` so Dokploy
-can monitor and restart the container if it becomes unresponsive.
 
 <br/>
 
@@ -341,8 +333,6 @@ const form = useForm<LoginInput>({
 │   ├── config/               App navigation & feature flags configuration
 │   ├── features/             Feature modules (vertical slices)
 │   │   ├── auth/             BetterAuth + RBAC
-│   │   │   ├── lib/          auth + auth-client (BetterAuth singletons)
-│   │   │   ├── server/       Server-only helpers (getCurrentUser)
 │   │   │   ├── hooks/        Auth provider + useAuth hook
 │   │   │   ├── demo/         Self-contained demo module (delete for prod)
 │   │   │   ├── rbac/         permissions, roles, can, require
@@ -364,10 +354,6 @@ const form = useForm<LoginInput>({
 ### Environment variables
 
 Every variable is documented in [`.env.example`](.env.example) and validated by `src/libs/env.ts` (T3 Env).
-
-- `BETTER_AUTH_URL` is optional - derived from `VERCEL_URL` in production, `http://localhost:6767` locally.
-- `BETTER_AUTH_SECRET` (32+ chars) must be set at runtime in production. A missing secret logs a warning instead of crashing the build.
-- Set `SKIP_ENV_VALIDATION=true` in CI / Docker build steps when env vars aren't available yet.
 
 ### Site & SEO configuration
 
@@ -405,8 +391,8 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 ## Development & Testing
 
-<details>
-<summary><b>View Available Scripts</b></summary>
+
+<b>View Available Scripts</b>
 
 | Command                           | Description                              |
 | --------------------------------- | ---------------------------------------- |
@@ -476,10 +462,13 @@ It is probably overkill for:
 
 ## Contributing
 
-1. Fork & branch from `main` (`feat/...`, `fix/...`, etc.)
-2. Ensure `npm run check` passes locally.
-3. Use Conventional Commits.
-4. Open a pull request.
+Contributions to **Next-Elite** are welcome.
+
+1. Fork the repository and create a branch from `main`.
+2. Use clear branch names such as `feat/...`, `fix/...`, or `docs/...`.
+3. Run `npm run check` before submitting your changes.
+4. Follow **Conventional Commits**.
+5. Open a Pull Request with a clear description of your changes.
 
 <br/>
 
@@ -487,10 +476,9 @@ It is probably overkill for:
 
 MIT [LICENSE](LICENSE)
 
-<div align="center">
 
-### If this boilerplate saved you time, a star helps more devs discover it
+## ⭐ Support Next-Elite
 
-[![GitHub stars](https://img.shields.io/github/stars/salmanshahriar/Next-Elite?style=social)](https://github.com/salmanshahriar/Next-Elite/stargazers)
+If you find **Next-Elite** useful, consider giving it a ⭐ **[Star on GitHub](https://github.com/salmanshahriar/Next-Elite)**.
 
-</div>
+Thanks for reading!
