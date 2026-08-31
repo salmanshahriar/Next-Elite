@@ -59,7 +59,7 @@ https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
 
 <br/>
 
-## One-click Deploy to Vercel
+## 🚀 One-click Deploy to Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite)
 
@@ -67,7 +67,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 <br/>
 
-## Tech Stack + Details
+## 💻 Tech Stack + Details
 
 ### Frameworks & Core
 
@@ -111,7 +111,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 <br/>
 
-## Lighthouse report
+## 📈 Lighthouse Report
 
 <div align="center">
   <img src="./public/Next-Elite-LightHouse.webp" alt="Lighthouse test results" width="600" />
@@ -119,7 +119,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 <br/>
 
-## Quick Start
+## ⚡ Quick Start
 
 ### Prerequisites
 
@@ -196,7 +196,7 @@ This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS
 
 <br/>
 
-## Architecture Overview
+## 🧩 Architecture Overview
 
 The big picture: a page is rendered on the server, auth/role is checked there, and any live data is fetched on the client.
 
@@ -285,7 +285,7 @@ const form = useForm<LoginInput>({
 
 <br/>
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```
 .
@@ -349,7 +349,7 @@ const form = useForm<LoginInput>({
 
 <br/>
 
-## Configuration
+## ⚙️ Configuration
 
 ### Environment variables
 
@@ -389,8 +389,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 <br/>
 
-## Development & Testing
-
+## 🧪 Development & Testing
 
 <b>View Available Scripts</b>
 
@@ -444,7 +443,7 @@ Install the [Oxc VS Code extension](https://marketplace.visualstudio.com/items?i
 
 <br/>
 
-## When to use
+## 🎯 When to Use
 
 Next Elite is best for:
 
@@ -460,7 +459,7 @@ It is probably overkill for:
 
 <br/>
 
-## Contributing
+## 🤝 Contributing
 
 Contributions to **Next-Elite** are welcome.
 
@@ -472,10 +471,11 @@ Contributions to **Next-Elite** are welcome.
 
 <br/>
 
-## License
+## 📜 License
 
 MIT [LICENSE](LICENSE)
 
+<br/>
 
 ## ⭐ Support Next-Elite
 
