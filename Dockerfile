@@ -1,36 +1,33 @@
-# Multi-arch supported: build with
-# docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
-# Works natively on Dokploy, Docker, and any container platform.
-FROM node:22-alpine AS base
+FROM node:22-alpine AS deps
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci && npm cache clean --force
 
-FROM base AS deps
-COPY package.json package-lock.json* ./
-RUN npm ci
-
-FROM base AS builder
-ENV NODE_ENV=production
+FROM node:22-alpine AS builder
+WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
-FROM node:22-alpine AS runner
+FROM gcr.io/distroless/nodejs22-debian12 AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=6767
 ENV HOSTNAME=0.0.0.0
 
-RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+LABEL org.opencontainers.image.title="next-elite"
+LABEL org.opencontainers.image.source="https://github.com/salmanshahriar/Next-Elite"
 
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
+COPY --from=builder --chown=nonroot:nonroot /app/public ./public
+COPY --from=builder --chown=nonroot:nonroot /app/.next/standalone ./
+COPY --from=builder --chown=nonroot:nonroot /app/.next/static ./.next/static
 
 EXPOSE 6767
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:6767/api/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD ["/nodejs/bin/node", "-e", "fetch('http://127.0.0.1:6767/api/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
 
-CMD ["node", "server.js"]
+CMD ["server.js"]

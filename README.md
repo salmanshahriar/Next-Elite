@@ -160,7 +160,11 @@ When `NEXT_PUBLIC_DEMO_MODE=true` is enabled, the login screen includes a quick-
 > [!NOTE]
 > For production deployments, set `NEXT_PUBLIC_DEMO_MODE=false` or remove the self-contained `src/features/auth/demo/` module.
 
-### Docker Setup
+### Docker & Production Containerization
+
+The production setup uses a multi-stage **Google Distroless** base image (`gcr.io/distroless/nodejs22-debian12`) for maximum security, zero unnecessary OS packages, and minimal image size.
+
+#### Quick Start with Docker
 
 Run the application locally via Docker:
 
@@ -176,16 +180,23 @@ Or using Docker Compose:
 docker compose up --build
 ```
 
-### Multi-Arch Deploy (ARM64 + AMD64)
+#### Why Distroless?
+
+- **Minimal Attack Surface**: Contains _only_ Node.js and its direct runtime dependencies — no shell (`/bin/sh`), package managers (`apk`/`apt`), or OS utilities.
+- **Enhanced Security**: Runs as an unprivileged `nonroot:nonroot` user out-of-the-box, drastically reducing vulnerability vectors.
+- **Zero OS CVE Bloat**: Eliminates Linux OS package vulnerabilities commonly flagged in standard base images.
+- **Native Health Check**: Built-in HTTP health check using Node's native `fetch()` against `/api/health` without requiring `curl` or `wget`.
+
+#### Multi-Arch Deploy (ARM64 + AMD64)
 
 ```bash
 docker buildx create --name multiarch --use   # one-time setup
 docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
 ```
 
-This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, etc.).
+This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, AWS Graviton, etc.).
 
-### Dokploy Deployment
+#### Dokploy Deployment
 
 This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS.
 
