@@ -18,7 +18,7 @@
 ## 2. Core Resources
 
 - **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite)
-- **Live Demo**: [next-elite-boilerplate.vercel.app](https://next-elite-boilerplate.vercel.app/)
+- **Live Demo**: [nextelite.salmanshahriar.com](https://nextelite.salmanshahriar.com/)
 - **Agentic browsing**: `/llms.txt` (this file) for AI crawlers and assistants
 - **Health Check**: `GET /api/health` returns `{ "status": "ok" }`
 - **Auth API**: `/api/auth/*` (Better Auth route handlers)

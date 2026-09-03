@@ -6,7 +6,7 @@
   "description": "Front-end-focused Next.js 16.3 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, oxlint/oxfmt linting, type-safe i18n with next-intl, T3 Env, TanStack Query, and Sentry.",
   "locale": "en_US",
   "language": "en-US",
-  "domain": "https://next-elite-boilerplate.vercel.app",
+  "domain": "https://nextelite.salmanshahriar.com",
   "canonicalPath": "/",
   "applicationCategory": "WebApplication",
   "audience": "Developers, Businesses, Startups",
@@ -107,9 +107,9 @@
     }
   },
   "organization": {
-    "name": "Your Organization",
-    "legalName": "Your Organization Legal Name",
-    "url": "https://yourdomain.com",
+    "name": "Next Elite",
+    "legalName": "Next Elite",
+    "url": "https://nextelite.salmanshahriar.com",
     "logo": "/logo.svg",
     "description": "Brief description of your organization or product.",
     "foundingDate": "2024-01-01",

@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://next-elite-boilerplate.vercel.app/"><strong>🚀 Live Demo</strong></a> ·
+  <a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
   <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
   <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
   <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
