@@ -180,13 +180,6 @@ Or using Docker Compose:
 docker compose up --build
 ```
 
-#### Why Distroless?
-
-- **Minimal Attack Surface**: Contains _only_ Node.js and its direct runtime dependencies — no shell (`/bin/sh`), package managers (`apk`/`apt`), or OS utilities.
-- **Enhanced Security**: Runs as an unprivileged `nonroot:nonroot` user out-of-the-box, drastically reducing vulnerability vectors.
-- **Zero OS CVE Bloat**: Eliminates Linux OS package vulnerabilities commonly flagged in standard base images.
-- **Native Health Check**: Built-in HTTP health check using Node's native `fetch()` against `/api/health` without requiring `curl` or `wget`.
-
 #### Multi-Arch Deploy (ARM64 + AMD64)
 
 ```bash
