@@ -3,13 +3,12 @@
 <p align="center">
   An open source Next.js boilerplate/starter kit with Frontend-focused + Api-driven + Developer-experience. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished starting with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
 </p
-
+<br/>
 <p align="center">
-
-<a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
-<a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
-<a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
-<a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
+  <a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
 </p>
 
 <br/>
