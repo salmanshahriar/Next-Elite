@@ -5,10 +5,11 @@
 </p
 
 <p align="center">
-  <a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
+
+<a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
+<a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
+<a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
+<a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
 </p>
 
 <br/>
@@ -105,8 +106,8 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ### Quality Gates & Tooling
 
-- **Testing Suite** - Unit/component testing with Vitest and React Testing Library, and E2E testing with Playwright.
 - **Hygiene & Linting** - [Oxlint](https://oxc.rs/docs/guide/usage/linter) and [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) for fast linting and formatting, plus Knip for dead code/dependency hygiene.
+- **Testing Suite** - Unit/component testing with Vitest and React Testing Library, and E2E testing with Playwright.
 - **Git Hook Automation** - Lefthook pre-commit hooks (oxlint + oxfmt), Commitlint for conventional commits, and a pre-push hook that runs `npm run check`.
 
 <br/>
@@ -192,11 +193,6 @@ This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, AWS G
 #### Dokploy Deployment
 
 This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS.
-
-1. Create a new **Application** in Dokploy and point it to your fork of this repo.
-2. Set the build type to **Dockerfile** (auto-detected).
-3. Configure environment variables via the Dokploy UI (see `.env.example` for the full list).
-4. Deploy - Dokploy automatically builds and runs the container with health checks.
 
 <br/>
 
@@ -301,50 +297,47 @@ const form = useForm<LoginInput>({
 ├── messages/                 next-intl translations (en, bn, ar, fr, es, zh)
 ├── public/                   Static assets
 ├── tests/                    Vitest specs (auth, i18n)
-├── components.json           shadcn/ui CLI config
+├── components.json
 ├── .oxlintrc.json            Oxlint rules (Next.js, TypeScript, React, Unicorn)
 ├── .oxfmtrc.json             Oxfmt formatter config (Tailwind class sorting)
 ├── knip.json
 ├── next.config.mjs
 ├── package.json              scripts + Commitlint config
-├── package-lock.json         npm lockfile (single source of truth)
-├── proxy.ts                  Next.js 16 network proxy (pass-through)
+├── package-lock.json
+├── proxy.ts                  Next.js 16 network proxy
 ├── tsconfig.json
 ├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
 ├── src/
 │   ├── app/                  App Router
-│   │   ├── (auth)/           Login, register, & reset-password pages
-│   │   ├── (public)/         Marketing pages (home, ui-components)
-│   │   ├── (protected)/      Authenticated area + RBAC
+│   │   ├── (auth)/           Auth layouts (Login, register, & reset-password pages)
+│   │   ├── (public)/         Public layouts
+│   │   ├── (protected)/      Protected/RBAC layouts
 │   │   │   ├── @admin/       Admin slots (dashboard, profile, settings)
 │   │   │   ├── @user/        User slots (dashboard, profile, settings)
-│   │   │   └── layout.tsx    Picks slot based on permissions
+│   │   │   └── layout.tsx
 │   │   ├── api/              Route handlers (BetterAuth, health)
-│   │   ├── styles/           Design system tokens, base CSS, & animations
-│   │   ├── fonts.ts          Inter typography configuration
-│   │   ├── layout.tsx        Root layout, SEO, Inter font, providers
+│   │   ├── styles/           Design system tokens, base CSS
+│   │   ├── fonts.ts          Typography configuration
+│   │   ├── layout.tsx        Root layout, SEO, fonts, providers
 │   │   ├── providers.tsx     Theme + Auth + TanStack Query
-│   │   ├── manifest.ts       Web app manifest
-│   │   ├── robots.ts         robots.txt
-│   │   └── sitemap.ts        Dynamic sitemap
+│   │   ├── manifest.ts
+│   │   ├── robots.ts
+│   │   └── sitemap.ts
 │   ├── components/
-│   │   ├── auth/             Auth forms & particle animation canvas
+│   │   ├── auth/             Auth forms
 │   │   ├── icons/            Centralized SVG icon components & barrel export
 │   │   ├── layout/           App shell, navigation sidebars, topbar & branding
-│   │   ├── pages/            Landing page & UI components page modules
-│   │   ├── shared/           User dropdown, text links, theme & language controls
-│   │   └── ui/               50+ shadcn/ui primitives
+│   │   ├── pages/            Landing page & UI components
+│   │   ├── shared/           Shared UI's
+│   │   └── ui/               Shadcn UI's components
 │   ├── config/               App navigation & feature flags configuration
-│   ├── features/             Feature modules (vertical slices)
-│   │   ├── auth/             BetterAuth + RBAC
-│   │   │   ├── hooks/        Auth provider + useAuth hook
-│   │   │   ├── demo/         Self-contained demo module (delete for prod)
-│   │   │   ├── rbac/         permissions, roles, can, require
-│   │   │   └── schemas/      Zod login + register schemas
-│   │   ├── i18n/             next-intl config (routing, request, actions)
+│   ├── features/             Feature modules
+│   │   ├── auth/             BetterAuth + RBAC modules
+│   │   ├── demo/             Self-contained demo module (delete for prod)
+│   │   ├── i18n/             next-intl configuration
 │   │   └── site/             siteConfig + locale utilities
-│   ├── hooks/                Shared React hooks (useMobile, etc.)
-│   ├── libs/                 Cross-cutting infra (env, query-client, utils)
+│   ├── hooks/                Shared React hooks
+│   ├── libs/                 Cross-cutting infra
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
@@ -361,7 +354,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 ### Site & SEO configuration
 
-[`src/features/site/site.config.json`](src/features/site/site.config.json) is the single source of truth for SEO metadata, dynamic sitemaps, localized routes, and PWA manifest:
+[`src/features/site/site.config.json`](src/features/site/site.config.json) is the central place for SEO metadata, dynamic sitemaps, localized routes, and PWA manifest:
 
 ```json
 {
