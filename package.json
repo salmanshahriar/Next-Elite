@@ -102,7 +102,7 @@
   "overrides": {
     "kysely": "0.28.17",
     "postcss": "8.5.26",
-    "sharp": "0.35.3",
+    "sharp": "^0.35.4",
     "uuid": "^14.0.0",
     "@swc/helpers": "0.5.15"
   },
@@ -121,7 +121,7 @@
   "allowScripts": {
     "@sentry/cli@2.58.6": true,
     "lefthook@2.1.10": true,
-    "sharp@0.35.3": true,
+    "sharp@0.35.4": true,
     "@parcel/watcher@2.6.0": true,
     "@swc/core@1.15.47": true
   }
