@@ -1,7 +1,7 @@
 <h1 align="center">Next Elite</h1>
 
 <p align="center">
-  An open source Next.js boilerplate/starter kit with Frontend-focused + Api-driven + Developer-experience. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished & production-ready starting point out of the box with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
+  An open source Next.js boilerplate/starter kit with Frontend-focused + Api-driven + Developer-experience. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished starting with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
 </p
 
 <p align="center">
