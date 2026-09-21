@@ -94,14 +94,14 @@
     "lefthook": "^2.1.12",
     "oxfmt": "^0.68.0",
     "oxlint": "^1.80.0",
-    "postcss": "8.5.26",
+    "postcss": "8.5.28",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vitest": "4.1.11"
   },
   "overrides": {
     "kysely": "0.28.17",
-    "postcss": "8.5.26",
+    "postcss": "8.5.28",
     "sharp": "^0.35.4",
     "uuid": "^14.0.0",
     "@swc/helpers": "0.5.15"
