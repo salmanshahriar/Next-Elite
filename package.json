@@ -92,7 +92,7 @@
     "jsdom": "30.0.1",
     "knip": "^6.38.0",
     "lefthook": "^2.1.12",
-    "oxfmt": "^0.68.0",
+    "oxfmt": "^0.70.0",
     "oxlint": "^1.80.0",
     "postcss": "8.5.28",
     "tailwindcss": "4.3.3",
