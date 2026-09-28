@@ -51,6 +51,9 @@ export function useSidebar() {
   return context;
 }
 
+const SIDEBAR_COOKIE_NAME = 'sidebar_state';
+const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+
 export function SidebarProvider({
   defaultOpen = true,
   open: openProp,
@@ -67,7 +70,26 @@ export function SidebarProvider({
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
 
-  const [_open, _setOpen] = React.useState(defaultOpen);
+  const [_open, _setOpen] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedCollapsed = window.localStorage.getItem('sidebar-collapsed');
+      if (savedCollapsed !== null) {
+        try {
+          return !JSON.parse(savedCollapsed);
+        } catch {
+          // ignore corrupted JSON
+        }
+      }
+      const match = document.cookie.match(
+        new RegExp(`(^| )${SIDEBAR_COOKIE_NAME}=([^;]+)`),
+      );
+      if (match) {
+        return match[2] === 'true';
+      }
+    }
+    return defaultOpen;
+  });
+
   const open = openProp ?? _open;
 
   const setOpen = React.useCallback(
@@ -84,11 +106,31 @@ export function SidebarProvider({
           'sidebar-collapsed',
           JSON.stringify(!openState),
         );
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; SameSite=Lax`;
         window.dispatchEvent(new Event('sidebar-collapsed-change'));
       }
     },
     [setOpenProp, open],
   );
+
+  React.useEffect(() => {
+    const handleStorage = () => {
+      const savedCollapsed = window.localStorage.getItem('sidebar-collapsed');
+      if (savedCollapsed !== null) {
+        try {
+          _setOpen(!JSON.parse(savedCollapsed));
+        } catch {
+          // ignore corrupted JSON
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('sidebar-collapsed-change', handleStorage);
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('sidebar-collapsed-change', handleStorage);
+    };
+  }, []);
 
   const toggleSidebar = React.useCallback(() => {
     return isMobile ? setOpenMobile((prev) => !prev) : setOpen((prev) => !prev);
@@ -205,7 +247,7 @@ export function Sidebar({
       data-slot="sidebar"
       data-state={state}
       className={cn(
-        'group relative z-40 hidden h-screen shrink-0 flex-col overflow-hidden border-e border-border bg-background transition-all duration-300 ease-in-out md:flex dark:bg-card',
+        'group sticky top-0 z-40 hidden h-svh max-h-svh shrink-0 flex-col overflow-hidden border-e border-border bg-background transition-all duration-300 ease-in-out md:flex dark:bg-card',
         state === 'collapsed' ? 'w-16' : 'w-64',
         className,
       )}
@@ -309,7 +351,7 @@ export function SidebarHeader({
       data-slot="sidebar-header"
       data-sidebar="header"
       className={cn(
-        'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center overflow-hidden px-4',
+        'flex h-app-header min-h-app-header w-full min-w-0 shrink-0 items-center justify-start overflow-hidden px-3',
         className,
       )}
       {...props}
@@ -325,10 +367,7 @@ export function SidebarFooter({
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
-      className={cn(
-        'mt-auto flex flex-col gap-1 px-4 py-2 group-data-[state=collapsed]:px-2',
-        className,
-      )}
+      className={cn('mt-auto flex flex-col gap-1 px-3 py-2', className)}
       {...props}
     />
   );
@@ -357,7 +396,7 @@ export function SidebarContent({
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        'min-w-0 flex-1 [scrollbar-width:none] overflow-x-hidden overflow-y-auto px-4 py-2 [-ms-overflow-style:none] group-data-[state=collapsed]:px-2 [&::-webkit-scrollbar]:hidden',
+        'min-w-0 flex-1 [scrollbar-width:none] overflow-x-hidden overflow-y-auto px-3 py-6 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
         className,
       )}
       {...props}
@@ -462,7 +501,7 @@ export function SidebarMenuItem({
 }
 
 const sidebarMenuButtonVariants = cva(
-  'flex h-10 w-full max-w-full items-center justify-start gap-2.5 overflow-hidden rounded-sm px-[15px] py-2 text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-primary/10 hover:text-sidebar-foreground data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/10 data-[active=true]:hover:text-primary',
+  'flex h-10 w-full max-w-full items-center justify-start gap-2.5 overflow-hidden rounded-md px-[11px] py-[11px] text-sm font-medium text-sidebar-foreground/60 transition-colors hover:bg-primary/10 hover:text-sidebar-foreground data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/10 data-[active=true]:hover:text-primary group-data-[state=collapsed]:aspect-square',
   {
     variants: {
       variant: {
@@ -619,7 +658,10 @@ export function SidebarMenuSub({
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
-      className={cn('flex min-w-0 flex-col px-1.5 py-2', className)}
+      className={cn(
+        'flex min-w-0 flex-col px-1.5 py-2 group-data-[state=collapsed]:hidden',
+        className,
+      )}
       {...props}
     />
   );

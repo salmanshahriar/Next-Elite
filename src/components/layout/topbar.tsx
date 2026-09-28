@@ -17,7 +17,7 @@ import { useAuth } from '@/features/auth/hooks/auth-provider';
 import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 
 export function Topbar() {
   const t = useTranslations();
@@ -25,19 +25,19 @@ export function Topbar() {
   const pathname = usePathname();
   const { open, toggleSidebar } = useSidebar();
 
-  const segments = pathname.split('/').filter(Boolean);
+  const segments = useMemo(
+    () => pathname.split('/').filter(Boolean),
+    [pathname],
+  );
 
-  const segmentLabels: Record<string, string> = {
-    dashboard: t('navigation.dashboard'),
-    profile: t('navigation.profile'),
-    settings: t.has('navigation.settings')
-      ? t('navigation.settings')
-      : 'Settings',
+  const formatSegment = (segment: string) => {
+    const key = `navigation.${segment}` as Parameters<typeof t>[0];
+    return t.has(key)
+      ? t(key)
+      : segment
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, (char) => char.toUpperCase());
   };
-
-  const getSegmentLabel = (segment: string) =>
-    segmentLabels[segment] ??
-    segment.charAt(0).toUpperCase() + segment.slice(1);
 
   return (
     <header className="sticky top-0 z-30 hidden h-app-header shrink-0 items-center justify-between border-b border-border/40 bg-muted/70 px-4 sm:px-6 md:flex lg:px-8 dark:border-border/60 dark:bg-background">
@@ -63,17 +63,17 @@ export function Topbar() {
               ) : (
                 segments.map((segment, index) => {
                   const isLast = index === segments.length - 1;
-                  const path = `/${segments.slice(0, index + 1).join('/')}`;
-                  const label = getSegmentLabel(segment);
+                  const href = `/${segments.slice(0, index + 1).join('/')}`;
+                  const label = formatSegment(segment);
 
                   return (
-                    <Fragment key={path}>
+                    <Fragment key={href}>
                       {index > 0 && <BreadcrumbSeparator />}
                       <BreadcrumbItem>
                         {isLast ? (
                           <BreadcrumbPage>{label}</BreadcrumbPage>
                         ) : (
-                          <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
+                          <BreadcrumbLink href={href}>{label}</BreadcrumbLink>
                         )}
                       </BreadcrumbItem>
                     </Fragment>

@@ -25,23 +25,25 @@ export function AppBrand({
   onClick,
 }: AppBrandProps) {
   const content = (
-    <>
-      <Logo size={size} className={cn('h-7 w-7 shrink-0', logoClassName)} />
+    <div className="flex h-10 w-full min-w-0 items-center justify-start">
+      <div className="flex size-10 shrink-0 items-center justify-center">
+        <Logo size={size} className={cn('h-7 w-7 shrink-0', logoClassName)} />
+      </div>
       {showName ? (
         <span
           className={cn(
-            'truncate text-lg leading-tight font-semibold group-data-[state=collapsed]:hidden',
+            'ms-1 truncate text-lg leading-tight font-semibold whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0',
             nameClassName,
           )}
         >
           {siteConfig.appName || siteConfig.title}
         </span>
       ) : null}
-    </>
+    </div>
   );
 
   const classes = cn(
-    'flex min-w-0 items-center gap-2.5 font-bold text-foreground rtl:flex-row-reverse',
+    'flex min-w-0 items-center font-bold text-foreground rtl:flex-row-reverse',
     className,
   );
 

@@ -38,7 +38,9 @@
     "settings": "设置",
     "logout": "退出登录",
     "login": "登录",
-    "uiComponents": "UI 组件"
+    "uiComponents": "UI 组件",
+    "workspace": "工作区",
+    "analytics": "分析"
   },
   "auth": {
     "login": {

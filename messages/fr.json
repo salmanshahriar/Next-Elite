@@ -38,7 +38,9 @@
     "settings": "Paramètres",
     "logout": "Déconnexion",
     "login": "Connexion",
-    "uiComponents": "Composants UI"
+    "uiComponents": "Composants UI",
+    "workspace": "Espace de travail",
+    "analytics": "Analytique"
   },
   "auth": {
     "login": {

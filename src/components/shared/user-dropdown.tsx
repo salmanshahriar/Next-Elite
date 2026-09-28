@@ -90,13 +90,13 @@ export const UserDropdown = ({
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <div className="flex w-full min-w-0 items-center justify-center gap-2 px-1">
-              <span className="max-w-[140px] truncate text-sm font-semibold text-foreground">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center gap-1.5 px-1">
+              <span className="max-w-full truncate text-sm font-semibold text-foreground">
                 {user.email}
               </span>
               <span
                 className={cn(
-                  'inline-flex shrink-0 items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize',
+                  'inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold capitalize',
                   user.role === 'admin'
                     ? 'border-primary/30 bg-primary/15 text-primary'
                     : 'border-border bg-muted text-muted-foreground',

@@ -38,7 +38,9 @@
     "settings": "Ajustes",
     "logout": "Cerrar sesión",
     "login": "Iniciar sesión",
-    "uiComponents": "Componentes UI"
+    "uiComponents": "Componentes UI",
+    "workspace": "Espacio de trabajo",
+    "analytics": "Analítica"
   },
   "auth": {
     "login": {

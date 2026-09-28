@@ -38,7 +38,9 @@
     "settings": "Settings",
     "logout": "Logout",
     "login": "Login",
-    "uiComponents": "UI Components"
+    "uiComponents": "UI Components",
+    "workspace": "Workspace",
+    "analytics": "Analytics"
   },
   "auth": {
     "login": {

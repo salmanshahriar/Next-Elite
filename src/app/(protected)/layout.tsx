@@ -4,6 +4,7 @@ import { Topbar } from '@/components/layout/topbar';
 import { UserSidebar } from '@/components/layout/user-sidebar';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
+import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 
 interface ProtectedLayoutProps {
@@ -18,6 +19,9 @@ const ProtectedLayout = async ({
   admin,
 }: ProtectedLayoutProps) => {
   const currentUser = await requireUser();
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false';
+
   const userRole = hasPermission(
     currentUser.permissions,
     'dashboard.view:admin',
@@ -32,17 +36,15 @@ const ProtectedLayout = async ({
     (userRole === 'admin' && admin) || (canViewUser && user) || children;
 
   return (
-    <AppShell variant="sidebar">
+    <AppShell variant="sidebar" defaultOpen={defaultOpen}>
       {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
-      <div className="relative flex h-svh max-h-svh w-full min-w-0 flex-1 overflow-hidden bg-background">
-        <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-app-header md:pt-0">
-          <Topbar />
-          <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background">
-            <div className="ms-0 me-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
-              {slot}
-            </div>
-          </main>
-        </div>
+      <div className="relative flex h-svh max-h-svh min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-background pt-app-header md:pt-0">
+        <Topbar />
+        <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background">
+          <div className="ms-0 me-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
+            {slot}
+          </div>
+        </main>
       </div>
     </AppShell>
   );

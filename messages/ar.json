@@ -38,7 +38,9 @@
     "settings": "الإعدادات",
     "logout": "تسجيل الخروج",
     "login": "تسجيل الدخول",
-    "uiComponents": "مكونات الواجهة"
+    "uiComponents": "مكونات الواجهة",
+    "workspace": "مساحة العمل",
+    "analytics": "التحليلات"
   },
   "auth": {
     "login": {

@@ -15,6 +15,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -22,6 +27,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/auth-provider';
@@ -29,7 +37,7 @@ import { Icon, type IconName } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface NavItem {
   id: string;
@@ -42,9 +50,14 @@ export function UserSidebar() {
   const t = useTranslations();
   const { user, signOut } = useAuth();
   const pathname = usePathname();
-  const { toggleSidebar, setOpenMobile } = useSidebar();
+  const { open, setOpen, toggleSidebar, setOpenMobile } = useSidebar();
 
+  const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname, setOpenMobile]);
 
   const userNavItems: NavItem[] = useMemo(
     () => [
@@ -64,6 +77,12 @@ export function UserSidebar() {
     [t],
   );
 
+  const dashboardItem = userNavItems.find((i) => i.id === 'dashboard');
+  const profileItem = userNavItems.find((i) => i.id === 'profile');
+
+  const workspaceLabel = t.has('navigation.workspace')
+    ? t('navigation.workspace')
+    : 'Workspace';
   const settingsLabel = t.has('navigation.settings')
     ? t('navigation.settings')
     : 'Settings';
@@ -74,6 +93,7 @@ export function UserSidebar() {
     if (!segment || segment === 'dashboard') return t('navigation.dashboard');
     if (segment === 'profile') return t('navigation.profile');
     if (segment === 'settings') return settingsLabel;
+    if (segment === 'analytics') return 'Analytics';
     return segment.charAt(0).toUpperCase() + segment.slice(1);
   }, [pathname, settingsLabel, t]);
 
@@ -86,36 +106,116 @@ export function UserSidebar() {
   const renderContent = (onItemClick?: () => void) => (
     <div className="flex h-full min-w-0 flex-col bg-transparent text-start">
       <SidebarHeader>
-        <AppBrand href="/" onClick={onItemClick} />
+        <AppBrand href="/" onClick={onItemClick} className="w-full" />
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarMenu>
-          {userNavItems.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <SidebarMenuItem key={item.id}>
+          {dashboardItem ? (
+            <SidebarMenuItem key={dashboardItem.id}>
+              <SidebarMenuButton
+                asChild
+                isActive={
+                  pathname === dashboardItem.href ||
+                  pathname.startsWith(`${dashboardItem.href}/`)
+                }
+                tooltip={dashboardItem.label}
+                onClick={onItemClick}
+              >
+                <Link href={dashboardItem.href}>
+                  <Icon
+                    name={dashboardItem.icon}
+                    className="size-4.5 shrink-0"
+                    weight="fill"
+                  />
+                  <span className="truncate whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0">
+                    {dashboardItem.label}
+                  </span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ) : null}
+
+          <Collapsible
+            open={workspaceOpen}
+            onOpenChange={setWorkspaceOpen}
+            className="group/collapsible"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
                 <SidebarMenuButton
-                  asChild
-                  isActive={isActive}
-                  tooltip={item.label}
-                  onClick={onItemClick}
+                  tooltip={workspaceLabel}
+                  onClick={(e) => {
+                    if (!open) {
+                      e.preventDefault();
+                      setOpen(true);
+                      setWorkspaceOpen(true);
+                    }
+                  }}
                 >
-                  <Link href={item.href}>
-                    <Icon
-                      name={item.icon}
-                      className="size-4.5 shrink-0"
-                      weight="fill"
-                    />
-                    <span className="truncate group-data-[state=collapsed]:hidden">
-                      {item.label}
-                    </span>
-                  </Link>
+                  <Icon
+                    name="folder"
+                    className="size-4.5 shrink-0"
+                    weight="fill"
+                  />
+                  <span className="truncate whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0">
+                    {workspaceLabel}
+                  </span>
+                  <Icon
+                    name="down"
+                    className="ms-auto size-3.5 shrink-0 transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0 group-data-[state=open]/collapsible:rotate-180"
+                  />
                 </SidebarMenuButton>
-              </SidebarMenuItem>
-            );
-          })}
+              </CollapsibleTrigger>
+              <CollapsibleContent className="group-data-[state=collapsed]:hidden">
+                <SidebarMenuSub>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton
+                      asChild
+                      isActive={
+                        pathname === '/analytics' ||
+                        pathname.startsWith('/analytics/')
+                      }
+                    >
+                      <Link href="/analytics" onClick={onItemClick}>
+                        <Icon
+                          name="chart"
+                          className="size-4 shrink-0"
+                          weight="fill"
+                        />
+                        <span>Analytics</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+
+          {profileItem ? (
+            <SidebarMenuItem key={profileItem.id}>
+              <SidebarMenuButton
+                asChild
+                isActive={
+                  pathname === profileItem.href ||
+                  pathname.startsWith(`${profileItem.href}/`)
+                }
+                tooltip={profileItem.label}
+                onClick={onItemClick}
+              >
+                <Link href={profileItem.href}>
+                  <Icon
+                    name={profileItem.icon}
+                    className="size-4.5 shrink-0"
+                    weight="fill"
+                  />
+                  <span className="truncate whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0">
+                    {profileItem.label}
+                  </span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ) : null}
         </SidebarMenu>
       </SidebarContent>
 
@@ -134,7 +234,7 @@ export function UserSidebar() {
                   className="size-4.5 shrink-0"
                   weight="fill"
                 />
-                <span className="truncate group-data-[state=collapsed]:hidden">
+                <span className="truncate whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0">
                   {settingsLabel}
                 </span>
               </Link>
@@ -151,7 +251,7 @@ export function UserSidebar() {
               }}
             >
               <Icon name="logout" className="size-4.5 shrink-0" weight="fill" />
-              <span className="truncate group-data-[state=collapsed]:hidden">
+              <span className="truncate whitespace-nowrap transition-all duration-300 group-data-[state=collapsed]:pointer-events-none group-data-[state=collapsed]:w-0 group-data-[state=collapsed]:opacity-0">
                 {logoutLabel}
               </span>
             </SidebarMenuButton>

@@ -38,7 +38,9 @@
     "settings": "সেটিংস",
     "logout": "লগআউট",
     "login": "লগইন",
-    "uiComponents": "UI কম্পোনেন্ট"
+    "uiComponents": "UI কম্পোনেন্ট",
+    "workspace": "ওয়ার্কস্পেস",
+    "analytics": "অ্যানালিটিক্স"
   },
   "auth": {
     "login": {

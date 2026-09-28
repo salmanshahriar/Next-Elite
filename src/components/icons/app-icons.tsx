@@ -16,6 +16,10 @@ import {
   Sun,
   Moon,
   SidebarSimple,
+  FolderSimple,
+  ChartBar,
+  Kanban,
+  FileText,
 } from '@phosphor-icons/react';
 import type { ComponentProps } from 'react';
 
@@ -35,6 +39,10 @@ export const Icons = {
   sun: Sun,
   moon: Moon,
   sidebarSimple: SidebarSimple,
+  folder: FolderSimple,
+  chart: ChartBar,
+  kanban: Kanban,
+  fileText: FileText,
 } as const;
 
 export type IconName = keyof typeof Icons;

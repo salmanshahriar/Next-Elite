@@ -28,7 +28,7 @@ export function AppShell({
   return (
     <SidebarProvider
       defaultOpen={defaultOpen}
-      className={cn('w-full', className)}
+      className={cn('h-svh max-h-svh w-full overflow-hidden', className)}
     >
       {children}
     </SidebarProvider>

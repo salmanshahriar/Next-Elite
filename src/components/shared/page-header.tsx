@@ -17,16 +17,16 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        'flex w-full min-w-0 shrink-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between',
+        'flex w-full min-w-0 shrink-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between',
         className,
       )}
     >
-      <div className="min-w-0 space-y-1">
-        <h1 className="font-sans text-2xl text-foreground sm:text-3xl">
+      <div className="min-w-0 space-y-0.5">
+        <h1 className="font-sans text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
           {title}
         </h1>
         {subtitle ? (
-          <p className="max-w-3xl font-sans text-sm text-muted-foreground sm:text-base">
+          <p className="max-w-2xl font-sans text-xs text-muted-foreground sm:text-sm">
             {subtitle}
           </p>
         ) : null}
