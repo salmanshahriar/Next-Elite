@@ -90,7 +90,7 @@
     "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "6.1.1",
     "jsdom": "30.0.1",
-    "knip": "^6.36.0",
+    "knip": "^6.38.0",
     "lefthook": "^2.1.12",
     "oxfmt": "^0.68.0",
     "oxlint": "^1.80.0",
