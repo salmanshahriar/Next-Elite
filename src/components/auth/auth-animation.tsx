@@ -384,7 +384,7 @@ interface ThreeState {
   scene: THREE.Scene;
   camera: THREE.OrthographicCamera;
   material: THREE.ShaderMaterial;
-  clock: THREE.Clock;
+  timer: THREE.Timer;
   clickIx: number;
   uniforms: UniformsState;
   resizeObserver?: ResizeObserver;
@@ -512,7 +512,7 @@ export default function AuthAnimation({
       const quadGeom = new THREE.PlaneGeometry(2, 2);
       const quad = new THREE.Mesh(quadGeom, material);
       scene.add(quad);
-      const clock = new THREE.Clock();
+      const timer = new THREE.Timer();
 
       const setSize = () => {
         const w = container.clientWidth || 1;
@@ -632,8 +632,9 @@ export default function AuthAnimation({
           raf = requestAnimationFrame(animate);
           return;
         }
+        timer.update();
         uniforms.uTime.value =
-          timeOffset + clock.getElapsedTime() * speedRef.current;
+          timeOffset + timer.getElapsed() * speedRef.current;
         if (liquidEffect) {
           const uTimeUniform = liquidEffect.uniforms.get('uTime');
           if (uTimeUniform) uTimeUniform.value = uniforms.uTime.value;
@@ -662,7 +663,7 @@ export default function AuthAnimation({
         scene,
         camera,
         material,
-        clock,
+        timer,
         clickIx: 0,
         uniforms,
         resizeObserver: ro,
