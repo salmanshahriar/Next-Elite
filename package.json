@@ -102,7 +102,7 @@
   "overrides": {
     "kysely": "0.28.17",
     "postcss": "8.5.28",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "uuid": "^14.0.0",
     "@swc/helpers": "0.5.15"
   },
