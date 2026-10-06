@@ -53,7 +53,7 @@
     "@radix-ui/react-tooltip": "1.2.16",
     "@sentry/nextjs": "^11.1.0",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "@tanstack/react-query": "^5.103.1",
+    "@tanstack/react-query": "^5.104.0",
     "@vercel/analytics": "2.0.1",
     "better-auth": "1.7.6",
     "class-variance-authority": "0.7.1",
@@ -68,7 +68,7 @@
     "react": "19.2.8",
     "react-day-picker": "^9.14.0",
     "react-dom": "19.2.8",
-    "react-hook-form": "^7.87.0",
+    "react-hook-form": "^7.89.0",
     "server-only": "^0.0.1",
     "sonner": "^2.0.8",
     "tailwind-merge": "3.6.0",
@@ -79,7 +79,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.3",
-    "@next/bundle-analyzer": "16.3.4",
+    "@next/bundle-analyzer": "16.3.8",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
@@ -102,7 +102,7 @@
   "overrides": {
     "kysely": "0.28.17",
     "postcss": "8.5.28",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "uuid": "^14.0.0",
     "@swc/helpers": "0.5.15"
   },
