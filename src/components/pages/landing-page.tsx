@@ -2,6 +2,11 @@
 
 import { BetterAuthIcon, GithubIcon, VercelIcon } from '@/components/icons';
 import TextLink from '@/components/shared/text-link';
+import {
+  ShowcaseDashboard,
+  ShowcaseData,
+  ShowcaseProfile,
+} from '@/components/shared/ui-showcase';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
@@ -13,6 +18,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
 import {
@@ -35,8 +41,9 @@ import { toast } from 'sonner';
 
 export const LandingPage = () => {
   return (
-    <div className="flex flex-col gap-12 lg:gap-16">
+    <div className="flex flex-col gap-16 lg:gap-24">
       <HeroSection />
+      <UiShowcaseSection />
       <FeaturesSection />
       <FooterSection />
     </div>
@@ -318,6 +325,46 @@ const HeroSection = () => {
   );
 };
 
+const UiShowcaseSection = () => {
+  return (
+    <section className="mx-auto w-full max-w-7xl space-y-2 px-4">
+      <h2 className="text-center text-2xl font-extrabold tracking-tight">
+        Built with components
+        <span className="text-foreground/80">
+          {' - '}
+          <TextLink
+            href="/ui-components"
+            variant="underlined"
+            className="text-primary hover:text-primary/80"
+            aria-label="see all components used to build these screens"
+          >
+            see all
+          </TextLink>
+        </span>
+      </h2>
+
+      <Tabs defaultValue="dashboard" className="gap-6">
+        <TabsList className="mx-auto">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="data">Data</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+        </TabsList>
+        <Card variant="glow" className="p-4 md:p-6">
+          <TabsContent value="dashboard">
+            <ShowcaseDashboard />
+          </TabsContent>
+          <TabsContent value="data">
+            <ShowcaseData />
+          </TabsContent>
+          <TabsContent value="profile">
+            <ShowcaseProfile />
+          </TabsContent>
+        </Card>
+      </Tabs>
+    </section>
+  );
+};
+
 const FeaturesSection = () => {
   type HomeFeatureDetail = {
     text: string;
@@ -471,13 +518,20 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="mx-auto max-w-7xl space-y-6 px-4">
+    <section className="mx-auto w-full max-w-7xl space-y-4 px-4">
       <h2 className="text-center text-2xl font-extrabold tracking-tight">
         More features
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {homeFeatures.map(({ icon: Icon, title, description, details }) => (
-          <Card key={title} variant="glow" className="p-6">
+          <Card
+            key={title}
+            variant="glow"
+            className={cn(
+              'row-span-2 grid grid-rows-subgrid p-6',
+              '[&>div:last-child]:row-span-2 [&>div:last-child]:grid [&>div:last-child]:grid-rows-subgrid',
+            )}
+          >
             <div className="flex items-start gap-3.5">
               <div className="flex size-12 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-primary/20 to-primary/10 text-primary shadow-xs">
                 <Icon className="size-6" />
@@ -491,7 +545,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
             </div>
-            <ul className="mt-6 space-y-2.5 text-[11px] text-muted-foreground">
+            <ul className="space-y-2.5 text-[11px] text-muted-foreground">
               {details.map((detail) => (
                 <li key={detail.text} className="flex items-start gap-2.5">
                   <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">

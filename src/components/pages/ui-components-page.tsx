@@ -3,6 +3,11 @@
 import { PageHeader } from '@/components/shared/page-header';
 import TextLink from '@/components/shared/text-link';
 import {
+  CHART_DEMO_DATA,
+  DataTableShowcase,
+  DEMO_USER_COLUMNS,
+} from '@/components/shared/ui-showcase';
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -43,6 +48,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { Chart } from '@/components/ui/chart';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Collapsible,
@@ -83,6 +89,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { DataTable } from '@/components/ui/data-table';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
@@ -138,6 +145,8 @@ import {
 } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
+import { StatCard } from '@/components/ui/stat-card';
+import { StatusIndicator } from '@/components/ui/status-indicator';
 import { Switch } from '@/components/ui/switch';
 import {
   Table,
@@ -210,19 +219,41 @@ const SECTIONS = [
     id: 'forms',
     key: 'forms',
     items: [
+      { id: 'form', label: 'Form' },
       { id: 'input', label: 'Input' },
       { id: 'textarea', label: 'Textarea' },
-      { id: 'label', label: 'Label' },
       { id: 'select', label: 'Select' },
+      { id: 'combobox', label: 'Combobox' },
       { id: 'checkbox', label: 'Checkbox' },
       { id: 'radio-group', label: 'Radio Group' },
       { id: 'switch', label: 'Switch' },
-      { id: 'combobox', label: 'Combobox' },
       { id: 'input-group', label: 'Input Group' },
-      { id: 'input-otp', label: 'Input OTP' },
       { id: 'password-input', label: 'Password Input' },
+      { id: 'input-otp', label: 'Input OTP' },
+      { id: 'calendar', label: 'Calendar' },
+      { id: 'label', label: 'Label' },
       { id: 'input-error', label: 'Input Error' },
-      { id: 'form', label: 'Form' },
+    ],
+  },
+  {
+    id: 'charts',
+    key: 'charts',
+    items: [
+      { id: 'chart', label: 'Chart' },
+      { id: 'data-table', label: 'Data Table' },
+      { id: 'table', label: 'Table' },
+      { id: 'stat-card', label: 'Stat Card' },
+    ],
+  },
+  {
+    id: 'data-display',
+    key: 'dataDisplay',
+    items: [
+      { id: 'card', label: 'Card' },
+      { id: 'avatar', label: 'Avatar' },
+      { id: 'badge', label: 'Badge' },
+      { id: 'status-indicator', label: 'Status Indicator' },
+      { id: 'icon', label: 'Icon' },
     ],
   },
   {
@@ -231,32 +262,9 @@ const SECTIONS = [
     items: [
       { id: 'alert', label: 'Alert' },
       { id: 'toast', label: 'Toast' },
-      { id: 'badge', label: 'Badge' },
       { id: 'progress', label: 'Progress' },
       { id: 'spinner', label: 'Spinner' },
       { id: 'skeleton', label: 'Skeleton' },
-    ],
-  },
-  {
-    id: 'data-display',
-    key: 'dataDisplay',
-    items: [
-      { id: 'avatar', label: 'Avatar' },
-      { id: 'card', label: 'Card' },
-      { id: 'table', label: 'Table' },
-      { id: 'separator', label: 'Separator' },
-      { id: 'icon', label: 'Icon' },
-      { id: 'placeholder-pattern', label: 'Placeholder Pattern' },
-    ],
-  },
-  {
-    id: 'navigation',
-    key: 'navigation',
-    items: [
-      { id: 'breadcrumb', label: 'Breadcrumb' },
-      { id: 'tabs', label: 'Tabs' },
-      { id: 'text-link', label: 'Text Link' },
-      { id: 'navigation-menu', label: 'Navigation Menu' },
     ],
   },
   {
@@ -266,8 +274,18 @@ const SECTIONS = [
       { id: 'dialog', label: 'Dialog' },
       { id: 'sheet', label: 'Sheet' },
       { id: 'popover', label: 'Popover' },
-      { id: 'tooltip', label: 'Tooltip' },
       { id: 'dropdown-menu', label: 'Dropdown Menu' },
+      { id: 'tooltip', label: 'Tooltip' },
+    ],
+  },
+  {
+    id: 'navigation',
+    key: 'navigation',
+    items: [
+      { id: 'navigation-menu', label: 'Navigation Menu' },
+      { id: 'tabs', label: 'Tabs' },
+      { id: 'breadcrumb', label: 'Breadcrumb' },
+      { id: 'text-link', label: 'Text Link' },
     ],
   },
   {
@@ -277,7 +295,8 @@ const SECTIONS = [
       { id: 'accordion', label: 'Accordion' },
       { id: 'collapsible', label: 'Collapsible' },
       { id: 'carousel', label: 'Carousel' },
-      { id: 'calendar', label: 'Calendar' },
+      { id: 'separator', label: 'Separator' },
+      { id: 'placeholder-pattern', label: 'Placeholder Pattern' },
     ],
   },
 ] as const;
@@ -818,6 +837,7 @@ const FormShowcase = () => {
 const FormsShowcaseSection = () => {
   const t = useTranslations('uiComponents');
   const [comboboxValue, setComboboxValue] = useState('next');
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
     <ShowcaseSection
@@ -825,6 +845,10 @@ const FormsShowcaseSection = () => {
       title={t('sections.forms')}
       description={t('sections.formsDesc')}
     >
+      <ComponentBlock id="forms-form" title="Form">
+        <FormShowcase />
+      </ComponentBlock>
+
       <ComponentBlock id="forms-input" title="Input">
         <SubLabel>States</SubLabel>
         <div className="grid max-w-md gap-4">
@@ -843,13 +867,6 @@ const FormsShowcaseSection = () => {
         </div>
       </ComponentBlock>
 
-      <ComponentBlock id="forms-label" title="Label">
-        <div className="flex max-w-md flex-col gap-2">
-          <Label htmlFor="demo-email">Email address</Label>
-          <Input id="demo-email" placeholder="you@example.com" />
-        </div>
-      </ComponentBlock>
-
       <ComponentBlock id="forms-select" title="Select">
         <div className="max-w-xs">
           <Select defaultValue="react">
@@ -862,6 +879,17 @@ const FormsShowcaseSection = () => {
               <SelectItem value="vue">Vue</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-combobox" title="Combobox">
+        <div className="max-w-xs">
+          <Combobox
+            options={COMBOBOX_OPTIONS}
+            value={comboboxValue}
+            onChange={setComboboxValue}
+            placeholder="Select framework"
+          />
         </div>
       </ComponentBlock>
 
@@ -938,17 +966,6 @@ const FormsShowcaseSection = () => {
         </div>
       </ComponentBlock>
 
-      <ComponentBlock id="forms-combobox" title="Combobox">
-        <div className="max-w-xs">
-          <Combobox
-            options={COMBOBOX_OPTIONS}
-            value={comboboxValue}
-            onChange={setComboboxValue}
-            placeholder="Select framework"
-          />
-        </div>
-      </ComponentBlock>
-
       <ComponentBlock id="forms-input-group" title="Input Group">
         <div className="grid max-w-md gap-6">
           <div>
@@ -982,24 +999,6 @@ const FormsShowcaseSection = () => {
         </div>
       </ComponentBlock>
 
-      <ComponentBlock id="forms-input-otp" title="Input OTP">
-        <div className="w-fit">
-          <InputOTP maxLength={6}>
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
-        </div>
-      </ComponentBlock>
-
       <ComponentBlock id="forms-password-input" title="Password Input">
         <div className="grid max-w-md gap-6">
           <div>
@@ -1021,16 +1020,49 @@ const FormsShowcaseSection = () => {
         </div>
       </ComponentBlock>
 
+      <ComponentBlock id="forms-input-otp" title="Input OTP">
+        <div className="w-fit">
+          <InputOTP maxLength={6}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-calendar" title="Calendar">
+        <SubLabel>Single date</SubLabel>
+        <div className="w-fit">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-lg border"
+          />
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="forms-label" title="Label">
+        <div className="flex max-w-md flex-col gap-2">
+          <Label htmlFor="demo-email">Email address</Label>
+          <Input id="demo-email" placeholder="you@example.com" />
+        </div>
+      </ComponentBlock>
+
       <ComponentBlock id="forms-input-error" title="Input Error">
         <div className="grid max-w-md gap-2">
           <Label htmlFor="demo-error-input">Username</Label>
           <Input id="demo-error-input" placeholder="johndoe" aria-invalid />
           <InputError message="This field is required" />
         </div>
-      </ComponentBlock>
-
-      <ComponentBlock id="forms-form" title="Form">
-        <FormShowcase />
       </ComponentBlock>
     </ShowcaseSection>
   );
@@ -1192,17 +1224,6 @@ const FeedbackShowcaseSection = () => {
         </VariantGrid>
       </ComponentBlock>
 
-      <ComponentBlock id="feedback-badge" title="Badge">
-        <SubLabel>Variants</SubLabel>
-        <VariantGrid>
-          {BADGE_VARIANTS.map((variant) => (
-            <Badge key={variant} variant={variant}>
-              {variant}
-            </Badge>
-          ))}
-        </VariantGrid>
-      </ComponentBlock>
-
       <ComponentBlock id="feedback-progress" title="Progress">
         <SubLabel>Variants</SubLabel>
         <div className="max-w-md space-y-4">
@@ -1310,24 +1331,6 @@ const DataDisplayShowcaseSection = () => {
       title={t('sections.dataDisplay')}
       description={t('sections.dataDisplayDesc')}
     >
-      <ComponentBlock id="data-display-avatar" title="Avatar">
-        <div className="grid gap-6">
-          <div>
-            <SubLabel>With image</SubLabel>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-          <div>
-            <SubLabel>Fallback</SubLabel>
-            <Avatar>
-              <AvatarFallback>NE</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </ComponentBlock>
-
       <ComponentBlock
         id="data-display-card"
         title="Card"
@@ -1350,7 +1353,100 @@ const DataDisplayShowcaseSection = () => {
         </div>
       </ComponentBlock>
 
-      <ComponentBlock id="data-display-table" title="Table">
+      <ComponentBlock id="data-display-avatar" title="Avatar">
+        <div className="grid gap-6">
+          <div>
+            <SubLabel>With image</SubLabel>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
+          <div>
+            <SubLabel>Fallback</SubLabel>
+            <Avatar>
+              <AvatarFallback>NE</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="data-display-badge" title="Badge">
+        <SubLabel>Variants</SubLabel>
+        <VariantGrid>
+          {BADGE_VARIANTS.map((variant) => (
+            <Badge key={variant} variant={variant}>
+              {variant}
+            </Badge>
+          ))}
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock
+        id="data-display-status-indicator"
+        title="Status Indicator"
+      >
+        <SubLabel>Variants</SubLabel>
+        <VariantGrid>
+          {(['success', 'warning', 'destructive', 'muted'] as const).map(
+            (variant) => (
+              <span
+                key={variant}
+                className="inline-flex items-center gap-2 pr-4 text-sm capitalize"
+              >
+                <StatusIndicator variant={variant} />
+                {variant}
+              </span>
+            ),
+          )}
+        </VariantGrid>
+        <SubLabel>Sizes</SubLabel>
+        <VariantGrid>
+          <StatusIndicator size="sm" />
+          <StatusIndicator />
+          <StatusIndicator size="lg" />
+          <span className="inline-flex items-center gap-2 pl-4 text-sm">
+            <StatusIndicator pulse /> Pulse
+          </span>
+        </VariantGrid>
+      </ComponentBlock>
+
+      <ComponentBlock id="data-display-icon" title="Icon">
+        <SubLabel>Lucide icons</SubLabel>
+        <div className="flex items-center gap-4">
+          {ICON_DEMOS.map(({ icon, className }) => (
+            <Icon key={className} iconNode={icon} className={className} />
+          ))}
+        </div>
+      </ComponentBlock>
+    </ShowcaseSection>
+  );
+};
+
+const ChartsShowcaseSection = () => {
+  const t = useTranslations('uiComponents');
+
+  return (
+    <ShowcaseSection
+      id="charts"
+      title={t('sections.charts')}
+      description={t('sections.chartsDesc')}
+    >
+      <ComponentBlock id="charts-chart" title="Chart">
+        <Chart data={CHART_DEMO_DATA} />
+        <SubLabel>Loading</SubLabel>
+        <Chart data={[]} isLoading />
+      </ComponentBlock>
+
+      <ComponentBlock id="charts-data-table" title="Data Table">
+        <DataTableShowcase />
+        <SubLabel>Loading</SubLabel>
+        <DataTable data={[]} columns={DEMO_USER_COLUMNS} isLoading />
+        <SubLabel>Empty</SubLabel>
+        <DataTable data={[]} columns={DEMO_USER_COLUMNS} />
+      </ComponentBlock>
+
+      <ComponentBlock id="charts-table" title="Table">
         <Table>
           <TableCaption>Team members and their roles.</TableCaption>
           <TableHeader>
@@ -1385,29 +1481,20 @@ const DataDisplayShowcaseSection = () => {
         </Table>
       </ComponentBlock>
 
-      <ComponentBlock id="data-display-separator" title="Separator">
-        <div className="space-y-2">
-          <p className="text-sm">Above separator</p>
-          <Separator />
-          <p className="text-sm">Below separator</p>
+      <ComponentBlock id="charts-stat-card" title="Stat Card">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard title="Active users" value="1,240" />
+          <StatCard title="Inactive users" value="86" />
+          <StatCard title="Active subscriptions" value="312/400" />
+          <StatCard
+            title="Subscriptions due"
+            value="4"
+            icon={<StatusIndicator variant="destructive" size="lg" />}
+          />
         </div>
-      </ComponentBlock>
-
-      <ComponentBlock id="data-display-icon" title="Icon">
-        <SubLabel>Lucide icons</SubLabel>
-        <div className="flex items-center gap-4">
-          {ICON_DEMOS.map(({ icon, className }) => (
-            <Icon key={className} iconNode={icon} className={className} />
-          ))}
-        </div>
-      </ComponentBlock>
-
-      <ComponentBlock
-        id="data-display-placeholder-pattern"
-        title="Placeholder Pattern"
-      >
-        <div className="relative h-32 overflow-hidden rounded-lg border">
-          <PlaceholderPattern className="absolute inset-0 size-full stroke-muted-foreground/20" />
+        <SubLabel>Loading</SubLabel>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard title="Active users" value="" isLoading />
         </div>
       </ComponentBlock>
     </ShowcaseSection>
@@ -1423,81 +1510,6 @@ const NavigationShowcaseSection = () => {
       title={t('sections.navigation')}
       description={t('sections.navigationDesc')}
     >
-      <ComponentBlock id="navigation-breadcrumb" title="Breadcrumb">
-        <div className="grid gap-6">
-          <div>
-            <SubLabel>Default</SubLabel>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/ui-components">
-                    Components
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div>
-            <SubLabel>With ellipsis</SubLabel>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbEllipsis />
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Current</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </div>
-      </ComponentBlock>
-
-      <ComponentBlock id="navigation-tabs" title="Tabs">
-        <Tabs defaultValue="account" className="max-w-md">
-          <TabsList>
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
-          <TabsContent value="account" className="pt-4 text-sm">
-            Manage your account settings.
-          </TabsContent>
-          <TabsContent value="password" className="pt-4 text-sm">
-            Change your password here.
-          </TabsContent>
-          <TabsContent value="settings" className="pt-4 text-sm">
-            Configure app preferences.
-          </TabsContent>
-        </Tabs>
-      </ComponentBlock>
-
-      <ComponentBlock id="navigation-text-link" title="Text Link">
-        <SubLabel>Variants</SubLabel>
-        <div className="flex flex-wrap items-center gap-6">
-          <TextLink href="/">Default link</TextLink>
-          <TextLink href="/" variant="underlined">
-            Underlined link
-          </TextLink>
-          <TextLink href="/" className="text-primary">
-            Primary link
-          </TextLink>
-        </div>
-      </ComponentBlock>
-
       <ComponentBlock
         id="navigation-navigation-menu"
         title="Navigation Menu"
@@ -1542,6 +1554,81 @@ const NavigationShowcaseSection = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="navigation-tabs" title="Tabs">
+        <Tabs defaultValue="account" className="max-w-md">
+          <TabsList>
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account" className="pt-4 text-sm">
+            Manage your account settings.
+          </TabsContent>
+          <TabsContent value="password" className="pt-4 text-sm">
+            Change your password here.
+          </TabsContent>
+          <TabsContent value="settings" className="pt-4 text-sm">
+            Configure app preferences.
+          </TabsContent>
+        </Tabs>
+      </ComponentBlock>
+
+      <ComponentBlock id="navigation-breadcrumb" title="Breadcrumb">
+        <div className="grid gap-6">
+          <div>
+            <SubLabel>Default</SubLabel>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/ui-components">
+                    Components
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <div>
+            <SubLabel>With ellipsis</SubLabel>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbEllipsis />
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Current</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock id="navigation-text-link" title="Text Link">
+        <SubLabel>Variants</SubLabel>
+        <div className="flex flex-wrap items-center gap-6">
+          <TextLink href="/">Default link</TextLink>
+          <TextLink href="/" variant="underlined">
+            Underlined link
+          </TextLink>
+          <TextLink href="/" className="text-primary">
+            Primary link
+          </TextLink>
         </div>
       </ComponentBlock>
     </ShowcaseSection>
@@ -1637,15 +1724,6 @@ const OverlaysShowcaseSection = () => {
         </Popover>
       </ComponentBlock>
 
-      <ComponentBlock id="overlays-tooltip" title="Tooltip">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline">Hover me</Button>
-          </TooltipTrigger>
-          <TooltipContent>Tooltip content</TooltipContent>
-        </Tooltip>
-      </ComponentBlock>
-
       <ComponentBlock id="overlays-dropdown-menu" title="Dropdown Menu">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -1688,6 +1766,15 @@ const OverlaysShowcaseSection = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </ComponentBlock>
+
+      <ComponentBlock id="overlays-tooltip" title="Tooltip">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline">Hover me</Button>
+          </TooltipTrigger>
+          <TooltipContent>Tooltip content</TooltipContent>
+        </Tooltip>
+      </ComponentBlock>
     </ShowcaseSection>
   );
 };
@@ -1697,7 +1784,6 @@ const CAROUSEL_SLIDES = ['Slide 1', 'Slide 2', 'Slide 3'] as const;
 const LayoutShowcaseSection = () => {
   const t = useTranslations('uiComponents');
   const [collapsibleOpen, setCollapsibleOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
     <ShowcaseSection
@@ -1767,15 +1853,20 @@ const LayoutShowcaseSection = () => {
         </Carousel>
       </ComponentBlock>
 
-      <ComponentBlock id="layout-calendar" title="Calendar">
-        <SubLabel>Single date</SubLabel>
-        <div className="w-fit">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="rounded-lg border"
-          />
+      <ComponentBlock id="layout-separator" title="Separator">
+        <div className="space-y-2">
+          <p className="text-sm">Above separator</p>
+          <Separator />
+          <p className="text-sm">Below separator</p>
+        </div>
+      </ComponentBlock>
+
+      <ComponentBlock
+        id="layout-placeholder-pattern"
+        title="Placeholder Pattern"
+      >
+        <div className="relative h-32 overflow-hidden rounded-lg border">
+          <PlaceholderPattern className="absolute inset-0 size-full stroke-muted-foreground/20" />
         </div>
       </ComponentBlock>
     </ShowcaseSection>
@@ -1845,10 +1936,11 @@ export const UiComponentsPage = () => {
 
           <ActionsShowcaseSection />
           <FormsShowcaseSection />
-          <FeedbackShowcaseSection />
+          <ChartsShowcaseSection />
           <DataDisplayShowcaseSection />
-          <NavigationShowcaseSection />
+          <FeedbackShowcaseSection />
           <OverlaysShowcaseSection />
+          <NavigationShowcaseSection />
           <LayoutShowcaseSection />
         </div>
       </div>

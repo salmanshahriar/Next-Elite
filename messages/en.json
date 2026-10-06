@@ -146,17 +146,19 @@
       "actions": "Actions",
       "actionsDesc": "Buttons, toggles, and grouped actions.",
       "forms": "Forms",
-      "formsDesc": "Inputs, selects, and form helpers.",
-      "feedback": "Feedback",
-      "feedbackDesc": "Alerts, toasts, badges, progress, and loading states.",
+      "formsDesc": "Inputs, pickers, and validated forms.",
+      "charts": "Data & Charts",
+      "chartsDesc": "Charts, data tables, and stat cards.",
       "dataDisplay": "Data Display",
-      "dataDisplayDesc": "Cards, tables, avatars, and visual elements.",
-      "navigation": "Navigation",
-      "navigationDesc": "Breadcrumbs, tabs, and menus.",
+      "dataDisplayDesc": "Cards, avatars, badges, and status indicators.",
+      "feedback": "Feedback",
+      "feedbackDesc": "Alerts, toasts, progress, and loading states.",
       "overlays": "Overlays",
-      "overlaysDesc": "Dialogs, sheets, popovers, and menus.",
+      "overlaysDesc": "Dialogs, sheets, popovers, menus, and tooltips.",
+      "navigation": "Navigation",
+      "navigationDesc": "Menus, tabs, breadcrumbs, and links.",
       "layout": "Layout",
-      "layoutDesc": "Accordion, carousel, calendar, and collapsible."
+      "layoutDesc": "Accordions, collapsibles, carousels, and separators."
     }
   },
   "errors": {

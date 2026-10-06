@@ -146,17 +146,19 @@
       "actions": "Acciones",
       "actionsDesc": "Botones, toggles y acciones agrupadas.",
       "forms": "Formularios",
-      "formsDesc": "Entradas, selectores y ayudas de formulario.",
-      "feedback": "Retroalimentación",
-      "feedbackDesc": "Alertas, insignias, progreso y estados de carga.",
+      "formsDesc": "Campos, selectores y formularios con validación.",
+      "charts": "Datos y gráficos",
+      "chartsDesc": "Gráficos, tablas de datos y tarjetas de métricas.",
       "dataDisplay": "Visualización de datos",
-      "dataDisplayDesc": "Tarjetas, tablas, avatares y elementos visuales.",
-      "navigation": "Navegación",
-      "navigationDesc": "Migas de pan, pestañas y menús.",
+      "dataDisplayDesc": "Tarjetas, avatares, insignias e indicadores de estado.",
+      "feedback": "Retroalimentación",
+      "feedbackDesc": "Alertas, notificaciones, progreso y estados de carga.",
       "overlays": "Superposiciones",
-      "overlaysDesc": "Diálogos, paneles, popovers y menús.",
+      "overlaysDesc": "Diálogos, paneles, popovers, menús y tooltips.",
+      "navigation": "Navegación",
+      "navigationDesc": "Menús, pestañas, rutas de navegación y enlaces.",
       "layout": "Diseño",
-      "layoutDesc": "Acordeón, carrusel, calendario y plegable."
+      "layoutDesc": "Acordeones, contenido plegable, carruseles y separadores."
     }
   },
   "errors": {

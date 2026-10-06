@@ -146,17 +146,19 @@
       "actions": "Actions",
       "actionsDesc": "Boutons, bascules et actions groupées.",
       "forms": "Formulaires",
-      "formsDesc": "Champs, sélecteurs et aides de formulaire.",
-      "feedback": "Retour",
-      "feedbackDesc": "Alertes, badges, progression et états de chargement.",
+      "formsDesc": "Champs, sélecteurs et formulaires validés.",
+      "charts": "Données et graphiques",
+      "chartsDesc": "Graphiques, tableaux de données et cartes de statistiques.",
       "dataDisplay": "Affichage des données",
-      "dataDisplayDesc": "Cartes, tableaux, avatars et éléments visuels.",
-      "navigation": "Navigation",
-      "navigationDesc": "Fil d'Ariane, onglets et menus.",
+      "dataDisplayDesc": "Cartes, avatars, badges et indicateurs d'état.",
+      "feedback": "Retour",
+      "feedbackDesc": "Alertes, notifications, progression et états de chargement.",
       "overlays": "Superpositions",
-      "overlaysDesc": "Dialogues, panneaux, popovers et menus.",
+      "overlaysDesc": "Dialogues, panneaux, popovers, menus et infobulles.",
+      "navigation": "Navigation",
+      "navigationDesc": "Menus, onglets, fils d'Ariane et liens.",
       "layout": "Mise en page",
-      "layoutDesc": "Accordéon, carrousel, calendrier et repliable."
+      "layoutDesc": "Accordéons, sections repliables, carrousels et séparateurs."
     }
   },
   "errors": {

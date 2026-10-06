@@ -146,17 +146,19 @@
       "actions": "操作",
       "actionsDesc": "按钮、开关和组合操作。",
       "forms": "表单",
-      "formsDesc": "输入框、选择器和表单辅助组件。",
-      "feedback": "反馈",
-      "feedbackDesc": "警告、徽章、进度和加载状态。",
+      "formsDesc": "输入框、选择器和带校验的表单。",
+      "charts": "数据与图表",
+      "chartsDesc": "图表、数据表格和统计卡片。",
       "dataDisplay": "数据展示",
-      "dataDisplayDesc": "卡片、表格、头像和视觉元素。",
-      "navigation": "导航",
-      "navigationDesc": "面包屑、标签页和菜单。",
+      "dataDisplayDesc": "卡片、头像、徽章和状态指示器。",
+      "feedback": "反馈",
+      "feedbackDesc": "提示、通知、进度和加载状态。",
       "overlays": "浮层",
-      "overlaysDesc": "对话框、抽屉、弹出框和菜单。",
+      "overlaysDesc": "对话框、抽屉、弹出框、菜单和工具提示。",
+      "navigation": "导航",
+      "navigationDesc": "菜单、标签页、面包屑和链接。",
       "layout": "布局",
-      "layoutDesc": "手风琴、轮播、日历和可折叠组件。"
+      "layoutDesc": "手风琴、折叠面板、轮播和分隔线。"
     }
   },
   "errors": {

@@ -14,23 +14,41 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const HIDE_AFTER_PX = 80;
+const SCROLL_DELTA_PX = 6;
+
 const Header = () => {
   const t = useTranslations('navigation');
   const { user } = useAuth();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollOpacity, setScrollOpacity] = useState(0);
+  const [hiddenOnScroll, setHiddenOnScroll] = useState(false);
   const headerActive = scrollOpacity > 0.05 || mobileMenuOpen;
   const surfaceOpacity = mobileMenuOpen ? 1 : scrollOpacity;
+  const isHidden = hiddenOnScroll && !mobileMenuOpen;
 
   useEffect(() => {
-    const updateScrollOpacity = () => {
-      setScrollOpacity(Math.min(1, Math.max(0, window.scrollY / 72)));
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setScrollOpacity(Math.min(1, Math.max(0, scrollY / 72)));
+
+      const delta = scrollY - lastScrollY;
+      if (scrollY < HIDE_AFTER_PX) {
+        setHiddenOnScroll(false);
+      } else if (Math.abs(delta) > SCROLL_DELTA_PX) {
+        setHiddenOnScroll(delta > 0);
+      } else {
+        return;
+      }
+      lastScrollY = scrollY;
     };
 
-    updateScrollOpacity();
-    window.addEventListener('scroll', updateScrollOpacity, { passive: true });
-    return () => window.removeEventListener('scroll', updateScrollOpacity);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleMobileMenuToggle = () => {
@@ -58,7 +76,12 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="relative sticky top-0 z-30 mx-0 shrink-0 rounded-none md:top-2 md:mx-2 md:rounded-md">
+    <header
+      className={cn(
+        'relative sticky top-0 z-30 mx-0 shrink-0 rounded-none transition-transform duration-300 ease-out motion-reduce:transition-none md:top-2 md:mx-2 md:rounded-md',
+        isHidden && '-translate-y-[calc(100%+0.5rem)]',
+      )}
+    >
       <div
         aria-hidden
         className={cn(
