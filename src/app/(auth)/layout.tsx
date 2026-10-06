@@ -16,11 +16,12 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
       className="relative flex h-[96svh] bg-background/80 md:m-4"
     >
       <section className="bg-blur-md @container relative hidden items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-primary/25 p-6 md:flex md:w-1/2 md:flex-col dark:bg-primary/5">
-        <div className="absolute h-full w-full [mask-image:radial-gradient(circle_at_50%_calc(40%+72cqw),transparent_72cqw,black_calc(72cqw+2.5rem))]">
+        <div className="absolute h-full w-full [mask-image:radial-gradient(circle_at_50%_calc(40%+72cqw),transparent_72cqw,black_calc(72cqw+2.5rem))] opacity-60 dark:opacity-100">
           <AuthAnimation
             variant="circle"
             pixelSize={7}
-            color="#7663ff"
+            color="#ffffff"
+            darkColor="#7663ff"
             patternScale={3}
             patternDensity={0.5}
             enableRipples

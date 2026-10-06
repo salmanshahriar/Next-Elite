@@ -1,5 +1,6 @@
 'use client';
 
+import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
 import { cn } from '@/libs/utils';
 import { Effect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import type { CSSProperties } from 'react';
@@ -334,6 +335,7 @@ export interface AuthAnimationProps {
   variant?: 'square' | 'circle' | 'triangle' | 'diamond';
   pixelSize?: number;
   color?: string;
+  darkColor?: string;
   className?: string;
   style?: CSSProperties;
   antialias?: boolean;
@@ -398,6 +400,7 @@ export default function AuthAnimation({
   variant = 'square',
   pixelSize = 3,
   color = '#B497CF',
+  darkColor,
   className,
   style,
   antialias = true,
@@ -418,6 +421,8 @@ export default function AuthAnimation({
   edgeFade = 0.5,
   noiseAmount = 0,
 }: AuthAnimationProps) {
+  const isDark = useIsDarkTheme();
+  const activeColor = isDark && darkColor ? darkColor : color;
   const containerRef = useRef<HTMLDivElement>(null);
   const visibilityRef = useRef({ visible: true });
   const speedRef = useRef(speed);
@@ -473,7 +478,7 @@ export default function AuthAnimation({
       const uniforms: UniformsState = {
         uResolution: { value: new THREE.Vector2(0, 0) },
         uTime: { value: 0 },
-        uColor: { value: new THREE.Color(color) },
+        uColor: { value: new THREE.Color(activeColor) },
         uClickPos: {
           value: Array.from(
             { length: MAX_CLICKS },
@@ -673,7 +678,7 @@ export default function AuthAnimation({
       if (t) {
         t.uniforms.uShapeType.value = SHAPE_MAP[variant] ?? 0;
         t.uniforms.uPixelSize.value = pixelSize * t.renderer.getPixelRatio();
-        t.uniforms.uColor.value.set(color);
+        t.uniforms.uColor.value.set(activeColor);
         t.uniforms.uScale.value = patternScale;
         t.uniforms.uDensity.value = patternDensity;
         t.uniforms.uPixelJitter.value = pixelSizeJitter;
@@ -729,7 +734,7 @@ export default function AuthAnimation({
     liquidWobbleSpeed,
     autoPauseOffscreen,
     variant,
-    color,
+    activeColor,
     speed,
   ]);
 
