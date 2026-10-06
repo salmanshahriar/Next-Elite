@@ -124,6 +124,7 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
       lang={locale}
       dir={dir}
       className={htmlTheme}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className={cn(fontSans.className, 'antialiased')}>
