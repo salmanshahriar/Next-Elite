@@ -13,7 +13,7 @@
 
 <br/>
 
-https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
+https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 
  <br/>
 
@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
 **Highlights & Features:**
 
 - ⚡ **Next.js 16.3 + React 19** - Fast App Router, Turbopack, and Server Actions
-- 🔥 **TypeScript 6** - End-to-end type safety across components and routes
+- 🔥 **TypeScript 7** - End-to-end type safety across components and routes
 - ✨ **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
 - 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
 - 🔐 **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
@@ -56,6 +56,7 @@ https://github.com/user-attachments/assets/123e879c-1d27-4781-a423-e8605505ce0a
 - 📚 **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
 - 📝 **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
 - 🧪 **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
+- 🚀 **[Next Elite Server](https://github.com/salmanshahriar/Next-Elite-Server) (Coming Soon)** - Companion backend built with NestJS, BetterAuth, Drizzle ORM, PostgreSQL, and Multi-tenancy
 
 <br/>
 
@@ -72,7 +73,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 ### Frameworks & Core
 
 - **Next.js 16.3 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19 features (Server/Client components, Server Actions).
-- **TypeScript 6** - End-to-end type safety for rock-solid refactoring and developer experience.
+- **TypeScript 7** - End-to-end type safety for rock-solid refactoring and developer experience.
 - **Node.js 22** - Built on the latest LTS runtime.
 - **Feature-Based Architecture** - Structured around self-contained vertical slices/feature folders under `src/features/` for maximum modularity and clean separation of concerns.
 
@@ -96,6 +97,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 ### API & Data Fetching
 
 - **TanStack Query (React Query)** - Pre-configured `QueryClientProvider` in `src/app/providers.tsx` with sensible defaults (`staleTime`, `gcTime`, retry). Ready to wire `useQuery` / `useMutation` hooks to your REST, GraphQL, or BFF endpoints.
+- **Next Elite Server (Coming Soon)** - Dedicated companion backend template powered by **NestJS**, **BetterAuth**, **Drizzle ORM**, and **PostgreSQL**.
 
 ### Observability & Infrastructure
 
