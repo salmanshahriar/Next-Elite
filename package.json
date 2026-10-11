@@ -32,7 +32,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
     "@phosphor-icons/react": "^2.1.10",
-    "@radix-ui/react-accordion": "^1.2.20",
+    "@radix-ui/react-accordion": "^1.2.21",
     "@radix-ui/react-avatar": "^1.2.6",
     "@radix-ui/react-checkbox": "^1.3.11",
     "@radix-ui/react-collapsible": "^1.1.21",
@@ -83,12 +83,12 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.3",
-    "@next/bundle-analyzer": "16.3.8",
+    "@next/bundle-analyzer": "16.4.0",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
-    "@types/node": "26.6.3",
+    "@types/node": "26.6.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/three": "^0.185.4",
