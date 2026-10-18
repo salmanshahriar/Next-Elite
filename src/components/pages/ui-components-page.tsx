@@ -171,22 +171,22 @@ import {
 import { cn } from '@/libs/utils';
 import type { VariantProps } from 'class-variance-authority';
 import {
-  AlertCircle,
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Bold,
-  ChevronRight,
-  Heart,
-  Italic,
-  Mail,
-  Menu,
-  Moon,
-  Search,
-  Settings,
-  Star,
-  Sun,
-} from 'lucide-react';
+  WarningCircleIcon,
+  TextAlignCenterIcon,
+  TextAlignLeftIcon,
+  TextAlignRightIcon,
+  TextBIcon,
+  CaretRightIcon,
+  HeartIcon,
+  TextItalicIcon,
+  EnvelopeIcon,
+  ListIcon,
+  MoonIcon,
+  MagnifyingGlassIcon,
+  GearIcon,
+  StarIcon,
+  SunIcon,
+} from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import {
   type MouseEvent,
@@ -687,7 +687,7 @@ const ActionsShowcaseSection = () => {
           ))}
           {ICON_BUTTON_SIZES.map((size) => (
             <Button key={size} size={size} aria-label="Star">
-              <Star className="size-4" />
+              <StarIcon className="size-4" />
             </Button>
           ))}
         </VariantGrid>
@@ -730,22 +730,22 @@ const ActionsShowcaseSection = () => {
         <SubLabel>Variants</SubLabel>
         <VariantGrid>
           <Toggle aria-label="Bold">
-            <Bold className="size-4" />
+            <TextBIcon className="size-4" />
           </Toggle>
           <Toggle variant="outline" aria-label="Italic">
-            <Italic className="size-4" />
+            <TextItalicIcon className="size-4" />
           </Toggle>
         </VariantGrid>
         <SubLabel>Sizes</SubLabel>
         <VariantGrid>
           <Toggle size="sm" aria-label="Align left">
-            <AlignLeft className="size-4" />
+            <TextAlignLeftIcon className="size-4" />
           </Toggle>
           <Toggle size="default" aria-label="Align center">
-            <AlignCenter className="size-4" />
+            <TextAlignCenterIcon className="size-4" />
           </Toggle>
           <Toggle size="lg" aria-label="Align right">
-            <AlignRight className="size-4" />
+            <TextAlignRightIcon className="size-4" />
           </Toggle>
         </VariantGrid>
       </ComponentBlock>
@@ -754,22 +754,22 @@ const ActionsShowcaseSection = () => {
         <SubLabel>Single</SubLabel>
         <ToggleGroup type="single" defaultValue="left">
           <ToggleGroupItem value="left" aria-label="Align left">
-            <AlignLeft className="size-4" />
+            <TextAlignLeftIcon className="size-4" />
           </ToggleGroupItem>
           <ToggleGroupItem value="center" aria-label="Align center">
-            <AlignCenter className="size-4" />
+            <TextAlignCenterIcon className="size-4" />
           </ToggleGroupItem>
           <ToggleGroupItem value="right" aria-label="Align right">
-            <AlignRight className="size-4" />
+            <TextAlignRightIcon className="size-4" />
           </ToggleGroupItem>
         </ToggleGroup>
         <SubLabel>Multiple</SubLabel>
         <ToggleGroup type="multiple">
           <ToggleGroupItem value="bold" aria-label="Bold">
-            <Bold className="size-4" />
+            <TextBIcon className="size-4" />
           </ToggleGroupItem>
           <ToggleGroupItem value="italic" aria-label="Italic">
-            <Italic className="size-4" />
+            <TextItalicIcon className="size-4" />
           </ToggleGroupItem>
         </ToggleGroup>
       </ComponentBlock>
@@ -943,10 +943,10 @@ const FormsShowcaseSection = () => {
                   id="switch-icons"
                   size="lg"
                   checkedIcon={
-                    <Moon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
+                    <MoonIcon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
                   }
                   uncheckedIcon={
-                    <Sun className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
+                    <SunIcon className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
                   }
                 />
                 <Label htmlFor="switch-icons">Icon Toggle Switch</Label>
@@ -973,7 +973,7 @@ const FormsShowcaseSection = () => {
             <InputGroup>
               <InputGroupAddon>
                 <InputGroupText>
-                  <Mail className="size-4" />
+                  <EnvelopeIcon className="size-4" />
                 </InputGroupText>
               </InputGroupAddon>
               <InputGroupInput placeholder="Email" />
@@ -985,7 +985,7 @@ const FormsShowcaseSection = () => {
               <InputGroupInput placeholder="Search..." />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton>
-                  <Search className="size-4" />
+                  <MagnifyingGlassIcon className="size-4" />
                 </InputGroupButton>
               </InputGroupAddon>
             </InputGroup>
@@ -1132,7 +1132,7 @@ const FeedbackShowcaseSection = () => {
         <div className="grid gap-4">
           {showAlert && (
             <Alert>
-              <AlertCircle className="size-4" />
+              <WarningCircleIcon className="size-4" />
               <AlertTitle>Heads up</AlertTitle>
               <AlertDescription>
                 Default alert for general information.
@@ -1141,7 +1141,7 @@ const FeedbackShowcaseSection = () => {
           )}
           {showDestructiveAlert && (
             <Alert variant="destructive">
-              <AlertCircle className="size-4" />
+              <WarningCircleIcon className="size-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>
                 Destructive alert for critical messages.
@@ -1317,9 +1317,9 @@ const ShowcasePreviewCard = ({
 };
 
 const ICON_DEMOS = [
-  { icon: Heart, className: 'size-6 text-destructive' },
-  { icon: Star, className: 'size-6 text-warning' },
-  { icon: Settings, className: 'size-6 text-primary' },
+  { icon: HeartIcon, className: 'size-6 text-destructive' },
+  { icon: StarIcon, className: 'size-6 text-warning' },
+  { icon: GearIcon, className: 'size-6 text-primary' },
 ] as const;
 
 const DataDisplayShowcaseSection = () => {
@@ -1412,7 +1412,7 @@ const DataDisplayShowcaseSection = () => {
       </ComponentBlock>
 
       <ComponentBlock id="data-display-icon" title="Icon">
-        <SubLabel>Lucide icons</SubLabel>
+        <SubLabel>Phosphor icons</SubLabel>
         <div className="flex items-center gap-4">
           {ICON_DEMOS.map(({ icon, className }) => (
             <Icon key={className} iconNode={icon} className={className} />
@@ -1819,7 +1819,7 @@ const LayoutShowcaseSection = () => {
             <p className="text-sm font-medium">3 starred repositories</p>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm">
-                <ChevronRight
+                <CaretRightIcon
                   className={cn(
                     'size-4 transition-transform',
                     collapsibleOpen && 'rotate-90',
@@ -1908,7 +1908,7 @@ export const UiComponentsPage = () => {
               <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2">
-                    <Menu className="size-4" />
+                    <ListIcon className="size-4" />
                     {t('onThisPage')}
                   </Button>
                 </SheetTrigger>

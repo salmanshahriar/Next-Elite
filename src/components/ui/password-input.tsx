@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/libs/utils';
-import { EyeClosedIcon, EyeIcon } from 'lucide-react';
+import { EyeClosedIcon, EyeIcon } from '@phosphor-icons/react';
 import * as React from 'react';
 import { Input } from './input';
 

@@ -14,7 +14,7 @@ const nextConfig = {
   poweredByHeader: false,
   allowedDevOrigins: ['127.0.0.1'],
   experimental: {
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['@phosphor-icons/react'],
   },
 };
 

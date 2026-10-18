@@ -8,10 +8,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from 'lucide-react';
+  CaretDownIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+} from '@phosphor-icons/react';
 import * as React from 'react';
 import {
   DayPicker,
@@ -176,7 +176,7 @@ function Calendar({
             : 'flex h-8 items-center gap-1 rounded-md pr-1 pl-2 text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground',
           defaultClassNames.caption_label,
         ),
-        table: 'w-full border-collapse',
+        month_grid: cn('w-full border-collapse', defaultClassNames.month_grid),
         weekdays: cn('flex', defaultClassNames.weekdays),
         weekday: cn(
           'flex-1 rounded-md text-[0.8rem] font-normal text-muted-foreground select-none',
@@ -233,21 +233,18 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
             return (
-              <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+              <CaretLeftIcon className={cn('size-4', className)} {...props} />
             );
           }
 
           if (orientation === 'right') {
             return (
-              <ChevronRightIcon
-                className={cn('size-4', className)}
-                {...props}
-              />
+              <CaretRightIcon className={cn('size-4', className)} {...props} />
             );
           }
 
           return (
-            <ChevronDownIcon className={cn('size-4', className)} {...props} />
+            <CaretDownIcon className={cn('size-4', className)} {...props} />
           );
         },
         MonthCaption: CalendarMonthCaption,

@@ -1,7 +1,7 @@
 'use client';
 
 import * as SheetPrimitive from '@radix-ui/react-dialog';
-import { ArrowLeftIcon, XIcon } from 'lucide-react';
+import { ArrowLeftIcon, XIcon } from '@phosphor-icons/react';
 import * as React from 'react';
 
 import { cn } from '@/libs/utils';

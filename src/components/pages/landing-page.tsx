@@ -22,19 +22,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
 import {
-  Calendar as CalendarIcon,
-  Check,
-  Copy,
-  Cpu,
-  FileText,
-  FlaskConical,
-  Globe,
-  Search,
-  Shuffle,
-  Star,
-  Terminal,
-  type LucideIcon,
-} from 'lucide-react';
+  CalendarIcon as CalendarIcon,
+  CheckIcon,
+  CopyIcon,
+  CpuIcon,
+  FileTextIcon,
+  FlaskIcon,
+  GlobeIcon,
+  MagnifyingGlassIcon,
+  ShuffleIcon,
+  StarIcon,
+  TerminalIcon,
+  type Icon,
+} from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -220,7 +220,10 @@ const HeroSection = () => {
                   aria-label="Demo star button"
                   className="hidden size-9 sm:inline-flex"
                 >
-                  <Star className="size-4 fill-primary-foreground text-primary-foreground" />
+                  <StarIcon
+                    weight="fill"
+                    className="size-4 text-primary-foreground"
+                  />
                 </Button>
               </div>
             </div>
@@ -262,7 +265,7 @@ const HeroSection = () => {
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    initialFocus
+                    autoFocus
                   />
                 </PopoverContent>
               </Popover>
@@ -372,7 +375,7 @@ const FeaturesSection = () => {
   };
 
   type HomeFeature = {
-    icon: LucideIcon;
+    icon: Icon;
     title: string;
     description: string;
     details: readonly HomeFeatureDetail[];
@@ -402,7 +405,7 @@ const FeaturesSection = () => {
 
   const homeFeatures: readonly HomeFeature[] = [
     {
-      icon: Cpu,
+      icon: CpuIcon,
       title: 'Modern stack, lean setup',
       description: 'API-first Next.js starter. No database bundled.',
       details: [
@@ -421,7 +424,7 @@ const FeaturesSection = () => {
       ],
     },
     {
-      icon: Search,
+      icon: MagnifyingGlassIcon,
       title: 'SEO + PWA, server-first',
       description: 'Server-built SEO and installable PWA.',
       details: [
@@ -440,7 +443,7 @@ const FeaturesSection = () => {
       ],
     },
     {
-      icon: FlaskConical,
+      icon: FlaskIcon,
       title: 'Testing & quality gates',
       description: 'Tests and lint in one command.',
       details: [
@@ -459,7 +462,7 @@ const FeaturesSection = () => {
       ],
     },
     {
-      icon: Shuffle,
+      icon: ShuffleIcon,
       title: 'Parallel routing',
       description: 'Auth and role-based dashboards.',
       details: [
@@ -478,7 +481,7 @@ const FeaturesSection = () => {
       ],
     },
     {
-      icon: Globe,
+      icon: GlobeIcon,
       title: 'Type-safe i18n',
       description: 'Six languages. No locale in the URL.',
       details: [
@@ -497,7 +500,7 @@ const FeaturesSection = () => {
       ],
     },
     {
-      icon: FileText,
+      icon: FileTextIcon,
       title: 'Forms + validation',
       description: 'Accessible forms with Zod validation.',
       details: [
@@ -549,7 +552,7 @@ const FeaturesSection = () => {
               {details.map((detail) => (
                 <li key={detail.text} className="flex items-start gap-2.5">
                   <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <Check className="size-2.5 stroke-[3]" />
+                    <CheckIcon weight="bold" className="size-2.5" />
                   </div>
                   <span className="leading-normal">
                     {renderHighlightedText(detail.text, detail.highlights)}
@@ -699,7 +702,7 @@ const FooterSection = () => {
             <div className="flex items-center justify-between border-b border-border/40 bg-muted/20 px-4 py-3 sm:px-5">
               <div className="flex items-center gap-2.5">
                 <span className="flex size-8 items-center justify-center rounded-md border border-border/50 bg-background/40 text-muted-foreground">
-                  <Terminal className="size-4" aria-hidden />
+                  <TerminalIcon className="size-4" aria-hidden />
                 </span>
                 <span className="text-sm font-semibold text-foreground">
                   Install & run
@@ -715,12 +718,12 @@ const FooterSection = () => {
               >
                 {copied ? (
                   <>
-                    <Check className="size-3.5" />
+                    <CheckIcon className="size-3.5" />
                     <span className="hidden sm:inline">Copied</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="size-3.5" />
+                    <CopyIcon className="size-3.5" />
                     <span className="hidden sm:inline">Copy</span>
                   </>
                 )}

@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/libs/utils';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react';
+import { CheckIcon, CaretDownIcon } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 
 export type ComboboxOption = {
@@ -77,7 +77,7 @@ export function Combobox({
           <span className="truncate text-foreground">
             {selectedLabel || placeholder}
           </span>
-          <ChevronDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
+          <CaretDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

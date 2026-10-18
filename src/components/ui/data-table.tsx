@@ -16,13 +16,13 @@ import {
   useTable,
 } from '@tanstack/react-table';
 import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  ChevronsUpDown,
-  TriangleAlert,
-} from 'lucide-react';
+  CaretDownIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  CaretUpIcon,
+  CaretUpDownIcon,
+  WarningIcon,
+} from '@phosphor-icons/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -71,8 +71,8 @@ type DataTableColumnDef<TData extends RowData> = ColumnDef<
 >;
 
 const SORT_ICONS = {
-  asc: ChevronUp,
-  desc: ChevronDown,
+  asc: CaretUpIcon,
+  desc: CaretDownIcon,
 } as const;
 
 function DataTable<TData extends RowData>({
@@ -108,7 +108,7 @@ function DataTable<TData extends RowData>({
   if (data.length === 0) {
     return (
       <div className="flex h-40 flex-col items-center justify-center gap-3 text-sm text-muted-foreground">
-        <TriangleAlert className="size-8" />
+        <WarningIcon className="size-8" />
         {emptyMessage}
       </div>
     );
@@ -141,7 +141,7 @@ function DataTable<TData extends RowData>({
                 const sortDirection = header.column.getIsSorted();
                 const SortIcon = sortDirection
                   ? SORT_ICONS[sortDirection]
-                  : ChevronsUpDown;
+                  : CaretUpDownIcon;
 
                 return (
                   <TableHead
@@ -217,7 +217,7 @@ function DataTablePager({
           disabled={page <= 1}
           aria-label="Previous page"
         >
-          <ChevronLeft />
+          <CaretLeftIcon />
         </Button>
         <span className="tabular-nums">
           {page} / {pageCount}
@@ -229,7 +229,7 @@ function DataTablePager({
           disabled={page >= pageCount}
           aria-label="Next page"
         >
-          <ChevronRight />
+          <CaretRightIcon />
         </Button>
       </div>
     </div>

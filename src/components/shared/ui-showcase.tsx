@@ -35,7 +35,7 @@ import { StatCard } from '@/components/ui/stat-card';
 import { StatusIndicator } from '@/components/ui/status-indicator';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { CalendarIcon as CalendarIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

@@ -1,12 +1,16 @@
 import { baseUrl } from '@/features/site/config';
 import type { MetadataRoute } from 'next';
 
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+const routes: (Pick<SitemapEntry, 'changeFrequency' | 'priority'> & {
+  path: string;
+})[] = [{ path: '', changeFrequency: 'weekly', priority: 1 }];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ['', '/ui-components', '/login', '/unauthorized'];
-  return routes.map((path) => ({
+  return routes.map(({ path, changeFrequency, priority }) => ({
     url: `${baseUrl}${path}`,
-    lastModified: new Date(),
-    changeFrequency: path === '' ? 'weekly' : ('monthly' as const),
-    priority: path === '' ? 1 : 0.8,
+    changeFrequency,
+    priority,
   }));
 }

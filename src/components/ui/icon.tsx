@@ -1,7 +1,7 @@
-import type { LucideIcon } from 'lucide-react';
+import type { Icon } from '@phosphor-icons/react';
 
 interface IconProps {
-  iconNode?: LucideIcon | null;
+  iconNode?: Icon | null;
   className?: string;
 }
 

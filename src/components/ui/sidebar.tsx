@@ -2,7 +2,7 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { PanelLeft } from 'lucide-react';
+import { SidebarSimpleIcon } from '@phosphor-icons/react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -282,7 +282,7 @@ export function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeft className="size-5" />
+      <SidebarSimpleIcon className="size-5" />
       <span className="sr-only">{t('sidebar.menu')}</span>
     </Button>
   );
