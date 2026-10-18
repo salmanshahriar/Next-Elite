@@ -70,7 +70,7 @@
     "postprocessing": "^6.39.5",
     "react": "19.3.0",
     "react-apexcharts": "2.1.1",
-    "react-day-picker": "^9.14.0",
+    "react-day-picker": "^10.0.2",
     "react-dom": "19.3.0",
     "react-hook-form": "^7.89.0",
     "server-only": "^0.0.1",
