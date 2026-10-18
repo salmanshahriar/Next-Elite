@@ -97,7 +97,7 @@
     "knip": "^6.38.0",
     "lefthook": "^2.1.12",
     "oxfmt": "^0.70.0",
-    "oxlint": "^1.80.0",
+    "oxlint": "^1.88.0",
     "postcss": "8.5.28",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
