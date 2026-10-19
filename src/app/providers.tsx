@@ -2,7 +2,6 @@
 
 import { ThemeOverlay } from '@/components/shared/theme-overlay';
 import { AuthProvider } from '@/features/auth/hooks/auth-provider';
-import type { AuthUser } from '@/features/auth/types';
 import { TopLoader } from '@/components/shared/top-loader';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { getQueryClient } from '@/libs/query-client';
@@ -12,22 +11,17 @@ import { Toaster } from 'sonner';
 
 interface ProvidersProps {
   children: ReactNode;
-  initialUser?: AuthUser | null;
   defaultTheme?: 'light' | 'dark' | 'system';
 }
 
-const Providers = ({
-  children,
-  initialUser = null,
-  defaultTheme = 'light',
-}: ProvidersProps) => {
+const Providers = ({ children, defaultTheme = 'light' }: ProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
     <ThemeProvider defaultTheme={defaultTheme}>
       <TopLoader />
       <QueryClientProvider client={queryClient}>
-        <AuthProvider initialUser={initialUser}>
+        <AuthProvider>
           {children}
           <Toaster richColors />
           <ThemeOverlay />

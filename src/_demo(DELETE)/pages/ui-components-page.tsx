@@ -6,7 +6,7 @@ import {
   CHART_DEMO_DATA,
   DataTableShowcase,
   DEMO_USER_COLUMNS,
-} from '@/components/shared/ui-showcase';
+} from '@/_demo(DELETE)/components/ui-showcase';
 import {
   Accordion,
   AccordionContent,

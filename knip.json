@@ -2,23 +2,17 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
     "src/app/**/{page,layout,loading,error,not-found,template,default,sitemap,robots,manifest,route}.{ts,tsx}",
-    "src/libs/query-client.ts",
-    "src/features/auth/lib/auth.ts",
-    "src/features/auth/lib/auth-client.ts",
-    "src/features/auth/hooks/*.tsx",
-    "src/features/auth/server/*.ts",
-    "src/features/auth/rbac/*.ts",
-    "src/features/auth/schemas/*.ts",
-    "src/features/i18n/*.ts",
-    "src/features/site/config.ts",
-    "src/components/auth/auth-animation.tsx"
+    "src/features/i18n/request.ts",
+    "src/components/ui/*.tsx"
   ],
   "project": [
     "src/**/*.{js,jsx,ts,tsx}",
     "tests/**/*.{ts,tsx}",
     "e2e/**/*.{ts,tsx}"
   ],
-  "ignore": ["src/components/ui/**"],
+  "ignoreIssues": {
+    "src/components/ui/**": ["exports"]
+  },
   "ignoreDependencies": ["tw-animate-css", "tailwindcss"],
   "ignoreExportsUsedInFile": true
 }

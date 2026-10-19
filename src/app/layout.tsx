@@ -1,6 +1,5 @@
 import { fontSans } from '@/app/fonts';
 import Providers from '@/app/providers';
-import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import {
   baseUrl,
   getLocaleDirection,
@@ -102,11 +101,7 @@ const shouldRenderStructuredData =
   !baseUrl.includes('yourdomain.com');
 
 const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
-  const [locale, messages, currentUser] = await Promise.all([
-    getLocale(),
-    getMessages(),
-    getCurrentUser(),
-  ]);
+  const [locale, messages] = await Promise.all([getLocale(), getMessages()]);
   const dir = getLocaleDirection(locale as Locale);
 
   const cookieStore = await cookies();
@@ -129,7 +124,7 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
     >
       <body className={cn(fontSans.className, 'antialiased')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers defaultTheme={defaultTheme} initialUser={currentUser}>
+          <Providers defaultTheme={defaultTheme}>
             <div className="relative flex min-h-screen flex-col bg-background">
               <div className="relative z-10 flex min-h-screen flex-col">
                 {children}
@@ -237,11 +232,6 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
                 publisher: siteConfig.organization.name
                   ? { '@id': `${baseUrl}/#organization` }
                   : undefined,
-                potentialAction: {
-                  '@type': 'SearchAction',
-                  target: `${baseUrl}/search?q={search_term_string}`,
-                  'query-input': 'required name=search_term_string',
-                },
                 inLanguage: siteConfig.language,
               }),
             }}

@@ -31,6 +31,7 @@ export const UserDropdown = ({
 }: UserDropdownProps) => {
   const { user, signOut } = useAuth();
   const t = useTranslations('navigation');
+  const tSidebar = useTranslations('sidebar');
 
   if (!user) return null;
 
@@ -47,17 +48,14 @@ export const UserDropdown = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
+          type="button"
           className={cn(
-            'flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus:outline-hidden',
-            onlyAvatar ? 'h-8 w-8 p-0' : 'gap-2 p-1',
+            'flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden',
+            onlyAvatar ? 'size-8 p-0' : 'gap-2 p-1',
           )}
         >
-          <Avatar
-            className={cn(
-              'shrink-0',
-              onlyAvatar ? 'h-7 w-7' : 'size-8 h-8 w-8',
-            )}
-          >
+          <span className="sr-only">{t('accountMenu')}</span>
+          <Avatar className={cn('shrink-0', onlyAvatar ? 'size-7' : 'size-8')}>
             <AvatarFallback
               className={cn(
                 'bg-primary/8 font-semibold text-primary',
@@ -96,13 +94,13 @@ export const UserDropdown = ({
               </span>
               <span
                 className={cn(
-                  'inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold capitalize',
+                  'inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold',
                   user.role === 'admin'
                     ? 'border-primary/30 bg-primary/15 text-primary'
                     : 'border-border bg-muted text-muted-foreground',
                 )}
               >
-                {user.role}
+                {tSidebar(user.role)}
               </span>
             </div>
           </div>

@@ -1,0 +1,152 @@
+{
+  "navigation": {
+    "uiComponents": "Componentes UI"
+  },
+  "auth": {
+    "login": {
+      "clickToFill": "Haz clic para completar las credenciales"
+    }
+  },
+  "home": {
+    "hero": {
+      "deployToVercel": "Desplegar en Vercel",
+      "starOnGithub": "Dar estrella en GitHub",
+      "components": {
+        "title": "Más de 50 componentes personalizados y reutilizables",
+        "seeAll": "ver todos",
+        "seeAllLabel": "Ver los más de 50 componentes personalizados y reutilizables",
+        "description": "Acelera tu flujo de trabajo con una amplia colección de componentes de Tailwind CSS y Radix UI accesibles y totalmente personalizables, diseñados para aplicaciones web modernas."
+      },
+      "demo": {
+        "primary": "Primario",
+        "success": "Éxito",
+        "outline": "Contorno",
+        "destructive": "Destructivo",
+        "loading": "Cargando",
+        "starLabel": "Botón de estrella de demostración",
+        "switchLabel": "Interruptor de demostración",
+        "checkboxLabel": "Casilla de demostración",
+        "pickDate": "Elegir fecha",
+        "pickDateLabel": "Botón de demostración para elegir fecha"
+      },
+      "deployment": {
+        "title": "Despliegue instantáneo",
+        "description": "Despliega Next-Elite directamente en la red edge global de Vercel con una integración fluida de un solo clic."
+      },
+      "speed": {
+        "title": "Velocidad ultrarrápida",
+        "description": "Rendimiento optimizado para la máxima eficiencia. Cargas de página instantáneas, recursos estáticos altamente optimizados y puntuaciones de Lighthouse de élite en accesibilidad, SEO y buenas prácticas.",
+        "lighthouse": {
+          "performance": "Rendimiento",
+          "accessibility": "Accesibilidad",
+          "bestPractices": "Buenas prácticas",
+          "seo": "SEO"
+        }
+      },
+      "auth": {
+        "title": "RBAC y Better Auth",
+        "description": "Autenticación de nivel empresarial con Better Auth: correo/contraseña, Google OAuth, gestión de sesiones y RBAC basado en permisos desde el primer momento."
+      }
+    },
+    "showcase": {
+      "title": "Construido con componentes",
+      "seeAll": "ver todos",
+      "seeAllLabel": "Ver todos los componentes usados para construir estas pantallas",
+      "tabs": {
+        "dashboard": "Panel",
+        "data": "Datos",
+        "profile": "Perfil"
+      }
+    },
+    "features": {
+      "title": "Más funcionalidades",
+      "stack": {
+        "title": "Stack moderno, configuración ligera",
+        "description": "Starter de Next.js orientado a API. Sin base de datos incluida.",
+        "details": {
+          "versions": "Next.js 16, React 19 y TypeScript listos para usar",
+          "folders": "Carpetas de funcionalidades organizadas en src/features/",
+          "styling": "Tailwind CSS 4, shadcn/ui y TanStack Query incluidos"
+        }
+      },
+      "seo": {
+        "title": "SEO + PWA, primero en el servidor",
+        "description": "SEO generado en el servidor y PWA instalable.",
+        "details": {
+          "config": "site.config.json impulsa el SEO, el sitemap, robots y el manifiesto",
+          "previews": "Open Graph, tarjetas de Twitter y JSON-LD para vistas previas enriquecidas",
+          "monitoring": "llms.txt para el descubrimiento por IA; monitorización con Sentry y /api/health"
+        }
+      },
+      "quality": {
+        "title": "Pruebas y controles de calidad",
+        "description": "Pruebas y lint en un solo comando.",
+        "details": {
+          "tooling": "Oxlint + Oxfmt, Knip, Lefthook y Commitlint en cada commit",
+          "unit": "Pruebas unitarias con Vitest y el helper renderWithProviders",
+          "e2e": "Pruebas end-to-end con Playwright en local y en CI"
+        }
+      },
+      "routing": {
+        "title": "Enrutamiento paralelo",
+        "description": "Autenticación y paneles por rol.",
+        "details": {
+          "slots": "Slots @admin y @user, una sola URL /dashboard para todos",
+          "signIn": "Inicio de sesión con correo, contraseña y Google mediante Better Auth",
+          "roles": "Roles de administrador y usuario protegidos con requirePermission"
+        }
+      },
+      "i18n": {
+        "title": "i18n con tipos seguros",
+        "description": "Seis idiomas. Sin idioma en la URL.",
+        "details": {
+          "languages": "Inglés, bengalí, árabe RTL, francés, español y chino",
+          "cookie": "La cookie NEXT_LOCALE recuerda el idioma sin prefijos",
+          "keys": "next-intl detecta claves de traducción faltantes en tiempo de compilación"
+        }
+      },
+      "forms": {
+        "title": "Formularios + validación",
+        "description": "Formularios accesibles con validación Zod.",
+        "details": {
+          "schemas": "Esquemas Zod para inicio de sesión, registro y restablecimiento de contraseña",
+          "hookForm": "React Hook Form + zodResolver para entradas con tipos seguros",
+          "errors": "InputError muestra mensajes útiles junto a cada campo"
+        }
+      }
+    },
+    "footer": {
+      "title": "Empieza en minutos",
+      "description": "Clona el repositorio, copia el entorno local, instala las dependencias, inicia tu servidor de desarrollo, personaliza la aplicación a tu gusto y despliégala.",
+      "installTitle": "Instalar y ejecutar",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "copyLabel": "Copiar comandos",
+      "copiedToast": "Copiado al portapapeles",
+      "copyError": "No se pudieron copiar los comandos"
+    }
+  },
+  "uiComponents": {
+    "title": "Componentes UI",
+    "description": "Explora más de 50 primitivos shadcn/ui y componentes personalizados con variantes, tamaños y estados interactivos.",
+    "onThisPage": "En esta página",
+    "sections": {
+      "actions": "Acciones",
+      "actionsDesc": "Botones, toggles y acciones agrupadas.",
+      "forms": "Formularios",
+      "formsDesc": "Campos, selectores y formularios con validación.",
+      "charts": "Datos y gráficos",
+      "chartsDesc": "Gráficos, tablas de datos y tarjetas de métricas.",
+      "dataDisplay": "Visualización de datos",
+      "dataDisplayDesc": "Tarjetas, avatares, insignias e indicadores de estado.",
+      "feedback": "Retroalimentación",
+      "feedbackDesc": "Alertas, notificaciones, progreso y estados de carga.",
+      "overlays": "Superposiciones",
+      "overlaysDesc": "Diálogos, paneles, popovers, menús y tooltips.",
+      "navigation": "Navegación",
+      "navigationDesc": "Menús, pestañas, rutas de navegación y enlaces.",
+      "layout": "Diseño",
+      "layoutDesc": "Acordeones, contenido plegable, carruseles y separadores."
+    }
+  }
+}

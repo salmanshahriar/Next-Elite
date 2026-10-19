@@ -160,7 +160,16 @@ When `NEXT_PUBLIC_DEMO_MODE=true` is enabled, the login screen includes a quick-
 | Admin | `admin@test.com` | `12345678` |
 
 > [!NOTE]
-> For production deployments, set `NEXT_PUBLIC_DEMO_MODE=false` or remove the self-contained `src/features/auth/demo/` module.
+> For production deployments, set `NEXT_PUBLIC_DEMO_MODE=false`.
+
+### Removing the Demo Code
+
+All demo code (landing page, `/ui-components` showcase, promo logos, demo accounts) lives in `src/_demo(DELETE)/`. When you're ready to build your own app, run:
+
+```bash
+npm run demo:remove
+npm run check
+```
 
 ### Docker & Production Containerization
 
@@ -305,10 +314,10 @@ const form = useForm<LoginInput>({
 ├── next.config.mjs
 ├── package.json              scripts + Commitlint config
 ├── package-lock.json
-├── proxy.ts                  Next.js 16 network proxy
 ├── tsconfig.json
 ├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
 ├── src/
+│   ├── _demo(DELETE)/        Landing page, showcase, demo accounts (delete for your app)
 │   ├── app/                  App Router
 │   │   ├── (auth)/           Auth layouts (Login, register, & reset-password pages)
 │   │   ├── (public)/         Public layouts
@@ -328,13 +337,11 @@ const form = useForm<LoginInput>({
 │   │   ├── auth/             Auth forms
 │   │   ├── icons/            Centralized SVG icon components & barrel export
 │   │   ├── layout/           App shell, navigation sidebars, topbar & branding
-│   │   ├── pages/            Landing page & UI components
 │   │   ├── shared/           Shared UI's
 │   │   └── ui/               Shadcn UI's components
 │   ├── config/               App navigation & feature flags configuration
 │   ├── features/             Feature modules
 │   │   ├── auth/             BetterAuth + RBAC modules
-│   │   ├── demo/             Self-contained demo module (delete for prod)
 │   │   ├── i18n/             next-intl configuration
 │   │   └── site/             siteConfig + locale utilities
 │   ├── hooks/                Shared React hooks

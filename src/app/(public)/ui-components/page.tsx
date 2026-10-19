@@ -1,4 +1,4 @@
-import { UiComponentsPage } from '@/components/pages/ui-components-page';
+import { UiComponentsPage } from '@/_demo(DELETE)/pages/ui-components-page';
 import { siteConfig } from '@/features/site/config';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';

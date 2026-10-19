@@ -11,9 +11,6 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
 
-    env:
-      SKIP_ENV_VALIDATION: 'true'
-
     steps:
       - uses: actions/checkout@v7
 
@@ -42,4 +39,45 @@ jobs:
         run: npm run test
 
       - name: Build
+        run: npm run build
+
+  demo-removal:
+    name: Demo removal
+    runs-on: ubuntu-latest
+    env:
+      CLEAN_DIR: ${{ runner.temp }}/clean
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.github/nodejs.version'
+          cache: 'npm'
+
+      - name: Use npm 11
+        run: npm install -g npm@11
+
+      - name: Copy repository
+        run: rsync -a --exclude .git --exclude node_modules ./ "$CLEAN_DIR/"
+
+      - name: Install dependencies
+        working-directory: ${{ env.CLEAN_DIR }}
+        run: npm ci
+
+      - name: Remove demo
+        working-directory: ${{ env.CLEAN_DIR }}
+        run: npm run demo:remove
+
+      - name: No demo references left
+        working-directory: ${{ env.CLEAN_DIR }}
+        run: '! grep -rIn --exclude-dir=node_modules "_demo(DELETE)" .'
+
+      - name: Check
+        working-directory: ${{ env.CLEAN_DIR }}
+        run: npm run check
+
+      - name: Build
+        working-directory: ${{ env.CLEAN_DIR }}
         run: npm run build

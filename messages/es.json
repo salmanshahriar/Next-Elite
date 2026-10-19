@@ -37,8 +37,8 @@
     "profile": "Perfil",
     "settings": "Ajustes",
     "logout": "Cerrar sesión",
+    "accountMenu": "Menú de la cuenta",
     "login": "Iniciar sesión",
-    "uiComponents": "Componentes UI",
     "workspace": "Espacio de trabajo",
     "analytics": "Analítica"
   },
@@ -54,7 +54,6 @@
       "noAccount": "¿No tiene una cuenta?",
       "signUp": "Registrarse",
       "invalidCredentials": "Credenciales inválidas.",
-      "clickToFill": "Haz clic para completar las credenciales",
       "signInWithGoogle": "Iniciar sesión con Google",
       "orContinueWith": "O continuar con"
     },
@@ -78,20 +77,6 @@
       "email": "Correo electrónico",
       "submit": "Enviar enlace de restablecimiento",
       "submitted": "Si existe una cuenta con ese correo, recibirá un enlace de restablecimiento en breve."
-    }
-  },
-  "home": {
-    "features": {
-      "typeSafe": "Motor multilenguaje seguro por tipos",
-      "localStorage": "Retención de idioma en todas las sesiones",
-      "rtl": "Soporte nativo RTL para árabe",
-      "rbac": "Control de acceso avanzado basado en roles",
-      "seo": "SEO programático y metadatos dinámicos",
-      "production": "Arquitectura SaaS optimizada para producción",
-      "stack": "Next.js 16, React 19, TypeScript y Tailwind v4",
-      "ui-experience": "Componentes shadcn/ui totalmente personalizables",
-      "testing": "Vitest + Playwright con renderWithProviders",
-      "tooling": "Oxlint + Oxfmt con hooks pre-commit de Lefthook"
     }
   },
   "dashboard": {
@@ -138,36 +123,15 @@
     "language": "Idioma",
     "tools": "Herramientas"
   },
-  "uiComponents": {
-    "title": "Componentes UI",
-    "description": "Explora más de 50 primitivos shadcn/ui y componentes personalizados con variantes, tamaños y estados interactivos.",
-    "onThisPage": "En esta página",
-    "sections": {
-      "actions": "Acciones",
-      "actionsDesc": "Botones, toggles y acciones agrupadas.",
-      "forms": "Formularios",
-      "formsDesc": "Campos, selectores y formularios con validación.",
-      "charts": "Datos y gráficos",
-      "chartsDesc": "Gráficos, tablas de datos y tarjetas de métricas.",
-      "dataDisplay": "Visualización de datos",
-      "dataDisplayDesc": "Tarjetas, avatares, insignias e indicadores de estado.",
-      "feedback": "Retroalimentación",
-      "feedbackDesc": "Alertas, notificaciones, progreso y estados de carga.",
-      "overlays": "Superposiciones",
-      "overlaysDesc": "Diálogos, paneles, popovers, menús y tooltips.",
-      "navigation": "Navegación",
-      "navigationDesc": "Menús, pestañas, rutas de navegación y enlaces.",
-      "layout": "Diseño",
-      "layoutDesc": "Acordeones, contenido plegable, carruseles y separadores."
-    }
-  },
   "errors": {
-    "404": "Página no encontrada",
     "401": "No autorizado",
     "403": "Prohibido",
+    "404": "Página no encontrada",
     "500": "Error interno del servidor",
     "generic": "Algo salió mal. Por favor intente de nuevo.",
     "unauthorizedDescription": "No tienes permiso para acceder a esta página.",
-    "goToDashboard": "Ir al panel"
+    "goToDashboard": "Ir al panel",
+    "tryAgain": "Intentar de nuevo",
+    "backToHome": "Volver al inicio"
   }
 }

@@ -1,5 +1,7 @@
 import { env } from '@/libs/env';
 import { betterAuth } from 'better-auth';
+import { customSession } from 'better-auth/plugins';
+import { getRoleFromEmail } from '../rbac/roles';
 
 if (
   process.env.NODE_ENV === 'production' &&
@@ -46,4 +48,13 @@ export const auth = betterAuth({
     enabled: true,
   },
   socialProviders,
+  plugins: [
+    customSession(async ({ user, session }) => ({
+      user: {
+        ...user,
+        role: getRoleFromEmail(user.email, env.AUTH_ADMIN_EMAILS),
+      },
+      session,
+    })),
+  ],
 });

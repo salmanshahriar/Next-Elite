@@ -1,0 +1,152 @@
+{
+  "navigation": {
+    "uiComponents": "UI কম্পোনেন্ট"
+  },
+  "auth": {
+    "login": {
+      "clickToFill": "ক্রেডেনশিয়াল পূরণ করতে ক্লিক করুন"
+    }
+  },
+  "home": {
+    "hero": {
+      "deployToVercel": "Vercel-এ ডিপ্লয় করুন",
+      "starOnGithub": "GitHub-এ স্টার দিন",
+      "components": {
+        "title": "৫০+ কাস্টম, পুনঃব্যবহারযোগ্য কম্পোনেন্ট",
+        "seeAll": "সব দেখুন",
+        "seeAllLabel": "৫০+ কাস্টম, পুনঃব্যবহারযোগ্য কম্পোনেন্ট সব দেখুন",
+        "description": "আধুনিক ওয়েব অ্যাপের জন্য তৈরি অ্যাক্সেসযোগ্য ও সম্পূর্ণ কাস্টমাইজযোগ্য Tailwind CSS ও Radix UI কম্পোনেন্টের বিশাল সংগ্রহ দিয়ে আপনার কাজের গতি বাড়ান।"
+      },
+      "demo": {
+        "primary": "প্রাইমারি",
+        "success": "সফল",
+        "outline": "আউটলাইন",
+        "destructive": "ধ্বংসাত্মক",
+        "loading": "লোড হচ্ছে",
+        "starLabel": "ডেমো স্টার বাটন",
+        "switchLabel": "ডেমো সুইচ",
+        "checkboxLabel": "ডেমো চেকবক্স",
+        "pickDate": "তারিখ বাছুন",
+        "pickDateLabel": "ডেমো তারিখ বাছাই বাটন"
+      },
+      "deployment": {
+        "title": "তাৎক্ষণিক ডিপ্লয়মেন্ট",
+        "description": "এক ক্লিকের সহজ ইন্টিগ্রেশনে Next-Elite সরাসরি Vercel-এর গ্লোবাল এজ নেটওয়ার্কে ডিপ্লয় করুন।"
+      },
+      "speed": {
+        "title": "দুর্দান্ত গতি",
+        "description": "সর্বোচ্চ দক্ষতার জন্য পারফরম্যান্স অপ্টিমাইজড। তাৎক্ষণিক পেজ লোড, অত্যন্ত অপ্টিমাইজড স্ট্যাটিক অ্যাসেট এবং অ্যাক্সেসিবিলিটি, SEO ও বেস্ট প্র্যাকটিসে সেরা Lighthouse স্কোর উপভোগ করুন।",
+        "lighthouse": {
+          "performance": "পারফরম্যান্স",
+          "accessibility": "অ্যাক্সেসিবিলিটি",
+          "bestPractices": "বেস্ট প্র্যাকটিস",
+          "seo": "SEO"
+        }
+      },
+      "auth": {
+        "title": "RBAC ও Better Auth",
+        "description": "Better Auth দিয়ে এন্টারপ্রাইজ-মানের অথেনটিকেশন - ইমেইল/পাসওয়ার্ড, Google OAuth, সেশন ব্যবস্থাপনা এবং পারমিশন-ভিত্তিক RBAC, সবই প্রস্তুত।"
+      }
+    },
+    "showcase": {
+      "title": "কম্পোনেন্ট দিয়ে তৈরি",
+      "seeAll": "সব দেখুন",
+      "seeAllLabel": "এই স্ক্রিনগুলো তৈরিতে ব্যবহৃত সব কম্পোনেন্ট দেখুন",
+      "tabs": {
+        "dashboard": "ড্যাশবোর্ড",
+        "data": "ডেটা",
+        "profile": "প্রোফাইল"
+      }
+    },
+    "features": {
+      "title": "আরও ফিচার",
+      "stack": {
+        "title": "আধুনিক স্ট্যাক, হালকা সেটআপ",
+        "description": "API-ফার্স্ট Next.js স্টার্টার। কোনো ডেটাবেস যুক্ত নেই।",
+        "details": {
+          "versions": "Next.js 16, React 19 এবং TypeScript ব্যবহারের জন্য প্রস্তুত",
+          "folders": "src/features/ ফোল্ডারে গোছানো ফিচার",
+          "styling": "Tailwind CSS 4, shadcn/ui এবং TanStack Query অন্তর্ভুক্ত"
+        }
+      },
+      "seo": {
+        "title": "SEO + PWA, সার্ভার-ফার্স্ট",
+        "description": "সার্ভারে তৈরি SEO এবং ইনস্টলযোগ্য PWA।",
+        "details": {
+          "config": "site.config.json দিয়ে SEO, সাইটম্যাপ, robots এবং ম্যানিফেস্ট চলে",
+          "previews": "রিচ প্রিভিউর জন্য Open Graph, Twitter কার্ড এবং JSON-LD",
+          "monitoring": "AI ডিসকভারির জন্য llms.txt; Sentry ও /api/health মনিটরিং"
+        }
+      },
+      "quality": {
+        "title": "টেস্টিং ও কোয়ালিটি গেট",
+        "description": "এক কমান্ডে টেস্ট ও লিন্ট।",
+        "details": {
+          "tooling": "প্রতি কমিটে Oxlint + Oxfmt, Knip, Lefthook এবং Commitlint",
+          "unit": "renderWithProviders হেল্পারসহ Vitest ইউনিট টেস্ট",
+          "e2e": "লোকাল ডেভ ও CI-তে Playwright এন্ড-টু-এন্ড টেস্ট"
+        }
+      },
+      "routing": {
+        "title": "প্যারালাল রাউটিং",
+        "description": "অথ ও রোল-ভিত্তিক ড্যাশবোর্ড।",
+        "details": {
+          "slots": "@admin ও @user স্লট, সবার জন্য একটি /dashboard URL",
+          "signIn": "Better Auth দিয়ে ইমেইল, পাসওয়ার্ড ও Google সাইন-ইন",
+          "roles": "requirePermission দিয়ে সুরক্ষিত অ্যাডমিন ও ইউজার রোল"
+        }
+      },
+      "i18n": {
+        "title": "টাইপ-সেফ i18n",
+        "description": "ছয়টি ভাষা। URL-এ কোনো লোকেল নেই।",
+        "details": {
+          "languages": "ইংরেজি, বাংলা, আরবি RTL, ফরাসি, স্প্যানিশ ও চীনা",
+          "cookie": "NEXT_LOCALE কুকি প্রিফিক্স ছাড়াই ভাষা মনে রাখে",
+          "keys": "next-intl বিল্ডের সময় অনুপস্থিত অনুবাদ কী ধরে ফেলে"
+        }
+      },
+      "forms": {
+        "title": "ফর্ম + ভ্যালিডেশন",
+        "description": "Zod ভ্যালিডেশনসহ অ্যাক্সেসযোগ্য ফর্ম।",
+        "details": {
+          "schemas": "লগইন, সাইন-আপ ও পাসওয়ার্ড রিসেটের জন্য Zod স্কিমা",
+          "hookForm": "টাইপ-সেফ ইনপুটের জন্য React Hook Form + zodResolver",
+          "errors": "InputError প্রতিটি ফিল্ডে সহায়ক ইনলাইন বার্তা দেখায়"
+        }
+      }
+    },
+    "footer": {
+      "title": "কয়েক মিনিটেই শুরু করুন",
+      "description": "রিপোজিটরি ক্লোন করুন, লোকাল এনভায়রনমেন্ট কপি করুন, ডিপেনডেন্সি ইনস্টল করুন, ডেভেলপমেন্ট সার্ভার চালু করুন, তারপর অ্যাপ্লিকেশনটি ইচ্ছেমতো কাস্টমাইজ করে ডিপ্লয় করুন।",
+      "installTitle": "ইনস্টল ও রান",
+      "copy": "কপি",
+      "copied": "কপি হয়েছে",
+      "copyLabel": "কমান্ড কপি করুন",
+      "copiedToast": "ক্লিপবোর্ডে কপি হয়েছে",
+      "copyError": "কমান্ড কপি করা যায়নি"
+    }
+  },
+  "uiComponents": {
+    "title": "UI কম্পোনেন্ট",
+    "description": "৫০+ shadcn/ui প্রিমিটিভ ও কাস্টম কম্পোনেন্ট ভেরিয়েন্ট, সাইজ এবং ইন্টারঅ্যাক্টিভ স্টেট সহ দেখুন।",
+    "onThisPage": "এই পৃষ্ঠায়",
+    "sections": {
+      "actions": "অ্যাকশন",
+      "actionsDesc": "বাটন, টগল এবং গ্রুপড অ্যাকশন।",
+      "forms": "ফর্ম",
+      "formsDesc": "ইনপুট, পিকার এবং যাচাইকৃত ফর্ম।",
+      "charts": "ডেটা ও চার্ট",
+      "chartsDesc": "চার্ট, ডেটা টেবিল এবং স্ট্যাট কার্ড।",
+      "dataDisplay": "ডেটা ডিসপ্লে",
+      "dataDisplayDesc": "কার্ড, অ্যাভাটার, ব্যাজ এবং স্ট্যাটাস ইন্ডিকেটর।",
+      "feedback": "ফিডব্যাক",
+      "feedbackDesc": "অ্যালার্ট, টোস্ট, অগ্রগতি এবং লোডিং অবস্থা।",
+      "overlays": "ওভারলে",
+      "overlaysDesc": "ডায়ালগ, শিট, পপওভার, মেনু এবং টুলটিপ।",
+      "navigation": "নেভিগেশন",
+      "navigationDesc": "মেনু, ট্যাব, ব্রেডক্রাম্ব এবং লিংক।",
+      "layout": "লেআউট",
+      "layoutDesc": "অ্যাকর্ডিয়ন, কোলাপসিবল, ক্যারোসেল এবং সেপারেটর।"
+    }
+  }
+}

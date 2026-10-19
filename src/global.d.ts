@@ -1,9 +1,10 @@
+import type demoMessages from '@/_demo(DELETE)/messages/en.json';
 import type { routing } from '@/features/i18n/routing';
 import type messages from '../messages/en.json';
 
 declare module 'next-intl' {
   interface AppConfig {
     Locale: (typeof routing)['locales'][number];
-    Messages: typeof messages;
+    Messages: typeof messages & typeof demoMessages;
   }
 }

@@ -1,0 +1,152 @@
+{
+  "navigation": {
+    "uiComponents": "Composants UI"
+  },
+  "auth": {
+    "login": {
+      "clickToFill": "Cliquez pour remplir les identifiants"
+    }
+  },
+  "home": {
+    "hero": {
+      "deployToVercel": "Déployer sur Vercel",
+      "starOnGithub": "Mettre une étoile sur GitHub",
+      "components": {
+        "title": "Plus de 50 composants personnalisés et réutilisables",
+        "seeAll": "tout voir",
+        "seeAllLabel": "Voir les plus de 50 composants personnalisés et réutilisables",
+        "description": "Accélérez votre travail avec une vaste collection de composants Tailwind CSS et Radix UI accessibles et entièrement personnalisables, conçus pour les applications web modernes."
+      },
+      "demo": {
+        "primary": "Principal",
+        "success": "Succès",
+        "outline": "Contour",
+        "destructive": "Destructif",
+        "loading": "Chargement",
+        "starLabel": "Bouton étoile de démonstration",
+        "switchLabel": "Interrupteur de démonstration",
+        "checkboxLabel": "Case à cocher de démonstration",
+        "pickDate": "Choisir une date",
+        "pickDateLabel": "Bouton de démonstration pour choisir une date"
+      },
+      "deployment": {
+        "title": "Déploiement instantané",
+        "description": "Déployez Next-Elite directement sur le réseau edge mondial de Vercel grâce à une intégration fluide en un clic."
+      },
+      "speed": {
+        "title": "Des performances fulgurantes",
+        "description": "Optimisé pour une efficacité maximale. Chargements de page instantanés, ressources statiques hautement optimisées et scores Lighthouse d'élite en accessibilité, SEO et bonnes pratiques.",
+        "lighthouse": {
+          "performance": "Performance",
+          "accessibility": "Accessibilité",
+          "bestPractices": "Bonnes pratiques",
+          "seo": "SEO"
+        }
+      },
+      "auth": {
+        "title": "RBAC et Better Auth",
+        "description": "Authentification de niveau entreprise avec Better Auth : e-mail/mot de passe, Google OAuth, gestion des sessions et RBAC basé sur les permissions, prêts à l'emploi."
+      }
+    },
+    "showcase": {
+      "title": "Construit avec des composants",
+      "seeAll": "tout voir",
+      "seeAllLabel": "Voir tous les composants utilisés pour construire ces écrans",
+      "tabs": {
+        "dashboard": "Tableau de bord",
+        "data": "Données",
+        "profile": "Profil"
+      }
+    },
+    "features": {
+      "title": "Plus de fonctionnalités",
+      "stack": {
+        "title": "Stack moderne, configuration légère",
+        "description": "Starter Next.js orienté API. Aucune base de données incluse.",
+        "details": {
+          "versions": "Next.js 16, React 19 et TypeScript prêts à l'emploi",
+          "folders": "Dossiers de fonctionnalités organisés dans src/features/",
+          "styling": "Tailwind CSS 4, shadcn/ui et TanStack Query inclus"
+        }
+      },
+      "seo": {
+        "title": "SEO + PWA, côté serveur d'abord",
+        "description": "SEO généré côté serveur et PWA installable.",
+        "details": {
+          "config": "site.config.json alimente le SEO, le sitemap, robots et le manifeste",
+          "previews": "Open Graph, cartes Twitter et JSON-LD pour des aperçus enrichis",
+          "monitoring": "llms.txt pour la découverte par l'IA ; surveillance avec Sentry et /api/health"
+        }
+      },
+      "quality": {
+        "title": "Tests et contrôles qualité",
+        "description": "Tests et lint en une seule commande.",
+        "details": {
+          "tooling": "Oxlint + Oxfmt, Knip, Lefthook et Commitlint à chaque commit",
+          "unit": "Tests unitaires Vitest avec l'utilitaire renderWithProviders",
+          "e2e": "Tests de bout en bout Playwright en local et en CI"
+        }
+      },
+      "routing": {
+        "title": "Routage parallèle",
+        "description": "Authentification et tableaux de bord par rôle.",
+        "details": {
+          "slots": "Slots @admin et @user, une seule URL /dashboard pour tous",
+          "signIn": "Connexion par e-mail, mot de passe et Google avec Better Auth",
+          "roles": "Rôles admin et utilisateur protégés par requirePermission"
+        }
+      },
+      "i18n": {
+        "title": "i18n typée",
+        "description": "Six langues. Pas de langue dans l'URL.",
+        "details": {
+          "languages": "Anglais, bengali, arabe RTL, français, espagnol et chinois",
+          "cookie": "Le cookie NEXT_LOCALE mémorise la langue sans préfixe",
+          "keys": "next-intl détecte les clés de traduction manquantes à la compilation"
+        }
+      },
+      "forms": {
+        "title": "Formulaires + validation",
+        "description": "Formulaires accessibles avec validation Zod.",
+        "details": {
+          "schemas": "Schémas Zod pour la connexion, l'inscription et la réinitialisation du mot de passe",
+          "hookForm": "React Hook Form + zodResolver pour des saisies typées",
+          "errors": "InputError affiche des messages clairs sous chaque champ"
+        }
+      }
+    },
+    "footer": {
+      "title": "Démarrez en quelques minutes",
+      "description": "Clonez le dépôt, copiez l'environnement local, installez les dépendances, lancez votre serveur de développement, personnalisez l'application à votre guise et déployez.",
+      "installTitle": "Installer et lancer",
+      "copy": "Copier",
+      "copied": "Copié",
+      "copyLabel": "Copier les commandes",
+      "copiedToast": "Copié dans le presse-papiers",
+      "copyError": "Impossible de copier les commandes"
+    }
+  },
+  "uiComponents": {
+    "title": "Composants UI",
+    "description": "Parcourez plus de 50 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
+    "onThisPage": "Sur cette page",
+    "sections": {
+      "actions": "Actions",
+      "actionsDesc": "Boutons, bascules et actions groupées.",
+      "forms": "Formulaires",
+      "formsDesc": "Champs, sélecteurs et formulaires validés.",
+      "charts": "Données et graphiques",
+      "chartsDesc": "Graphiques, tableaux de données et cartes de statistiques.",
+      "dataDisplay": "Affichage des données",
+      "dataDisplayDesc": "Cartes, avatars, badges et indicateurs d'état.",
+      "feedback": "Retour",
+      "feedbackDesc": "Alertes, notifications, progression et états de chargement.",
+      "overlays": "Superpositions",
+      "overlaysDesc": "Dialogues, panneaux, popovers, menus et infobulles.",
+      "navigation": "Navigation",
+      "navigationDesc": "Menus, onglets, fils d'Ariane et liens.",
+      "layout": "Mise en page",
+      "layoutDesc": "Accordéons, sections repliables, carrousels et séparateurs."
+    }
+  }
+}

@@ -6,13 +6,13 @@ const port = 6767;
 const baseURL = `http://${host}:${port}`;
 
 const webServerEnv = {
-  SKIP_ENV_VALIDATION: 'true',
   BETTER_AUTH_SECRET: 'thisIsATestOnlySecretKeyOfAtLeast32Chars',
   BETTER_AUTH_URL: baseURL,
 };
 
 export default defineConfig({
-  testDir: '.',
+  testDir: '..',
+  testMatch: ['e2e/**/*.spec.ts', /src\/_demo\(DELETE\)\/.+\.spec\.ts$/],
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,

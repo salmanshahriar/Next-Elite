@@ -1,5 +1,5 @@
 import { env } from '@/libs/env';
-import { getDemoRoleByEmail } from '../demo/accounts';
+import { getDemoRoleByEmail } from '@/_demo(DELETE)/auth/accounts';
 import type { AuthPermission, UserRole } from './permissions';
 
 const ROLE_PERMISSIONS = {

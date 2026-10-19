@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const MOBILE_BREAKPOINT = 768;
 
-function getSnapshot() {
+export function isMobileViewport() {
   return window.innerWidth < MOBILE_BREAKPOINT;
 }
 
@@ -17,5 +17,9 @@ function subscribe(callback: () => void) {
 }
 
 export function useIsMobile() {
-  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return React.useSyncExternalStore(
+    subscribe,
+    isMobileViewport,
+    getServerSnapshot,
+  );
 }

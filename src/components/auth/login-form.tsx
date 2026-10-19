@@ -14,9 +14,9 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { type DemoAccount } from '../../features/auth/demo/accounts';
-import DemoCredentials from '../../features/auth/demo/demo-credentials';
-import { signInWithDemoFallback } from '../../features/auth/demo/sign-in';
+import { type DemoAccount } from '@/_demo(DELETE)/auth/accounts';
+import DemoCredentials from '@/_demo(DELETE)/auth/demo-credentials';
+import { signInWithDemoFallback } from '@/_demo(DELETE)/auth/sign-in';
 import { useAuth } from '../../features/auth/hooks/auth-provider';
 import {
   loginSchema,

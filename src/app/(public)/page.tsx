@@ -1,4 +1,4 @@
-import { LandingPage } from '@/components/pages/landing-page';
+import { LandingPage } from '@/_demo(DELETE)/pages/landing-page';
 
 const HomePage = () => <LandingPage />;
 

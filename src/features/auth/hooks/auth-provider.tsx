@@ -45,15 +45,15 @@ export function AuthProvider({
   const { data: session, isPending } = authClient.useSession();
 
   const user = useMemo<AuthUser | null>(() => {
-    if (!session?.user?.email) return initialUser;
-    if (initialUser?.email === session.user.email) return initialUser;
+    if (!session?.user?.email) return isPending ? initialUser : null;
+    const { id, email, role } = session.user;
     return {
-      id: session.user.id ?? session.user.email,
-      email: session.user.email,
-      role: 'user',
-      permissions: getPermissionsForRole('user'),
+      id: id ?? email,
+      email,
+      role,
+      permissions: getPermissionsForRole(role),
     };
-  }, [session, initialUser]);
+  }, [session, isPending, initialUser]);
 
   const signIn = useCallback(async (email: string, password: string) => {
     const result = await authClient.signIn.email({ email, password });

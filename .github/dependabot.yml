@@ -5,9 +5,16 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
+    versioning-strategy: increase
+    groups:
+      minor-and-patch:
+        update-types: ['minor', 'patch']
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
+    groups:
+      actions:
+        patterns: ['*']

@@ -7,12 +7,28 @@ export default defineConfig({
   },
   plugins: [react()],
   test: {
-    environment: 'jsdom',
-    setupFiles: ['config/vitest.setup.ts'],
-    include: ['**/*.test.{ts,tsx}'],
     exclude: ['**/node_modules/**', '**/e2e/**', '.next/**'],
     env: {
       SKIP_ENV_VALIDATION: 'true',
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['**/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'dom',
+          environment: 'jsdom',
+          include: ['**/*.test.tsx'],
+          setupFiles: ['config/vitest.setup.ts'],
+        },
+      },
+    ],
   },
 });

@@ -1,4 +1,4 @@
-import type { UserRole } from '../rbac/permissions';
+import type { UserRole } from '@/features/auth/rbac/permissions';
 
 export interface DemoAccount {
   label: string;

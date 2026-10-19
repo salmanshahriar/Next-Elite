@@ -1,0 +1,152 @@
+{
+  "navigation": {
+    "uiComponents": "UI 组件"
+  },
+  "auth": {
+    "login": {
+      "clickToFill": "点击填充凭据"
+    }
+  },
+  "home": {
+    "hero": {
+      "deployToVercel": "部署到 Vercel",
+      "starOnGithub": "在 GitHub 上加星",
+      "components": {
+        "title": "50+ 个可复用的自定义组件",
+        "seeAll": "查看全部",
+        "seeAllLabel": "查看全部 50+ 个可复用的自定义组件",
+        "description": "借助大量无障碍、完全可定制的 Tailwind CSS 与 Radix UI 组件加速开发，专为现代 Web 应用设计。"
+      },
+      "demo": {
+        "primary": "主要",
+        "success": "成功",
+        "outline": "描边",
+        "destructive": "危险",
+        "loading": "加载中",
+        "starLabel": "演示星标按钮",
+        "switchLabel": "演示开关",
+        "checkboxLabel": "演示复选框",
+        "pickDate": "选择日期",
+        "pickDateLabel": "演示日期选择按钮"
+      },
+      "deployment": {
+        "title": "即时部署",
+        "description": "一键无缝集成，将 Next-Elite 直接部署到 Vercel 全球边缘网络。"
+      },
+      "speed": {
+        "title": "极速性能",
+        "description": "为最高效率而优化。页面即时加载，静态资源高度优化，并在无障碍、SEO 和最佳实践方面获得顶级 Lighthouse 分数。",
+        "lighthouse": {
+          "performance": "性能",
+          "accessibility": "无障碍",
+          "bestPractices": "最佳实践",
+          "seo": "SEO"
+        }
+      },
+      "auth": {
+        "title": "RBAC 与 Better Auth",
+        "description": "基于 Better Auth 的企业级认证：邮箱/密码、Google OAuth、会话管理以及基于权限的 RBAC，开箱即用。"
+      }
+    },
+    "showcase": {
+      "title": "用组件构建",
+      "seeAll": "查看全部",
+      "seeAllLabel": "查看构建这些页面所用的全部组件",
+      "tabs": {
+        "dashboard": "仪表盘",
+        "data": "数据",
+        "profile": "个人资料"
+      }
+    },
+    "features": {
+      "title": "更多功能",
+      "stack": {
+        "title": "现代技术栈，精简配置",
+        "description": "API 优先的 Next.js 起步模板，不捆绑数据库。",
+        "details": {
+          "versions": "Next.js 16、React 19 和 TypeScript 开箱即用",
+          "folders": "在 src/features/ 中按功能组织目录",
+          "styling": "内置 Tailwind CSS 4、shadcn/ui 和 TanStack Query"
+        }
+      },
+      "seo": {
+        "title": "SEO + PWA，服务端优先",
+        "description": "服务端生成的 SEO 与可安装的 PWA。",
+        "details": {
+          "config": "site.config.json 驱动 SEO、站点地图、robots 和 manifest",
+          "previews": "Open Graph、Twitter 卡片和 JSON-LD 提供丰富预览",
+          "monitoring": "llms.txt 便于 AI 发现；Sentry 与 /api/health 监控"
+        }
+      },
+      "quality": {
+        "title": "测试与质量门禁",
+        "description": "一条命令完成测试与代码检查。",
+        "details": {
+          "tooling": "提交时运行 Oxlint + Oxfmt、Knip、Lefthook 和 Commitlint",
+          "unit": "使用 Vitest 单元测试及 renderWithProviders 辅助函数",
+          "e2e": "在本地开发和 CI 中运行 Playwright 端到端测试"
+        }
+      },
+      "routing": {
+        "title": "并行路由",
+        "description": "认证与基于角色的仪表盘。",
+        "details": {
+          "slots": "@admin 与 @user 插槽，所有人共用一个 /dashboard URL",
+          "signIn": "通过 Better Auth 支持邮箱、密码和 Google 登录",
+          "roles": "管理员与用户角色由 requirePermission 保护"
+        }
+      },
+      "i18n": {
+        "title": "类型安全的国际化",
+        "description": "六种语言，URL 中无需语言前缀。",
+        "details": {
+          "languages": "英语、孟加拉语、阿拉伯语 RTL、法语、西班牙语和中文",
+          "cookie": "NEXT_LOCALE Cookie 无需前缀即可记住语言",
+          "keys": "next-intl 在构建时捕获缺失的翻译键"
+        }
+      },
+      "forms": {
+        "title": "表单 + 校验",
+        "description": "带 Zod 校验的无障碍表单。",
+        "details": {
+          "schemas": "用于登录、注册和重置密码的 Zod 模式",
+          "hookForm": "React Hook Form + zodResolver 实现类型安全的输入",
+          "errors": "InputError 为每个字段显示清晰的内联提示"
+        }
+      }
+    },
+    "footer": {
+      "title": "几分钟即可上手",
+      "description": "克隆仓库，复制本地环境配置，安装依赖，启动开发服务器，按需定制应用并部署。",
+      "installTitle": "安装并运行",
+      "copy": "复制",
+      "copied": "已复制",
+      "copyLabel": "复制命令",
+      "copiedToast": "已复制到剪贴板",
+      "copyError": "无法复制命令"
+    }
+  },
+  "uiComponents": {
+    "title": "UI 组件",
+    "description": "浏览 50+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
+    "onThisPage": "本页目录",
+    "sections": {
+      "actions": "操作",
+      "actionsDesc": "按钮、开关和组合操作。",
+      "forms": "表单",
+      "formsDesc": "输入框、选择器和带校验的表单。",
+      "charts": "数据与图表",
+      "chartsDesc": "图表、数据表格和统计卡片。",
+      "dataDisplay": "数据展示",
+      "dataDisplayDesc": "卡片、头像、徽章和状态指示器。",
+      "feedback": "反馈",
+      "feedbackDesc": "提示、通知、进度和加载状态。",
+      "overlays": "浮层",
+      "overlaysDesc": "对话框、抽屉、弹出框、菜单和工具提示。",
+      "navigation": "导航",
+      "navigationDesc": "菜单、标签页、面包屑和链接。",
+      "layout": "布局",
+      "layoutDesc": "手风琴、折叠面板、轮播和分隔线。"
+    }
+  }
+}

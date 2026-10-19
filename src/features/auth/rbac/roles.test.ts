@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/libs/env', () => ({
   env: {
-    NEXT_PUBLIC_DEMO_MODE: true,
+    NEXT_PUBLIC_DEMO_MODE: false,
     NEXT_PUBLIC_GOOGLE_AUTH_ENABLED: false,
   },
 }));
@@ -42,16 +42,12 @@ describe('roles', () => {
       );
     });
 
-    it('returns user for non-admin email in demo mode', () => {
-      expect(getRoleFromEmail('random@test.com', [])).toBe('user');
+    it('returns user for an email not in adminEmails', () => {
+      expect(getRoleFromEmail('random@corp.com', [])).toBe('user');
     });
 
-    it('returns admin for demo admin email in demo mode', () => {
-      expect(getRoleFromEmail('admin@test.com', [])).toBe('admin');
-    });
-
-    it('returns user for demo user email in demo mode', () => {
-      expect(getRoleFromEmail('user@test.com', [])).toBe('user');
+    it('does not grant admin to demo emails outside demo mode', () => {
+      expect(getRoleFromEmail('admin@test.com', [])).toBe('user');
     });
 
     it('returns user for null email', () => {

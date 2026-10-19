@@ -37,8 +37,8 @@
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout",
+    "accountMenu": "Account menu",
     "login": "Login",
-    "uiComponents": "UI Components",
     "workspace": "Workspace",
     "analytics": "Analytics"
   },
@@ -54,7 +54,6 @@
       "noAccount": "Don't have an account?",
       "signUp": "Sign up",
       "invalidCredentials": "Invalid credentials.",
-      "clickToFill": "Click to fill in the credentials",
       "signInWithGoogle": "Sign in with Google",
       "orContinueWith": "Or continue with"
     },
@@ -78,20 +77,6 @@
       "email": "Email",
       "submit": "Send reset link",
       "submitted": "If an account exists for that email, you’ll receive a reset link shortly."
-    }
-  },
-  "home": {
-    "features": {
-      "typeSafe": "Type-Safe Multi-Language Engine",
-      "localStorage": "Locale retention across user sessions",
-      "rtl": "Native RTL support for Arabic",
-      "rbac": "Advanced Role-Based Access Control",
-      "seo": "Programmatic SEO & Dynamic Metadata",
-      "production": "Production-optimized SaaS architecture",
-      "stack": "Next.js 16, React 19, TypeScript & Tailwind v4",
-      "ui-experience": "shadcn/ui + custom components with a live showcase",
-      "testing": "Vitest + Playwright with renderWithProviders helper",
-      "tooling": "Oxlint + Oxfmt with Lefthook pre-commit hooks"
     }
   },
   "dashboard": {
@@ -138,36 +123,15 @@
     "language": "Language",
     "tools": "Tools"
   },
-  "uiComponents": {
-    "title": "UI Components",
-    "description": "Browse 50+ shadcn/ui primitives and custom components with variants, sizes, and interactive states.",
-    "onThisPage": "On this page",
-    "sections": {
-      "actions": "Actions",
-      "actionsDesc": "Buttons, toggles, and grouped actions.",
-      "forms": "Forms",
-      "formsDesc": "Inputs, pickers, and validated forms.",
-      "charts": "Data & Charts",
-      "chartsDesc": "Charts, data tables, and stat cards.",
-      "dataDisplay": "Data Display",
-      "dataDisplayDesc": "Cards, avatars, badges, and status indicators.",
-      "feedback": "Feedback",
-      "feedbackDesc": "Alerts, toasts, progress, and loading states.",
-      "overlays": "Overlays",
-      "overlaysDesc": "Dialogs, sheets, popovers, menus, and tooltips.",
-      "navigation": "Navigation",
-      "navigationDesc": "Menus, tabs, breadcrumbs, and links.",
-      "layout": "Layout",
-      "layoutDesc": "Accordions, collapsibles, carousels, and separators."
-    }
-  },
   "errors": {
-    "404": "Page not found",
     "401": "Unauthorized",
     "403": "Forbidden",
+    "404": "Page not found",
     "500": "Internal server error",
     "generic": "Something went wrong. Please try again.",
     "unauthorizedDescription": "You do not have permission to access this page.",
-    "goToDashboard": "Go to Dashboard"
+    "goToDashboard": "Go to Dashboard",
+    "tryAgain": "Try again",
+    "backToHome": "Back to home"
   }
 }

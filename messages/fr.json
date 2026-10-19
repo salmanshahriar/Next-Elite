@@ -37,8 +37,8 @@
     "profile": "Profil",
     "settings": "Paramètres",
     "logout": "Déconnexion",
+    "accountMenu": "Menu du compte",
     "login": "Connexion",
-    "uiComponents": "Composants UI",
     "workspace": "Espace de travail",
     "analytics": "Analytique"
   },
@@ -54,7 +54,6 @@
       "noAccount": "Vous n'avez pas de compte ?",
       "signUp": "S'inscrire",
       "invalidCredentials": "Identifiants invalides.",
-      "clickToFill": "Cliquez pour remplir les identifiants",
       "signInWithGoogle": "Se connecter avec Google",
       "orContinueWith": "Ou continuer avec"
     },
@@ -78,20 +77,6 @@
       "email": "E-mail",
       "submit": "Envoyer le lien de réinitialisation",
       "submitted": "Si un compte existe pour cet e-mail, vous recevrez bientôt un lien de réinitialisation."
-    }
-  },
-  "home": {
-    "features": {
-      "typeSafe": "Moteur multilingue sécurisé par types",
-      "localStorage": "Rétention de la langue à travers les sessions utilisateur",
-      "rtl": "Support RTL natif pour l'arabe",
-      "rbac": "Contrôle d'accès basé sur les rôles avancé",
-      "seo": "SEO programmatique et métadonnées dynamiques",
-      "production": "Architecture SaaS optimisée pour la production",
-      "stack": "Next.js 16, React 19, TypeScript et Tailwind v4",
-      "ui-experience": "Composants shadcn/ui entièrement personnalisables et thématiques",
-      "testing": "Vitest + Playwright avec renderWithProviders",
-      "tooling": "Oxlint + Oxfmt avec hooks pre-commit Lefthook"
     }
   },
   "dashboard": {
@@ -138,36 +123,15 @@
     "language": "Langue",
     "tools": "Outils"
   },
-  "uiComponents": {
-    "title": "Composants UI",
-    "description": "Parcourez plus de 50 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
-    "onThisPage": "Sur cette page",
-    "sections": {
-      "actions": "Actions",
-      "actionsDesc": "Boutons, bascules et actions groupées.",
-      "forms": "Formulaires",
-      "formsDesc": "Champs, sélecteurs et formulaires validés.",
-      "charts": "Données et graphiques",
-      "chartsDesc": "Graphiques, tableaux de données et cartes de statistiques.",
-      "dataDisplay": "Affichage des données",
-      "dataDisplayDesc": "Cartes, avatars, badges et indicateurs d'état.",
-      "feedback": "Retour",
-      "feedbackDesc": "Alertes, notifications, progression et états de chargement.",
-      "overlays": "Superpositions",
-      "overlaysDesc": "Dialogues, panneaux, popovers, menus et infobulles.",
-      "navigation": "Navigation",
-      "navigationDesc": "Menus, onglets, fils d'Ariane et liens.",
-      "layout": "Mise en page",
-      "layoutDesc": "Accordéons, sections repliables, carrousels et séparateurs."
-    }
-  },
   "errors": {
-    "404": "Page non trouvée",
     "401": "Non autorisé",
     "403": "Interdit",
+    "404": "Page non trouvée",
     "500": "Erreur interne du serveur",
     "generic": "Une erreur est survenue. Veuillez réessayer.",
     "unauthorizedDescription": "Vous n'avez pas la permission d'accéder à cette page.",
-    "goToDashboard": "Aller au tableau de bord"
+    "goToDashboard": "Aller au tableau de bord",
+    "tryAgain": "Réessayer",
+    "backToHome": "Retour à l’accueil"
   }
 }

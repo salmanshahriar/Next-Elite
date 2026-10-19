@@ -1,11 +1,17 @@
 'use client';
 
 import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
+import { isMobileViewport, useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/libs/utils';
-import { Effect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
+import type * as Postprocessing from 'postprocessing';
 import type { CSSProperties } from 'react';
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef, useState } from 'react';
+import type * as THREE from 'three';
+
+interface Libs {
+  THREE: typeof THREE;
+  postprocessing: typeof Postprocessing;
+}
 
 interface TouchPoint {
   x: number;
@@ -25,7 +31,7 @@ interface TouchTexture {
   size: number;
 }
 
-const createTouchTexture = (): TouchTexture => {
+const createTouchTexture = ({ THREE }: Libs): TouchTexture => {
   const size = 64;
   const canvas = document.createElement('canvas');
   canvas.width = size;
@@ -117,6 +123,7 @@ const createTouchTexture = (): TouchTexture => {
 };
 
 const createLiquidEffect = (
+  { THREE, postprocessing }: Libs,
   texture: THREE.Texture,
   opts?: { strength?: number; freq?: number },
 ) => {
@@ -139,7 +146,7 @@ const createLiquidEffect = (
       uv += vec2(vx, vy) * amt;
     }
     `;
-  return new Effect('LiquidEffect', fragment, {
+  return new postprocessing.Effect('LiquidEffect', fragment, {
     uniforms: new Map<string, THREE.Uniform>([
       ['uTexture', new THREE.Uniform(texture)],
       ['uStrength', new THREE.Uniform(opts?.strength ?? 0.025)],
@@ -391,9 +398,9 @@ interface ThreeState {
   raf: number;
   quad: THREE.Mesh;
   timeOffset: number;
-  composer?: EffectComposer;
+  composer?: Postprocessing.EffectComposer;
   touch?: TouchTexture;
-  liquidEffect?: Effect;
+  liquidEffect?: Postprocessing.Effect;
 }
 
 export default function AuthAnimation({
@@ -429,10 +436,29 @@ export default function AuthAnimation({
 
   const threeRef = useRef<ThreeState | null>(null);
   const prevConfigRef = useRef<Record<string, unknown> | null>(null);
+  const isMobile = useIsMobile();
+  const [libs, setLibs] = useState<Libs | null>(null);
+
+  useEffect(() => {
+    if (libs || isMobile || isMobileViewport()) return;
+    let cancelled = false;
+    void Promise.all([import('three'), import('postprocessing')]).then(
+      ([three, postprocessing]) => {
+        if (!cancelled) setLibs({ THREE: three, postprocessing });
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [libs, isMobile]);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || !libs) return;
+    const {
+      THREE,
+      postprocessing: { Effect, EffectComposer, EffectPass, RenderPass },
+    } = libs;
     speedRef.current = speed;
     const needsReinitKeys = ['antialias', 'liquid', 'noiseAmount'];
     const cfg: Record<string, unknown> = { antialias, liquid, noiseAmount };
@@ -543,16 +569,16 @@ export default function AuthAnimation({
         return Math.random();
       };
       const timeOffset = randomFloat() * 1000;
-      let composer: EffectComposer | undefined;
+      let composer: Postprocessing.EffectComposer | undefined;
       let touch: TouchTexture | undefined;
-      let liquidEffect: Effect | undefined;
+      let liquidEffect: Postprocessing.Effect | undefined;
 
       if (liquid) {
-        touch = createTouchTexture();
+        touch = createTouchTexture(libs);
         touch.radiusScale = liquidRadius;
         composer = new EffectComposer(renderer);
         const renderPass = new RenderPass(scene, camera);
-        liquidEffect = createLiquidEffect(touch.texture, {
+        liquidEffect = createLiquidEffect(libs, touch.texture, {
           strength: liquidStrength,
           freq: liquidWobbleSpeed,
         });
@@ -642,7 +668,8 @@ export default function AuthAnimation({
         if (composer) {
           if (touch) touch.update();
           composer.passes.forEach((p) => {
-            const effs = (p as unknown as { effects?: Effect[] }).effects;
+            const effs = (p as unknown as { effects?: Postprocessing.Effect[] })
+              .effects;
             if (effs) {
               effs.forEach((eff) => {
                 const u = eff.uniforms?.get('uTime');
@@ -717,6 +744,7 @@ export default function AuthAnimation({
       threeRef.current = null;
     };
   }, [
+    libs,
     antialias,
     liquid,
     noiseAmount,

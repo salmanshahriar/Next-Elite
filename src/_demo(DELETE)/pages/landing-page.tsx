@@ -1,12 +1,12 @@
 'use client';
 
-import { BetterAuthIcon, GithubIcon, VercelIcon } from '@/components/icons';
+import { BetterAuthIcon, GithubIcon, VercelIcon } from '@/_demo(DELETE)/icons';
 import TextLink from '@/components/shared/text-link';
 import {
   ShowcaseDashboard,
   ShowcaseData,
   ShowcaseProfile,
-} from '@/components/shared/ui-showcase';
+} from '@/_demo(DELETE)/components/ui-showcase';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
@@ -21,20 +21,15 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
+import { HOME_FEATURES } from '@/_demo(DELETE)/pages/landing-features';
 import {
-  CalendarIcon as CalendarIcon,
+  CalendarIcon,
   CheckIcon,
   CopyIcon,
-  CpuIcon,
-  FileTextIcon,
-  FlaskIcon,
-  GlobeIcon,
-  MagnifyingGlassIcon,
-  ShuffleIcon,
   StarIcon,
   TerminalIcon,
-  type Icon,
 } from '@phosphor-icons/react';
+import { useLocale, useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -51,6 +46,8 @@ export const LandingPage = () => {
 };
 
 const HeroSection = () => {
+  const t = useTranslations('home.hero');
+  const locale = useLocale();
   const [githubStars, setGithubStars] = useState<string | null>(null);
   const [switchChecked, setSwitchChecked] = useState<boolean>(true);
   const [checkboxChecked, setCheckboxChecked] = useState<boolean>(true);
@@ -79,10 +76,10 @@ const HeroSection = () => {
   }, []);
 
   const LIGHTHOUSE_SCORES = [
-    { label: 'Performance', delay: 100 },
-    { label: 'Accessibility', delay: 250 },
-    { label: 'Best Practices', delay: 400 },
-    { label: 'SEO', delay: 550 },
+    { id: 'performance', delay: 100 },
+    { id: 'accessibility', delay: 250 },
+    { id: 'bestPractices', delay: 400 },
+    { id: 'seo', delay: 550 },
   ] as const;
 
   const HeroCard = ({
@@ -128,7 +125,7 @@ const HeroSection = () => {
           className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
         >
           <VercelIcon className="size-3.5 shrink-0" />
-          Deploy to Vercel
+          {t('deployToVercel')}
         </a>
         <a
           href="https://github.com/salmanshahriar/Next-Elite"
@@ -137,7 +134,7 @@ const HeroSection = () => {
           className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50"
         >
           <GithubIcon className="size-4 shrink-0" />
-          Star on GitHub
+          {t('starOnGithub')}
           {githubStars ? (
             <span className="text-muted-foreground">{githubStars}</span>
           ) : null}
@@ -146,7 +143,7 @@ const HeroSection = () => {
     );
   };
 
-  const formattedDate = selectedDate?.toLocaleDateString('en-US', {
+  const formattedDate = selectedDate?.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',
   });
@@ -169,7 +166,7 @@ const HeroSection = () => {
           title={
             <>
               <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
-                50+ custom, reusable components
+                {t('components.title')}
               </span>
               <span className="text-foreground/80">
                 {' - '}
@@ -177,30 +174,30 @@ const HeroSection = () => {
                   href="/ui-components"
                   variant="underlined"
                   className="text-primary hover:text-primary/80"
-                  aria-label="see all 50+ custom, reusable components"
+                  aria-label={t('components.seeAllLabel')}
                 >
-                  see all
+                  {t('components.seeAll')}
                 </TextLink>
               </span>
             </>
           }
-          description="Accelerate your workflow with a vast collection of accessible, fully customizable Tailwind CSS and Radix UI components designed for modern web apps."
+          description={t('components.description')}
         >
           <div className="flex flex-col items-center gap-6 select-none md:flex-row md:gap-12">
             <div className="flex flex-col items-center gap-3">
               <div className="flex items-center gap-2.5">
                 <Button variant="primary" size="sm" className="h-9 w-24">
-                  Primary
+                  {t('demo.primary')}
                 </Button>
                 <Button variant="success" size="sm" className="h-9 w-24">
-                  Success
+                  {t('demo.success')}
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   className="hidden h-9 w-24 sm:inline-flex"
                 >
-                  Outline
+                  {t('demo.outline')}
                 </Button>
               </div>
               <div className="flex items-center gap-3">
@@ -209,15 +206,15 @@ const HeroSection = () => {
                   size="sm"
                   className="h-9 w-24"
                 >
-                  Destructive
+                  {t('demo.destructive')}
                 </Button>
                 <Button loading size="sm" className="h-9 w-24">
-                  Loading
+                  {t('demo.loading')}
                 </Button>
                 <Button
                   variant="primary"
                   size="icon"
-                  aria-label="Demo star button"
+                  aria-label={t('demo.starLabel')}
                   className="hidden size-9 sm:inline-flex"
                 >
                   <StarIcon
@@ -233,14 +230,14 @@ const HeroSection = () => {
                   checked={switchChecked}
                   onCheckedChange={setSwitchChecked}
                   size="lg"
-                  aria-label="Demo switch"
+                  aria-label={t('demo.switchLabel')}
                 />
                 <Checkbox
                   checked={checkboxChecked}
                   onCheckedChange={(checked) =>
                     setCheckboxChecked(checked === true)
                   }
-                  aria-label="Demo checkbox"
+                  aria-label={t('demo.checkboxLabel')}
                 />
               </div>
               <Popover>
@@ -248,12 +245,12 @@ const HeroSection = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    aria-label="Demo pick date button"
+                    aria-label={t('demo.pickDateLabel')}
                     className="h-10 w-36 justify-start gap-2 border-border/80 px-4 text-sm font-medium hover:border-primary/50 hover:bg-muted/30"
                   >
                     <CalendarIcon className="size-4 text-muted-foreground" />
                     <span className="truncate" suppressHydrationWarning>
-                      {formattedDate ?? 'Pick date'}
+                      {formattedDate ?? t('demo.pickDate')}
                     </span>
                   </Button>
                 </PopoverTrigger>
@@ -276,10 +273,10 @@ const HeroSection = () => {
         <HeroCard
           title={
             <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
-              Instant Deployment
+              {t('deployment.title')}
             </span>
           }
-          description="Deploy Next-Elite directly to Vercel's global edge network with a seamless, single-click integration."
+          description={t('deployment.description')}
         >
           <a
             href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
@@ -288,7 +285,7 @@ const HeroSection = () => {
             className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-sans text-xs font-medium text-white transition-transform duration-200 select-none hover:scale-105 dark:bg-white dark:text-black"
           >
             <VercelIcon className="h-3 w-auto" />
-            Deploy to Vercel
+            {t('deployToVercel')}
           </a>
         </HeroCard>
 
@@ -296,16 +293,16 @@ const HeroSection = () => {
           large
           title={
             <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
-              Blazing Fast Speeds
+              {t('speed.title')}
             </span>
           }
-          description="Performance optimized for maximum efficiency. Experience instant page loads, highly optimized static assets, and elite Lighthouse scores across accessibility, SEO, and best practices."
+          description={t('speed.description')}
         >
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {LIGHTHOUSE_SCORES.map(({ label, delay }) => (
+            {LIGHTHOUSE_SCORES.map(({ id, delay }) => (
               <DynamicChart
-                key={label}
-                label={label}
+                key={id}
+                label={t(`speed.lighthouse.${id}`)}
                 value={100}
                 delay={delay}
               />
@@ -316,10 +313,10 @@ const HeroSection = () => {
         <HeroCard
           title={
             <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
-              RBAC & Better Auth
+              {t('auth.title')}
             </span>
           }
-          description="Enterprise-grade auth with Better Auth - email/password, Google OAuth, session handling, and permission-based RBAC out of the box."
+          description={t('auth.description')}
         >
           <BetterAuthIcon className="h-28 w-auto text-foreground transition-transform duration-200 select-none hover:scale-105" />
         </HeroCard>
@@ -329,28 +326,30 @@ const HeroSection = () => {
 };
 
 const UiShowcaseSection = () => {
+  const t = useTranslations('home.showcase');
+
   return (
     <section className="mx-auto w-full max-w-7xl space-y-2 px-4">
       <h2 className="text-center text-2xl font-extrabold tracking-tight">
-        Built with components
+        {t('title')}
         <span className="text-foreground/80">
           {' - '}
           <TextLink
             href="/ui-components"
             variant="underlined"
             className="text-primary hover:text-primary/80"
-            aria-label="see all components used to build these screens"
+            aria-label={t('seeAllLabel')}
           >
-            see all
+            {t('seeAll')}
           </TextLink>
         </span>
       </h2>
 
       <Tabs defaultValue="dashboard" className="gap-6">
         <TabsList className="mx-auto">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="data">Data</TabsTrigger>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="dashboard">{t('tabs.dashboard')}</TabsTrigger>
+          <TabsTrigger value="data">{t('tabs.data')}</TabsTrigger>
+          <TabsTrigger value="profile">{t('tabs.profile')}</TabsTrigger>
         </TabsList>
         <Card variant="glow" className="p-4 md:p-6">
           <TabsContent value="dashboard">
@@ -369,17 +368,7 @@ const UiShowcaseSection = () => {
 };
 
 const FeaturesSection = () => {
-  type HomeFeatureDetail = {
-    text: string;
-    highlights?: readonly string[];
-  };
-
-  type HomeFeature = {
-    icon: Icon;
-    title: string;
-    description: string;
-    details: readonly HomeFeatureDetail[];
-  };
+  const t = useTranslations('home.features');
 
   const renderHighlightedText = (
     text: string,
@@ -403,132 +392,15 @@ const FeaturesSection = () => {
     );
   };
 
-  const homeFeatures: readonly HomeFeature[] = [
-    {
-      icon: CpuIcon,
-      title: 'Modern stack, lean setup',
-      description: 'API-first Next.js starter. No database bundled.',
-      details: [
-        {
-          text: 'Next.js 16, React 19, and TypeScript ready to go',
-          highlights: ['Next.js 16', 'React 19', 'TypeScript'],
-        },
-        {
-          text: 'Organized feature folders in src/features/',
-          highlights: ['src/features/'],
-        },
-        {
-          text: 'Tailwind CSS 4, shadcn/ui, and TanStack Query included',
-          highlights: ['Tailwind CSS 4', 'shadcn/ui', 'TanStack Query'],
-        },
-      ],
-    },
-    {
-      icon: MagnifyingGlassIcon,
-      title: 'SEO + PWA, server-first',
-      description: 'Server-built SEO and installable PWA.',
-      details: [
-        {
-          text: 'site.config.json powers SEO, sitemap, robots, and manifest',
-          highlights: ['site.config.json'],
-        },
-        {
-          text: 'Open Graph, Twitter cards, and JSON-LD for rich previews',
-          highlights: ['Open Graph', 'JSON-LD'],
-        },
-        {
-          text: 'llms.txt for AI discovery; Sentry and /api/health monitoring',
-          highlights: ['llms.txt', 'Sentry', '/api/health'],
-        },
-      ],
-    },
-    {
-      icon: FlaskIcon,
-      title: 'Testing & quality gates',
-      description: 'Tests and lint in one command.',
-      details: [
-        {
-          text: 'Oxlint + Oxfmt, Knip, Lefthook, and Commitlint on commit',
-          highlights: ['Oxlint + Oxfmt', 'Knip', 'Lefthook'],
-        },
-        {
-          text: 'Vitest unit tests with renderWithProviders helper',
-          highlights: ['Vitest', 'renderWithProviders'],
-        },
-        {
-          text: 'Playwright end-to-end tests in local dev and CI',
-          highlights: ['Playwright'],
-        },
-      ],
-    },
-    {
-      icon: ShuffleIcon,
-      title: 'Parallel routing',
-      description: 'Auth and role-based dashboards.',
-      details: [
-        {
-          text: '@admin and @user slots, one /dashboard URL for all',
-          highlights: ['@admin', '@user', '/dashboard'],
-        },
-        {
-          text: 'Email, password, and Google sign-in with Better Auth',
-          highlights: ['Better Auth'],
-        },
-        {
-          text: 'Admin and user roles protected with requirePermission',
-          highlights: ['requirePermission'],
-        },
-      ],
-    },
-    {
-      icon: GlobeIcon,
-      title: 'Type-safe i18n',
-      description: 'Six languages. No locale in the URL.',
-      details: [
-        {
-          text: 'English, Bengali, Arabic RTL, French, Spanish, and Chinese',
-          highlights: ['RTL'],
-        },
-        {
-          text: 'NEXT_LOCALE cookie remembers language without prefixes',
-          highlights: ['NEXT_LOCALE'],
-        },
-        {
-          text: 'next-intl catches missing translation keys at build time',
-          highlights: ['next-intl'],
-        },
-      ],
-    },
-    {
-      icon: FileTextIcon,
-      title: 'Forms + validation',
-      description: 'Accessible forms with Zod validation.',
-      details: [
-        {
-          text: 'Zod schemas for login, sign-up, and password reset',
-          highlights: ['Zod'],
-        },
-        {
-          text: 'React Hook Form + zodResolver for type-safe input',
-          highlights: ['React Hook Form', 'zodResolver'],
-        },
-        {
-          text: 'InputError shows helpful inline messages per field',
-          highlights: ['InputError'],
-        },
-      ],
-    },
-  ];
-
   return (
     <section className="mx-auto w-full max-w-7xl space-y-4 px-4">
       <h2 className="text-center text-2xl font-extrabold tracking-tight">
-        More features
+        {t('title')}
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {homeFeatures.map(({ icon: Icon, title, description, details }) => (
+        {HOME_FEATURES.map(({ id, icon: Icon, details }) => (
           <Card
-            key={title}
+            key={id}
             variant="glow"
             className={cn(
               'row-span-2 grid grid-rows-subgrid p-6',
@@ -541,21 +413,21 @@ const FeaturesSection = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <h3 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-base font-extrabold tracking-tight text-transparent">
-                  {title}
+                  {t(`${id}.title`)}
                 </h3>
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                  {description}
+                  {t(`${id}.description`)}
                 </p>
               </div>
             </div>
             <ul className="space-y-2.5 text-[11px] text-muted-foreground">
               {details.map((detail) => (
-                <li key={detail.text} className="flex items-start gap-2.5">
+                <li key={detail.key} className="flex items-start gap-2.5">
                   <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <CheckIcon weight="bold" className="size-2.5" />
                   </div>
                   <span className="leading-normal">
-                    {renderHighlightedText(detail.text, detail.highlights)}
+                    {renderHighlightedText(t(detail.key), detail.highlights)}
                   </span>
                 </li>
               ))}
@@ -568,6 +440,7 @@ const FeaturesSection = () => {
 };
 
 const FooterSection = () => {
+  const t = useTranslations('home');
   const [copied, setCopied] = useState<boolean>(false);
   const [githubStars, setGithubStars] = useState<string | null>(null);
 
@@ -611,7 +484,7 @@ const FooterSection = () => {
           className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:w-auto"
         >
           <VercelIcon className="size-3.5 shrink-0" />
-          Deploy to Vercel
+          {t('hero.deployToVercel')}
         </a>
         <a
           href="https://github.com/salmanshahriar/Next-Elite"
@@ -620,7 +493,7 @@ const FooterSection = () => {
           className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50 sm:w-auto"
         >
           <GithubIcon className="size-4 shrink-0" />
-          Star on GitHub
+          {t('hero.starOnGithub')}
           {githubStars ? (
             <span className="text-muted-foreground">{githubStars}</span>
           ) : null}
@@ -669,10 +542,10 @@ const FooterSection = () => {
     try {
       await navigator.clipboard.writeText(INSTALL_COMMANDS);
       setCopied(true);
-      toast.success('Copied to clipboard');
+      toast.success(t('footer.copiedToast'));
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error('Could not copy commands');
+      toast.error(t('footer.copyError'));
     }
   };
 
@@ -683,12 +556,10 @@ const FooterSection = () => {
           <div className="flex flex-col gap-5 lg:col-span-2">
             <div className="space-y-3">
               <h2 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-2xl font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-4xl">
-                Get started in minutes
+                {t('footer.title')}
               </h2>
               <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Clone the repository, copy the local environment, install
-                dependencies, launch your developer server and customize the
-                application as you like and deploy.
+                {t('footer.description')}
               </p>
             </div>
             <FooterActions />
@@ -705,7 +576,7 @@ const FooterSection = () => {
                   <TerminalIcon className="size-4" aria-hidden />
                 </span>
                 <span className="text-sm font-semibold text-foreground">
-                  Install & run
+                  {t('footer.installTitle')}
                 </span>
               </div>
               <Button
@@ -714,17 +585,19 @@ const FooterSection = () => {
                 size="sm"
                 className="h-8 gap-1.5 border-border/50 bg-background/40 px-3 text-xs backdrop-blur-sm"
                 onClick={() => copyInstallCommands()}
-                aria-label={copied ? 'Copied' : 'Copy commands'}
+                aria-label={copied ? t('footer.copied') : t('footer.copyLabel')}
               >
                 {copied ? (
                   <>
                     <CheckIcon className="size-3.5" />
-                    <span className="hidden sm:inline">Copied</span>
+                    <span className="hidden sm:inline">
+                      {t('footer.copied')}
+                    </span>
                   </>
                 ) : (
                   <>
                     <CopyIcon className="size-3.5" />
-                    <span className="hidden sm:inline">Copy</span>
+                    <span className="hidden sm:inline">{t('footer.copy')}</span>
                   </>
                 )}
               </Button>

@@ -19,6 +19,7 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "knip": "knip",
+    "demo:remove": "node scripts/remove-demo.mjs",
     "check": "npm run typecheck && npm run lint && npm run knip && npm run test",
     "test": "vitest run --config config/vitest.config.ts",
     "test:watch": "vitest --config config/vitest.config.ts",
@@ -122,10 +123,9 @@
     }
   },
   "allowScripts": {
-    "@sentry/cli@2.58.6": true,
-    "lefthook@2.1.10": true,
-    "sharp@0.35.4": true,
-    "@parcel/watcher@2.6.0": true,
-    "@swc/core@1.15.47": true
+    "@parcel/watcher": true,
+    "@swc/core": true,
+    "fsevents": false,
+    "lefthook": true
   }
 }

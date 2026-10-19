@@ -7,17 +7,20 @@ test('home page loads', async ({ page }) => {
   );
 });
 
-test('home page has source code link', async ({ page }) => {
-  await page.goto('/');
-  const links = page.getByRole('link', { name: /source code|github/i });
-  await expect(links.first()).toBeVisible();
-});
-
 test('health check returns ok', async ({ request }) => {
   const res = await request.get('/api/health');
   expect(res.ok()).toBeTruthy();
   const body = await res.json();
   expect(body).toEqual({ status: 'ok' });
+});
+
+test('pages cannot be framed by other sites', async ({ request }) => {
+  const res = await request.get('/login');
+  const headers = res.headers();
+  expect(headers['x-frame-options']).toBe('DENY');
+  expect(headers['content-security-policy']).toContain(
+    "frame-ancestors 'none'",
+  );
 });
 
 test('login page loads', async ({ page }) => {

@@ -13,7 +13,6 @@ jobs:
     timeout-minutes: 30
 
     env:
-      SKIP_ENV_VALIDATION: 'true'
       BETTER_AUTH_SECRET: 'thisIsATestOnlySecretKeyOfAtLeast32Chars'
       BETTER_AUTH_URL: 'http://127.0.0.1:6767'
 

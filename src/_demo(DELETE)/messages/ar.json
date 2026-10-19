@@ -1,0 +1,152 @@
+{
+  "navigation": {
+    "uiComponents": "مكونات الواجهة"
+  },
+  "auth": {
+    "login": {
+      "clickToFill": "انقر لملء بيانات الاعتماد"
+    }
+  },
+  "home": {
+    "hero": {
+      "deployToVercel": "النشر على Vercel",
+      "starOnGithub": "أضف نجمة على GitHub",
+      "components": {
+        "title": "أكثر من 50 مكوّنًا مخصصًا وقابلًا لإعادة الاستخدام",
+        "seeAll": "عرض الكل",
+        "seeAllLabel": "عرض أكثر من 50 مكوّنًا مخصصًا وقابلًا لإعادة الاستخدام",
+        "description": "سرّع سير عملك مع مجموعة واسعة من مكوّنات Tailwind CSS وRadix UI سهلة الوصول وقابلة للتخصيص بالكامل، مصممة لتطبيقات الويب الحديثة."
+      },
+      "demo": {
+        "primary": "أساسي",
+        "success": "نجاح",
+        "outline": "محدد",
+        "destructive": "خطر",
+        "loading": "جارٍ التحميل",
+        "starLabel": "زر نجمة تجريبي",
+        "switchLabel": "مفتاح تجريبي",
+        "checkboxLabel": "مربع اختيار تجريبي",
+        "pickDate": "اختر تاريخًا",
+        "pickDateLabel": "زر تجريبي لاختيار التاريخ"
+      },
+      "deployment": {
+        "title": "نشر فوري",
+        "description": "انشر Next-Elite مباشرة على شبكة Vercel العالمية الطرفية بتكامل سلس بنقرة واحدة."
+      },
+      "speed": {
+        "title": "سرعة فائقة",
+        "description": "أداء محسّن لأقصى كفاءة. تحميل فوري للصفحات، وأصول ثابتة محسّنة للغاية، ونتائج Lighthouse ممتازة في سهولة الوصول وSEO وأفضل الممارسات.",
+        "lighthouse": {
+          "performance": "الأداء",
+          "accessibility": "سهولة الوصول",
+          "bestPractices": "أفضل الممارسات",
+          "seo": "SEO"
+        }
+      },
+      "auth": {
+        "title": "RBAC وBetter Auth",
+        "description": "مصادقة بمستوى المؤسسات مع Better Auth - البريد الإلكتروني/كلمة المرور، وGoogle OAuth، وإدارة الجلسات، وRBAC قائم على الصلاحيات جاهزة للاستخدام."
+      }
+    },
+    "showcase": {
+      "title": "مبني بالمكوّنات",
+      "seeAll": "عرض الكل",
+      "seeAllLabel": "عرض جميع المكوّنات المستخدمة لبناء هذه الشاشات",
+      "tabs": {
+        "dashboard": "لوحة التحكم",
+        "data": "البيانات",
+        "profile": "الملف الشخصي"
+      }
+    },
+    "features": {
+      "title": "مزيد من الميزات",
+      "stack": {
+        "title": "حزمة حديثة وإعداد خفيف",
+        "description": "قالب Next.js يعتمد على API أولًا. لا توجد قاعدة بيانات مضمّنة.",
+        "details": {
+          "versions": "Next.js 16 وReact 19 وTypeScript جاهزة للاستخدام",
+          "folders": "مجلدات ميزات منظمة في src/features/",
+          "styling": "Tailwind CSS 4 وshadcn/ui وTanStack Query مضمّنة"
+        }
+      },
+      "seo": {
+        "title": "SEO وPWA، الخادم أولًا",
+        "description": "SEO مُنشأ على الخادم وتطبيق PWA قابل للتثبيت.",
+        "details": {
+          "config": "ملف site.config.json يشغّل SEO وخريطة الموقع وrobots وملف manifest",
+          "previews": "Open Graph وبطاقات Twitter وJSON-LD لمعاينات غنية",
+          "monitoring": "ملف llms.txt لاكتشاف الذكاء الاصطناعي؛ ومراقبة عبر Sentry و/api/health"
+        }
+      },
+      "quality": {
+        "title": "الاختبارات وبوابات الجودة",
+        "description": "الاختبارات والفحص في أمر واحد.",
+        "details": {
+          "tooling": "Oxlint + Oxfmt وKnip وLefthook وCommitlint عند كل commit",
+          "unit": "اختبارات وحدات Vitest مع المساعد renderWithProviders",
+          "e2e": "اختبارات Playwright الشاملة محليًا وفي CI"
+        }
+      },
+      "routing": {
+        "title": "التوجيه المتوازي",
+        "description": "مصادقة ولوحات تحكم حسب الدور.",
+        "details": {
+          "slots": "خانتا @admin و@user، ورابط /dashboard واحد للجميع",
+          "signIn": "تسجيل الدخول بالبريد الإلكتروني وكلمة المرور وGoogle عبر Better Auth",
+          "roles": "أدوار المسؤول والمستخدم محمية بـ requirePermission"
+        }
+      },
+      "i18n": {
+        "title": "تدويل آمن الأنواع",
+        "description": "ست لغات. بدون لغة في الرابط.",
+        "details": {
+          "languages": "الإنجليزية والبنغالية والعربية RTL والفرنسية والإسبانية والصينية",
+          "cookie": "ملف تعريف الارتباط NEXT_LOCALE يتذكر اللغة دون بادئات",
+          "keys": "تكتشف next-intl مفاتيح الترجمة المفقودة وقت البناء"
+        }
+      },
+      "forms": {
+        "title": "النماذج والتحقق",
+        "description": "نماذج سهلة الوصول مع تحقق Zod.",
+        "details": {
+          "schemas": "مخططات Zod لتسجيل الدخول والتسجيل وإعادة تعيين كلمة المرور",
+          "hookForm": "React Hook Form + zodResolver لإدخال آمن الأنواع",
+          "errors": "يعرض InputError رسائل مفيدة بجانب كل حقل"
+        }
+      }
+    },
+    "footer": {
+      "title": "ابدأ في دقائق",
+      "description": "استنسخ المستودع، وانسخ ملف البيئة المحلية، وثبّت الاعتماديات، وشغّل خادم التطوير، ثم خصّص التطبيق كما تشاء وانشره.",
+      "installTitle": "التثبيت والتشغيل",
+      "copy": "نسخ",
+      "copied": "تم النسخ",
+      "copyLabel": "نسخ الأوامر",
+      "copiedToast": "تم النسخ إلى الحافظة",
+      "copyError": "تعذّر نسخ الأوامر"
+    }
+  },
+  "uiComponents": {
+    "title": "مكونات الواجهة",
+    "description": "تصفح أكثر من 50 مكونًا من shadcn/ui والمكونات المخصصة مع المتغيرات والأحجام والحالات التفاعلية.",
+    "onThisPage": "في هذه الصفحة",
+    "sections": {
+      "actions": "الإجراءات",
+      "actionsDesc": "الأزرار والمفاتيح والإجراءات المجمعة.",
+      "forms": "النماذج",
+      "formsDesc": "حقول الإدخال والمنتقيات والنماذج مع التحقق.",
+      "charts": "البيانات والرسوم البيانية",
+      "chartsDesc": "رسوم بيانية وجداول بيانات وبطاقات إحصائية.",
+      "dataDisplay": "عرض البيانات",
+      "dataDisplayDesc": "بطاقات وصور رمزية وشارات ومؤشرات حالة.",
+      "feedback": "التعليقات",
+      "feedbackDesc": "تنبيهات وإشعارات وتقدّم وحالات تحميل.",
+      "overlays": "الطبقات",
+      "overlaysDesc": "نوافذ حوار ولوحات جانبية ونوافذ منبثقة وقوائم وتلميحات.",
+      "navigation": "التنقل",
+      "navigationDesc": "قوائم وعلامات تبويب ومسارات تنقل وروابط.",
+      "layout": "التخطيط",
+      "layoutDesc": "أكورديون وأقسام قابلة للطي ودوّارات وفواصل."
+    }
+  }
+}

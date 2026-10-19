@@ -37,8 +37,8 @@
     "profile": "个人资料",
     "settings": "设置",
     "logout": "退出登录",
+    "accountMenu": "账户菜单",
     "login": "登录",
-    "uiComponents": "UI 组件",
     "workspace": "工作区",
     "analytics": "分析"
   },
@@ -54,7 +54,6 @@
       "noAccount": "还没有账号？",
       "signUp": "注册",
       "invalidCredentials": "凭据无效。",
-      "clickToFill": "点击填充凭据",
       "signInWithGoogle": "使用 Google 登录",
       "orContinueWith": "或继续使用"
     },
@@ -78,20 +77,6 @@
       "email": "电子邮件",
       "submit": "发送重置链接",
       "submitted": "如果该邮箱存在账号，您将很快收到重置链接。"
-    }
-  },
-  "home": {
-    "features": {
-      "typeSafe": "类型安全的多语言引擎",
-      "localStorage": "跨会话的语言保留",
-      "rtl": "原生支持阿拉伯语 RTL",
-      "rbac": "高级角色访问控制 (RBAC)",
-      "seo": "程序化 SEO 和动态元数据",
-      "production": "针对生产优化的 SaaS 架构",
-      "stack": "Next.js 16、React 19、TypeScript 和 Tailwind v4",
-      "ui-experience": "完全可定制的 shadcn/ui 组件",
-      "testing": "Vitest + Playwright，含 renderWithProviders 辅助函数",
-      "tooling": "Oxlint + Oxfmt，配合 Lefthook 预提交钩子"
     }
   },
   "dashboard": {
@@ -138,36 +123,15 @@
     "language": "语言",
     "tools": "工具"
   },
-  "uiComponents": {
-    "title": "UI 组件",
-    "description": "浏览 50+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
-    "onThisPage": "本页目录",
-    "sections": {
-      "actions": "操作",
-      "actionsDesc": "按钮、开关和组合操作。",
-      "forms": "表单",
-      "formsDesc": "输入框、选择器和带校验的表单。",
-      "charts": "数据与图表",
-      "chartsDesc": "图表、数据表格和统计卡片。",
-      "dataDisplay": "数据展示",
-      "dataDisplayDesc": "卡片、头像、徽章和状态指示器。",
-      "feedback": "反馈",
-      "feedbackDesc": "提示、通知、进度和加载状态。",
-      "overlays": "浮层",
-      "overlaysDesc": "对话框、抽屉、弹出框、菜单和工具提示。",
-      "navigation": "导航",
-      "navigationDesc": "菜单、标签页、面包屑和链接。",
-      "layout": "布局",
-      "layoutDesc": "手风琴、折叠面板、轮播和分隔线。"
-    }
-  },
   "errors": {
-    "404": "页面未找到",
     "401": "未授权",
     "403": "禁止访问",
+    "404": "页面未找到",
     "500": "内部服务器错误",
     "generic": "出错了，请稍后再试。",
     "unauthorizedDescription": "您没有权限访问此页面。",
-    "goToDashboard": "前往仪表板"
+    "goToDashboard": "前往仪表板",
+    "tryAgain": "重试",
+    "backToHome": "返回首页"
   }
 }

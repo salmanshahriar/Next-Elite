@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@/libs/utils';
-import createGlobe from 'cobe';
 import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
+import { isMobileViewport, useIsMobile } from '@/hooks/use-mobile';
 import { useEffect, useRef } from 'react';
 
 type Rgb = [number, number, number];
@@ -30,57 +30,70 @@ export default function AuthGlobe({ className }: AuthGlobeProps) {
   const dragStartX = useRef<number | null>(null);
   const dragOffset = useRef(0);
   const isDark = useIsDarkTheme();
+  const isMobile = useIsMobile();
   const glowColor = useRef(GLOBE_THEME.glowColor);
   glowColor.current = isDark ? GLOBE_THEME.glowColor : LIGHT_GLOW;
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || isMobile || isMobileViewport()) return;
 
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-    const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
-    let size = canvas.offsetWidth;
-    let phi = ASIA_PHI;
-    let frame = 0;
+    let cancelled = false;
+    let destroy: (() => void) | undefined;
 
-    const globe = createGlobe(canvas, {
-      ...GLOBE_THEME,
-      width: size * devicePixelRatio,
-      height: size * devicePixelRatio,
-      devicePixelRatio,
-      phi,
-      theta: 0.25,
-      mapSamples: 16000,
-      markerColor: BRAND,
-    });
+    void import('cobe').then(({ default: createGlobe }) => {
+      if (cancelled) return;
 
-    const resizeObserver = new ResizeObserver(() => {
-      size = canvas.offsetWidth;
-    });
-    resizeObserver.observe(canvas);
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+      const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
+      let size = canvas.offsetWidth;
+      let phi = ASIA_PHI;
+      let frame = 0;
 
-    const render = () => {
-      if (dragStartX.current === null && !reduceMotion) phi += 0.001;
-      globe.update({
-        glowColor: glowColor.current,
-        phi: phi + dragOffset.current,
+      const globe = createGlobe(canvas, {
+        ...GLOBE_THEME,
         width: size * devicePixelRatio,
         height: size * devicePixelRatio,
+        devicePixelRatio,
+        phi,
+        theta: 0.25,
+        mapSamples: 16000,
+        markerColor: BRAND,
       });
-      frame = requestAnimationFrame(render);
-    };
-    render();
 
-    canvas.style.opacity = '1';
+      const resizeObserver = new ResizeObserver(() => {
+        size = canvas.offsetWidth;
+      });
+      resizeObserver.observe(canvas);
+
+      const render = () => {
+        if (dragStartX.current === null && !reduceMotion) phi += 0.001;
+        globe.update({
+          glowColor: glowColor.current,
+          phi: phi + dragOffset.current,
+          width: size * devicePixelRatio,
+          height: size * devicePixelRatio,
+        });
+        frame = requestAnimationFrame(render);
+      };
+      render();
+
+      canvas.style.opacity = '1';
+
+      destroy = () => {
+        cancelAnimationFrame(frame);
+        resizeObserver.disconnect();
+        globe.destroy();
+      };
+    });
 
     return () => {
-      cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
-      globe.destroy();
+      cancelled = true;
+      destroy?.();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div
