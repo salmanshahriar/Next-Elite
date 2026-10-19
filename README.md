@@ -46,7 +46,7 @@ https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 
 **Highlights & Features:**
 
-- ⚡ **Next.js 16.3 + React 19** - Fast App Router, Turbopack, and Server Actions
+- ⚡ **Next.js 16.4 + React 19** - Fast App Router, Turbopack, and Server Actions
 - 🔥 **TypeScript 7** - End-to-end type safety across components and routes
 - ✨ **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
 - 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
@@ -72,7 +72,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ### Frameworks & Core
 
-- **Next.js 16.3 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19 features (Server/Client components, Server Actions).
+- **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19 features (Server/Client components, Server Actions).
 - **TypeScript 7** - End-to-end type safety for rock-solid refactoring and developer experience.
 - **Node.js 22** - Built on the latest LTS runtime.
 - **Feature-Based Architecture** - Structured around self-contained vertical slices/feature folders under `src/features/` for maximum modularity and clean separation of concerns.
@@ -370,7 +370,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
   "domain": "https://yourdomain.com",
   "tagline": "Frontend-first, API-driven, batteries included.",
   "title": "Next Elite - Production-Ready SaaS Boilerplate",
-  "description": "Frontend-first Next.js 16.3 + React 19 boilerplate with i18n, RBAC and BetterAuth."
+  "description": "Frontend-first Next.js 16.4 + React 19 boilerplate with i18n, RBAC and BetterAuth."
 }
 ```
 
