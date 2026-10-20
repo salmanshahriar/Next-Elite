@@ -26,7 +26,7 @@ function Progress({
         data-slot="progress-indicator"
         className={cn(
           variant === 'default' &&
-            'bg-progress shadow-progress h-full w-full flex-1 rounded-full transition-all',
+            'h-full w-full flex-1 rounded-full bg-primary transition-all',
           variant === 'success' &&
             'h-full w-full flex-1 bg-primary transition-all',
           variant === 'destructive' &&

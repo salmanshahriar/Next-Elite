@@ -12,7 +12,8 @@ type DynamicChartProps = {
 };
 
 const CHART_GLOW_STYLE = {
-  filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.45))',
+  filter:
+    'drop-shadow(0 0 4px color-mix(in oklch, currentColor 45%, transparent))',
 } as const;
 
 function DynamicChart({

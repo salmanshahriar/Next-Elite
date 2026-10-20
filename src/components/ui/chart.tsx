@@ -2,7 +2,9 @@
 
 import type { ApexOptions } from 'apexcharts';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
 import { cn } from '@/libs/utils';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -25,16 +27,30 @@ type ChartProps = {
   className?: string;
 };
 
+const resolveColor = (color: string) => {
+  const token = /^var\((--[\w-]+)\)$/.exec(color)?.[1];
+  return token
+    ? getComputedStyle(document.documentElement).getPropertyValue(token).trim()
+    : color;
+};
+
 function Chart({
   data,
   name = 'Value',
-  color = '#5c4beb',
+  color = 'var(--primary)',
   height = 250,
   formatValue = (value) => `${value}`,
   isLoading = false,
   className,
 }: ChartProps) {
-  if (isLoading) {
+  const isDark = useIsDarkTheme();
+  const [resolvedColor, setResolvedColor] = useState<string | null>(null);
+
+  useEffect(() => {
+    setResolvedColor(resolveColor(color));
+  }, [color, isDark]);
+
+  if (isLoading || !resolvedColor) {
     return <Skeleton className={cn('w-full', className)} style={{ height }} />;
   }
 
@@ -60,7 +76,7 @@ function Chart({
         type: 'vertical',
       },
     },
-    colors: [color],
+    colors: [resolvedColor],
     xaxis: {
       categories: data.map((d) => d.label),
       axisBorder: { show: false },

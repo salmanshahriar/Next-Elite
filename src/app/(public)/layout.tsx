@@ -10,11 +10,11 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
         className="pointer-events-none fixed inset-0 z-0 overflow-visible"
       >
         <BlurGlow
-          color="rgba(118, 99, 255, 0.28)"
+          color="var(--glow-accent)"
           className="top-0 right-0 h-[480px] w-[480px] translate-x-1/4 -translate-y-1/4"
         />
         <BlurGlow
-          color="rgba(118, 99, 255, 0.28)"
+          color="var(--glow-accent)"
           className="top-20 left-0 h-[480px] w-[480px] -translate-x-1/4"
         />
       </div>

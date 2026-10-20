@@ -54,7 +54,7 @@ function Card({
     >
       {variant === 'glow' && !nested ? (
         <BlurGlow
-          color="rgba(118, 99, 255, 0.14)"
+          color="var(--glow-accent-subtle)"
           className={CARD_GLOW_CLASS}
         />
       ) : null}
