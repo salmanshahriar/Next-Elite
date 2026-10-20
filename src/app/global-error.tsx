@@ -3,7 +3,6 @@
 import { fontSans } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
-import * as Sentry from '@sentry/nextjs';
 import { useEffect } from 'react';
 import './globals.css';
 
@@ -14,7 +13,9 @@ interface GlobalErrorProps {
 
 const GlobalError = ({ error, reset }: GlobalErrorProps) => {
   useEffect(() => {
-    Sentry.captureException(error);
+    void import('@sentry/nextjs').then((Sentry) =>
+      Sentry.captureException(error),
+    );
   }, [error]);
 
   return (

@@ -7,10 +7,8 @@ vi.mock('@/libs/env', () => ({
   },
 }));
 
-import {
-  getPermissionsForRole,
-  getRoleFromEmail,
-} from '@/features/auth/rbac/roles';
+import { getPermissionsForRole } from '@/features/auth/rbac/permissions';
+import { getRoleFromEmail } from '@/features/auth/rbac/roles';
 
 describe('roles', () => {
   describe('getPermissionsForRole', () => {

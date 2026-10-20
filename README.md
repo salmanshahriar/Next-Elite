@@ -1,7 +1,7 @@
 <h1 align="center">Next Elite</h1>
 
 <p align="center">
-  An open source Next.js boilerplate/starter kit with Frontend-focused + Api-driven + Developer-experience. It's designed to consume external backends (REST, GraphQL, or BFF) while giving you a polished starting with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
+  An open source, frontend-focused and API-driven Next.js boilerplate/starter kit built for developer experience. It's designed to consume external backends (REST, GraphQL, or BFF) and gives you a polished starting point with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
 </p
 <br/>
 <p align="center">
@@ -46,10 +46,11 @@ https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 
 **Highlights & Features:**
 
-- ⚡ **Next.js 16.4 + React 19** - Fast App Router, Turbopack, and Server Actions
+- ⚡ **Next.js 16.4 + React 19.3** - Fast App Router, Turbopack, and Server Actions
 - 🔥 **TypeScript 7** - End-to-end type safety across components and routes
 - ✨ **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
 - 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
+- 🧠 **AI Agent Ready** - `AGENTS.md` and a `project-standards` skill keep AI coding agents on the project's conventions
 - 🔐 **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
 - 🖼️ **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
 - 🎨 **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
@@ -72,15 +73,15 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ### Frameworks & Core
 
-- **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19 features (Server/Client components, Server Actions).
+- **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19.3 features (Server/Client components, Server Actions).
 - **TypeScript 7** - End-to-end type safety for rock-solid refactoring and developer experience.
-- **Node.js 22** - Built on the latest LTS runtime.
+- **Node.js 22.12+** - Built on the Node.js 22 LTS runtime.
 - **Feature-Based Architecture** - Structured around self-contained vertical slices/feature folders under `src/features/` for maximum modularity and clean separation of concerns.
 
 ### Authentication & Access Control
 
-- **BetterAuth** - Out-of-the-box email/password and Google OAuth authentication using `/api/auth/*` route handlers. Configure admin emails via `AUTH_ADMIN_EMAILS` or `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`.
-- **Auth UI & Layout** - Split-pane authentication pages with custom WebGL particle background animation, sticky topbar with back navigation, theme toggle, and language switcher.
+- **BetterAuth** - Out-of-the-box email/password and Google OAuth authentication using `/api/auth/*` route handlers. Configure admin emails via the comma-separated `AUTH_ADMIN_EMAILS` server variable.
+- **Auth UI & Layout** - Split-pane authentication pages with custom WebGL particle background animation, and a topbar with theme toggle and language switcher.
 - **Role-Based Access Control (RBAC)** - Flexible RBAC (`user` and `admin` roles) with server-side guards (`requireUser`, `requirePermission`) and parallel route slots (`@admin`, `@user`) for role-agnostic routing.
 - **Dashboard & Navigation** - Modern sidebar navigation with fixed bottom Settings (`/settings`) and Logout actions, collapsible state, mobile sheet, and topbar breadcrumbs.
 
@@ -91,6 +92,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 ### UI & Styling
 
 - **Tailwind CSS 4** - Utility-first styling with `@tailwindcss/postcss` and `tw-animate-css`.
+- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css`, mapped to Tailwind utilities (no hard-coded colors).
 - **shadcn/ui** - Highly customizable UI components built with Tailwind CSS, Radix UI, and CVA.
 - **Theme Support** - Easy light/dark mode transitions via theme toggle.
 
@@ -101,12 +103,13 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ### Observability & Infrastructure
 
-- **Sentry Integration** - Complete error tracking and performance instrumentation for client and server.
-- **Vercel Analytics** - Built-in page analytics via `@vercel/analytics`.
+- **Sentry Integration** - Error tracking and performance instrumentation for client and server. The browser SDK loads lazily and only when `NEXT_PUBLIC_SENTRY_DSN` is set, so it never blocks the first page load.
+- **Vercel Analytics** - Page analytics via `@vercel/analytics`, rendered only when deployed on Vercel.
 - **Health Probes** - Direct `GET /api/health` endpoint for load balancers.
 
 ### Quality Gates & Tooling
 
+- **Validated Config** - Env vars are validated on the server with T3 Env (`src/libs/env.ts`), and `site.config.json` is checked against its schema in unit tests, so neither ships zod to the browser.
 - **Hygiene & Linting** - [Oxlint](https://oxc.rs/docs/guide/usage/linter) and [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) for fast linting and formatting, plus Knip for dead code/dependency hygiene.
 - **Testing Suite** - Unit/component testing with Vitest and React Testing Library, and E2E testing with Playwright.
 - **Git Hook Automation** - Lefthook pre-commit hooks (oxlint + oxfmt), Commitlint for conventional commits, and a pre-push hook that runs `npm run check`.
@@ -300,12 +303,15 @@ const form = useForm<LoginInput>({
 ```
 .
 ├── .github/
-│   ├── workflows/            CI: check.yml + playwright.yml
+│   ├── workflows/            CI: check.yml (incl. demo removal) + playwright.yml
+│   ├── dependabot.yml        Dependency updates
 │   └── renovate.json         Dependency updates
+├── .claude/skills/           project-standards skill for AI coding agents
 ├── config/                   Vitest, Playwright, and Knip configs
 ├── e2e/                      Playwright specs
 ├── messages/                 next-intl translations (en, bn, ar, fr, es, zh)
-├── public/                   Static assets
+├── public/                   Static assets + llms.txt
+├── scripts/                  remove-demo.mjs (npm run demo:remove)
 ├── components.json
 ├── .oxlintrc.json            Oxlint rules (Next.js, TypeScript, React, Unicorn)
 ├── .oxfmtrc.json             Oxfmt formatter config (Tailwind class sorting)
@@ -314,14 +320,15 @@ const form = useForm<LoginInput>({
 ├── package-lock.json
 ├── tsconfig.json
 ├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
+├── AGENTS.md                 Rules for AI coding agents
 ├── src/
 │   ├── _demo(DELETE)/        Landing page, showcase, demo accounts (delete for your app)
 │   ├── app/                  App Router
 │   │   ├── (auth)/           Auth layouts (Login, register, & reset-password pages)
 │   │   ├── (public)/         Public layouts
 │   │   ├── (protected)/      Protected/RBAC layouts
-│   │   │   ├── @admin/       Admin slots (dashboard, profile, settings)
-│   │   │   ├── @user/        User slots (dashboard, profile, settings)
+│   │   │   ├── @admin/       Admin slots (dashboard, analytics, profile, settings)
+│   │   │   ├── @user/        User slots (dashboard, analytics, profile, settings)
 │   │   │   └── layout.tsx
 │   │   ├── api/              Route handlers (BetterAuth, health)
 │   │   ├── styles/           Design system tokens, base CSS
@@ -340,7 +347,7 @@ const form = useForm<LoginInput>({
 │   ├── features/             Feature modules
 │   │   ├── auth/             BetterAuth + RBAC modules
 │   │   ├── i18n/             next-intl configuration
-│   │   └── site/             siteConfig + locale utilities
+│   │   └── site/             site config, schema, base URL + locale utilities
 │   ├── hooks/                Shared React hooks
 │   ├── libs/                 Cross-cutting infra
 │   ├── tests/                Unit/component tests + renderWithProviders
@@ -385,7 +392,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 <summary><b>Adding a Role</b></summary>
 
 1. Append the role to the `UserRole` union in `src/features/auth/rbac/permissions.ts`.
-2. Map permissions for the role in `src/features/auth/rbac/roles.ts`.
+2. Map permissions for the role in `ROLE_PERMISSIONS` in the same file.
 3. Optional: add a parallel route slot - `src/app/(protected)/@<role>/...` - and update `(protected)/layout.tsx` to render it based on permissions.
 
 </details>

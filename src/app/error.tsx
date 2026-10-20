@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import * as Sentry from '@sentry/nextjs';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -15,7 +14,9 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
   const t = useTranslations('errors');
 
   useEffect(() => {
-    Sentry.captureException(error);
+    void import('@sentry/nextjs').then((Sentry) =>
+      Sentry.captureException(error),
+    );
   }, [error]);
 
   return (

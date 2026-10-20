@@ -34,26 +34,8 @@ import type { ReactNode } from 'react';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export const LandingPage = () => {
-  return (
-    <div className="flex flex-col gap-16 lg:gap-24">
-      <HeroSection />
-      <UiShowcaseSection />
-      <FeaturesSection />
-      <FooterSection />
-    </div>
-  );
-};
-
-const HeroSection = () => {
-  const t = useTranslations('home.hero');
-  const locale = useLocale();
+const useGithubStars = () => {
   const [githubStars, setGithubStars] = useState<string | null>(null);
-  const [switchChecked, setSwitchChecked] = useState<boolean>(true);
-  const [checkboxChecked, setCheckboxChecked] = useState<boolean>(true);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date(2026, 5, 17),
-  );
 
   useEffect(() => {
     let isMounted = true;
@@ -74,6 +56,31 @@ const HeroSection = () => {
       isMounted = false;
     };
   }, []);
+
+  return githubStars;
+};
+
+export const LandingPage = () => {
+  const githubStars = useGithubStars();
+
+  return (
+    <div className="flex flex-col gap-16 lg:gap-24">
+      <HeroSection githubStars={githubStars} />
+      <UiShowcaseSection />
+      <FeaturesSection />
+      <FooterSection githubStars={githubStars} />
+    </div>
+  );
+};
+
+const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
+  const t = useTranslations('home.hero');
+  const locale = useLocale();
+  const [switchChecked, setSwitchChecked] = useState<boolean>(true);
+  const [checkboxChecked, setCheckboxChecked] = useState<boolean>(true);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date(2026, 5, 17),
+  );
 
   const LIGHTHOUSE_SCORES = [
     { id: 'performance', delay: 100 },
@@ -439,30 +446,9 @@ const FeaturesSection = () => {
   );
 };
 
-const FooterSection = () => {
+const FooterSection = ({ githubStars }: { githubStars: string | null }) => {
   const t = useTranslations('home');
   const [copied, setCopied] = useState<boolean>(false);
-  const [githubStars, setGithubStars] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    fetch('https://api.github.com/repos/salmanshahriar/Next-Elite')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { stargazers_count?: number } | null) => {
-        if (isMounted && typeof data?.stargazers_count === 'number') {
-          const count = data.stargazers_count;
-          const formatted =
-            count >= 1000
-              ? `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
-              : String(count);
-          setGithubStars(formatted);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const INSTALL_LINES: readonly string[] = [
     'git clone https://github.com/salmanshahriar/Next-Elite',

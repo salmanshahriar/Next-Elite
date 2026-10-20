@@ -130,6 +130,7 @@ edit('.github/workflows/check.yml', [[/\n {2}demo-removal:\n[\s\S]*/, '']]);
 edit('public/llms.txt', [
   [/### Demo Credentials\n[\s\S]*?\n\n(?=###)/, ''],
   [/- `\/ui-components`[^\n]*\n/, ''],
+  [', and a demo-removal check', ''],
 ]);
 
 edit('README.md', [
@@ -140,10 +141,21 @@ edit('README.md', [
     '',
   ],
   [/## 📈 Lighthouse Report\n\n[\s\S]*?<br\/>\n\n/, ''],
+  [' (incl. demo removal)', ''],
+  [/├── scripts\/ {18}remove-demo\.mjs[^\n]*\n/, ''],
 ]);
 
 edit('AGENTS.md', [
   [/- Demo-only code lives in `src\/_demo\(DELETE\)\/`[^\n]*\n/, ''],
+]);
+
+edit('.claude/skills/project-standards/SKILL.md', [
+  [
+    / If `src\/_demo\(DELETE\)\/` exists, its [^\n]*?never import from it\./,
+    '',
+  ],
+  [/ {2}- If `src\/_demo\(DELETE\)\/` exists[^\n]*\n/, ''],
+  [/- \[ \] If `src\/_demo\(DELETE\)\/` exists[^\n]*\n/, ''],
 ]);
 
 edit('src/features/i18n/request.ts', [

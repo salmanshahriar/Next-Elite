@@ -1,17 +1,17 @@
 # Next Elite - An open source production-ready Next.js starter kit
 
-> A production-ready, frontend-first Next.js 16 + React 19 + TypeScript starter kit. API-first with no bundled database, next-intl i18n, Better Auth RBAC, Oxlint/Oxfmt tooling, and a polished developer experience.
+> A production-ready, frontend-first Next.js 16.4 + React 19.3 + TypeScript 7 starter kit. API-first with no bundled database, next-intl i18n, Better Auth RBAC, Oxlint/Oxfmt tooling, and a polished developer experience.
 
 ---
 
 ## 1. Project Metadata & SEO Tags
 
 - **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
-- **Framework Stack**: Next.js 16 (App Router), React 19, TypeScript, Node.js 22.12+
-- **UI & CSS**: Tailwind CSS v4, shadcn/ui, Radix UI, CVA components, light/dark theme
+- **Framework Stack**: Next.js 16.4 (App Router, Turbopack), React 19.3, TypeScript 7, Node.js 22.12+
+- **UI & CSS**: Tailwind CSS v4, shadcn/ui, Radix UI, CVA variants, design tokens, light/dark theme, RTL
 - **Performance**: Optimized for Lighthouse (Performance, Accessibility, Best Practices, SEO)
 - **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
-- **Keywords**: Next.js 16, React 19, Better Auth, RBAC, next-intl, type-safe i18n, API-first, sitemap, robots, llms.txt, T3 Env, Vitest, Playwright, Oxlint, Oxfmt, Lefthook, Knip, Tailwind v4, SaaS starter, frontend-first boilerplate, zero-database starter
+- **Keywords**: Next.js 16.4, React 19, TypeScript 7, Better Auth, RBAC, next-intl, type-safe i18n, API-first, TanStack Query, sitemap, robots, llms.txt, T3 Env, Vitest, Playwright, Oxlint, Oxfmt, Lefthook, Knip, Sentry, Tailwind v4, SaaS starter, admin dashboard, frontend-first boilerplate, zero-database starter
 
 ---
 
@@ -20,6 +20,7 @@
 - **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite)
 - **Live Demo**: [nextelite.salmanshahriar.com](https://nextelite.salmanshahriar.com/)
 - **Agentic browsing**: `/llms.txt` (this file) for AI crawlers and assistants
+- **AI coding agents**: `AGENTS.md` and `.claude/skills/project-standards/SKILL.md` in the repo describe the code conventions
 - **Health Check**: `GET /api/health` returns `{ "status": "ok" }`
 - **Auth API**: `/api/auth/*` (Better Auth route handlers)
 
@@ -28,7 +29,7 @@
 ## 3. Key Architectural Pillars
 
 ### A. API-First & Database-Free
-Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Server routes enforce auth; the client caches live data with TanStack Query.
+Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Server Components check auth and roles; the client caches live data with TanStack Query.
 
 ```
 [User] -> [Server Component] -> [requirePermission() + Better Auth]
@@ -40,13 +41,16 @@ Connects to any existing backend (REST, GraphQL, or BFF). No local database requ
 
 ### B. Feature-Based Structure
 Vertical slices under `src/features/`:
-- `auth/` - Better Auth, RBAC, login/register forms, Zod schemas
-- `theme/` - Theme provider with light/dark mode
-- `i18n/` - next-intl config, RTL helpers, language switcher
-- `navigation/` - Header, sidebar, topbar, top loader
-- `site/` - `site.config.json`, SEO helpers, `home-features.ts` (home page copy)
+- `auth/` - Better Auth server and client, RBAC (`rbac/`), auth provider hook, Zod schemas, server helpers
+- `i18n/` - next-intl request config, cookie routing, locale actions, RTL hook
+- `site/` - `site.config.json`, its schema, server-only base URL, locale helpers
 
-Shared UI lives in `src/components/shared/` and `src/components/ui/`.
+UI lives in `src/components/`:
+- `ui/` - shadcn/Radix primitives and custom components (cards, stat cards, charts, data table, forms, calendar, dialogs, sidebar)
+- `shared/` - app-level pieces (page header, theme toggle, language switcher, user dropdown, top loader)
+- `layout/` - app shell, admin and user sidebars, topbar, header
+- `auth/` - login, register, and password reset forms
+- `icons/` - icon registry and custom SVG icons
 
 ---
 
@@ -54,14 +58,20 @@ Shared UI lives in `src/components/shared/` and `src/components/ui/`.
 
 ### Authentication & RBAC
 - **Better Auth**: Email/password and Google OAuth via `/api/auth/*`
-- **Roles**: `admin` and `user`; admin emails via `AUTH_ADMIN_EMAILS` or `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`
-- **Guards**: `requireUser()` and `requirePermission()` on the server
-- **Parallel routing**: `@admin` and `@user` slots share one `/dashboard` URL
+- **Roles**: `admin` and `user`; admin emails via the `AUTH_ADMIN_EMAILS` server variable
+- **Permissions**: role-to-permission map in `src/features/auth/rbac/permissions.ts`
+- **Guards**: `requireUser()` and `requirePermission()` in Server Components
+- **Parallel routing**: `@admin` and `@user` slots share the same URLs (`/dashboard`, `/analytics`, `/profile`, `/settings`)
 
 ### Type-Safe i18n (next-intl)
 - **Six locales**: English, Bengali, Arabic (RTL), French, Spanish, Chinese
 - **Cookie locale**: `NEXT_LOCALE` cookie, no `/en` URL prefixes
-- **Compile-time keys**: Invalid `t("key")` calls fail TypeScript build
+- **Compile-time keys**: Invalid `t("key")` calls fail the TypeScript build
+
+### UI & Design System
+- **Design tokens**: light and dark tokens in `src/app/styles/tokens.css`, mapped to Tailwind utilities
+- **Variants**: CVA-based variants on buttons, badges, status indicators, toggles, and more
+- **Charts**: ApexCharts area chart, loaded only when it scrolls into view
 
 ### SEO, PWA & Agentic Browsing
 - **Single config**: `src/features/site/site.config.json` drives metadata, sitemap, and manifest
@@ -70,19 +80,21 @@ Shared UI lives in `src/components/shared/` and `src/components/ui/`.
 - **llms.txt**: This file at `/llms.txt` for AI discovery
 
 ### Forms & Validation
-- **Zod** schemas for login, register, and password reset
+- **Zod** schemas for login and register in `src/features/auth/schemas/`
 - **React Hook Form** with `zodResolver`
-- **InputError** for accessible inline field errors
+- **InputError** and `ui/form` primitives for accessible inline field errors
 
 ### Testing & Quality Gates
-- **Vitest** + React Testing Library; `renderWithProviders` helper in `tests/utils/render.tsx`
-- **Playwright** E2E in `e2e/`; CI uses production server (Chromium)
-- **Oxlint + Oxfmt** for lint and format; **Knip** for unused code/deps
-- **Lefthook** pre-commit (oxlint + oxfmt); **Commitlint** on commit messages
+- **Vitest** + React Testing Library; tests live in `src/tests/`, with a `renderWithProviders` helper in `src/tests/render.tsx`
+- **Playwright** E2E in `e2e/`; CI uses the production server (Chromium)
+- **Oxlint + Oxfmt** for lint and format; **Knip** for unused code and dependencies
+- **Lefthook** pre-commit (oxlint + oxfmt), commit-msg (Commitlint), and pre-push (`npm run check`)
 - **`npm run check`**: typecheck, lint, knip, and unit tests in one command
 
-### Observability
-- **Sentry** on client and server
+### Observability & Config
+- **Sentry** on client and server; the browser SDK loads lazily, only when `NEXT_PUBLIC_SENTRY_DSN` is set
+- **Vercel Analytics** rendered only when deployed on Vercel
+- **T3 Env** validates environment variables on the server (`src/libs/env.ts`)
 - **`GET /api/health`** for load balancers and Docker health checks
 
 ---
@@ -109,6 +121,8 @@ When `NEXT_PUBLIC_DEMO_MODE=true`:
 - **User**: `user@test.com` / `12345678`
 - **Admin**: `admin@test.com` / `12345678`
 
+Run `npm run demo:remove` to delete all demo code before building your own app.
+
 ### Docker
 ```bash
 docker compose up --build
@@ -132,21 +146,29 @@ docker run --rm --env-file .env -p 6767:6767 next-elite
 | `npm run e2e` | Playwright end-to-end tests |
 | `npm run playwright:install` | Install Playwright browsers |
 
-**CI workflows** (`.github/workflows/`): `check.yml` on push/PR; `playwright.yml` for E2E.
+**CI workflows** (`.github/workflows/`): `check.yml` on push/PR (typecheck, lint, knip, tests, build, and a demo-removal check); `playwright.yml` for E2E.
 
 ---
 
-## 7. Public Routes
+## 7. Routes
 
+### Public
 - `/` - Home (marketing)
 - `/ui-components` - Live component showcase (50+ components)
+
+### Auth
 - `/login`, `/register`, `/password-reset` - Auth pages
-- `/dashboard` - Role-based dashboard (parallel `@admin` / `@user` slots)
+
+### Protected (role-based `@admin` / `@user` slots)
+- `/dashboard` - Role-based dashboard
+- `/analytics` - Analytics
 - `/profile` - User profile
+- `/settings` - Settings
+- `/unauthorized` - Shown when a role lacks permission
 
 ---
 
 ## 8. Intended Use Cases
 
-- **Best for**: Multi-role SaaS frontends, multilingual apps (LTR/RTL), apps that consume external APIs
+- **Best for**: Multi-role SaaS frontends, admin panels, ERPs, dashboards, multilingual apps (LTR/RTL), apps that consume external APIs
 - **Not ideal for**: Simple brochure sites or apps that need a bundled ORM/database layer

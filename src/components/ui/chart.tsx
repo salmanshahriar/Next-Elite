@@ -2,7 +2,7 @@
 
 import type { ApexOptions } from 'apexcharts';
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
 import { cn } from '@/libs/utils';
@@ -43,16 +43,30 @@ function Chart({
   isLoading = false,
   className,
 }: ChartProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const isDark = useIsDarkTheme();
+  const [isVisible, setIsVisible] = useState(false);
   const [resolvedColor, setResolvedColor] = useState<string | null>(null);
 
   useEffect(() => {
     setResolvedColor(resolveColor(color));
   }, [color, isDark]);
 
-  if (isLoading || !resolvedColor) {
-    return <Skeleton className={cn('w-full', className)} style={{ height }} />;
-  }
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setIsVisible(true);
+        observer.disconnect();
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   const series = [{ name, data: data.map((d) => d.value) }];
 
@@ -76,7 +90,7 @@ function Chart({
         type: 'vertical',
       },
     },
-    colors: [resolvedColor],
+    colors: resolvedColor ? [resolvedColor] : undefined,
     xaxis: {
       categories: data.map((d) => d.label),
       axisBorder: { show: false },
@@ -104,6 +118,7 @@ function Chart({
 
   return (
     <div
+      ref={ref}
       className={cn(
         'w-full',
         '[&_.apexcharts-gridline]:stroke-border [&_.apexcharts-text]:fill-muted-foreground',
@@ -112,12 +127,16 @@ function Chart({
       )}
       style={{ height }}
     >
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="area"
-        height={height}
-      />
+      {isLoading || !isVisible || !resolvedColor ? (
+        <Skeleton className="h-full w-full" />
+      ) : (
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="area"
+          height={height}
+        />
+      )}
     </div>
   );
 }

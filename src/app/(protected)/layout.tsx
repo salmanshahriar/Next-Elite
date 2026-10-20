@@ -5,6 +5,7 @@ import { UserSidebar } from '@/components/layout/user-sidebar';
 import { AuthProvider } from '@/features/auth/hooks/auth-provider';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
+import { env } from '@/libs/env';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 
@@ -37,7 +38,10 @@ const ProtectedLayout = async ({
     (userRole === 'admin' && admin) || (canViewUser && user) || children;
 
   return (
-    <AuthProvider initialUser={currentUser}>
+    <AuthProvider
+      initialUser={currentUser}
+      isGoogleEnabled={env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED}
+    >
       <AppShell variant="sidebar" defaultOpen={defaultOpen}>
         {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
         <div className="relative flex h-svh max-h-svh min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-background pt-app-header md:pt-0">

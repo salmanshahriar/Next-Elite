@@ -40,6 +40,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().optional(),
     AUTH_ADMIN_EMAILS: csvEmails,
     SENTRY_DSN: z.string().url().optional(),
+    VERCEL: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url().optional(),

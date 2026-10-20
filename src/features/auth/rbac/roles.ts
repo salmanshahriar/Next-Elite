@@ -1,15 +1,6 @@
 import { env } from '@/libs/env';
 import { getDemoRoleByEmail } from '@/_demo(DELETE)/auth/accounts';
-import type { AuthPermission, UserRole } from './permissions';
-
-const ROLE_PERMISSIONS = {
-  user: ['dashboard.view:user'],
-  admin: ['dashboard.view:user', 'dashboard.view:admin'],
-} as const satisfies Record<UserRole, readonly AuthPermission[]>;
-
-export function getPermissionsForRole(role: UserRole): AuthPermission[] {
-  return [...ROLE_PERMISSIONS[role]];
-}
+import type { UserRole } from './permissions';
 
 export function getRoleFromEmail(
   email: string | null | undefined,

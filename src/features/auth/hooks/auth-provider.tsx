@@ -1,6 +1,5 @@
 'use client';
 
-import { env } from '@/libs/env';
 import { useRouter } from 'next/navigation';
 import {
   createContext,
@@ -11,7 +10,7 @@ import {
 } from 'react';
 import { authClient } from '../lib/auth-client';
 import { hasPermission } from '../rbac/can';
-import { getPermissionsForRole } from '../rbac/roles';
+import { getPermissionsForRole } from '../rbac/permissions';
 import type { AuthPermission, AuthUser } from '../types';
 
 interface AuthContextValue {
@@ -35,11 +34,13 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export interface AuthProviderProps {
   children: ReactNode;
   initialUser?: AuthUser | null;
+  isGoogleEnabled?: boolean;
 }
 
 export function AuthProvider({
   children,
   initialUser = null,
+  isGoogleEnabled = false,
 }: AuthProviderProps) {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
@@ -95,7 +96,7 @@ export function AuthProvider({
       user,
       isLoading: isPending,
       isAuthenticated: !!user,
-      isGoogleEnabled: env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED,
+      isGoogleEnabled,
       signIn,
       signUp,
       signOut,
@@ -103,7 +104,15 @@ export function AuthProvider({
       hasPermission: (permission) =>
         hasPermission(user?.permissions, permission),
     }),
-    [user, isPending, signIn, signUp, signOut, signInWithGoogle],
+    [
+      user,
+      isPending,
+      isGoogleEnabled,
+      signIn,
+      signUp,
+      signOut,
+      signInWithGoogle,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

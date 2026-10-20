@@ -1,5 +1,5 @@
 import { hasPermission } from '@/features/auth/rbac/can';
-import { getPermissionsForRole } from '@/features/auth/rbac/roles';
+import { getPermissionsForRole } from '@/features/auth/rbac/permissions';
 import { describe, expect, it } from 'vitest';
 
 describe('authorization', () => {

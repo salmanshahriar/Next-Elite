@@ -4,7 +4,8 @@ import { env } from '@/libs/env';
 import { headers } from 'next/headers';
 import { cache } from 'react';
 import { auth } from '../lib/auth';
-import { getPermissionsForRole, getRoleFromEmail } from '../rbac/roles';
+import { getPermissionsForRole } from '../rbac/permissions';
+import { getRoleFromEmail } from '../rbac/roles';
 import type { AuthUser } from '../types';
 
 export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {

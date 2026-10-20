@@ -12,16 +12,21 @@ import { Toaster } from 'sonner';
 interface ProvidersProps {
   children: ReactNode;
   defaultTheme?: 'light' | 'dark' | 'system';
+  isGoogleEnabled?: boolean;
 }
 
-const Providers = ({ children, defaultTheme = 'light' }: ProvidersProps) => {
+const Providers = ({
+  children,
+  defaultTheme = 'light',
+  isGoogleEnabled,
+}: ProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
     <ThemeProvider defaultTheme={defaultTheme}>
       <TopLoader />
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+        <AuthProvider isGoogleEnabled={isGoogleEnabled}>
           {children}
           <Toaster richColors />
           <ThemeOverlay />
