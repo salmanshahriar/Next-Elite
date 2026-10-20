@@ -1,6 +1,6 @@
 import { supportedLocales } from '@/features/site/config';
 import { describe, expect, it } from 'vitest';
-import en from '../../messages/en.json';
+import en from '../../../../messages/en.json';
 
 type Messages = Record<string, unknown>;
 
@@ -12,7 +12,7 @@ const flattenKeys = (value: Messages, prefix = ''): string[] =>
   );
 
 const loadMessages = async (locale: string): Promise<Messages> =>
-  (await import(`../../messages/${locale}.json`)).default;
+  (await import(`../../../../messages/${locale}.json`)).default;
 
 describe('translation messages', () => {
   it.each(supportedLocales)('%s has the same keys as en', async (locale) => {

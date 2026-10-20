@@ -5,11 +5,7 @@
     "src/features/i18n/request.ts",
     "src/components/ui/*.tsx"
   ],
-  "project": [
-    "src/**/*.{js,jsx,ts,tsx}",
-    "tests/**/*.{ts,tsx}",
-    "e2e/**/*.{ts,tsx}"
-  ],
+  "project": ["src/**/*.{js,jsx,ts,tsx}", "e2e/**/*.{ts,tsx}"],
   "ignoreIssues": {
     "src/components/ui/**": ["exports"]
   },

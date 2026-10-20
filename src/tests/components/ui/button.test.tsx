@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { renderWithProviders, screen } from '@tests/utils/render';
-import { Button } from './button';
+import { renderWithProviders, screen } from '@/tests/render';
+import { Button } from '@/components/ui/button';
 
 describe('Button', () => {
   it('renders with children', () => {

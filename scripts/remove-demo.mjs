@@ -8,6 +8,13 @@ const at = (relative) => path.join(root, relative);
 
 const DEMO_DIR = 'src/_demo(DELETE)';
 const DEMO_ROUTE = 'src/app/(public)/ui-components';
+const DEMO_IMAGES = [
+  'public/Next-Elite-Admin.webp',
+  'public/Next-Elite-Auth.webp',
+  'public/Next-Elite-Home.webp',
+  'public/Next-Elite-LightHouse.webp',
+  'public/Nextjs-Elite-UI-Components.webp',
+];
 
 if (!fs.existsSync(at(DEMO_DIR))) {
   process.stdout.write(`${DEMO_DIR} not found, nothing to remove.\n`);
@@ -86,7 +93,7 @@ edit('src/features/auth/rbac/roles.ts', [
   [/ {2}if \(env\.NEXT_PUBLIC_DEMO_MODE\) \{\n[^\n]*\n {2}\}\n/, ''],
 ]);
 
-edit('src/features/auth/rbac/roles.test.ts', [
+edit('src/tests/features/auth/rbac/roles.test.ts', [
   ['    NEXT_PUBLIC_DEMO_MODE: false,\n', ''],
 ]);
 
@@ -109,7 +116,7 @@ edit('Dockerfile', [
   ['ENV NEXT_PUBLIC_DEMO_MODE=$NEXT_PUBLIC_DEMO_MODE\n', ''],
 ]);
 
-edit('e2e/playwright.config.ts', [
+edit('config/playwright.config.ts', [
   [
     "testMatch: ['e2e/**/*.spec.ts', /src\\/_demo\\(DELETE\\)\\/.+\\.spec\\.ts$/],",
     "testMatch: ['e2e/**/*.spec.ts'],",
@@ -128,6 +135,11 @@ edit('public/llms.txt', [
 edit('README.md', [
   [/### Demo Credentials\n[\s\S]*?(?=### Docker)/, ''],
   [/│ {3}├── _demo\(DELETE\)\/[^\n]*\n/, ''],
+  [
+    /<div align="center">\n {2}<table>[\s\S]*?<\/table>\n<\/div>\n\n<br\/>\n\n/,
+    '',
+  ],
+  [/## 📈 Lighthouse Report\n\n[\s\S]*?<br\/>\n\n/, ''],
 ]);
 
 edit('AGENTS.md', [
@@ -158,6 +170,8 @@ for (const [file, content] of pending) fs.writeFileSync(at(file), content);
 
 fs.rmSync(at(DEMO_DIR), { recursive: true, force: true });
 fs.rmSync(at(DEMO_ROUTE), { recursive: true, force: true });
+for (const image of DEMO_IMAGES) fs.rmSync(at(image), { force: true });
+fs.rmSync(at('.next'), { recursive: true, force: true });
 fs.rmSync(fileURLToPath(import.meta.url));
 if (fs.readdirSync(at('scripts')).length === 0) fs.rmdirSync(at('scripts'));
 
@@ -166,4 +180,6 @@ execFileSync(at('node_modules/.bin/oxfmt'), [...pending.keys()], {
   stdio: 'inherit',
 });
 
-process.stdout.write('Demo code removed. Run `npm run check` to verify.\n');
+process.stdout.write(
+  'Demo code removed and .next cleared. Restart the dev server if it is running, then run `npm run check`.\n',
+);

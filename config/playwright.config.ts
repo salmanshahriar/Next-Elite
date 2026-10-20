@@ -13,6 +13,7 @@ const webServerEnv = {
 export default defineConfig({
   testDir: '..',
   testMatch: ['e2e/**/*.spec.ts', /src\/_demo\(DELETE\)\/.+\.spec\.ts$/],
+  outputDir: '../test-results',
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,

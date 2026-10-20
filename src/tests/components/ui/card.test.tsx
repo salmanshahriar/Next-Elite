@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './card';
+} from '@/components/ui/card';
 
 describe('Card', () => {
   it('renders children', () => {

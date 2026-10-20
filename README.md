@@ -302,15 +302,13 @@ const form = useForm<LoginInput>({
 ├── .github/
 │   ├── workflows/            CI: check.yml + playwright.yml
 │   └── renovate.json         Dependency updates
-├── config/                   vitest.config.ts, vitest.setup.ts
-├── e2e/                      Playwright specs + playwright.config.ts
+├── config/                   Vitest, Playwright, and Knip configs
+├── e2e/                      Playwright specs
 ├── messages/                 next-intl translations (en, bn, ar, fr, es, zh)
 ├── public/                   Static assets
-├── tests/                    Vitest specs (auth, i18n)
 ├── components.json
 ├── .oxlintrc.json            Oxlint rules (Next.js, TypeScript, React, Unicorn)
 ├── .oxfmtrc.json             Oxfmt formatter config (Tailwind class sorting)
-├── knip.json
 ├── next.config.mjs
 ├── package.json              scripts + Commitlint config
 ├── package-lock.json
@@ -339,13 +337,13 @@ const form = useForm<LoginInput>({
 │   │   ├── layout/           App shell, navigation sidebars, topbar & branding
 │   │   ├── shared/           Shared UI's
 │   │   └── ui/               Shadcn UI's components
-│   ├── config/               App navigation & feature flags configuration
 │   ├── features/             Feature modules
 │   │   ├── auth/             BetterAuth + RBAC modules
 │   │   ├── i18n/             next-intl configuration
 │   │   └── site/             siteConfig + locale utilities
 │   ├── hooks/                Shared React hooks
 │   ├── libs/                 Cross-cutting infra
+│   ├── tests/                Unit/component tests + renderWithProviders
 │   ├── instrumentation.ts    Server Sentry init
 │   ├── instrumentation-client.ts  Client Sentry init
 │   └── global.d.ts           next-intl type augmentation
@@ -432,7 +430,7 @@ Install the [Oxc VS Code extension](https://marketplace.visualstudio.com/items?i
 <details>
 <summary><b>Testing Details</b></summary>
 
-- **Unit / component:** Vitest + React Testing Library (`config/vitest.config.ts`). Use `renderWithProviders` from `@tests/utils/render` for components that need app context (i18n, theme, auth, React Query). Plain `render` is fine for isolated UI primitives.
+- **Unit / component:** Vitest + React Testing Library (`config/vitest.config.ts`). Tests live in `src/tests/`, mirroring the `src/` folder structure (`*.test.ts` / `*.test.tsx`). Use `renderWithProviders` from `@/tests/render` for components that need app context (i18n, theme, auth, React Query). Plain `render` is fine for isolated UI primitives.
 - **End-to-end:** Playwright in `e2e/` on port **6767** (`127.0.0.1`). Local runs use `next dev` (all browsers); CI uses production `next start` (Chromium only). Run `playwright:install` before the first E2E run; on Linux, WebKit needs `playwright:install:deps` (sudo). Stop `npm run dev` before `npm run e2e` - E2E starts its own server.
 
 </details>

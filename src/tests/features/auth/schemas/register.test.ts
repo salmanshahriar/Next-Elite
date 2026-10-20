@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { registerSchema } from './register';
+import { registerSchema } from '@/features/auth/schemas/register';
 
 describe('registerSchema', () => {
   const validInput = {
