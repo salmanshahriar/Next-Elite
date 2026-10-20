@@ -16,11 +16,11 @@ const sentryOrigin = URL.canParse(process.env.NEXT_PUBLIC_SENTRY_DSN ?? '')
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com${isDev ? " 'unsafe-eval'" : ''}`,
+  `script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://static.cloudflareinsights.com${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  `connect-src 'self' https://va.vercel-scripts.com https://api.github.com ${sentryOrigin}`.trim(),
+  `connect-src 'self' https://va.vercel-scripts.com https://cloudflareinsights.com https://api.github.com ${sentryOrigin}`.trim(),
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
