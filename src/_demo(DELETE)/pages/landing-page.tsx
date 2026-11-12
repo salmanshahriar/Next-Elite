@@ -110,11 +110,11 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
         <div className="flex w-full items-center justify-center overflow-hidden">
           {children}
         </div>
-        <div className="max-w-xl text-center">
+        <div className="mx-auto max-w-lg text-center">
           <h2 className="mb-2 text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
             {title}
           </h2>
-          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+          <p className="text-sm leading-relaxed text-muted-foreground">
             {description}
           </p>
         </div>

@@ -922,6 +922,20 @@ const FormsShowcaseSection = () => {
       <ComponentBlock id="forms-switch" title="Switch">
         <div className="grid max-w-md gap-6">
           <div>
+            <SubLabel>Variants</SubLabel>
+            <VariantGrid>
+              <div className="flex items-center gap-2">
+                <Switch id="switch-variant-default" />
+                <Label htmlFor="switch-variant-default">Default</Label>
+              </div>
+              <div className="ml-6 flex items-center gap-2">
+                <Switch id="switch-variant-square" variant="square" />
+                <Label htmlFor="switch-variant-square">Square Switch</Label>
+              </div>
+            </VariantGrid>
+          </div>
+
+          <div>
             <SubLabel>Sizes</SubLabel>
             <VariantGrid>
               <div className="flex items-center gap-2">
