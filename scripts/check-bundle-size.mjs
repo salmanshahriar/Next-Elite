@@ -2,19 +2,19 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { gzipSync } from 'node:zlib';
+import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
 
-// Max gzipped JS per route, excluding the shared Next.js/React runtime.
-// Lower these as the bundle shrinks; the long-term target is 80 KB.
+// Max Brotli-compressed JS per route (what Vercel/CDNs serve), excluding the
+// shared Next.js/React runtime. Lower these as the bundle shrinks.
 const BUDGETS_KB = {
-  '/': 140,
-  '/login': 143,
-  '/register': 142,
-  '/password-reset': 140,
-  '/dashboard': 140,
-  '/analytics': 140,
-  '/profile': 140,
-  '/settings': 140,
+  '/': 122,
+  '/login': 122,
+  '/register': 120,
+  '/password-reset': 118,
+  '/dashboard': 124,
+  '/analytics': 124,
+  '/profile': 124,
+  '/settings': 124,
 };
 const PROTECTED_ROUTES = new Set([
   '/dashboard',
@@ -39,9 +39,12 @@ const toChunkPath = (file) => file.replace(/^static\//, '');
 const frameworkFiles = new Set(manifest.rootMainFiles.map(toChunkPath));
 const legacyPolyfills = new Set(manifest.polyfillFiles.map(toChunkPath));
 
-const gzipKb = (file) =>
-  gzipSync(fs.readFileSync(path.join(nextDir, 'static', file)), { level: 9 })
-    .length / 1024;
+const readChunk = (file) => fs.readFileSync(path.join(nextDir, 'static', file));
+const brotliKb = (file) =>
+  brotliCompressSync(readChunk(file), {
+    params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
+  }).length / 1024;
+const gzipKb = (file) => gzipSync(readChunk(file), { level: 9 }).length / 1024;
 
 const scriptFiles = (html) =>
   [
@@ -100,10 +103,18 @@ const measure = async (route, cookie) => {
     throw new Error(`${route} returned ${response.status}`);
   }
   const files = scriptFiles(await response.text());
-  const sum = (list) => list.reduce((total, file) => total + gzipKb(file), 0);
-  const framework = sum(files.filter((file) => frameworkFiles.has(file)));
-  const own = sum(files.filter((file) => !frameworkFiles.has(file)));
-  return { route, framework, own };
+  const sum = (list, size) =>
+    list.reduce((total, file) => total + size(file), 0);
+  const ownFiles = files.filter((file) => !frameworkFiles.has(file));
+  return {
+    route,
+    framework: sum(
+      files.filter((file) => frameworkFiles.has(file)),
+      brotliKb,
+    ),
+    own: sum(ownFiles, brotliKb),
+    totalGzip: sum(files, gzipKb),
+  };
 };
 
 try {
@@ -117,12 +128,13 @@ try {
   }
   const isOver = ({ route, own }) => own > BUDGETS_KB[route];
 
-  const rows = results.map(({ route, framework, own }) => ({
+  const rows = results.map(({ route, framework, own, totalGzip }) => ({
     route,
-    'framework (KB gz)': framework.toFixed(1),
-    'own code (KB gz)': own.toFixed(1),
-    'total (KB gz)': (framework + own).toFixed(1),
-    'budget (KB gz)': BUDGETS_KB[route],
+    'framework (KB br)': framework.toFixed(1),
+    'own code (KB br)': own.toFixed(1),
+    'total (KB br)': (framework + own).toFixed(1),
+    'total (KB gz)': totalGzip.toFixed(1),
+    'budget (KB br)': BUDGETS_KB[route],
   }));
   // oxlint-disable-next-line no-console -- report output
   console.table(rows);

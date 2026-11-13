@@ -49,13 +49,14 @@ https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 - **Next.js 16.4 + React 19.3** - Fast App Router, Turbopack, and Server Actions
 - **TypeScript 7** - End-to-end type safety across components and routes
 - **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
-- **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
+- **Next.js Best Practices** - Feature-based architecture and a standalone, multi-arch Docker build
+- **Lean & Fast by Default** - ~184 KB Brotli first load, lazy-loaded auth, charts & menus, and per-page JS budgets enforced in CI
 - **AI Agent Ready** - `AGENTS.md` and a `project-standards` skill in `.agents/skills/` keep AI coding agents on the project's conventions
 - **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
 - **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
 - **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
 - **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
-- **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
+- **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, web manifest, and llms.txt
 - **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
 - **[Next Elite Server](https://github.com/salmanshahriar/Next-Elite-Server) (Coming Soon)** - Companion backend
 
@@ -91,7 +92,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 ### UI & Styling
 
 - **Tailwind CSS 4** - Utility-first styling with `@tailwindcss/postcss` and `tw-animate-css`.
-- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css`(no hard-coded colors).
+- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css` (no hard-coded colors).
 - **shadcn/ui** - Highly customizable UI components built with Tailwind CSS, Radix UI, and CVA.
 - **Theme Support** - Easy light/dark mode transitions via theme toggle.
 
@@ -124,13 +125,13 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ## 📦 Bundle Size
 
-Gzipped JavaScript on first load, including ~130 KB shared by Next.js and React. Checked in CI with `npm run size`.
+First-load JS with Brotli (gzip in brackets), including ~112 KB br of Next.js + React. Enforced by `npm run size`; inspect with `npm run analyze`.
 
-| Page         | With demo | After `npm run demo:remove` |
-| ------------ | --------- | --------------------------- |
-| `/`          | 263 KB    | 212 KB                      |
-| `/login`     | 268 KB    | 264 KB                      |
-| `/dashboard` | 265 KB    | 262 KB                      |
+| Page         | Size (after `npm run demo:remove`) |
+| ------------ | ---------------------------------- |
+| `/`          | 184 KB br (212 KB gz)              |
+| `/login`     | 225 KB br (259 KB gz)              |
+| `/dashboard` | 228 KB br (262 KB gz)              |
 
 <br/>
 
@@ -300,34 +301,29 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 <b>Scripts</b>
 
-| Command                           | Description                              |
-| --------------------------------- | ---------------------------------------- |
-| `npm run dev`                     | Start the dev server (port 6767)         |
-| `npm run build`                   | Production build                         |
-| `npm run start`                   | Start the production server (port 6767)  |
-| `npm run start:standalone`        | Run standalone server (Playwright CI)    |
-| `npm run analyze`                 | Build with `@next/bundle-analyzer`       |
-| `npm run typecheck`               | `tsc --noEmit`                           |
-| `npm run lint`                    | Oxlint + Oxfmt check                     |
-| `npm run lint:fix`                | Auto-fix with Oxlint + Oxfmt             |
-| `npm run format`                  | Format with Oxfmt                        |
-| `npm run format:check`            | Check formatting with Oxfmt              |
-| `npm run knip`                    | Detect unused files / exports / deps     |
-| `npm run check`                   | CI gate: typecheck + lint + knip + tests |
-| `npm run size`                    | Check per-page JS budget (after build)   |
-| `npm run test`                    | Vitest run                               |
-| `npm run test:watch`              | Vitest watch mode                        |
-| `npm run playwright:install`      | Download Playwright browsers             |
-| `npm run playwright:install:deps` | Install OS libs for browsers (Linux)     |
-| `npm run e2e`                     | Playwright E2E                           |
-| `npm run e2e:ui`                  | Playwright UI mode                       |
-| `npm run e2e:webkit`              | Playwright WebKit only                   |
+| Command                      | Description                              |
+| ---------------------------- | ---------------------------------------- |
+| `npm run dev`                | Start the dev server (port 6767)         |
+| `npm run build`              | Production build                         |
+| `npm run start`              | Start the production server (port 6767)  |
+| `npm run start:standalone`   | Run standalone server (Playwright CI)    |
+| `npm run analyze`            | Inspect what's in each page's bundle     |
+| `npm run typecheck`          | `tsc --noEmit`                           |
+| `npm run lint`               | Oxlint + Oxfmt check                     |
+| `npm run lint:fix`           | Auto-fix with Oxlint + Oxfmt             |
+| `npm run knip`               | Detect unused files / exports / deps     |
+| `npm run check`              | CI gate: typecheck + lint + knip + tests |
+| `npm run size`               | Check per-page JS budget (after build)   |
+| `npm run test`               | Vitest run                               |
+| `npm run test:watch`         | Vitest watch mode                        |
+| `npm run playwright:install` | Download Playwright browsers             |
+| `npm run e2e`                | Playwright E2E                           |
 
 <details>
 <summary><b>Testing Details</b></summary>
 
 - **Unit / component:** Vitest + React Testing Library (`config/vitest.config.ts`). Tests live in `src/tests/`, mirroring the `src/` folder structure (`*.test.ts` / `*.test.tsx`). Use `renderWithProviders` from `@/tests/render` for components that need app context (i18n, theme, auth, React Query). Plain `render` is fine for isolated UI primitives.
-- **End-to-end:** Playwright in `e2e/` on port **6767** (`127.0.0.1`). Local runs use `next dev` (all browsers); CI uses production `next start` (Chromium only). Run `playwright:install` before the first E2E run; on Linux, WebKit needs `playwright:install:deps` (sudo). Stop `npm run dev` before `npm run e2e` - E2E starts its own server.
+- **End-to-end:** Playwright in `e2e/` on port **6767** (`127.0.0.1`). Local runs use `next dev` (all browsers); CI uses production `next start` (Chromium only). Run `playwright:install` before the first E2E run; on Linux, also run `npx playwright install-deps` (sudo). Use `npm run e2e -- --ui` for UI mode or `--project=webkit` for one browser. Stop `npm run dev` before `npm run e2e` - E2E starts its own server.
 
 </details>
 

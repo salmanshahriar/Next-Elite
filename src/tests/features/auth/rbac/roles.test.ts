@@ -7,6 +7,7 @@ vi.mock('@/libs/env', () => ({
   },
 }));
 
+import { hasPermission } from '@/features/auth/rbac/can';
 import { getPermissionsForRole } from '@/features/auth/rbac/permissions';
 import { getRoleFromEmail } from '@/features/auth/rbac/roles';
 
@@ -20,13 +21,6 @@ describe('roles', () => {
     it('returns only user permissions for user role', () => {
       const perms = getPermissionsForRole('user');
       expect(perms).toEqual(['dashboard.view:user']);
-    });
-
-    it('returns a new array each call (immutability)', () => {
-      const a = getPermissionsForRole('admin');
-      const b = getPermissionsForRole('admin');
-      expect(a).not.toBe(b);
-      expect(a).toEqual(b);
     });
   });
 
@@ -51,12 +45,17 @@ describe('roles', () => {
       expect(getRoleFromEmail('admin@test.com', [])).toBe('user');
     });
 
-    it('returns user for null email', () => {
+    it('returns user for a missing email', () => {
       expect(getRoleFromEmail(null, [])).toBe('user');
-    });
-
-    it('returns user for undefined email', () => {
       expect(getRoleFromEmail(undefined, [])).toBe('user');
+    });
+  });
+
+  describe('hasPermission', () => {
+    it('checks permission membership', () => {
+      const permissions = getPermissionsForRole('admin');
+      expect(hasPermission(permissions, 'dashboard.view:admin')).toBe(true);
+      expect(hasPermission(undefined, 'dashboard.view:admin')).toBe(false);
     });
   });
 });

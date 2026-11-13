@@ -125,14 +125,17 @@ edit('config/playwright.config.ts', [
   ],
 ]);
 
-edit('next.config.mjs', [[' https://api.github.com', '']]);
+edit('next.config.ts', [[' https://api.github.com', '']]);
 
 edit('.github/workflows/check.yml', [[/\n {2}demo-removal:\n[\s\S]*/, '']]);
 
 edit('public/llms.txt', [
-  [/### Demo Credentials\n[\s\S]*?\n\n(?=###)/, ''],
+  [/- \*\*Demo accounts\*\*[^\n]*\n/, ''],
   [/- `\/ui-components`[^\n]*\n/, ''],
+  [/- \[UI components\]\([^)]*\)[^\n]*\n/, ''],
+  [/- \[scripts\/remove-demo\.mjs\][^\n]*\n/, ''],
   [', and a demo-removal check', ''],
+  [' and demo-removal check', ''],
 ]);
 
 edit('README.md', [

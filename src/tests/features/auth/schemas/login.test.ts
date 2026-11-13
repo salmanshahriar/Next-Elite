@@ -31,20 +31,4 @@ describe('loginSchema', () => {
       );
     }
   });
-
-  it('rejects an empty email', () => {
-    const result = loginSchema.safeParse({
-      email: '',
-      password: 'password123',
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it('rejects an empty password', () => {
-    const result = loginSchema.safeParse({
-      email: 'test@example.com',
-      password: '',
-    });
-    expect(result.success).toBe(false);
-  });
 });

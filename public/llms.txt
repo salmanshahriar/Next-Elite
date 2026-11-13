@@ -1,175 +1,91 @@
-# Next Elite - An open source production-ready Next.js starter kit
+# Next Elite
 
-> A production-ready, frontend-first Next.js 16.4 + React 19.3 + TypeScript 7 starter kit. API-first with no bundled database, next-intl i18n, Better Auth RBAC, Oxlint/Oxfmt tooling, and a polished developer experience.
+> Next Elite (v2.3.0) is an open source, MIT-licensed, frontend-first Next.js 16.4 starter kit for SaaS apps, admin panels, ERPs and dashboards. It ships authentication with role-based access control (Better Auth), six-language type-safe i18n with RTL, 50+ accessible UI components (shadcn/ui on Radix UI and Tailwind CSS v4), and per-page JavaScript budgets enforced in CI. It has no bundled database: it is built to consume your existing REST, GraphQL or BFF API.
 
----
+**Highlights**
 
-## 1. Project Metadata & SEO Tags
+- **API-first**: no database or ORM; connects to any REST, GraphQL or BFF backend.
+- **Authentication & RBAC**: Better Auth email/password and Google sign-in, `admin` and `user` roles.
+- **Type-safe i18n**: six languages with RTL; invalid translation keys fail the build.
+- **50+ UI components**: shadcn/ui on Radix UI and Tailwind CSS v4, light and dark themes.
+- **Performance budgets**: every page's initial JavaScript is measured with Brotli and capped in CI.
+- **Production tooling**: Oxlint, Oxfmt, Knip, Vitest, Playwright, Lefthook, Commitlint, Sentry, Docker.
+- **AI-agent ready**: `AGENTS.md` and the `project-standards` skill in `.agents/skills/`.
 
-- **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
-- **Framework Stack**: Next.js 16.4 (App Router, Turbopack), React 19.3, TypeScript 7, Node.js 22.12+
-- **UI & CSS**: Tailwind CSS v4, shadcn/ui, Radix UI, CVA variants, design tokens, light/dark theme, RTL
-- **Performance**: Optimized for Lighthouse (Performance, Accessibility, Best Practices, SEO)
-- **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
-- **Keywords**: Next.js 16.4, React 19, TypeScript 7, Better Auth, RBAC, next-intl, type-safe i18n, API-first, TanStack Query, sitemap, robots, llms.txt, T3 Env, Vitest, Playwright, Oxlint, Oxfmt, Lefthook, Knip, Sentry, Tailwind v4, SaaS starter, admin dashboard, frontend-first boilerplate, zero-database starter
+**Tech Stack** (exact versions from `package.json`)
 
----
+- **Core**: Next.js 16.4.6 (App Router, Turbopack), React 19.3.1, TypeScript 7.0.2, Node.js 22.12+.
+- **UI**: Tailwind CSS 4.3.5, shadcn/ui, Radix UI, CVA 0.7.1, Phosphor Icons 2.1.10, uPlot 1.6.32, Sonner 2.0.8.
+- **Auth & data**: Better Auth 1.7.22, TanStack Query 5.107.1, TanStack Table 9.3.1, React Hook Form 7.92.0, Zod 4.6.7, T3 Env 0.13.11.
+- **i18n**: next-intl 4.15.1 (English, Bengali, Arabic RTL, French, Spanish, Chinese).
+- **Observability**: Sentry 11.12.0, Vercel Analytics 2.0.1.
+- **Quality**: Oxlint 1.93.0, Oxfmt 0.78.0, Knip 6.45.1, Vitest 5.1.0, Playwright 1.65.0, Lefthook 2.2.2, Commitlint 21.2.4.
 
-## 2. Core Resources
+**Architecture**
 
-- **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite)
-- **Live Demo**: [nextelite.salmanshahriar.com](https://nextelite.salmanshahriar.com/)
-- **Agentic browsing**: `/llms.txt` (this file) for AI crawlers and assistants
-- **AI coding agents**: `AGENTS.md` and `.agents/skills/project-standards/SKILL.md` in the repo describe the code conventions
-- **Health Check**: `GET /api/health` returns `{ "status": "ok" }`
-- **Auth API**: `/api/auth/*` (Better Auth route handlers)
+- **Public pages** (`(public)`): Server Components for SEO, metadata, sitemap and Open Graph.
+- **Auth pages** (`(auth)`): server shell with client forms; the Better Auth client loads only on submit.
+- **Protected pages** (`(protected)`): client components; one `requireUser()` check in the layout picks the `@admin` or `@user` slot.
+- **Permissions**: `useAuth().hasPermission()` for in-page checks; real data protection belongs in your API.
+- **Data**: TanStack Query in the protected layout, fetching from your backend.
+- **Locale**: stored in a cookie, no `/en` URL prefix.
+- **Folders**: `src/app` routes, `src/features` auth, i18n and site logic, `src/components` UI, `src/libs` shared helpers, `messages` translations.
 
----
+**Routes**
 
-## 3. Key Architectural Pillars
+- `/` - home page
+- `/ui-components` - live showcase of the UI components
+- `/login`, `/register`, `/password-reset` - authentication
+- `/dashboard`, `/analytics`, `/profile`, `/settings` - protected, with `@admin` and `@user` versions
+- `/api/auth/*` - Better Auth; `/api/health` - health check
+- `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/llms.txt` - SEO, PWA and AI discovery
 
-### A. API-First & Database-Free
-Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Public pages render on the server for SEO. The protected layout checks the session once on the server; protected pages are client components that fetch live data with TanStack Query.
+**Commands**
 
-```
-[User] -> [Protected layout] -> [requireUser() + Better Auth]
-              |
-              +-> @admin / @user slot picked by role
-              |
-              +-> Client pages (next-intl messages from messages/)
-              |
-              +-> [Client] -> [TanStack Query] -> [Your Backend API]
-```
+- **Setup**: `git clone https://github.com/salmanshahriar/Next-Elite.git && cd Next-Elite && npm install && cp .env.example .env && npm run dev` (http://localhost:6767).
+- **Check**: `npm run check` - typecheck, lint, Knip and unit tests.
+- **Bundle size**: `npm run build && npm run size`; inspect with `npm run analyze`.
+- **E2E and Docker**: `npm run e2e`; `docker compose up --build`.
+- **Demo accounts** (when `NEXT_PUBLIC_DEMO_MODE=true`): `user@test.com` and `admin@test.com`, password `12345678`. Run `npm run demo:remove` to delete all demo code before building your app.
 
-### B. Feature-Based Structure
-Vertical slices under `src/features/`:
-- `auth/` - Better Auth server and client, RBAC (`rbac/`), auth provider hook, Zod schemas, server helpers
-- `i18n/` - next-intl request config, cookie routing, locale actions, RTL hook
-- `site/` - `site.config.json`, its schema, server-only base URL, locale helpers
+**Bundle Size**
 
-UI lives in `src/components/`:
-- `ui/` - shadcn/Radix primitives and custom components (cards, stat cards, charts, data table, forms, calendar, dialogs, sidebar)
-- `shared/` - app-level pieces (page header, theme toggle, language switcher, user dropdown, top loader)
-- `layout/` - app shell, admin and user sidebars, topbar, header
-- `auth/` - login, register, and password reset forms
-- `icons/` - icon registry and custom SVG icons
+First-load JavaScript without demo code: 184 KB Brotli for `/`, 225 KB for `/login`, 228 KB for `/dashboard`, including about 112 KB for Next.js and React. CI checks typecheck, lint, Knip, unit tests, build and bundle budgets on every push, and a demo-removal check.
 
----
+**When to Use**
 
-## 4. Feature Specifications
+- **Best for**: multi-role SaaS frontends, admin panels, ERPs, dashboards and multilingual (LTR and RTL) apps on an external API.
+- **Not ideal for**: single-page landing sites or apps that need a database inside the Next.js app.
 
-### Authentication & RBAC
-- **Better Auth**: Email/password and Google OAuth via `/api/auth/*`
-- **Roles**: `admin` and `user`; admin emails via the `AUTH_ADMIN_EMAILS` server variable
-- **Permissions**: role-to-permission map in `src/features/auth/rbac/permissions.ts`
-- **Guard**: one `requireUser()` call in the protected layout; client code checks permissions with `useAuth().hasPermission()`
-- **Parallel routing**: `@admin` and `@user` slots share the same URLs (`/dashboard`, `/analytics`, `/profile`, `/settings`)
+## Docs
 
-### Type-Safe i18n (next-intl)
-- **Six locales**: English, Bengali, Arabic (RTL), French, Spanish, Chinese
-- **Cookie locale**: `NEXT_LOCALE` cookie, no `/en` URL prefixes
-- **Compile-time keys**: Invalid `t("key")` calls fail the TypeScript build
+- [README](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/README.md): features, setup, architecture overview, configuration, scripts, Docker and deployment
+- [AGENTS.md](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/AGENTS.md): rules for AI coding agents (tooling, icons, dependencies, bundle budgets)
+- [Project standards skill](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/.agents/skills/project-standards/SKILL.md): component catalog, styling rules, server vs client, routing, forms and i18n conventions
+- [Environment variables](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/.env.example): every supported variable with comments
 
-### UI & Design System
-- **Design tokens**: light and dark tokens in `src/app/styles/tokens.css`, mapped to Tailwind utilities
-- **Variants**: CVA-based variants on buttons, badges, status indicators, toggles, and more
-- **Charts**: ApexCharts area chart, loaded only when it scrolls into view
+## Key source files
 
-### SEO, PWA & Agentic Browsing
-- **Single config**: `src/features/site/site.config.json` drives metadata, sitemap, and manifest
-- **Routes**: `sitemap.ts`, `robots.ts`, `manifest.ts` (`/manifest.webmanifest`)
-- **Rich previews**: Open Graph, Twitter cards, JSON-LD structured data
-- **llms.txt**: This file at `/llms.txt` for AI discovery
+- [Protected layout](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/app/%28protected%29/layout.tsx): the single `requireUser()` check and the role-based `@admin` / `@user` slot choice
+- [Auth provider](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/features/auth/hooks/auth-provider.tsx): `useAuth()` hook; lazy-loads the Better Auth client for sign-in, sign-up and sign-out
+- [Better Auth server config](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/features/auth/lib/auth.ts): providers, allowed hosts and role mapping
+- [Roles and permissions](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/features/auth/rbac/permissions.ts): `UserRole` union and `ROLE_PERMISSIONS` map
+- [Environment schema](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/libs/env.ts): T3 Env validation for server and client variables
+- [Site config](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/features/site/site.config.json): app name, SEO metadata, locales, sitemap and manifest settings
+- [Design tokens](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/src/app/styles/tokens.css): light and dark color, radius and spacing tokens
+- [English messages](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/messages/en.json): source translation file; other locales mirror its keys
+- [Next.js config](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/next.config.ts): security headers, standalone output, next-intl and Sentry setup
 
-### Forms & Validation
-- **Zod** schemas for login and register in `src/features/auth/schemas/`
-- **React Hook Form** with `zodResolver`
-- **InputError** and `ui/form` primitives for accessible inline field errors
+## Live
 
-### Testing & Quality Gates
-- **Vitest** + React Testing Library; tests live in `src/tests/`, with a `renderWithProviders` helper in `src/tests/render.tsx`
-- **Playwright** E2E in `e2e/`; CI uses the production server (Chromium)
-- **Oxlint + Oxfmt** for lint and format; **Knip** for unused code and dependencies
-- **Lefthook** pre-commit (oxlint + oxfmt), commit-msg (Commitlint), and pre-push (`npm run check`)
-- **`npm run check`**: typecheck, lint, knip, and unit tests in one command
+- [Live demo](https://nextelite.salmanshahriar.com/): the starter running in production
+- [UI components](https://nextelite.salmanshahriar.com/ui-components): every component with its variants
+- [Source code](https://github.com/salmanshahriar/Next-Elite): GitHub repository
 
-### Observability & Config
-- **Sentry** on client and server; the browser SDK loads lazily, only when `NEXT_PUBLIC_SENTRY_DSN` is set
-- **Vercel Analytics** rendered only when deployed on Vercel
-- **T3 Env** validates environment variables on the server (`src/libs/env.ts`)
-- **`GET /api/health`** for load balancers and Docker health checks
+## Optional
 
----
-
-## 5. Quick Start & Setup
-
-### Requirements
-- Node.js 22.12+
-- npm
-
-### Local Installation
-```bash
-git clone https://github.com/salmanshahriar/Next-Elite.git
-cd Next-Elite
-npm install
-cp .env.example .env
-npm run dev
-```
-
-Open `http://localhost:6767` (default dev port).
-
-### Demo Credentials
-When `NEXT_PUBLIC_DEMO_MODE=true`:
-- **User**: `user@test.com` / `12345678`
-- **Admin**: `admin@test.com` / `12345678`
-
-Run `npm run demo:remove` to delete all demo code before building your own app.
-
-### Docker
-```bash
-docker compose up --build
-# or
-docker build -t next-elite .
-docker run --rm --env-file .env -p 6767:6767 next-elite
-```
-
----
-
-## 6. Scripts & CI
-
-| Script | Purpose |
-|--------|---------|
-| `npm run dev` | Dev server (port 6767) |
-| `npm run build` | Production build (standalone output) |
-| `npm run start` | Production server (port 6767) |
-| `npm run check` | typecheck + lint + knip + test |
-| `npm run lint` / `lint:fix` | Oxlint + Oxfmt |
-| `npm run test` | Vitest unit/component tests |
-| `npm run e2e` | Playwright end-to-end tests |
-| `npm run playwright:install` | Install Playwright browsers |
-
-**CI workflows** (`.github/workflows/`): `check.yml` on push/PR (typecheck, lint, knip, tests, build, and a demo-removal check); `playwright.yml` for E2E.
-
----
-
-## 7. Routes
-
-### Public
-- `/` - Home (marketing)
-- `/ui-components` - Live component showcase (50+ components)
-
-### Auth
-- `/login`, `/register`, `/password-reset` - Auth pages
-
-### Protected (role-based `@admin` / `@user` slots)
-- `/dashboard` - Role-based dashboard
-- `/analytics` - Analytics
-- `/profile` - User profile
-- `/settings` - Settings
-
----
-
-## 8. Intended Use Cases
-
-- **Best for**: Multi-role SaaS frontends, admin panels, ERPs, dashboards, multilingual apps (LTR/RTL), apps that consume external APIs
-- **Not ideal for**: Simple brochure sites or apps that need a bundled ORM/database layer
+- [Bundle budget script](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/check-bundle-size.mjs): measures each page's initial JavaScript with Brotli and fails CI over budget
+- [scripts/remove-demo.mjs](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/remove-demo.mjs): removes all demo code and its references in one command
+- [CI workflow](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/.github/workflows/check.yml): typecheck, lint, Knip, tests, build, bundle budgets and demo-removal check
+- [Dockerfile](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/Dockerfile): multi-stage Distroless production image with a health check
+- [License](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/LICENSE): MIT

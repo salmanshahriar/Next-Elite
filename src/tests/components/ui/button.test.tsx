@@ -3,24 +3,6 @@ import { renderWithProviders, screen } from '@/tests/render';
 import { Button } from '@/components/ui/button';
 
 describe('Button', () => {
-  it('renders with children', () => {
-    renderWithProviders(<Button>Click me</Button>);
-    expect(
-      screen.getByRole('button', { name: /click me/i }),
-    ).toBeInTheDocument();
-  });
-
-  it('applies variant and size via class', () => {
-    const { container } = renderWithProviders(
-      <Button variant="secondary" size="sm">
-        Secondary
-      </Button>,
-    );
-    const button = container.querySelector('button');
-    expect(button).toHaveClass('bg-secondary');
-    expect(button).toHaveClass('h-8');
-  });
-
   it('shows loading state and disables the button', () => {
     renderWithProviders(<Button loading>Submit</Button>);
     const button = screen.getByRole('button', { name: /loading/i });

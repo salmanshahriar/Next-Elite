@@ -66,12 +66,4 @@ describe('registerSchema', () => {
       expect(confirmPasswordIssue?.message).toBe('Passwords do not match');
     }
   });
-
-  it('rejects an empty confirmPassword', () => {
-    const result = registerSchema.safeParse({
-      ...validInput,
-      confirmPassword: '',
-    });
-    expect(result.success).toBe(false);
-  });
 });

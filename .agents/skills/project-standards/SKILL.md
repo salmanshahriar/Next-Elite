@@ -56,7 +56,7 @@ All paths are under `src/components/`. Import with the `@/` alias, for example `
 | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Table with sorting, pagination, loading and empty states | `ui/data-table`: `DataTable` with `data`, `columns: DataTableColumnDef<T>[]`, `isLoading`, `pagination={{ total, page, limit, onPageChange }}`, `emptyMessage`, controlled `sorting`               |
 | Plain static table                                       | `ui/table`: `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableFooter`, `TableCaption`                                                                               |
-| Area / trend chart                                       | `ui/chart`: `Chart` with `data: ChartDataItem[]` (`{ label, value }`), `name`, `color`, `height`, `formatValue`, `isLoading` (ApexCharts, client-only)                                             |
+| Area / trend chart                                       | `ui/chart`: `Chart` with `data: ChartDataItem[]` (`{ label, value }`), `name`, `color`, `height`, `formatValue`, `isLoading` (uPlot, client-only)                                                  |
 | Animated ring / score gauge                              | `ui/dynamic-chart`: `DynamicChart` with `label`, `value` (0-100), `delay`, `strokeClassName`                                                                                                       |
 | Progress bar                                             | `ui/progress`: `Progress` with `value`, `variant="default" \| "success" \| "destructive"`                                                                                                          |
 | Status pill / tag                                        | `ui/badge`: `Badge`. Variants: `default`, `secondary`, `success`, `warning`, `destructive`, `outline`, `successSubtle`, `primaryOutline`, `successOutline`, `warningOutline`, `destructiveOutline` |
@@ -269,7 +269,7 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 - **Protected pages** (`src/app/(protected)`) start with `'use client'` and use `useTranslations`. Don't add server guards to them; the protected layout already checks the session and picks the role slot.
 - Public pages (`src/app/(public)`) must render real content on the server. Put interactivity in small `'use client'` leaf components and pass them server-rendered children or data.
 - `'use client'` goes in components that use state, effects, event handlers, context, or browser APIs. Client components use `useTranslations` from `next-intl`.
-- Client-only libraries (ApexCharts) load through `next/dynamic` with `ssr: false` and a `Skeleton` fallback, like `ui/chart.tsx` does.
+- Client-only libraries load lazily with a `Skeleton` fallback: `next/dynamic` with `ssr: false` for components, or a dynamic `import()` inside an effect, like `ui/chart.tsx` does with uPlot.
 - Server-only modules start with `import 'server-only';` (see `features/auth/server/get-current-user.ts`).
 
 ## Pages and routing
@@ -328,7 +328,7 @@ The product is judged on its UX. Everything must look like it belongs to the sam
 Stop and ask (with a short recommendation) before you:
 
 - Add, rename, move or delete top-level folders, or change the `src/` layout, route groups or slot model.
-- Add or remove a dependency, or change `next.config.mjs`, `tsconfig.json`, lint/format/knip configs, CI or Docker.
+- Add or remove a dependency, or change `next.config.ts`, `tsconfig.json`, lint/format/knip configs, CI or Docker.
 - Change a component's default look or API in a way that affects existing call sites.
 - Add brand-level design tokens or change existing token values.
 - Change auth, RBAC roles or permissions, or the i18n setup.

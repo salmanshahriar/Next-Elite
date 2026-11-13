@@ -1,18 +1,13 @@
-import bundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs/config';
+import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
-
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
 
 const withNextIntl = createNextIntlPlugin('./src/features/i18n/request.ts');
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const sentryOrigin = URL.canParse(process.env.NEXT_PUBLIC_SENTRY_DSN ?? '')
-  ? new URL(process.env.NEXT_PUBLIC_SENTRY_DSN).origin
-  : '';
+const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN ?? '';
+const sentryOrigin = URL.canParse(sentryDsn) ? new URL(sentryDsn).origin : '';
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -43,9 +38,8 @@ const securityHeaders = [
   },
 ];
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
+const nextConfig: NextConfig = {
+  output: process.env.VERCEL ? undefined : 'standalone',
   reactStrictMode: true,
   poweredByHeader: false,
   allowedDevOrigins: ['127.0.0.1'],
@@ -57,8 +51,14 @@ const nextConfig = {
   },
 };
 
-export default withSentryConfig(withBundleAnalyzer(withNextIntl(nextConfig)), {
+export default withSentryConfig(withNextIntl(nextConfig), {
   silent: !process.env.CI,
   widenClientFileUpload: true,
   telemetry: false,
+  bundleSizeOptimizations: {
+    excludeDebugStatements: true,
+    excludeReplayIframe: true,
+    excludeReplayShadowDom: true,
+    excludeReplayWorker: true,
+  },
 });
