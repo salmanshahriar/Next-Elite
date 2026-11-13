@@ -6,19 +6,25 @@ import * as React from 'react';
 
 import { cn } from '@/libs/utils';
 
+// The thumb sits inside a 1px border plus the track padding. Square corners
+// stay concentric: track radius = thumb radius (5px) + that inset.
 const switchVariants = cva(
   'peer inline-flex shrink-0 cursor-pointer items-center border border-transparent shadow-xs transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-input/80',
   {
     variants: {
       variant: {
         default: 'rounded-full',
-        square: 'rounded-sm',
+        square: '',
       },
       size: {
-        default: 'h-[1.15rem] w-8',
-        lg: 'h-6 w-11',
+        default: 'h-4.5 w-8',
+        lg: 'h-6 w-11 p-0.5',
       },
     },
+    compoundVariants: [
+      { variant: 'square', size: 'default', className: 'rounded-sm' },
+      { variant: 'square', size: 'lg', className: 'rounded-md' },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
@@ -27,17 +33,17 @@ const switchVariants = cva(
 );
 
 const switchThumbVariants = cva(
-  'group/thumb pointer-events-none relative flex items-center justify-center bg-background shadow-xs ring-0 transition-transform dark:data-[state=checked]:bg-primary-foreground dark:data-[state=unchecked]:bg-foreground',
+  'group/thumb pointer-events-none relative flex items-center justify-center bg-background shadow-xs ring-0 transition-transform data-[state=unchecked]:translate-x-0 dark:data-[state=checked]:bg-primary-foreground dark:data-[state=unchecked]:bg-foreground',
   {
     variants: {
       variant: {
         default: 'rounded-full',
-        square: 'rounded-sm',
+        square: 'rounded-[calc(var(--radius-sm)-1px)]',
       },
       size: {
         default:
-          'size-4 data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0 rtl:data-[state=checked]:-translate-x-[calc(100%-2px)] rtl:data-[state=unchecked]:translate-x-0',
-        lg: 'size-[18px] data-[state=checked]:translate-x-[24px] data-[state=unchecked]:translate-x-[2px] rtl:data-[state=checked]:-translate-x-[24px] rtl:data-[state=unchecked]:-translate-x-[2px]',
+          'size-4 data-[state=checked]:translate-x-3.5 rtl:data-[state=checked]:-translate-x-3.5',
+        lg: 'size-4.5 data-[state=checked]:translate-x-5 rtl:data-[state=checked]:-translate-x-5',
       },
     },
     defaultVariants: {

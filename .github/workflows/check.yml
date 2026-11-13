@@ -41,6 +41,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Bundle size budget
+        run: npm run size
+
   demo-removal:
     name: Demo removal
     runs-on: ubuntu-latest
@@ -81,3 +84,7 @@ jobs:
       - name: Build
         working-directory: ${{ env.CLEAN_DIR }}
         run: npm run build
+
+      - name: Bundle size budget
+        working-directory: ${{ env.CLEAN_DIR }}
+        run: npm run size

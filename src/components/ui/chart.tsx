@@ -109,7 +109,7 @@ function Chart({
     },
     tooltip: {
       custom: ({ series, seriesIndex, dataPointIndex }) => `
-        <div class="bg-popover px-3 py-2 text-popover-foreground">
+        <div class="px-3 py-1.5 text-popover-foreground">
           <p class="m-0 text-sm font-semibold">${data[dataPointIndex]?.label ?? ''}</p>
           <p class="m-0 mt-1 text-sm text-muted-foreground">${formatValue(series[seriesIndex]?.[dataPointIndex] ?? 0)}</p>
         </div>`,
@@ -122,7 +122,7 @@ function Chart({
       className={cn(
         'w-full',
         '[&_.apexcharts-gridline]:stroke-border [&_.apexcharts-text]:fill-muted-foreground',
-        '[&_.apexcharts-tooltip]:border-border! [&_.apexcharts-tooltip]:bg-popover! [&_.apexcharts-tooltip]:shadow-md!',
+        '[&_.apexcharts-tooltip]:[--apx-tt-bg:var(--popover)]! [&_.apexcharts-tooltip]:[--apx-tt-border:var(--border)]! [&_.apexcharts-tooltip]:[--apx-tt-color:var(--popover-foreground)]!',
         className,
       )}
       style={{ height }}

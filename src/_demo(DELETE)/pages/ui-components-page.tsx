@@ -90,7 +90,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { DataTable } from '@/components/ui/data-table';
-import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
 import {
@@ -177,13 +176,11 @@ import {
   TextAlignRightIcon,
   TextBIcon,
   CaretRightIcon,
-  HeartIcon,
   TextItalicIcon,
   EnvelopeIcon,
   ListIcon,
   MoonIcon,
   MagnifyingGlassIcon,
-  GearIcon,
   StarIcon,
   SunIcon,
 } from '@phosphor-icons/react';
@@ -253,7 +250,6 @@ const SECTIONS = [
       { id: 'avatar', label: 'Avatar' },
       { id: 'badge', label: 'Badge' },
       { id: 'status-indicator', label: 'Status Indicator' },
-      { id: 'icon', label: 'Icon' },
     ],
   },
   {
@@ -1330,12 +1326,6 @@ const ShowcasePreviewCard = ({
   );
 };
 
-const ICON_DEMOS = [
-  { icon: HeartIcon, className: 'size-6 text-destructive' },
-  { icon: StarIcon, className: 'size-6 text-warning' },
-  { icon: GearIcon, className: 'size-6 text-primary' },
-] as const;
-
 const DataDisplayShowcaseSection = () => {
   const t = useTranslations('uiComponents');
 
@@ -1423,15 +1413,6 @@ const DataDisplayShowcaseSection = () => {
             <StatusIndicator pulse /> Pulse
           </span>
         </VariantGrid>
-      </ComponentBlock>
-
-      <ComponentBlock id="data-display-icon" title="Icon">
-        <SubLabel>Phosphor icons</SubLabel>
-        <div className="flex items-center gap-4">
-          {ICON_DEMOS.map(({ icon, className }) => (
-            <Icon key={className} iconNode={icon} className={className} />
-          ))}
-        </div>
       </ComponentBlock>
     </ShowcaseSection>
   );

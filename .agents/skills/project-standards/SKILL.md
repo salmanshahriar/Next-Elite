@@ -1,6 +1,6 @@
 ---
 name: project-standards
-description: Coding standards for this project (Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/Radix frontend for admin panels, ERPs, dashboards, user portals and SaaS). Use for ANY UI or frontend work in this repo - pages, sections, cards, stats, charts, tables, forms, inputs, selects, date pickers, dialogs, layouts, styling, new components, new routes, refactors. Enforces reuse of existing components in src/components, variants over duplicates, design tokens over hard-coded values, minimal JSX/CSS, server-first public pages, and asking before structural changes.
+description: Coding standards for this project (Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/Radix frontend for admin panels, ERPs, dashboards, user portals and SaaS). Use for ANY UI or frontend work in this repo - pages, sections, cards, stats, charts, tables, forms, inputs, selects, date pickers, dialogs, layouts, styling, new components, new routes, refactors. Enforces reuse of existing components in src/components, variants over duplicates, design tokens over hard-coded values, minimal JSX/CSS, server-rendered public pages, client-rendered protected pages, and asking before structural changes.
 ---
 
 # Project standards
@@ -15,7 +15,7 @@ Every rule below comes from the existing code. When this file and the code disag
 2. **Extend, don't duplicate.** If a component is close but not quite right, add a variant or prop to it. Never make `MyCard`, `CustomButton`, `StatsBox` or a near-copy of something that already exists.
 3. **Tokens only.** No hard-coded colors, radii, shadows or magic sizes. Every value comes from the CSS variables in `src/app/styles/tokens.css`, through Tailwind utilities.
 4. **Minimal code.** No wrapper `<div>` that does nothing, no unused class, no dead code, no commented-out code, no unused export, file or dependency. Write only what the feature needs.
-5. **Server first.** Pages and layouts are Server Components. Add `'use client'` only to the smallest leaf that needs state, effects or browser APIs. Public pages must render on the server for SEO.
+5. **Server for public, client for protected.** Public pages (`(public)`, `(auth)`) are Server Components so they render for SEO; add `'use client'` only to the smallest leaf that needs it. Protected pages (`(protected)`) don't need SEO, so they are plain `'use client'` components. The protected layout stays a Server Component and does the one session check.
 6. **Respect the structure.** Don't add top-level folders, move files, rename conventions, add dependencies or change configs without asking the user first (see "When to ask").
 7. **Industry practice, kept simple.** Pick the boring, standard solution that a new developer will understand on first read.
 
@@ -125,7 +125,7 @@ Date picker pattern:
 | Popover         | `ui/popover`                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Menu            | `ui/dropdown-menu`                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | Tooltip         | `ui/tooltip`                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| Toast           | `import { toast } from 'sonner'` (the `<Toaster richColors />` is already mounted in `app/providers.tsx`)                                                                                                                                                                                                                                                                                                                                                 |
+| Toast           | `import { toast } from 'sonner'` (the `<Toaster richColors />` is mounted lazily in `app/providers.tsx`, so it's ready after hydration; don't fire toasts during the first render)                                                                                                                                                                                                                                                                        |
 | Text link       | `shared/text-link` (`variant="default" \| "underlined"`); otherwise `next/link`                                                                                                                                                                                                                                                                                                                                                                           |
 
 ### App chrome (already wired, reuse it, don't rebuild it)
@@ -213,7 +213,8 @@ Only do this when nothing in the catalog fits.
 - **Pages, layouts, `default.tsx`:** an arrow const plus a default export:
 
   ```tsx
-  const AdminDashboardPage = async () => { ... };
+  const HomePage = async () => { ... }; // public: async Server Component
+  const AdminDashboardPage = () => { ... }; // protected: 'use client'
 
   export default AdminDashboardPage;
   ```
@@ -237,9 +238,9 @@ Only do this when nothing in the catalog fits.
 - In server components, run independent awaits in parallel:
 
   ```tsx
-  const [, t] = await Promise.all([
-    requirePermission('dashboard.view:admin'),
-    getTranslations('dashboard.admin'),
+  const [t, data] = await Promise.all([
+    getTranslations('home'),
+    getPublicData(),
   ]);
   ```
 
@@ -264,7 +265,8 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 
 ## Server vs client
 
-- Pages (`page.tsx`) and layouts are **async Server Components**. Use `getTranslations` from `next-intl/server` and `generateMetadata` for SEO.
+- **Public and auth pages** are **async Server Components**. Use `getTranslations` from `next-intl/server` and `generateMetadata` for SEO.
+- **Protected pages** (`src/app/(protected)`) start with `'use client'` and use `useTranslations`. Don't add server guards to them; the protected layout already checks the session and picks the role slot.
 - Public pages (`src/app/(public)`) must render real content on the server. Put interactivity in small `'use client'` leaf components and pass them server-rendered children or data.
 - `'use client'` goes in components that use state, effects, event handlers, context, or browser APIs. Client components use `useTranslations` from `next-intl`.
 - Client-only libraries (ApexCharts) load through `next/dynamic` with `ssr: false` and a `Skeleton` fallback, like `ui/chart.tsx` does.
@@ -274,19 +276,17 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 
 - **Route groups:** `(public)` for marketing/SEO pages, `(auth)` for login, register and reset, `(protected)` for the app behind login.
 - **Role slots:** protected pages live in `@admin/<route>/page.tsx` and/or `@user/<route>/page.tsx`. The protected layout picks the slot based on permissions. New slots need a `default.tsx` that returns `null`.
-- **Guard every protected page** with `requirePermission('<permission>')` (or `requireUser()`) from `@/features/auth/rbac/require`. New permissions go in `features/auth/rbac/permissions.ts` and are mapped in `roles.ts`.
+- **Auth is checked once**, by `requireUser()` in `(protected)/layout.tsx`, which also picks the `@admin` or `@user` slot by permission. Pages don't guard themselves. For finer checks inside a page (hide a button, a section), use `useAuth().hasPermission('<permission>')`. `useAuth()` gets the user from the server (no client session polling); the Better Auth client is only downloaded when someone signs in, signs up or signs out. New permissions go in `features/auth/rbac/permissions.ts` and are mapped in `roles.ts`. Real data protection is the backend API's job.
 - **Standard protected page:**
 
   ```tsx
-  import { PageHeader, PageLayout } from '@/components/shared/page-header';
-  import { requirePermission } from '@/features/auth/rbac/require';
-  import { getTranslations } from 'next-intl/server';
+  'use client';
 
-  const AdminOrdersPage = async () => {
-    const [, t] = await Promise.all([
-      requirePermission('dashboard.view:admin'),
-      getTranslations('orders'),
-    ]);
+  import { PageHeader, PageLayout } from '@/components/shared/page-header';
+  import { useTranslations } from 'next-intl';
+
+  const AdminOrdersPage = () => {
+    const t = useTranslations('orders');
 
     return (
       <PageLayout>
@@ -304,8 +304,8 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 
 ## Data, forms, i18n
 
-- **Server data:** fetch in the Server Component when the data is needed for first paint or SEO.
-- **Client data:** use TanStack Query (`useQuery` / `useMutation`). The client is already provided in `app/providers.tsx` with defaults from `libs/query-client.ts`. Don't add another fetching library or a global store unless the user agrees.
+- **Server data:** only on public pages, fetched in the Server Component when the data is needed for first paint or SEO.
+- **Client data** (all protected pages): use TanStack Query (`useQuery` / `useMutation`). The client is provided by `QueryProvider` in `(protected)/layout.tsx` with defaults from `libs/query-client.ts`; public and auth pages don't load it. If a public page ever needs client data, wrap just that part in `QueryProvider`. Don't add another fetching library or a global store unless the user agrees.
 - **Forms:** use react-hook-form + `zodResolver`. Put the schema in `src/features/<feature>/schemas/<name>.ts` and export `xSchema` plus `type XInput = z.infer<...>`. Wire fields with `Label` + `Input` + `InputError`, or with the `ui/form` primitives. Submit with `<Button type="submit" loading={form.formState.isSubmitting}>`. Copy `components/auth/login-form.tsx`.
 - **Feature logic** (hooks, schemas, server helpers, types for one domain) goes in `src/features/<feature>/` using the same subfolders `auth` uses (`hooks/`, `lib/`, `schemas/`, `server/`, `types.ts`). Create only the subfolders you actually need.
 - **i18n:** user-facing text goes through `next-intl`. Add every new key to **all six** files in `messages/` (`en`, `bn`, `ar`, `fr`, `es`, `zh`). Keys are type-checked from `en.json`. Reuse `common.*` keys (`save`, `cancel`, `delete`, `search`, `noData`, ...) before adding new ones. Add nav labels under `navigation.*` so breadcrumbs pick them up.
@@ -342,8 +342,8 @@ For small, in-pattern work (a page, a section, a variant, a translation key), ju
 - [ ] Reused or extended existing components; no near-duplicates created
 - [ ] No hard-coded colors or sizes; tokens only; works in light, dark and RTL
 - [ ] No unnecessary wrappers, classes, files, folders, exports or comments
-- [ ] Server Component by default; `'use client'` only on leaves
-- [ ] Protected pages guarded; translations added to all six `messages/*.json`
+- [ ] Public pages are Server Components with `'use client'` only on leaves; protected pages are client components
+- [ ] Protected pages live in the right role slot; translations added to all six `messages/*.json`
 - [ ] Loading, empty and error states handled
 - [ ] `npm run lint:fix`, then `npm run check` (typecheck, lint, knip, tests) passes
 - [ ] If `src/_demo(DELETE)/` exists: demo code stays there, and `npm run demo:remove` still works

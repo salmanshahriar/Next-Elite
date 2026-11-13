@@ -125,10 +125,7 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
     >
       <body className={cn(fontSans.className, 'antialiased')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers
-            defaultTheme={defaultTheme}
-            isGoogleEnabled={env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED}
-          >
+          <Providers defaultTheme={defaultTheme}>
             <div className="relative flex min-h-screen flex-col bg-background">
               <div className="relative z-10 flex min-h-screen flex-col">
                 {children}

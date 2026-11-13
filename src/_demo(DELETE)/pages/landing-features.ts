@@ -59,7 +59,7 @@ export const HOME_FEATURES = [
         highlights: ['@admin', '@user', '/dashboard'],
       },
       { key: 'routing.details.signIn', highlights: ['Better Auth'] },
-      { key: 'routing.details.roles', highlights: ['requirePermission'] },
+      { key: 'routing.details.roles', highlights: ['hasPermission'] },
     ],
   },
   {

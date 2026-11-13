@@ -2,7 +2,6 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
     "src/app/**/{page,layout,loading,error,not-found,template,default,sitemap,robots,manifest,route}.{ts,tsx}",
-    "src/features/i18n/request.ts",
     "src/components/ui/*.tsx"
   ],
   "project": ["src/**/*.{js,jsx,ts,tsx}", "e2e/**/*.{ts,tsx}"],

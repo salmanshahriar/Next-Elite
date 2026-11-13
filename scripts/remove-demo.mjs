@@ -116,6 +116,8 @@ edit('Dockerfile', [
   ['ENV NEXT_PUBLIC_DEMO_MODE=$NEXT_PUBLIC_DEMO_MODE\n', ''],
 ]);
 
+edit('docker-compose.yml', [[/ *NEXT_PUBLIC_DEMO_MODE: [^\n]*\n/, '']]);
+
 edit('config/playwright.config.ts', [
   [
     "testMatch: ['e2e/**/*.spec.ts', /src\\/_demo\\(DELETE\\)\\/.+\\.spec\\.ts$/],",
@@ -135,21 +137,18 @@ edit('public/llms.txt', [
 
 edit('README.md', [
   [/### Demo Credentials\n[\s\S]*?(?=### Docker)/, ''],
-  [/│ {3}├── _demo\(DELETE\)\/[^\n]*\n/, ''],
   [
     /<div align="center">\n {2}<table>[\s\S]*?<\/table>\n<\/div>\n\n<br\/>\n\n/,
     '',
   ],
   [/## 📈 Lighthouse Report\n\n[\s\S]*?<br\/>\n\n/, ''],
-  [' (incl. demo removal)', ''],
-  [/├── scripts\/ {18}remove-demo\.mjs[^\n]*\n/, ''],
 ]);
 
 edit('AGENTS.md', [
   [/- Demo-only code lives in `src\/_demo\(DELETE\)\/`[^\n]*\n/, ''],
 ]);
 
-edit('.claude/skills/project-standards/SKILL.md', [
+edit('.agents/skills/project-standards/SKILL.md', [
   [
     / If `src\/_demo\(DELETE\)\/` exists, its [^\n]*?never import from it\./,
     '',

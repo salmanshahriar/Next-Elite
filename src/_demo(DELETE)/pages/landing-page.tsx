@@ -2,13 +2,7 @@
 
 import { BetterAuthIcon, GithubIcon, VercelIcon } from '@/_demo(DELETE)/icons';
 import TextLink from '@/components/shared/text-link';
-import {
-  ShowcaseDashboard,
-  ShowcaseData,
-  ShowcaseProfile,
-} from '@/_demo(DELETE)/components/ui-showcase';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DynamicChart } from '@/components/ui/dynamic-chart';
@@ -18,6 +12,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
@@ -30,9 +25,26 @@ import {
   TerminalIcon,
 } from '@phosphor-icons/react';
 import { useLocale, useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
+const Calendar = dynamic(() =>
+  import('@/components/ui/calendar').then((mod) => mod.Calendar),
+);
+
+const loadShowcase = (
+  name: 'ShowcaseDashboard' | 'ShowcaseData' | 'ShowcaseProfile',
+) =>
+  dynamic(
+    () =>
+      import('@/_demo(DELETE)/components/ui-showcase').then((mod) => mod[name]),
+    { ssr: false, loading: () => <Skeleton className="h-96 w-full" /> },
+  );
+const ShowcaseDashboard = loadShowcase('ShowcaseDashboard');
+const ShowcaseData = loadShowcase('ShowcaseData');
+const ShowcaseProfile = loadShowcase('ShowcaseProfile');
 
 const useGithubStars = () => {
   const [githubStars, setGithubStars] = useState<string | null>(null);

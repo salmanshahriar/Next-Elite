@@ -93,7 +93,7 @@
         "details": {
           "slots": "@admin ও @user স্লট, সবার জন্য একটি /dashboard URL",
           "signIn": "Better Auth দিয়ে ইমেইল, পাসওয়ার্ড ও Google সাইন-ইন",
-          "roles": "requirePermission দিয়ে সুরক্ষিত অ্যাডমিন ও ইউজার রোল"
+          "roles": "hasPermission দিয়ে সুরক্ষিত অ্যাডমিন ও ইউজার রোল"
         }
       },
       "i18n": {

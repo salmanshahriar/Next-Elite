@@ -28,8 +28,7 @@ const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;
 const LoginForm = () => {
   const t = useTranslations('auth.login');
   const router = useRouter();
-  const { signIn, signUp, signInWithGoogle, isGoogleEnabled, user, isLoading } =
-    useAuth();
+  const { signIn, signUp, signInWithGoogle, isGoogleEnabled, user } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<LoginInput>({
@@ -65,7 +64,7 @@ const LoginForm = () => {
     setServerError(null);
   };
 
-  if (!isLoading && user) return null;
+  if (user) return null;
 
   const emailError = form.formState.errors.email?.message;
   const passwordError = form.formState.errors.password?.message;

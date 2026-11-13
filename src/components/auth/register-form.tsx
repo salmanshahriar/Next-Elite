@@ -21,9 +21,8 @@ import {
 const RegisterForm = () => {
   const t = useTranslations('auth.register');
   const tLogin = useTranslations('auth.login');
-  const tCommon = useTranslations('common');
   const router = useRouter();
-  const { signUp, user, isLoading } = useAuth();
+  const { signUp, user } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<RegisterInput>({
@@ -47,14 +46,6 @@ const RegisterForm = () => {
       );
     }
   });
-
-  if (isLoading) {
-    return (
-      <div className="flex w-full items-center justify-center py-10">
-        <div>{tCommon('loading')}</div>
-      </div>
-    );
-  }
 
   if (user) return null;
 

@@ -41,11 +41,11 @@ export function Topbar() {
 
   return (
     <header className="sticky top-0 z-30 hidden h-app-header shrink-0 items-center justify-between border-b border-border/40 bg-muted/70 px-4 sm:px-6 md:flex lg:px-8 dark:border-border/60 dark:bg-background">
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+      <div className="flex min-w-0 flex-1 items-center gap-1">
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-muted-foreground hover:bg-accent/40 hover:text-foreground"
+          className="-ms-2 h-8 w-8 text-muted-foreground hover:bg-accent/40 hover:text-foreground"
           onClick={toggleSidebar}
           aria-expanded={open}
           aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
@@ -86,7 +86,7 @@ export function Topbar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1 border-e border-border/40 pe-3">
+        <div className="flex items-center gap-1 border-e border-border/40 pe-1">
           <ThemeToggle />
           <LanguageSwitcher />
         </div>

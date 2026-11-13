@@ -17,7 +17,6 @@
     "pnpm-lock.yaml",
     "package-lock.json",
     "*.min.js",
-    "public",
-    ".agents"
+    "public"
   ]
 }

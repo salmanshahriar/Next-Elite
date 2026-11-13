@@ -125,12 +125,9 @@
   },
   "errors": {
     "401": "Unauthorized",
-    "403": "Forbidden",
     "404": "Page not found",
     "500": "Internal server error",
     "generic": "Something went wrong. Please try again.",
-    "unauthorizedDescription": "You do not have permission to access this page.",
-    "goToDashboard": "Go to Dashboard",
     "tryAgain": "Try again",
     "backToHome": "Back to home"
   }

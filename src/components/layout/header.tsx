@@ -4,22 +4,31 @@ import { AppBrand } from '@/components/layout/app-brand';
 import LanguageSwitcher from '@/components/shared/language-switcher';
 import { setHeaderChromeActive } from '@/components/shared/theme-provider';
 import { ThemeToggle } from '@/components/shared/theme-toggle';
-import { UserDropdown } from '@/components/shared/user-dropdown';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/features/auth/hooks/auth-provider';
+import type { AuthUser } from '@/features/auth/types';
 import { cn } from '@/libs/utils';
 import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const UserDropdown = dynamic(() =>
+  import('@/components/shared/user-dropdown').then(
+    (mod) => mod.StandaloneUserDropdown,
+  ),
+);
+
 const HIDE_AFTER_PX = 80;
 const SCROLL_DELTA_PX = 6;
 
-const Header = () => {
+interface HeaderProps {
+  user: AuthUser | null;
+}
+
+const Header = ({ user }: HeaderProps) => {
   const t = useTranslations('navigation');
-  const { user } = useAuth();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollOpacity, setScrollOpacity] = useState(0);
@@ -136,16 +145,16 @@ const Header = () => {
             )}
           </nav>
 
-          <div className="hidden items-center justify-end gap-2 md:flex">
-            <div className="me-2 flex items-center gap-1 border-e border-border/40 pe-2">
+          <div className="hidden items-center justify-end gap-3 md:flex">
+            <div className="flex items-center gap-1 border-e border-border/40 pe-1">
               <ThemeToggle />
               <LanguageSwitcher />
             </div>
 
             {user ? (
-              <UserDropdown hideEmailOnMobile />
+              <UserDropdown user={user} hideEmailOnMobile />
             ) : (
-              <Button asChild size="sm" className="h-8 rounded-full text-xs">
+              <Button asChild size="sm" className="text-xs">
                 <Link href="/login">{t('login')}</Link>
               </Button>
             )}
@@ -230,15 +239,12 @@ const Header = () => {
             <div className="flex items-center justify-center gap-4 border-t border-border/40 pt-4">
               {user ? (
                 <UserDropdown
+                  user={user}
                   contentClassName="w-56"
                   onLogout={closeMobileMenu}
                 />
               ) : (
-                <Button
-                  asChild
-                  size="sm"
-                  className="h-8 rounded-full px-3 text-xs"
-                >
+                <Button asChild size="sm" className="text-xs">
                   <Link href="/login" onClick={closeMobileMenu}>
                     {t('login')}
                   </Link>

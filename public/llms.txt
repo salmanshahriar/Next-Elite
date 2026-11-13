@@ -20,7 +20,7 @@
 - **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite)
 - **Live Demo**: [nextelite.salmanshahriar.com](https://nextelite.salmanshahriar.com/)
 - **Agentic browsing**: `/llms.txt` (this file) for AI crawlers and assistants
-- **AI coding agents**: `AGENTS.md` and `.claude/skills/project-standards/SKILL.md` in the repo describe the code conventions
+- **AI coding agents**: `AGENTS.md` and `.agents/skills/project-standards/SKILL.md` in the repo describe the code conventions
 - **Health Check**: `GET /api/health` returns `{ "status": "ok" }`
 - **Auth API**: `/api/auth/*` (Better Auth route handlers)
 
@@ -29,12 +29,14 @@
 ## 3. Key Architectural Pillars
 
 ### A. API-First & Database-Free
-Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Server Components check auth and roles; the client caches live data with TanStack Query.
+Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Public pages render on the server for SEO. The protected layout checks the session once on the server; protected pages are client components that fetch live data with TanStack Query.
 
 ```
-[User] -> [Server Component] -> [requirePermission() + Better Auth]
+[User] -> [Protected layout] -> [requireUser() + Better Auth]
               |
-              +-> Server HTML (next-intl messages from messages/)
+              +-> @admin / @user slot picked by role
+              |
+              +-> Client pages (next-intl messages from messages/)
               |
               +-> [Client] -> [TanStack Query] -> [Your Backend API]
 ```
@@ -60,7 +62,7 @@ UI lives in `src/components/`:
 - **Better Auth**: Email/password and Google OAuth via `/api/auth/*`
 - **Roles**: `admin` and `user`; admin emails via the `AUTH_ADMIN_EMAILS` server variable
 - **Permissions**: role-to-permission map in `src/features/auth/rbac/permissions.ts`
-- **Guards**: `requireUser()` and `requirePermission()` in Server Components
+- **Guard**: one `requireUser()` call in the protected layout; client code checks permissions with `useAuth().hasPermission()`
 - **Parallel routing**: `@admin` and `@user` slots share the same URLs (`/dashboard`, `/analytics`, `/profile`, `/settings`)
 
 ### Type-Safe i18n (next-intl)
@@ -164,7 +166,6 @@ docker run --rm --env-file .env -p 6767:6767 next-elite
 - `/analytics` - Analytics
 - `/profile` - User profile
 - `/settings` - Settings
-- `/unauthorized` - Shown when a role lacks permission
 
 ---
 

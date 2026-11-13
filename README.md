@@ -2,13 +2,13 @@
 
 <p align="center">
   An open source, frontend-focused and API-driven Next.js boilerplate/starter kit built for developer experience. It's designed to consume external backends (REST, GraphQL, or BFF) and gives you a polished starting point with pre-built authentication layouts, dashboard layouts, and 50+ custom & reusable UI components.
-</p
+</p>
 <br/>
 <p align="center">
   <a href="https://nextelite.salmanshahriar.com/"><strong>🚀 Live Demo</strong></a> ·
   <a href="https://github.com/salmanshahriar/Next-Elite/generate"><strong>📦 Use this Template</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>🐛 Report Bug</strong></a> ·
-  <a href="https://github.com/salmanshahriar/Next-Elite/issues"><strong>✨ Request Feature</strong></a>
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues/new?labels=bug"><strong>🐛 Report Bug</strong></a> ·
+  <a href="https://github.com/salmanshahriar/Next-Elite/issues/new?labels=enhancement"><strong>✨ Request Feature</strong></a>
 </p>
 
 <br/>
@@ -46,18 +46,18 @@ https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 
 **Highlights & Features:**
 
-- ⚡ **Next.js 16.4 + React 19.3** - Fast App Router, Turbopack, and Server Actions
-- 🔥 **TypeScript 7** - End-to-end type safety across components and routes
-- ✨ **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
-- 🤖 **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
-- 🧠 **AI Agent Ready** - `AGENTS.md` and a `project-standards` skill keep AI coding agents on the project's conventions
-- 🔐 **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
-- 🖼️ **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
-- 🎨 **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
-- 📚 **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
-- 📝 **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
-- 🧪 **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
-- 🚀 **[Next Elite Server](https://github.com/salmanshahriar/Next-Elite-Server) (Coming Soon)** - Companion backend built with NestJS, BetterAuth, Drizzle ORM, PostgreSQL, and Multi-tenancy
+- **Next.js 16.4 + React 19.3** - Fast App Router, Turbopack, and Server Actions
+- **TypeScript 7** - End-to-end type safety across components and routes
+- **Oxlint + Oxfmt** - Blazing-fast linting & formatting with Lefthook pre-commit hooks
+- **Next.js Best Practices** - Modular architecture, standalone Docker build, and performance optimizations
+- **AI Agent Ready** - `AGENTS.md` and a `project-standards` skill in `.agents/skills/` keep AI coding agents on the project's conventions
+- **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
+- **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
+- **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
+- **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
+- **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, and web manifest
+- **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
+- **[Next Elite Server](https://github.com/salmanshahriar/Next-Elite-Server) (Coming Soon)** - Companion backend
 
 <br/>
 
@@ -73,43 +73,41 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 ### Frameworks & Core
 
-- **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack, standalone output for Docker/self-hosting, and full support for React 19.3 features (Server/Client components, Server Actions).
+- **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack.
 - **TypeScript 7** - End-to-end type safety for rock-solid refactoring and developer experience.
 - **Node.js 22.12+** - Built on the Node.js 22 LTS runtime.
-- **Feature-Based Architecture** - Structured around self-contained vertical slices/feature folders under `src/features/` for maximum modularity and clean separation of concerns.
 
 ### Authentication & Access Control
 
-- **BetterAuth** - Out-of-the-box email/password and Google OAuth authentication using `/api/auth/*` route handlers. Configure admin emails via the comma-separated `AUTH_ADMIN_EMAILS` server variable.
-- **Auth UI & Layout** - Split-pane authentication pages with custom WebGL particle background animation, and a topbar with theme toggle and language switcher.
-- **Role-Based Access Control (RBAC)** - Flexible RBAC (`user` and `admin` roles) with server-side guards (`requireUser`, `requirePermission`) and parallel route slots (`@admin`, `@user`) for role-agnostic routing.
-- **Dashboard & Navigation** - Modern sidebar navigation with fixed bottom Settings (`/settings`) and Logout actions, collapsible state, mobile sheet, and topbar breadcrumbs.
+- **BetterAuth** - Out-of-the-box email/password and Google OAuth authentication using `/api/auth/*` route handlers.
+- **Auth UI & Layout** - Split-pane authentication pages with an animated globe background (lazy-loaded, desktop only).
+- **Role-Based Access Control (RBAC)** - `user` and `admin` roles. One `requireUser()` check in the protected layout picks the `@admin` or `@user` parallel route slot; `useAuth().hasPermission()` handles in-page checks.
+- **Dashboard & Navigation** - Modern sidebar and Logout actions, mobile sheet, and topbar breadcrumbs.
 
 ### Internationalization (i18n)
 
-- **next-intl** - Type-safe, cookie-based localizations (no URL prefix) with support for English, বাংলা, العربية (RTL), Français, Español, and 简体中文. Translation keys are type-checked (`t("key")` works; typos fail compile-time).
+- **next-intl** - Type-safe, cookie-based localizations (no URL prefix). Translation keys are type-checked (`t("key")` works; typos fail compile-time).
 
 ### UI & Styling
 
 - **Tailwind CSS 4** - Utility-first styling with `@tailwindcss/postcss` and `tw-animate-css`.
-- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css`, mapped to Tailwind utilities (no hard-coded colors).
+- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css`(no hard-coded colors).
 - **shadcn/ui** - Highly customizable UI components built with Tailwind CSS, Radix UI, and CVA.
 - **Theme Support** - Easy light/dark mode transitions via theme toggle.
 
 ### API & Data Fetching
 
-- **TanStack Query (React Query)** - Pre-configured `QueryClientProvider` in `src/app/providers.tsx` with sensible defaults (`staleTime`, `gcTime`, retry). Ready to wire `useQuery` / `useMutation` hooks to your REST, GraphQL, or BFF endpoints.
-- **Next Elite Server (Coming Soon)** - Dedicated companion backend template powered by **NestJS**, **BetterAuth**, **Drizzle ORM**, and **PostgreSQL**.
+- **TanStack Query (React Query)** - Pre-configured `QueryProvider` in the protected layout (`src/components/shared/query-provider.tsx`) with sensible defaults (`staleTime`, `gcTime`, retry). Ready to wire `useQuery` / `useMutation` hooks to your REST, GraphQL, or BFF endpoints.
 
 ### Observability & Infrastructure
 
-- **Sentry Integration** - Error tracking and performance instrumentation for client and server. The browser SDK loads lazily and only when `NEXT_PUBLIC_SENTRY_DSN` is set, so it never blocks the first page load.
+- **Sentry Integration** - Error tracking and performance instrumentation for client and server.
 - **Vercel Analytics** - Page analytics via `@vercel/analytics`, rendered only when deployed on Vercel.
 - **Health Probes** - Direct `GET /api/health` endpoint for load balancers.
 
 ### Quality Gates & Tooling
 
-- **Validated Config** - Env vars are validated on the server with T3 Env (`src/libs/env.ts`), and `site.config.json` is checked against its schema in unit tests, so neither ships zod to the browser.
+- **Validated Config** - Env vars are validated on the server with T3 Env.
 - **Hygiene & Linting** - [Oxlint](https://oxc.rs/docs/guide/usage/linter) and [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) for fast linting and formatting, plus Knip for dead code/dependency hygiene.
 - **Testing Suite** - Unit/component testing with Vitest and React Testing Library, and E2E testing with Playwright.
 - **Git Hook Automation** - Lefthook pre-commit hooks (oxlint + oxfmt), Commitlint for conventional commits, and a pre-push hook that runs `npm run check`.
@@ -121,6 +119,18 @@ Set environment variables from `.env.example` in Vercel project settings.
 <div align="center">
   <img src="./public/Next-Elite-LightHouse.webp" alt="Lighthouse test results" width="600" />
 </div>
+
+<br/>
+
+## 📦 Bundle Size
+
+Gzipped JavaScript on first load, including ~130 KB shared by Next.js and React. Checked in CI with `npm run size`.
+
+| Page         | With demo | After `npm run demo:remove` |
+| ------------ | --------- | --------------------------- |
+| `/`          | 263 KB    | 212 KB                      |
+| `/login`     | 268 KB    | 264 KB                      |
+| `/dashboard` | 265 KB    | 262 KB                      |
 
 <br/>
 
@@ -178,17 +188,17 @@ npm run check
 
 The production setup uses a multi-stage **Google Distroless** base image (`gcr.io/distroless/nodejs22-debian12`) for maximum security, zero unnecessary OS packages, and minimal image size.
 
-#### Quick Start with Docker
-
 Run the application locally via Docker:
 
 ```bash
 cp .env.example .env
-docker build -t next-elite .
+docker build $(grep '^NEXT_PUBLIC_' .env | sed 's/^/--build-arg /') -t next-elite .
 docker run --rm --env-file .env -p 6767:6767 next-elite
 ```
 
-Or using Docker Compose:
+`NEXT_PUBLIC_*` values are baked in at build time, so they're passed as build args from `.env`.
+
+Or using Docker Compose (reads the same build args from `.env`):
 
 ```bash
 docker compose up --build
@@ -201,161 +211,48 @@ docker buildx create --name multiarch --use   # one-time setup
 docker buildx build --platform linux/amd64,linux/arm64 -t next-elite .
 ```
 
-This is ideal for self-hosting on ARM servers (Oracle Cloud, Raspberry Pi, AWS Graviton, etc.).
-
 #### Dokploy Deployment
 
-This template is ready for [Dokploy](https://dokploy.com) - the open-source PaaS.
+This template is ready for [Dokploy](https://dokploy.com).
 
 <br/>
 
 ## 🧩 Architecture Overview
 
-The big picture: a page is rendered on the server, auth/role is checked there, and any live data is fetched on the client.
+Server-render what needs SEO, check the session once, render the app on the client, and fetch data from your API.
 
 ```mermaid
-flowchart TB
-    User([User]) --> Page
-
-    subgraph Server["Server (runs first)"]
-        Page[Page / Layout]
-        Guard["requireUser() / requirePermission()"]
-        Page --> Guard
-        Guard -->|reads session + role| Auth[BetterAuth]
+flowchart LR
+    subgraph Public["(public) · SEO"]
+        direction TB
+        P["Server Components<br/>metadata · sitemap · OG"]
     end
 
-    subgraph Client["Client (runs in browser)"]
-        Hook["useQuery (TanStack Query)"]
-        Hook -->|fetch| Api["Your backend API"]
+    subgraph Auth["(auth) · sign in"]
+        direction TB
+        F["Client forms<br/>Better Auth loaded on submit"]
     end
 
-    Page -->|sends HTML| User
-    Page -.->|interactive parts| Hook
+    subgraph App["(protected) · app"]
+        direction TB
+        G["Layout: requireUser()<br/>one server check"] --> R{role}
+        R -->|admin| A["@admin pages"]
+        R -->|user| U["@user pages"]
+    end
 
-    classDef userNode fill:#ecfdf5,stroke:#10b981,stroke-width:2px,color:#064e3b;
-    classDef serverNode fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#334155;
-    classDef securityNode fill:#fef2f2,stroke:#ef4444,stroke-width:2px,color:#7f1d1d;
-    classDef authNode fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#78350f;
-    classDef hookNode fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,color:#1e3a8a;
-    classDef apiNode fill:#fdf4ff,stroke:#d946ef,stroke-width:2px,color:#701a75;
+    API[("Your API<br/>REST · GraphQL · BFF")]
 
-    class User userNode;
-    class Page serverNode;
-    class Guard securityNode;
-    class Auth authNode;
-    class Hook hookNode;
-    class Api apiNode;
-
-    style Server fill:none,stroke:#cbd5e1,stroke-width:1px
-    style Client fill:none,stroke:#cbd5e1,stroke-width:1px
+    Public --> Auth --> App
+    A & U -->|TanStack Query| API
 ```
 
-**How a request flows:**
+| Route group   | Renders                    | Auth                                    | Data                      |
+| ------------- | -------------------------- | --------------------------------------- | ------------------------- |
+| `(public)`    | Server (SEO)               | Reads the session for the header only   | Server                    |
+| `(auth)`      | Server shell, client forms | Better Auth client loads on submit      | -                         |
+| `(protected)` | Client                     | `requireUser()` once, role picks a slot | TanStack Query → your API |
 
-1. **User opens a page** - the Server Component renders first.
-2. **Auth + role check** - `requireUser()` / `requirePermission()` read the BetterAuth session and redirect to `/login` or `/unauthorized` if needed.
-3. **HTML is sent** to the browser; translations come from `messages/` via `next-intl`.
-4. **Live data** (lists, forms, etc.) is fetched on the client with TanStack Query → your API (REST/GraphQL/BFF).
-
-<details>
-<summary><b>View Auth & RBAC Usage</b></summary>
-
-```ts
-// Server Component example
-import { requirePermission } from '@/features/auth/rbac/require';
-import { getTranslations } from 'next-intl/server';
-
-const AdminDashboardPage = async () => {
-  const [, t] = await Promise.all([
-    requirePermission('dashboard.view:admin'),
-    getTranslations('dashboard.admin'),
-  ]);
-  return <h1>{t('title')}</h1>;
-};
-
-export default AdminDashboardPage;
-```
-
-</details>
-
-<details>
-<summary><b>View Forms Usage (React Hook Form + Zod)</b></summary>
-
-```tsx
-'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { loginSchema, type LoginInput } from '@/features/auth/schemas/login';
-
-const form = useForm<LoginInput>({
-  resolver: zodResolver(loginSchema),
-  defaultValues: { email: '', password: '' },
-});
-```
-
-</details>
-
-<br/>
-
-## 🗂️ Project Structure
-
-```
-.
-├── .github/
-│   ├── workflows/            CI: check.yml (incl. demo removal) + playwright.yml
-│   ├── dependabot.yml        Dependency updates
-│   └── renovate.json         Dependency updates
-├── .claude/skills/           project-standards skill for AI coding agents
-├── config/                   Vitest, Playwright, and Knip configs
-├── e2e/                      Playwright specs
-├── messages/                 next-intl translations (en, bn, ar, fr, es, zh)
-├── public/                   Static assets + llms.txt
-├── scripts/                  remove-demo.mjs (npm run demo:remove)
-├── components.json
-├── .oxlintrc.json            Oxlint rules (Next.js, TypeScript, React, Unicorn)
-├── .oxfmtrc.json             Oxfmt formatter config (Tailwind class sorting)
-├── next.config.mjs
-├── package.json              scripts + Commitlint config
-├── package-lock.json
-├── tsconfig.json
-├── lefthook.yml              Git hooks (pre-commit, commit-msg, pre-push)
-├── AGENTS.md                 Rules for AI coding agents
-├── src/
-│   ├── _demo(DELETE)/        Landing page, showcase, demo accounts (delete for your app)
-│   ├── app/                  App Router
-│   │   ├── (auth)/           Auth layouts (Login, register, & reset-password pages)
-│   │   ├── (public)/         Public layouts
-│   │   ├── (protected)/      Protected/RBAC layouts
-│   │   │   ├── @admin/       Admin slots (dashboard, analytics, profile, settings)
-│   │   │   ├── @user/        User slots (dashboard, analytics, profile, settings)
-│   │   │   └── layout.tsx
-│   │   ├── api/              Route handlers (BetterAuth, health)
-│   │   ├── styles/           Design system tokens, base CSS
-│   │   ├── fonts.ts          Typography configuration
-│   │   ├── layout.tsx        Root layout, SEO, fonts, providers
-│   │   ├── providers.tsx     Theme + Auth + TanStack Query
-│   │   ├── manifest.ts
-│   │   ├── robots.ts
-│   │   └── sitemap.ts
-│   ├── components/
-│   │   ├── auth/             Auth forms
-│   │   ├── icons/            Centralized SVG icon components & barrel export
-│   │   ├── layout/           App shell, navigation sidebars, topbar & branding
-│   │   ├── shared/           Shared UI's
-│   │   └── ui/               Shadcn UI's components
-│   ├── features/             Feature modules
-│   │   ├── auth/             BetterAuth + RBAC modules
-│   │   ├── i18n/             next-intl configuration
-│   │   └── site/             site config, schema, base URL + locale utilities
-│   ├── hooks/                Shared React hooks
-│   ├── libs/                 Cross-cutting infra
-│   ├── tests/                Unit/component tests + renderWithProviders
-│   ├── instrumentation.ts    Server Sentry init
-│   ├── instrumentation-client.ts  Client Sentry init
-│   └── global.d.ts           next-intl type augmentation
-└── ...
-```
+No database in the frontend, no client session polling, and a per-page JS budget in CI.
 
 <br/>
 
@@ -401,7 +298,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 
 ## 🧪 Development & Testing
 
-<b>View Available Scripts</b>
+<b>Scripts</b>
 
 | Command                           | Description                              |
 | --------------------------------- | ---------------------------------------- |
@@ -417,6 +314,7 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 | `npm run format:check`            | Check formatting with Oxfmt              |
 | `npm run knip`                    | Detect unused files / exports / deps     |
 | `npm run check`                   | CI gate: typecheck + lint + knip + tests |
+| `npm run size`                    | Check per-page JS budget (after build)   |
 | `npm run test`                    | Vitest run                               |
 | `npm run test:watch`              | Vitest watch mode                        |
 | `npm run playwright:install`      | Download Playwright browsers             |
@@ -424,15 +322,6 @@ Every variable is documented in [`.env.example`](.env.example) and validated by 
 | `npm run e2e`                     | Playwright E2E                           |
 | `npm run e2e:ui`                  | Playwright UI mode                       |
 | `npm run e2e:webkit`              | Playwright WebKit only                   |
-
-</details>
-
-<details>
-<summary><b>Editor Setup</b></summary>
-
-Install the [Oxc VS Code extension](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) (`oxc.oxc-vscode`) for format-on-save and Oxlint fix-on-save. Project settings in `.vscode/settings.json` are preconfigured.
-
-</details>
 
 <details>
 <summary><b>Testing Details</b></summary>
@@ -445,9 +334,9 @@ Install the [Oxc VS Code extension](https://marketplace.visualstudio.com/items?i
 <details>
 <summary><b>CI/CD Pipeline</b></summary>
 
-- `.github/workflows/check.yml` - typecheck → lint → knip → unit tests → build, on every push and PR.
+- `.github/workflows/check.yml` - typecheck → lint → knip → unit tests → build → bundle size budget, on every push and PR. A second job runs `demo:remove` and the same checks.
 - `.github/workflows/playwright.yml` - build → Playwright E2E (Chromium, production server).
-- `.github/renovate.json` - groups non-major dependency updates and automerges patches.
+- `.github/dependabot.yml` - weekly npm and GitHub Actions update PRs.
 
 </details>
 

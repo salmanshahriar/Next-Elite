@@ -1,12 +1,10 @@
-import { PageHeader, PageLayout } from '@/components/shared/page-header';
-import { requirePermission } from '@/features/auth/rbac/require';
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-const UserDashboardPage = async () => {
-  const [, t] = await Promise.all([
-    requirePermission('dashboard.view:user'),
-    getTranslations('dashboard.user'),
-  ]);
+import { PageHeader, PageLayout } from '@/components/shared/page-header';
+import { useTranslations } from 'next-intl';
+
+const UserDashboardPage = () => {
+  const t = useTranslations('dashboard.user');
 
   return (
     <PageLayout>

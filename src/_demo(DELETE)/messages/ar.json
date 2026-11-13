@@ -93,7 +93,7 @@
         "details": {
           "slots": "خانتا @admin و@user، ورابط /dashboard واحد للجميع",
           "signIn": "تسجيل الدخول بالبريد الإلكتروني وكلمة المرور وGoogle عبر Better Auth",
-          "roles": "أدوار المسؤول والمستخدم محمية بـ requirePermission"
+          "roles": "أدوار المسؤول والمستخدم محمية بـ hasPermission"
         }
       },
       "i18n": {

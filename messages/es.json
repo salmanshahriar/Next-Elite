@@ -125,12 +125,9 @@
   },
   "errors": {
     "401": "No autorizado",
-    "403": "Prohibido",
     "404": "Página no encontrada",
     "500": "Error interno del servidor",
     "generic": "Algo salió mal. Por favor intente de nuevo.",
-    "unauthorizedDescription": "No tienes permiso para acceder a esta página.",
-    "goToDashboard": "Ir al panel",
     "tryAgain": "Intentar de nuevo",
     "backToHome": "Volver al inicio"
   }

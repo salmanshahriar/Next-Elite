@@ -93,7 +93,7 @@
         "details": {
           "slots": "@admin 与 @user 插槽，所有人共用一个 /dashboard URL",
           "signIn": "通过 Better Auth 支持邮箱、密码和 Google 登录",
-          "roles": "管理员与用户角色由 requirePermission 保护"
+          "roles": "管理员与用户角色由 hasPermission 保护"
         }
       },
       "i18n": {

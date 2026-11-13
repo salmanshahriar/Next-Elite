@@ -125,12 +125,9 @@
   },
   "errors": {
     "401": "未授权",
-    "403": "禁止访问",
     "404": "页面未找到",
     "500": "内部服务器错误",
     "generic": "出错了，请稍后再试。",
-    "unauthorizedDescription": "您没有权限访问此页面。",
-    "goToDashboard": "前往仪表板",
     "tryAgain": "重试",
     "backToHome": "返回首页"
   }

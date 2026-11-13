@@ -93,7 +93,7 @@
         "details": {
           "slots": "Slots @admin et @user, une seule URL /dashboard pour tous",
           "signIn": "Connexion par e-mail, mot de passe et Google avec Better Auth",
-          "roles": "Rôles admin et utilisateur protégés par requirePermission"
+          "roles": "Rôles admin et utilisateur protégés par hasPermission"
         }
       },
       "i18n": {

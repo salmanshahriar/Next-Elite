@@ -9,7 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/features/auth/hooks/auth-provider';
+import { AuthProvider, useAuth } from '@/features/auth/hooks/auth-provider';
+import type { AuthUser } from '@/features/auth/types';
 import { cn } from '@/libs/utils';
 import { Icon } from '@/components/icons/app-icons';
 import { useTranslations } from 'next-intl';
@@ -50,16 +51,18 @@ export const UserDropdown = ({
         <button
           type="button"
           className={cn(
-            'flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden',
-            onlyAvatar ? 'size-8 p-0' : 'gap-2 p-1',
+            'flex shrink-0 cursor-pointer items-center justify-center rounded-md border border-border/40 bg-background/40 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden',
+            onlyAvatar ? 'size-8 p-0' : 'h-9 gap-2 ps-1',
           )}
         >
           <span className="sr-only">{t('accountMenu')}</span>
-          <Avatar className={cn('shrink-0', onlyAvatar ? 'size-7' : 'size-8')}>
+          <Avatar
+            className={cn('shrink-0', onlyAvatar ? 'size-7' : 'size-6.5')}
+          >
             <AvatarFallback
               className={cn(
                 'bg-primary/8 font-semibold text-primary',
-                onlyAvatar ? 'text-[10px]' : 'text-xs',
+                'text-[10px]',
               )}
             >
               {initials}
@@ -68,7 +71,7 @@ export const UserDropdown = ({
           {!onlyAvatar && (
             <span
               className={cn(
-                'max-w-[120px] truncate pe-2 text-xs font-medium text-foreground',
+                'max-w-44 truncate pe-3 text-sm font-medium text-foreground',
                 hideEmailOnMobile ? 'hidden lg:inline-block' : 'inline-block',
               )}
             >
@@ -117,3 +120,12 @@ export const UserDropdown = ({
     </DropdownMenu>
   );
 };
+
+export const StandaloneUserDropdown = ({
+  user,
+  ...props
+}: UserDropdownProps & { user: AuthUser }) => (
+  <AuthProvider initialUser={user}>
+    <UserDropdown {...props} />
+  </AuthProvider>
+);

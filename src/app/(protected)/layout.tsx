@@ -2,6 +2,7 @@ import { AdminSidebar } from '@/components/layout/admin-sidebar';
 import { AppShell } from '@/components/layout/app-shell';
 import { Topbar } from '@/components/layout/topbar';
 import { UserSidebar } from '@/components/layout/user-sidebar';
+import { QueryProvider } from '@/components/shared/query-provider';
 import { AuthProvider } from '@/features/auth/hooks/auth-provider';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
@@ -42,17 +43,19 @@ const ProtectedLayout = async ({
       initialUser={currentUser}
       isGoogleEnabled={env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED}
     >
-      <AppShell variant="sidebar" defaultOpen={defaultOpen}>
-        {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
-        <div className="relative flex h-svh max-h-svh min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-background pt-app-header md:pt-0">
-          <Topbar />
-          <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background">
-            <div className="ms-0 me-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
-              {slot}
-            </div>
-          </main>
-        </div>
-      </AppShell>
+      <QueryProvider>
+        <AppShell variant="sidebar" defaultOpen={defaultOpen}>
+          {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
+          <div className="relative flex h-svh max-h-svh min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-background pt-app-header md:pt-0">
+            <Topbar />
+            <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background">
+              <div className="ms-0 me-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
+                {slot}
+              </div>
+            </main>
+          </div>
+        </AppShell>
+      </QueryProvider>
     </AuthProvider>
   );
 };
