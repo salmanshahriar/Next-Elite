@@ -17,19 +17,19 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main
       id="main-content"
-      className="relative flex min-h-[96svh] bg-background/80 md:m-4"
+      className="relative flex min-h-dvh bg-background/80 md:m-4 md:h-[calc(100dvh-2rem)] md:min-h-0"
     >
       <section className="bg-blur-md @container relative hidden items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-primary/25 p-6 md:flex md:w-1/2 md:flex-col dark:bg-primary/5">
         <AuthGlobe className="absolute top-[calc(40%-18cqw)] left-1/2 w-[180%] -translate-x-1/2 opacity-80 dark:opacity-30" />
         <AppBrand
           size={44}
           logoClassName="h-10 w-10"
-          nameClassName="text-3xl font-black"
-          className="absolute top-[20%] left-1/2 z-10 flex max-w-md -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-3"
+          nameClassName="ms-4 text-3xl font-black"
+          className="absolute top-[20%] left-1/2 z-10 flex max-w-md -translate-x-1/2 -translate-y-1/2 items-center justify-center"
         />
       </section>
 
-      <section className="flex w-full flex-col p-4 pt-0 md:w-1/2 md:p-6 md:pt-0">
+      <section className="flex w-full flex-col p-4 pt-0 md:w-1/2 md:overflow-y-auto md:p-6 md:pt-0">
         <AuthTopbar />
         <div className="flex flex-1 items-center justify-center">
           <AuthProvider

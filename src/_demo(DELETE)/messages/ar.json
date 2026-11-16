@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "مزيد من الميزات",
-      "stack": {
-        "title": "حزمة حديثة وإعداد خفيف",
-        "description": "قالب Next.js يعتمد على API أولًا. لا توجد قاعدة بيانات مضمّنة.",
-        "details": {
-          "versions": "Next.js 16 وReact 19 وTypeScript جاهزة للاستخدام",
-          "folders": "مجلدات ميزات منظمة في src/features/",
-          "styling": "Tailwind CSS 4 وshadcn/ui وTanStack Query مضمّنة"
-        }
+      "dashboards": {
+        "title": "لوحات تحكم جاهزة للبناء عليها",
+        "description": "لوحتا تحكم للمسؤول والمستخدم مع التنقل وصفحات الملف الشخصي والإعدادات."
       },
-      "seo": {
-        "title": "SEO وPWA، الخادم أولًا",
-        "description": "SEO مُنشأ على الخادم وتطبيق PWA قابل للتثبيت.",
-        "details": {
-          "config": "ملف site.config.json يشغّل SEO وخريطة الموقع وrobots وملف manifest",
-          "previews": "Open Graph وبطاقات Twitter وJSON-LD لمعاينات غنية",
-          "monitoring": "ملف llms.txt لاكتشاف الذكاء الاصطناعي؛ ومراقبة عبر Sentry و/api/health"
-        }
+      "auth": {
+        "title": "تسجيل الدخول جاهز",
+        "description": "تسجيل الدخول بالبريد أو Google وإنشاء الحساب وإعادة تعيين كلمة المرور، والتطبيق محمي."
       },
-      "quality": {
-        "title": "الاختبارات وبوابات الجودة",
-        "description": "الاختبارات والفحص في أمر واحد.",
-        "details": {
-          "tooling": "Oxlint + Oxfmt وKnip وLefthook وCommitlint عند كل commit",
-          "unit": "اختبارات وحدات Vitest مع المساعد renderWithProviders",
-          "e2e": "اختبارات Playwright الشاملة محليًا وفي CI"
-        }
+      "roles": {
+        "title": "الصلاحيات المناسبة لكل دور",
+        "description": "لكل من المسؤول والمستخدم لوحة وقائمة خاصة. إضافة دور جديد تحتاج بضعة أسطر."
       },
-      "routing": {
-        "title": "التوجيه المتوازي",
-        "description": "مصادقة ولوحات تحكم حسب الدور.",
-        "details": {
-          "slots": "خانتا @admin و@user، ورابط /dashboard واحد للجميع",
-          "signIn": "تسجيل الدخول بالبريد الإلكتروني وكلمة المرور وGoogle عبر Better Auth",
-          "roles": "أدوار المسؤول والمستخدم محمية بـ hasPermission"
-        }
+      "components": {
+        "title": "أكثر من 50 مكوّنًا متناسقًا",
+        "description": "نماذج وجداول ورسوم بيانية ونوافذ حوار وغيرها، بنمط واحد في الوضعين الفاتح والداكن."
       },
       "i18n": {
-        "title": "تدويل آمن الأنواع",
-        "description": "ست لغات. بدون لغة في الرابط.",
-        "details": {
-          "languages": "الإنجليزية والبنغالية والعربية RTL والفرنسية والإسبانية والصينية",
-          "cookie": "ملف تعريف الارتباط NEXT_LOCALE يتذكر اللغة دون بادئات",
-          "keys": "تكتشف next-intl مفاتيح الترجمة المفقودة وقت البناء"
-        }
+        "title": "ست لغات، منها العربية",
+        "description": "الإنجليزية والبنغالية والعربية والفرنسية والإسبانية والصينية، مع دعم كامل من اليمين لليسار."
       },
-      "forms": {
-        "title": "النماذج والتحقق",
-        "description": "نماذج سهلة الوصول مع تحقق Zod.",
-        "details": {
-          "schemas": "مخططات Zod لتسجيل الدخول والتسجيل وإعادة تعيين كلمة المرور",
-          "hookForm": "React Hook Form + zodResolver لإدخال آمن الأنواع",
-          "errors": "يعرض InputError رسائل مفيدة بجانب كل حقل"
-        }
+      "a11y": {
+        "title": "سهل الاستخدام للجميع",
+        "description": "يعمل بلوحة المفاتيح وقارئات الشاشة، بنص واضح ودعم تقليل الحركة."
+      },
+      "performance": {
+        "title": "صفحات سريعة يسهل العثور عليها",
+        "description": "صفحات خفيفة وسريعة مع خريطة موقع ومعاينات روابط للبحث وتطبيقات التواصل."
+      },
+      "quality": {
+        "title": "كود يبقى نظيفًا",
+        "description": "فحص الأنواع والتدقيق والاختبارات تعمل قبل كل push ومع كل طلب دمج."
+      },
+      "deploy": {
+        "title": "جاهز للإطلاق",
+        "description": "انشر على Vercel بنقرة أو في أي مكان عبر Docker. أزل العرض التوضيحي بأمر واحد."
       }
     },
     "footer": {

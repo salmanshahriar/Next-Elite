@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "আরও ফিচার",
-      "stack": {
-        "title": "আধুনিক স্ট্যাক, হালকা সেটআপ",
-        "description": "API-ফার্স্ট Next.js স্টার্টার। কোনো ডেটাবেস যুক্ত নেই।",
-        "details": {
-          "versions": "Next.js 16, React 19 এবং TypeScript ব্যবহারের জন্য প্রস্তুত",
-          "folders": "src/features/ ফোল্ডারে গোছানো ফিচার",
-          "styling": "Tailwind CSS 4, shadcn/ui এবং TanStack Query অন্তর্ভুক্ত"
-        }
+      "dashboards": {
+        "title": "তৈরি ড্যাশবোর্ড, শুধু কাজ শুরু করুন",
+        "description": "নেভিগেশন, প্রোফাইল ও সেটিংস পেজসহ অ্যাডমিন ও ইউজার ড্যাশবোর্ড তৈরি আছে।"
       },
-      "seo": {
-        "title": "SEO + PWA, সার্ভার-ফার্স্ট",
-        "description": "সার্ভারে তৈরি SEO এবং ইনস্টলযোগ্য PWA।",
-        "details": {
-          "config": "site.config.json দিয়ে SEO, সাইটম্যাপ, robots এবং ম্যানিফেস্ট চলে",
-          "previews": "রিচ প্রিভিউর জন্য Open Graph, Twitter কার্ড এবং JSON-LD",
-          "monitoring": "AI ডিসকভারির জন্য llms.txt; Sentry ও /api/health মনিটরিং"
-        }
+      "auth": {
+        "title": "সাইন-ইন আগেই তৈরি",
+        "description": "ইমেইল ও Google সাইন-ইন, সাইন-আপ ও পাসওয়ার্ড রিসেট তৈরি। অ্যাপ সুরক্ষিত থাকে।"
       },
-      "quality": {
-        "title": "টেস্টিং ও কোয়ালিটি গেট",
-        "description": "এক কমান্ডে টেস্ট ও লিন্ট।",
-        "details": {
-          "tooling": "প্রতি কমিটে Oxlint + Oxfmt, Knip, Lefthook এবং Commitlint",
-          "unit": "renderWithProviders হেল্পারসহ Vitest ইউনিট টেস্ট",
-          "e2e": "লোকাল ডেভ ও CI-তে Playwright এন্ড-টু-এন্ড টেস্ট"
-        }
+      "roles": {
+        "title": "প্রতিটি রোলের জন্য সঠিক অ্যাক্সেস",
+        "description": "অ্যাডমিন ও ইউজার আলাদা ড্যাশবোর্ড ও মেনু পান। নতুন রোল যোগ করা সহজ।"
       },
-      "routing": {
-        "title": "প্যারালাল রাউটিং",
-        "description": "অথ ও রোল-ভিত্তিক ড্যাশবোর্ড।",
-        "details": {
-          "slots": "@admin ও @user স্লট, সবার জন্য একটি /dashboard URL",
-          "signIn": "Better Auth দিয়ে ইমেইল, পাসওয়ার্ড ও Google সাইন-ইন",
-          "roles": "hasPermission দিয়ে সুরক্ষিত অ্যাডমিন ও ইউজার রোল"
-        }
+      "components": {
+        "title": "৫০+ মানানসই কম্পোনেন্ট",
+        "description": "ফর্ম, টেবিল, চার্ট, ডায়ালগ ও আরও অনেক কিছু, লাইট ও ডার্ক মোডে একই স্টাইলে।"
       },
       "i18n": {
-        "title": "টাইপ-সেফ i18n",
-        "description": "ছয়টি ভাষা। URL-এ কোনো লোকেল নেই।",
-        "details": {
-          "languages": "ইংরেজি, বাংলা, আরবি RTL, ফরাসি, স্প্যানিশ ও চীনা",
-          "cookie": "NEXT_LOCALE কুকি প্রিফিক্স ছাড়াই ভাষা মনে রাখে",
-          "keys": "next-intl বিল্ডের সময় অনুপস্থিত অনুবাদ কী ধরে ফেলে"
-        }
+        "title": "ছয়টি ভাষা, আরবিসহ",
+        "description": "ইংরেজি, বাংলা, আরবি, ফরাসি, স্প্যানিশ ও চীনা, সাথে পূর্ণ ডান-থেকে-বাম সাপোর্ট।"
       },
-      "forms": {
-        "title": "ফর্ম + ভ্যালিডেশন",
-        "description": "Zod ভ্যালিডেশনসহ অ্যাক্সেসযোগ্য ফর্ম।",
-        "details": {
-          "schemas": "লগইন, সাইন-আপ ও পাসওয়ার্ড রিসেটের জন্য Zod স্কিমা",
-          "hookForm": "টাইপ-সেফ ইনপুটের জন্য React Hook Form + zodResolver",
-          "errors": "InputError প্রতিটি ফিল্ডে সহায়ক ইনলাইন বার্তা দেখায়"
-        }
+      "a11y": {
+        "title": "সবার জন্য ব্যবহারযোগ্য",
+        "description": "কিবোর্ড ও স্ক্রিন রিডারে কাজ করে, লেখা সহজে পড়া যায়, অ্যানিমেশন কমানো যায়।"
+      },
+      "performance": {
+        "title": "দ্রুত পেজ, সহজে খুঁজে পাওয়া যায়",
+        "description": "হালকা ও দ্রুত পেজ, সাথে সার্চ ও সোশ্যাল অ্যাপের জন্য সাইটম্যাপ ও লিংক প্রিভিউ।"
+      },
+      "quality": {
+        "title": "পরিচ্ছন্ন থাকে এমন কোড",
+        "description": "প্রতিটি push-এর আগে ও পুল রিকোয়েস্টে টাইপ চেক, লিন্টিং ও টেস্ট চলে।"
+      },
+      "deploy": {
+        "title": "লঞ্চের জন্য প্রস্তুত",
+        "description": "এক ক্লিকে Vercel-এ বা Docker দিয়ে যেকোনো জায়গায় ডিপ্লয়। এক কমান্ডে ডেমো সরান।"
       }
     },
     "footer": {

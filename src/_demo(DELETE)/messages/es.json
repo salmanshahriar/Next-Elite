@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "Más funcionalidades",
-      "stack": {
-        "title": "Stack moderno, configuración ligera",
-        "description": "Starter de Next.js orientado a API. Sin base de datos incluida.",
-        "details": {
-          "versions": "Next.js 16, React 19 y TypeScript listos para usar",
-          "folders": "Carpetas de funcionalidades organizadas en src/features/",
-          "styling": "Tailwind CSS 4, shadcn/ui y TanStack Query incluidos"
-        }
+      "dashboards": {
+        "title": "Paneles listos para construir",
+        "description": "Paneles de administrador y usuario con navegación, perfil y ajustes ya listos."
       },
-      "seo": {
-        "title": "SEO + PWA, primero en el servidor",
-        "description": "SEO generado en el servidor y PWA instalable.",
-        "details": {
-          "config": "site.config.json impulsa el SEO, el sitemap, robots y el manifiesto",
-          "previews": "Open Graph, tarjetas de Twitter y JSON-LD para vistas previas enriquecidas",
-          "monitoring": "llms.txt para el descubrimiento por IA; monitorización con Sentry y /api/health"
-        }
+      "auth": {
+        "title": "Inicio de sesión ya hecho",
+        "description": "Acceso con correo o Google, registro y restablecer contraseña. Solo entran usuarios con sesión."
       },
-      "quality": {
-        "title": "Pruebas y controles de calidad",
-        "description": "Pruebas y lint en un solo comando.",
-        "details": {
-          "tooling": "Oxlint + Oxfmt, Knip, Lefthook y Commitlint en cada commit",
-          "unit": "Pruebas unitarias con Vitest y el helper renderWithProviders",
-          "e2e": "Pruebas end-to-end con Playwright en local y en CI"
-        }
+      "roles": {
+        "title": "El acceso correcto para cada rol",
+        "description": "Administradores y usuarios tienen su propio panel y menú. Un rol nuevo son pocas líneas."
       },
-      "routing": {
-        "title": "Enrutamiento paralelo",
-        "description": "Autenticación y paneles por rol.",
-        "details": {
-          "slots": "Slots @admin y @user, una sola URL /dashboard para todos",
-          "signIn": "Inicio de sesión con correo, contraseña y Google mediante Better Auth",
-          "roles": "Roles de administrador y usuario protegidos con hasPermission"
-        }
+      "components": {
+        "title": "Más de 50 componentes a juego",
+        "description": "Formularios, tablas, gráficos, diálogos y más, con el mismo estilo en claro y oscuro."
       },
       "i18n": {
-        "title": "i18n con tipos seguros",
-        "description": "Seis idiomas. Sin idioma en la URL.",
-        "details": {
-          "languages": "Inglés, bengalí, árabe RTL, francés, español y chino",
-          "cookie": "La cookie NEXT_LOCALE recuerda el idioma sin prefijos",
-          "keys": "next-intl detecta claves de traducción faltantes en tiempo de compilación"
-        }
+        "title": "Seis idiomas, incluido el árabe",
+        "description": "Inglés, bengalí, árabe, francés, español y chino, con soporte completo de derecha a izquierda."
       },
-      "forms": {
-        "title": "Formularios + validación",
-        "description": "Formularios accesibles con validación Zod.",
-        "details": {
-          "schemas": "Esquemas Zod para inicio de sesión, registro y restablecimiento de contraseña",
-          "hookForm": "React Hook Form + zodResolver para entradas con tipos seguros",
-          "errors": "InputError muestra mensajes útiles junto a cada campo"
-        }
+      "a11y": {
+        "title": "Fácil de usar para todos",
+        "description": "Funciona con teclado y lectores de pantalla, con texto legible y movimiento reducido."
+      },
+      "performance": {
+        "title": "Páginas rápidas y fáciles de encontrar",
+        "description": "Páginas ligeras y rápidas, con sitemap y vistas previas para buscadores y redes."
+      },
+      "quality": {
+        "title": "Código que se mantiene limpio",
+        "description": "Tipos, lint y pruebas se ejecutan antes de cada push y en cada pull request."
+      },
+      "deploy": {
+        "title": "Listo para lanzar",
+        "description": "Despliega en Vercel con un clic o donde quieras con Docker. Quita la demo con un comando."
       }
     },
     "footer": {

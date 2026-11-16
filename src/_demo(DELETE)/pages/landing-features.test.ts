@@ -17,18 +17,14 @@ const loadMessages = async (locale: string): Promise<Messages> =>
 
 describe('landing feature translations', () => {
   it.each(supportedLocales)(
-    '%s keeps every landing feature highlight verbatim',
+    '%s has a title and description for every feature card',
     async (locale) => {
       const messages = await loadMessages(locale);
-      for (const feature of HOME_FEATURES) {
-        for (const detail of feature.details) {
-          const text = getPath(messages, `home.features.${detail.key}`);
-          expect(typeof text).toBe('string');
-          for (const term of detail.highlights) {
-            expect(text, `${locale} home.features.${detail.key}`).toContain(
-              term,
-            );
-          }
+      for (const { id } of HOME_FEATURES) {
+        for (const field of ['title', 'description']) {
+          const text = getPath(messages, `home.features.${id}.${field}`);
+          expect(typeof text, `${locale} ${id}.${field}`).toBe('string');
+          expect((text as string).length).toBeGreaterThan(0);
         }
       }
     },

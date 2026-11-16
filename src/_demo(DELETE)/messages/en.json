@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "More features",
-      "stack": {
-        "title": "Modern stack, lean setup",
-        "description": "API-first Next.js starter. No database bundled.",
-        "details": {
-          "versions": "Next.js 16, React 19, and TypeScript ready to go",
-          "folders": "Organized feature folders in src/features/",
-          "styling": "Tailwind CSS 4, shadcn/ui, and TanStack Query included"
-        }
+      "dashboards": {
+        "title": "Dashboards ready to build on",
+        "description": "Admin and user dashboards with navigation, profile and settings pages ready to go."
       },
-      "seo": {
-        "title": "SEO + PWA, server-first",
-        "description": "Server-built SEO and installable PWA.",
-        "details": {
-          "config": "site.config.json powers SEO, sitemap, robots, and manifest",
-          "previews": "Open Graph, Twitter cards, and JSON-LD for rich previews",
-          "monitoring": "llms.txt for AI discovery; Sentry and /api/health monitoring"
-        }
+      "auth": {
+        "title": "Sign-in already built",
+        "description": "Email and Google sign-in, sign-up and password reset. Only signed-in users get in."
       },
-      "quality": {
-        "title": "Testing & quality gates",
-        "description": "Tests and lint in one command.",
-        "details": {
-          "tooling": "Oxlint + Oxfmt, Knip, Lefthook, and Commitlint on commit",
-          "unit": "Vitest unit tests with renderWithProviders helper",
-          "e2e": "Playwright end-to-end tests in local dev and CI"
-        }
+      "roles": {
+        "title": "The right access for each role",
+        "description": "Admins and users get their own dashboard and menu. New roles take a few lines."
       },
-      "routing": {
-        "title": "Parallel routing",
-        "description": "Auth and role-based dashboards.",
-        "details": {
-          "slots": "@admin and @user slots, one /dashboard URL for all",
-          "signIn": "Email, password, and Google sign-in with Better Auth",
-          "roles": "Admin and user roles protected with hasPermission"
-        }
+      "components": {
+        "title": "50+ matching components",
+        "description": "Forms, tables, charts, dialogs and more, styled to match in light and dark mode."
       },
       "i18n": {
-        "title": "Type-safe i18n",
-        "description": "Six languages. No locale in the URL.",
-        "details": {
-          "languages": "English, Bengali, Arabic RTL, French, Spanish, and Chinese",
-          "cookie": "NEXT_LOCALE cookie remembers language without prefixes",
-          "keys": "next-intl catches missing translation keys at build time"
-        }
+        "title": "Six languages, including Arabic",
+        "description": "English, Bengali, Arabic, French, Spanish and Chinese, with full right-to-left support."
       },
-      "forms": {
-        "title": "Forms + validation",
-        "description": "Accessible forms with Zod validation.",
-        "details": {
-          "schemas": "Zod schemas for login, sign-up, and password reset",
-          "hookForm": "React Hook Form + zodResolver for type-safe input",
-          "errors": "InputError shows helpful inline messages per field"
-        }
+      "a11y": {
+        "title": "Usable by everyone",
+        "description": "Works with keyboards and screen readers, with readable text and reduced motion."
+      },
+      "performance": {
+        "title": "Fast pages, easy to find",
+        "description": "Small, fast pages with a sitemap and link previews for search and social apps."
+      },
+      "quality": {
+        "title": "Code that stays clean",
+        "description": "Type checks, linting and tests run before every push and on every pull request."
+      },
+      "deploy": {
+        "title": "Ready to launch",
+        "description": "Deploy to Vercel in one click or anywhere with Docker. Remove the demo in one command."
       }
     },
     "footer": {

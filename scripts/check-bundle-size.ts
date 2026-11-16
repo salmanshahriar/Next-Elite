@@ -7,7 +7,7 @@ import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
 // Max Brotli-compressed JS per route (what Vercel/CDNs serve), excluding the
 // shared Next.js/React runtime. Lower these as the bundle shrinks.
 const BUDGETS_KB: Record<string, number> = {
-  '/': 112,
+  '/': 109,
   '/login': 100,
   '/register': 100,
   '/password-reset': 97,

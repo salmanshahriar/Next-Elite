@@ -1,86 +1,107 @@
 import {
-  CpuIcon,
-  FileTextIcon,
-  FlaskIcon,
+  CubeIcon,
+  GaugeIcon,
   GlobeIcon,
-  MagnifyingGlassIcon,
-  ShuffleIcon,
-} from '@phosphor-icons/react';
+  LockKeyIcon,
+  PersonArmsSpreadIcon,
+  RocketLaunchIcon,
+  SealCheckIcon,
+  ShieldCheckIcon,
+  SquaresFourIcon,
+} from '@phosphor-icons/react/ssr';
 
 export const HOME_FEATURES = [
   {
-    id: 'stack',
-    icon: CpuIcon,
-    details: [
-      {
-        key: 'stack.details.versions',
-        highlights: ['Next.js 16', 'React 19', 'TypeScript'],
-      },
-      { key: 'stack.details.folders', highlights: ['src/features/'] },
-      {
-        key: 'stack.details.styling',
-        highlights: ['Tailwind CSS 4', 'shadcn/ui', 'TanStack Query'],
-      },
+    id: 'dashboards',
+    icon: SquaresFourIcon,
+    tech: [
+      'Next.js 16',
+      'React 19',
+      'App Router',
+      'TanStack Query',
+      'TanStack Table',
+      'uPlot charts',
     ],
   },
   {
-    id: 'seo',
-    icon: MagnifyingGlassIcon,
-    details: [
-      { key: 'seo.details.config', highlights: ['site.config.json'] },
-      { key: 'seo.details.previews', highlights: ['Open Graph', 'JSON-LD'] },
-      {
-        key: 'seo.details.monitoring',
-        highlights: ['llms.txt', 'Sentry', '/api/health'],
-      },
-    ],
+    id: 'auth',
+    icon: LockKeyIcon,
+    tech: ['Better Auth', 'Google OAuth', 'React Hook Form', 'Zod'],
   },
   {
-    id: 'quality',
-    icon: FlaskIcon,
-    details: [
-      {
-        key: 'quality.details.tooling',
-        highlights: ['Oxlint + Oxfmt', 'Knip', 'Lefthook'],
-      },
-      {
-        key: 'quality.details.unit',
-        highlights: ['Vitest', 'renderWithProviders'],
-      },
-      { key: 'quality.details.e2e', highlights: ['Playwright'] },
-    ],
+    id: 'roles',
+    icon: ShieldCheckIcon,
+    tech: ['RBAC', 'Parallel routes', 'Server-side guard', 'Permissions'],
   },
   {
-    id: 'routing',
-    icon: ShuffleIcon,
-    details: [
-      {
-        key: 'routing.details.slots',
-        highlights: ['@admin', '@user', '/dashboard'],
-      },
-      { key: 'routing.details.signIn', highlights: ['Better Auth'] },
-      { key: 'routing.details.roles', highlights: ['hasPermission'] },
+    id: 'components',
+    icon: CubeIcon,
+    tech: [
+      'shadcn/ui',
+      'Radix UI',
+      'Tailwind CSS 4',
+      'CVA',
+      'Phosphor Icons',
+      'Dark mode',
     ],
   },
   {
     id: 'i18n',
     icon: GlobeIcon,
-    details: [
-      { key: 'i18n.details.languages', highlights: ['RTL'] },
-      { key: 'i18n.details.cookie', highlights: ['NEXT_LOCALE'] },
-      { key: 'i18n.details.keys', highlights: ['next-intl'] },
+    tech: [
+      'next-intl',
+      'ICU messages',
+      'RTL',
+      'Type-safe keys',
+      'Locale cookie',
     ],
   },
   {
-    id: 'forms',
-    icon: FileTextIcon,
-    details: [
-      { key: 'forms.details.schemas', highlights: ['Zod'] },
-      {
-        key: 'forms.details.hookForm',
-        highlights: ['React Hook Form', 'zodResolver'],
-      },
-      { key: 'forms.details.errors', highlights: ['InputError'] },
+    id: 'a11y',
+    icon: PersonArmsSpreadIcon,
+    tech: [
+      'WCAG AA',
+      'ARIA',
+      'Skip link',
+      'Reduced motion',
+      'Keyboard navigation',
+    ],
+  },
+  {
+    id: 'performance',
+    icon: GaugeIcon,
+    tech: [
+      'Server Components',
+      'Bundle budgets',
+      'Sitemap',
+      'Open Graph',
+      'llms.txt',
+      'PWA',
+    ],
+  },
+  {
+    id: 'quality',
+    icon: SealCheckIcon,
+    tech: [
+      'TypeScript',
+      'Oxlint',
+      'Oxfmt',
+      'Knip',
+      'Vitest',
+      'Playwright',
+      'Lefthook',
+    ],
+  },
+  {
+    id: 'deploy',
+    icon: RocketLaunchIcon,
+    tech: [
+      'Vercel',
+      'Docker',
+      'GitHub Actions',
+      'Sentry',
+      'T3 Env',
+      'Health check',
     ],
   },
 ] as const;

@@ -1,6 +1,6 @@
 # Next Elite
 
-> Next Elite (v2.3.0) is an open source, MIT-licensed, frontend-first Next.js 16.4 starter kit for SaaS apps, admin panels, ERPs and dashboards. It ships authentication with role-based access control (Better Auth), six-language type-safe i18n with RTL, 50+ accessible UI components (shadcn/ui on Radix UI and Tailwind CSS v4), and per-page JavaScript budgets enforced in CI. It has no bundled database: it is built to consume your existing REST, GraphQL or BFF API.
+> Next Elite (v2.4.0) is an open source, MIT-licensed, frontend-first Next.js 16.4 starter kit for SaaS apps, admin panels, ERPs and dashboards. It ships authentication with role-based access control (Better Auth), six-language type-safe i18n with RTL, 50+ accessible UI components (shadcn/ui on Radix UI and Tailwind CSS v4), and per-page JavaScript budgets enforced in CI. It has no bundled database: it is built to consume your existing REST, GraphQL or BFF API.
 
 **Highlights**
 

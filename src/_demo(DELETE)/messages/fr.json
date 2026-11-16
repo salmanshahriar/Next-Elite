@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "Plus de fonctionnalités",
-      "stack": {
-        "title": "Stack moderne, configuration légère",
-        "description": "Starter Next.js orienté API. Aucune base de données incluse.",
-        "details": {
-          "versions": "Next.js 16, React 19 et TypeScript prêts à l'emploi",
-          "folders": "Dossiers de fonctionnalités organisés dans src/features/",
-          "styling": "Tailwind CSS 4, shadcn/ui et TanStack Query inclus"
-        }
+      "dashboards": {
+        "title": "Des tableaux de bord prêts à l'emploi",
+        "description": "Tableaux de bord admin et utilisateur avec navigation, profil et paramètres prêts."
       },
-      "seo": {
-        "title": "SEO + PWA, côté serveur d'abord",
-        "description": "SEO généré côté serveur et PWA installable.",
-        "details": {
-          "config": "site.config.json alimente le SEO, le sitemap, robots et le manifeste",
-          "previews": "Open Graph, cartes Twitter et JSON-LD pour des aperçus enrichis",
-          "monitoring": "llms.txt pour la découverte par l'IA ; surveillance avec Sentry et /api/health"
-        }
+      "auth": {
+        "title": "Connexion déjà prête",
+        "description": "Connexion e-mail et Google, inscription et réinitialisation. Seuls les connectés entrent."
       },
-      "quality": {
-        "title": "Tests et contrôles qualité",
-        "description": "Tests et lint en une seule commande.",
-        "details": {
-          "tooling": "Oxlint + Oxfmt, Knip, Lefthook et Commitlint à chaque commit",
-          "unit": "Tests unitaires Vitest avec l'utilitaire renderWithProviders",
-          "e2e": "Tests de bout en bout Playwright en local et en CI"
-        }
+      "roles": {
+        "title": "Le bon accès pour chaque rôle",
+        "description": "Admins et utilisateurs ont leur tableau de bord. Un nouveau rôle tient en quelques lignes."
       },
-      "routing": {
-        "title": "Routage parallèle",
-        "description": "Authentification et tableaux de bord par rôle.",
-        "details": {
-          "slots": "Slots @admin et @user, une seule URL /dashboard pour tous",
-          "signIn": "Connexion par e-mail, mot de passe et Google avec Better Auth",
-          "roles": "Rôles admin et utilisateur protégés par hasPermission"
-        }
+      "components": {
+        "title": "50+ composants assortis",
+        "description": "Formulaires, tableaux, graphiques, dialogues et plus, au même style en clair et en sombre."
       },
       "i18n": {
-        "title": "i18n typée",
-        "description": "Six langues. Pas de langue dans l'URL.",
-        "details": {
-          "languages": "Anglais, bengali, arabe RTL, français, espagnol et chinois",
-          "cookie": "Le cookie NEXT_LOCALE mémorise la langue sans préfixe",
-          "keys": "next-intl détecte les clés de traduction manquantes à la compilation"
-        }
+        "title": "Six langues, dont l'arabe",
+        "description": "Anglais, bengali, arabe, français, espagnol et chinois, avec support complet de droite à gauche."
       },
-      "forms": {
-        "title": "Formulaires + validation",
-        "description": "Formulaires accessibles avec validation Zod.",
-        "details": {
-          "schemas": "Schémas Zod pour la connexion, l'inscription et la réinitialisation du mot de passe",
-          "hookForm": "React Hook Form + zodResolver pour des saisies typées",
-          "errors": "InputError affiche des messages clairs sous chaque champ"
-        }
+      "a11y": {
+        "title": "Utilisable par tous",
+        "description": "Utilisable au clavier et au lecteur d'écran, texte lisible et animations réduites."
+      },
+      "performance": {
+        "title": "Des pages rapides et faciles à trouver",
+        "description": "Pages légères et rapides, avec sitemap et aperçus de liens pour la recherche et les réseaux."
+      },
+      "quality": {
+        "title": "Un code qui reste propre",
+        "description": "Types, lint et tests tournent avant chaque push et sur chaque pull request."
+      },
+      "deploy": {
+        "title": "Prêt à lancer",
+        "description": "Déployez sur Vercel en un clic ou partout avec Docker. Retirez la démo en une commande."
       }
     },
     "footer": {

@@ -16,7 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { siteConfig } from '@/features/site/config';
 import { cn } from '@/libs/utils';
-import { HOME_FEATURES } from '@/_demo(DELETE)/pages/landing-features';
 import {
   CalendarIcon,
   CheckIcon,
@@ -27,7 +26,7 @@ import {
 import { useLocale, useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
-import { createElement, Fragment, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 const Calendar = dynamic(() =>
@@ -48,14 +47,16 @@ const ShowcaseProfile = loadShowcase('ShowcaseProfile');
 
 export const LandingPage = ({
   githubStars = null,
+  features,
 }: {
   githubStars?: string | null;
+  features: ReactNode;
 }) => {
   return (
     <div className="flex flex-col gap-16 lg:gap-24">
       <HeroSection githubStars={githubStars} />
       <UiShowcaseSection />
-      <FeaturesSection />
+      {features}
       <FooterSection githubStars={githubStars} />
     </div>
   );
@@ -362,78 +363,6 @@ const UiShowcaseSection = () => {
           </TabsContent>
         </Card>
       </Tabs>
-    </section>
-  );
-};
-
-const FeaturesSection = () => {
-  const t = useTranslations('home.features');
-
-  const renderHighlightedText = (
-    text: string,
-    highlights: readonly string[] = [],
-  ): ReactNode => {
-    if (highlights.length === 0) return text;
-
-    const pattern = highlights
-      .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-      .join('|');
-    const parts = text.split(new RegExp(`(${pattern})`, 'g')).filter(Boolean);
-
-    return parts.map((part, index) =>
-      highlights.includes(part)
-        ? createElement(
-            'span',
-            { key: index, className: 'font-semibold text-primary' },
-            part,
-          )
-        : createElement(Fragment, { key: index }, part),
-    );
-  };
-
-  return (
-    <section className="mx-auto w-full max-w-7xl space-y-4 px-4">
-      <h2 className="text-center text-2xl font-extrabold tracking-tight">
-        {t('title')}
-      </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {HOME_FEATURES.map(({ id, icon: Icon, details }) => (
-          <Card
-            key={id}
-            variant="glow"
-            className={cn(
-              'row-span-2 grid grid-rows-subgrid p-6',
-              '[&>div:last-child]:row-span-2 [&>div:last-child]:grid [&>div:last-child]:grid-rows-subgrid',
-            )}
-          >
-            <div className="flex items-start gap-3.5">
-              <div className="flex size-12 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-primary/20 to-primary/10 text-primary shadow-xs">
-                <Icon className="size-6" />
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-base font-extrabold tracking-tight text-transparent">
-                  {t(`${id}.title`)}
-                </h3>
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  {t(`${id}.description`)}
-                </p>
-              </div>
-            </div>
-            <ul className="space-y-2.5 text-xs text-muted-foreground">
-              {details.map((detail) => (
-                <li key={detail.key} className="flex items-start gap-2.5">
-                  <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <CheckIcon weight="bold" className="size-2.5" />
-                  </div>
-                  <span className="leading-normal">
-                    {renderHighlightedText(t(detail.key), detail.highlights)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        ))}
-      </div>
     </section>
   );
 };

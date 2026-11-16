@@ -61,59 +61,41 @@
     },
     "features": {
       "title": "更多功能",
-      "stack": {
-        "title": "现代技术栈，精简配置",
-        "description": "API 优先的 Next.js 起步模板，不捆绑数据库。",
-        "details": {
-          "versions": "Next.js 16、React 19 和 TypeScript 开箱即用",
-          "folders": "在 src/features/ 中按功能组织目录",
-          "styling": "内置 Tailwind CSS 4、shadcn/ui 和 TanStack Query"
-        }
+      "dashboards": {
+        "title": "开箱即用的控制台",
+        "description": "管理员和用户控制台，导航、个人资料和设置页面都已就绪。"
       },
-      "seo": {
-        "title": "SEO + PWA，服务端优先",
-        "description": "服务端生成的 SEO 与可安装的 PWA。",
-        "details": {
-          "config": "site.config.json 驱动 SEO、站点地图、robots 和 manifest",
-          "previews": "Open Graph、Twitter 卡片和 JSON-LD 提供丰富预览",
-          "monitoring": "llms.txt 便于 AI 发现；Sentry 与 /api/health 监控"
-        }
+      "auth": {
+        "title": "登录功能已就绪",
+        "description": "邮箱和 Google 登录、注册与重置密码，只有登录用户才能进入。"
       },
-      "quality": {
-        "title": "测试与质量门禁",
-        "description": "一条命令完成测试与代码检查。",
-        "details": {
-          "tooling": "提交时运行 Oxlint + Oxfmt、Knip、Lefthook 和 Commitlint",
-          "unit": "使用 Vitest 单元测试及 renderWithProviders 辅助函数",
-          "e2e": "在本地开发和 CI 中运行 Playwright 端到端测试"
-        }
+      "roles": {
+        "title": "每个角色都有合适的权限",
+        "description": "管理员和用户各有专属控制台和菜单，新增角色只需几行代码。"
       },
-      "routing": {
-        "title": "并行路由",
-        "description": "认证与基于角色的仪表盘。",
-        "details": {
-          "slots": "@admin 与 @user 插槽，所有人共用一个 /dashboard URL",
-          "signIn": "通过 Better Auth 支持邮箱、密码和 Google 登录",
-          "roles": "管理员与用户角色由 hasPermission 保护"
-        }
+      "components": {
+        "title": "50+ 风格统一的组件",
+        "description": "表单、表格、图表、对话框等，浅色和深色模式风格一致。"
       },
       "i18n": {
-        "title": "类型安全的国际化",
-        "description": "六种语言，URL 中无需语言前缀。",
-        "details": {
-          "languages": "英语、孟加拉语、阿拉伯语 RTL、法语、西班牙语和中文",
-          "cookie": "NEXT_LOCALE Cookie 无需前缀即可记住语言",
-          "keys": "next-intl 在构建时捕获缺失的翻译键"
-        }
+        "title": "六种语言，包括阿拉伯语",
+        "description": "英语、孟加拉语、阿拉伯语、法语、西班牙语和中文，完整支持从右到左。"
       },
-      "forms": {
-        "title": "表单 + 校验",
-        "description": "带 Zod 校验的无障碍表单。",
-        "details": {
-          "schemas": "用于登录、注册和重置密码的 Zod 模式",
-          "hookForm": "React Hook Form + zodResolver 实现类型安全的输入",
-          "errors": "InputError 为每个字段显示清晰的内联提示"
-        }
+      "a11y": {
+        "title": "人人都能使用",
+        "description": "支持键盘和屏幕阅读器，文字清晰易读，并支持减少动态效果。"
+      },
+      "performance": {
+        "title": "页面快，也容易被找到",
+        "description": "页面轻量快速，并为搜索和社交应用提供站点地图和链接预览。"
+      },
+      "quality": {
+        "title": "代码始终保持整洁",
+        "description": "每次推送前和每个拉取请求都会运行类型检查、代码检查和测试。"
+      },
+      "deploy": {
+        "title": "随时可以上线",
+        "description": "一键部署到 Vercel，或用 Docker 部署到任何地方，一条命令移除演示。"
       }
     },
     "footer": {

@@ -46,7 +46,7 @@ export default function PasswordResetForm() {
       <DocumentTitle title={t('title')} />
       <Card
         flat
-        className="w-full max-w-md border-0 bg-transparent pb-10 shadow-none"
+        className="w-full max-w-md border-0 bg-transparent pb-4 shadow-none"
       >
         <CardHeader className="flex flex-row items-center justify-center px-4">
           <CardTitle as="h1" className="text-center text-2xl">
