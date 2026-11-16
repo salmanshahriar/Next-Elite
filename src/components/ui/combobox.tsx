@@ -69,7 +69,7 @@ export function Combobox({
           variant="outline"
           disabled={disabled}
           className={cn(
-            'h-9 w-full justify-between rounded-md border border-input bg-transparent font-normal dark:bg-input/30',
+            'h-9 w-full justify-between rounded-md border bg-transparent font-normal dark:border-input dark:bg-input/30',
             !selectedLabel && 'text-muted-foreground',
             className,
           )}

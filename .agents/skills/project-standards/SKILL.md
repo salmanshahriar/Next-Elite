@@ -1,6 +1,6 @@
 ---
 name: project-standards
-description: Coding standards for this project (Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/Radix frontend for admin panels, ERPs, dashboards, user portals and SaaS). Use for ANY UI or frontend work in this repo - pages, sections, cards, stats, charts, tables, forms, inputs, selects, date pickers, dialogs, layouts, styling, new components, new routes, refactors. Enforces reuse of existing components in src/components, variants over duplicates, design tokens over hard-coded values, minimal JSX/CSS, server-rendered public pages, client-rendered protected pages, and asking before structural changes.
+description: Coding standards for this project (Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/Radix frontend for admin panels, ERPs, dashboards, user portals and SaaS). Use for ANY UI or frontend work in this repo - pages, sections, cards, stats, charts, tables, forms, inputs, selects, date pickers, dialogs, layouts, styling, new components, new routes, refactors. Enforces reuse of existing components in src/components, variants over duplicates, design tokens over hard-coded values, minimal JSX/CSS, server-rendered public pages, client-rendered protected pages, accessibility and modern-web baselines (skip links, titles, contrast, reduced motion, RTL logical props, theme system default), and asking before structural changes.
 ---
 
 # Project standards
@@ -18,6 +18,7 @@ Every rule below comes from the existing code. When this file and the code disag
 5. **Server for public, client for protected.** Public pages (`(public)`, `(auth)`) are Server Components so they render for SEO; add `'use client'` only to the smallest leaf that needs it. Protected pages (`(protected)`) don't need SEO, so they are plain `'use client'` components. The protected layout stays a Server Component and does the one session check.
 6. **Respect the structure.** Don't add top-level folders, move files, rename conventions, add dependencies or change configs without asking the user first (see "When to ask").
 7. **Industry practice, kept simple.** Pick the boring, standard solution that a new developer will understand on first read.
+8. **Keep the accessibility / modern-web baseline.** This is a public boilerplate. New UI must not regress the rules in "Accessibility and modern-web baseline" below.
 
 ## Workflow for every UI task
 
@@ -36,34 +37,34 @@ All paths are under `src/components/`. Import with the `@/` alias, for example `
 
 ### Surfaces and layout blocks
 
-| Need                               | Use                                                                                                                                                                                                                         |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Card, panel, section box           | `ui/card`: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction` (top-right slot), `CardContent`, `CardFooter`. Props: `flat` (bordered, `bg-card`, used on dashboards), `variant="solid" \| "glow"`, `nested` |
-| KPI / stat tile                    | `ui/stat-card`: `StatCard` with `title`, `value`, optional `icon`, `isLoading` (renders its own skeleton)                                                                                                                   |
-| Page title and actions row         | `shared/page-header`: `PageHeader` with `title`, `subtitle`, `actions`                                                                                                                                                      |
-| Page wrapper with standard spacing | `shared/page-header`: `PageLayout` (`gap-6` column; `centered` for empty/error states)                                                                                                                                      |
-| Alert / inline notice              | `ui/alert`: `Alert`, `AlertTitle`, `AlertDescription` (`default`, `destructive`)                                                                                                                                            |
-| Divider                            | `ui/separator`                                                                                                                                                                                                              |
-| Collapsible / FAQ                  | `ui/accordion`, `ui/collapsible`                                                                                                                                                                                            |
-| Tabs                               | `ui/tabs`: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`                                                                                                                                                                 |
-| Carousel                           | `ui/carousel` (Embla)                                                                                                                                                                                                       |
-| Empty placeholder art              | `ui/placeholder-pattern`                                                                                                                                                                                                    |
-| Decorative glow                    | `shared/blur-glow`                                                                                                                                                                                                          |
+| Need                               | Use                                                                                                                                                                                                                                                                             |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Card, panel, section box           | `ui/card`: `Card`, `CardHeader`, `CardTitle` (`as="h1" \| "h2" \| "h3" \| "div"`, default `div`), `CardDescription`, `CardAction` (top-right slot), `CardContent`, `CardFooter`. Props: `flat` (bordered, `bg-card`, used on dashboards), `variant="solid" \| "glow"`, `nested` |
+| KPI / stat tile                    | `ui/stat-card`: `StatCard` with `title`, `value`, optional `icon`, `isLoading` (renders its own skeleton)                                                                                                                                                                       |
+| Page title and actions row         | `shared/page-header`: `PageHeader` with `title`, `subtitle`, `actions`                                                                                                                                                                                                          |
+| Page wrapper with standard spacing | `shared/page-header`: `PageLayout` (`gap-6` column; `centered` for empty/error states)                                                                                                                                                                                          |
+| Alert / inline notice              | `ui/alert`: `Alert`, `AlertTitle`, `AlertDescription` (`default`, `destructive`)                                                                                                                                                                                                |
+| Divider                            | `ui/separator`                                                                                                                                                                                                                                                                  |
+| Collapsible / FAQ                  | `ui/accordion`, `ui/collapsible`                                                                                                                                                                                                                                                |
+| Tabs                               | `ui/tabs`: `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`                                                                                                                                                                                                                     |
+| Carousel                           | `ui/carousel` (Embla)                                                                                                                                                                                                                                                           |
+| Empty placeholder art              | `ui/placeholder-pattern`                                                                                                                                                                                                                                                        |
+| Decorative glow                    | `shared/blur-glow`                                                                                                                                                                                                                                                              |
 
 ### Data display
 
-| Need                                                     | Use                                                                                                                                                                                                |
-| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Table with sorting, pagination, loading and empty states | `ui/data-table`: `DataTable` with `data`, `columns: DataTableColumnDef<T>[]`, `isLoading`, `pagination={{ total, page, limit, onPageChange }}`, `emptyMessage`, controlled `sorting`               |
-| Plain static table                                       | `ui/table`: `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableFooter`, `TableCaption`                                                                               |
-| Area / trend chart                                       | `ui/chart`: `Chart` with `data: ChartDataItem[]` (`{ label, value }`), `name`, `color`, `height`, `formatValue`, `isLoading` (uPlot, client-only)                                                  |
-| Animated ring / score gauge                              | `ui/dynamic-chart`: `DynamicChart` with `label`, `value` (0-100), `delay`, `strokeClassName`                                                                                                       |
-| Progress bar                                             | `ui/progress`: `Progress` with `value`, `variant="default" \| "success" \| "destructive"`                                                                                                          |
-| Status pill / tag                                        | `ui/badge`: `Badge`. Variants: `default`, `secondary`, `success`, `warning`, `destructive`, `outline`, `successSubtle`, `primaryOutline`, `successOutline`, `warningOutline`, `destructiveOutline` |
-| Status dot                                               | `ui/status-indicator`: `StatusIndicator` with `variant` (`success`, `warning`, `destructive`, `muted`), `size` (`sm`, `default`, `lg`), `pulse`                                                    |
-| Avatar                                                   | `ui/avatar`: `Avatar`, `AvatarImage`, `AvatarFallback`                                                                                                                                             |
-| Loading placeholder                                      | `ui/skeleton`; inline spinner `ui/spinner`                                                                                                                                                         |
-| Breadcrumbs                                              | `ui/breadcrumb` (the protected `Topbar` already generates them from the URL plus `navigation.*` translations)                                                                                      |
+| Need                                                     | Use                                                                                                                                                                                                                                                                    |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Table with sorting, pagination, loading and empty states | `ui/data-table`: `DataTable` with `data`, `columns: DataTableColumnDef<T>[]`, `isLoading`, `pagination={{ total, page, limit, onPageChange }}`, `emptyMessage`, controlled `sorting`                                                                                   |
+| Plain static table                                       | `ui/table`: `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableFooter`, `TableCaption`                                                                                                                                                   |
+| Area / trend chart                                       | `ui/chart`: `Chart` with `data: ChartDataItem[]` (`{ label, value }`), `name`, `color`, `height`, `formatValue`, `isLoading` (uPlot, client-only)                                                                                                                      |
+| Animated ring / score gauge                              | `ui/dynamic-chart`: `DynamicChart` with `label`, `value` (0-100), `delay`, `strokeClassName`                                                                                                                                                                           |
+| Progress bar                                             | `ui/progress`: `Progress` with `value` (always forwarded), `variant="default" \| "success" \| "destructive"`, and an accessible name (`aria-label` or `aria-labelledby`)                                                                                               |
+| Status pill / tag                                        | `ui/badge`: `Badge`. Variants: `default`, `secondary`, `success`, `warning`, `destructive`, `outline`, `successSubtle`, `primaryOutline`, `successOutline`, `warningOutline`, `destructiveOutline`. Filled success/warning use `*-foreground` tokens, not `text-white` |
+| Status dot                                               | `ui/status-indicator`: `StatusIndicator` with `variant` (`success`, `warning`, `destructive`, `muted`), `size` (`sm`, `default`, `lg`), `pulse`, optional `label` (sets `role="img"`; required when colour alone would convey state)                                   |
+| Avatar                                                   | `ui/avatar`: `Avatar`, `AvatarImage`, `AvatarFallback`                                                                                                                                                                                                                 |
+| Loading placeholder                                      | `ui/skeleton`; inline spinner `ui/spinner`                                                                                                                                                                                                                             |
+| Breadcrumbs                                              | `ui/breadcrumb` (the protected `Topbar` already generates them from the URL plus `navigation.*` translations)                                                                                                                                                          |
 
 ### Inputs and forms
 
@@ -79,9 +80,9 @@ All paths are under `src/components/`. Import with the `@/` alias, for example `
 | Calendar                                  | `ui/calendar` (react-day-picker with month/year selects)                                                                                                                                                                       |
 | Checkbox / radio / switch                 | `ui/checkbox`, `ui/radio-group`, `ui/switch`                                                                                                                                                                                   |
 | Toggle / segmented control                | `ui/toggle`, `ui/toggle-group`                                                                                                                                                                                                 |
-| OTP code                                  | `ui/input-otp`                                                                                                                                                                                                                 |
+| OTP code                                  | `ui/input-otp`: defaults to digits (`pattern` + `inputMode="numeric"` + `autoComplete="one-time-code"`); override `pattern` for alphanumeric codes                                                                             |
 | Label                                     | `ui/label`                                                                                                                                                                                                                     |
-| Field error text                          | `ui/input-error` (`InputError message={...}`, renders nothing when empty)                                                                                                                                                      |
+| Field error text                          | `ui/input-error` (`InputError id={...} message={...}`, `role="alert"`, renders nothing when empty). Always pass `id` and wire `aria-describedby` on the input                                                                  |
 | react-hook-form bindings                  | `ui/form`: `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`                                                                                                                       |
 
 Date picker pattern:
@@ -131,7 +132,7 @@ Date picker pattern:
 ### App chrome (already wired, reuse it, don't rebuild it)
 
 - `layout/app-shell`, `layout/admin-sidebar`, `layout/user-sidebar`, `layout/topbar`, `layout/header`, `layout/app-brand`, `ui/sidebar`
-- `shared/theme-toggle`, `shared/language-switcher`, `shared/user-dropdown`, `shared/logo`, `shared/top-loader`
+- `shared/theme-toggle`, `shared/language-switcher`, `shared/user-dropdown`, `shared/logo`, `shared/top-loader`, `shared/document-title`
 - To add a sidebar link, add an entry to the `NavItem[]` array in the relevant sidebar, with `id`, `label: t('navigation.<key>')`, `href`, `icon: IconName` and `permission`. Don't hand-write menu JSX.
 
 ### Icons
@@ -198,7 +199,46 @@ Only do this when nothing in the catalog fits.
   - Wrap Radix primitives when they exist instead of building behavior by hand.
 
 - Don't install a new UI library when a Radix primitive or an existing component can do it. If you really need one, ask first. Pin exact versions, with no `^` or `~`.
-- Keep it accessible: real `<button type="button">`, `aria-label` on icon-only buttons, `aria-invalid` on invalid fields, and `role` only where the semantics need it.
+- Keep it accessible: real `<button type="button">`, `aria-label` on icon-only buttons, `aria-invalid` on invalid fields, and `role` only where the semantics need it. Follow "Accessibility and modern-web baseline".
+
+## Accessibility and modern-web baseline
+
+These are project standards. Preserve them in every change. Do not regress them for convenience.
+
+### Document, theme, titles
+
+- Root layout keeps `colorScheme: 'light dark'` on the viewport export and `color-scheme` on `:root` / `.light` / `.dark` in CSS. Theme preference defaults to **`system`**; the cookie stores the choice (`system` \| `light` \| `dark`), not only the resolved colour. Keep the FOUC bootstrap script in `app/layout.tsx`.
+- Skip link to `#main-content` stays the first focusable control in the root layout. Every layout's primary content uses `id="main-content"` (and `tabIndex={-1}` on the protected main).
+- Document titles: root metadata is `title: { default, template: '%s | ${appTitle}' }`. Public page `generateMetadata` sets **only the page segment** (`title: t('title')`). Auth and protected screens keep their pages as one-liners: their layouts set `metadata = { title: null }` and the screen renders `<DocumentTitle title={t('title')} />` from `shared/document-title` (the protected `Topbar` already does this from the breadcrumb label). Never bake `| ${appName}` into a title by hand or the tab shows the app name twice.
+- One visible `<h1>` per page. Auth cards use `<CardTitle as="h1">`. Mobile sidebar chrome titles are `<p>`, not a second `<h1>`.
+- Prefer `min-h-dvh` / `h-dvh` over `min-h-screen` / `h-screen` for full-viewport shells.
+
+### Navigation and focus
+
+- Active nav links and sidebar items use `aria-current="page"` (or `"true"` for in-page scrollspy) plus a non-colour cue (weight / background), not colour alone.
+- Custom overlays that hide interactive content use `inert` while closed (see the public header mobile menu). Don't leave focusable links inside a visually collapsed panel.
+- Icon-only controls need a translated accessible name. Menu toggles need `aria-expanded` and `aria-controls` when they own a panel.
+- Never use positive `tabIndex` (`tabIndex={1}` and up). DOM order is the tab order.
+- Focus rings stay visible: prefer `focus-visible:ring-ring/80` (or outline). Don't remove outlines with `outline-hidden` / `outline-none` without a replacement that meets contrast.
+
+### Forms
+
+- Copy `components/auth/login-form.tsx`: `Label` + control + `InputError`, `required` (even with `noValidate`), `aria-invalid`, `aria-describedby` pointing at the error `id`, `useId()` for those ids.
+- Password fields use `ui/password-input` (logical `end-0` / `border-s` / `pe-10`, `aria-pressed`, translated show/hide labels).
+- No positive `tabIndex` on form fields. Prefer `ms-auto` over `ml-auto` for alignment.
+
+### Colour, contrast, motion, RTL
+
+- Token contrast must stay WCAG AA: text ≥ 4.5:1, UI boundaries and focus ≥ 3:1, in **both** themes. Semantic filled surfaces use `text-*-foreground` tokens. Don't put `text-white` on warning/success unless you have verified the ratio.
+- Don't convey state with colour alone: use text, icons, or `StatusIndicator label="..."`.
+- Motion: wrap non-essential animation with `motion-reduce:` / `motion-safe:`, or skip `startViewTransition` / rAF loops when `prefers-reduced-motion: reduce`. Skeletons, spinners, overlays, theme reveal, and auto-rotating content must honour it. Throttle scroll listeners with `requestAnimationFrame`.
+- New directional CSS uses logical properties only (`ms`/`me`, `ps`/`pe`, `start`/`end`, `text-start`/`text-end`, `border-s`/`border-e`). Fix physical leftovers when you touch a file.
+- Accessible names and UI chrome strings go through `next-intl` (`common.close`, `common.loading`, `common.skipToContent`, `common.showPassword`, …). Don't hardcode English `aria-label`s in shared components.
+
+### Demo code (`src/_demo(DELETE)/`)
+
+- Demo is what developers copy. Keep the same a11y bar: labels on demo inputs, `aria-current` on scrollspy, real headings, no third-party avatar hotlinks, server-fetch public data when possible, `content-visibility` only below the fold, hoist components out of render.
+- Demo-only strings live in `src/_demo(DELETE)/messages/*.json` (all six locales). `npm run demo:remove` must still leave a working app.
 
 ## Code style (match it exactly)
 
@@ -265,7 +305,7 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 
 ## Server vs client
 
-- **Public and auth pages** are **async Server Components**. Use `getTranslations` from `next-intl/server` and `generateMetadata` for SEO.
+- **Public and auth pages** are **Server Components**. Public pages use `getTranslations` from `next-intl/server` and `generateMetadata` for SEO, with `title` set to the page segment only; the root `template: '%s | ${appTitle}'` appends the app name. Auth pages stay one-liners and get their title from `DocumentTitle` in the form. Never write `` `${page} | ${appName}` `` in page metadata.
 - **Protected pages** (`src/app/(protected)`) start with `'use client'` and use `useTranslations`. Don't add server guards to them; the protected layout already checks the session and picks the role slot.
 - Public pages (`src/app/(public)`) must render real content on the server. Put interactivity in small `'use client'` leaf components and pass them server-rendered children or data.
 - `'use client'` goes in components that use state, effects, event handlers, context, or browser APIs. Client components use `useTranslations` from `next-intl`.
@@ -306,7 +346,7 @@ Oxfmt handles it: single quotes, semicolons, trailing commas, 80-column width, s
 
 - **Server data:** only on public pages, fetched in the Server Component when the data is needed for first paint or SEO.
 - **Client data** (all protected pages): use TanStack Query (`useQuery` / `useMutation`). The client is provided by `QueryProvider` in `(protected)/layout.tsx` with defaults from `libs/query-client.ts`; public and auth pages don't load it. If a public page ever needs client data, wrap just that part in `QueryProvider`. Don't add another fetching library or a global store unless the user agrees.
-- **Forms:** use react-hook-form + `zodResolver`. Put the schema in `src/features/<feature>/schemas/<name>.ts` and export `xSchema` plus `type XInput = z.infer<...>`. Wire fields with `Label` + `Input` + `InputError`, or with the `ui/form` primitives. Submit with `<Button type="submit" loading={form.formState.isSubmitting}>`. Copy `components/auth/login-form.tsx`.
+- **Forms:** use react-hook-form + `zodResolver`. Put the schema in `src/features/<feature>/schemas/<name>.ts` and export `xSchema` plus `type XInput = z.infer<...>`. Wire fields with `Label` + `Input` + `InputError`, or with the `ui/form` primitives. Always associate errors (`aria-describedby` + `InputError id`), mark `required` when the field is required, and submit with `<Button type="submit" loading={form.formState.isSubmitting}>`. Copy `components/auth/login-form.tsx`.
 - **Feature logic** (hooks, schemas, server helpers, types for one domain) goes in `src/features/<feature>/` using the same subfolders `auth` uses (`hooks/`, `lib/`, `schemas/`, `server/`, `types.ts`). Create only the subfolders you actually need.
 - **i18n:** user-facing text goes through `next-intl`. Add every new key to **all six** files in `messages/` (`en`, `bn`, `ar`, `fr`, `es`, `zh`). Keys are type-checked from `en.json`. Reuse `common.*` keys (`save`, `cancel`, `delete`, `search`, `noData`, ...) before adding new ones. Add nav labels under `navigation.*` so breadcrumbs pick them up.
 - **Env vars:** declare them in `src/libs/env.ts` (T3 Env) and document them in `.env.example`. Never read `process.env` directly in components.
@@ -319,8 +359,8 @@ The product is judged on its UX. Everything must look like it belongs to the sam
 - Don't add gradients, emoji, rainbow badges, heavy shadows, random glows, stock "hero" filler, decorative icons on every line, lorem ipsum, or marketing fluff in app screens.
 - Every data view needs **loading**, **empty** and **error** states. Use the built-in `isLoading`, `emptyMessage`, `Skeleton` and `Alert`.
 - Give feedback for every action: button `loading`, `toast.success` / `toast.error`, and disabled states.
-- Keep motion subtle and purposeful. Use the existing transitions; don't add new animations without a reason.
-- Check accessibility: keyboard reachable, visible focus (it's built into the primitives), labels tied to inputs, sufficient contrast in **both** light and dark themes, and correct behavior in RTL.
+- Keep motion subtle and purposeful. Use the existing transitions; don't add new animations without a reason. Always pair motion with `motion-reduce:` / `motion-safe:` (or skip JS animation under reduced motion).
+- Check accessibility against the baseline section: keyboard reachable, visible focus, labels tied to inputs, skip link still works, one `<h1>`, `aria-current` on active nav, sufficient contrast in **both** themes, and correct RTL with logical properties.
 - Write copy that is short, sentence case and specific. "Save changes", not "Submit Your Amazing Changes Now!"
 
 ## When to ask the user first
@@ -340,10 +380,11 @@ For small, in-pattern work (a page, a section, a variant, a translation key), ju
 ## Before you finish
 
 - [ ] Reused or extended existing components; no near-duplicates created
-- [ ] No hard-coded colors or sizes; tokens only; works in light, dark and RTL
+- [ ] No hard-coded colors or sizes; tokens only; works in light, dark and RTL (logical props)
 - [ ] No unnecessary wrappers, classes, files, folders, exports or comments
 - [ ] Public pages are Server Components with `'use client'` only on leaves; protected pages are client components
-- [ ] Protected pages live in the right role slot; translations added to all six `messages/*.json`
+- [ ] Protected pages live in the right role slot; translations added to all six `messages/*.json` (and demo locales if demo UI changed)
 - [ ] Loading, empty and error states handled
+- [ ] Accessibility baseline intact: titles (no double app name), headings, labels/`aria-describedby`, no positive `tabIndex`, `aria-current` where relevant, reduced-motion, contrast
 - [ ] `npm run lint:fix`, then `npm run check` (typecheck, lint, knip, tests) passes
-- [ ] If `src/_demo(DELETE)/` exists: demo code stays there, and `npm run demo:remove` still works
+- [ ] If `src/_demo(DELETE)/` exists: demo code stays there, demo a11y bar held, and `npm run demo:remove` still works

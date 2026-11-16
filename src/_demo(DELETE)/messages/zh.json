@@ -46,7 +46,8 @@
       "auth": {
         "title": "RBAC 与 Better Auth",
         "description": "基于 Better Auth 的企业级认证：邮箱/密码、Google OAuth、会话管理以及基于权限的 RBAC，开箱即用。"
-      }
+      },
+      "opensInNewTab": "（在新标签页打开）"
     },
     "showcase": {
       "title": "用组件构建",
@@ -123,7 +124,10 @@
       "copied": "已复制",
       "copyLabel": "复制命令",
       "copiedToast": "已复制到剪贴板",
-      "copyError": "无法复制命令"
+      "copyError": "无法复制命令",
+      "opensInNewTab": "（在新标签页打开）",
+      "installCommands": "安装命令",
+      "copiedStatus": "命令已复制"
     }
   },
   "uiComponents": {

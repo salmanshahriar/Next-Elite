@@ -232,7 +232,7 @@ export function Sidebar({
           data-slot="sidebar"
           data-mobile="true"
           showCloseButton={false}
-          className="h-screen w-64 max-w-[85vw] gap-0 rounded-none border-s-0 border-e border-border/40 bg-background p-0 sm:max-w-[16rem] dark:border-border/60 dark:bg-card"
+          className="h-dvh w-64 max-w-[85vw] gap-0 rounded-none border-s-0 border-e border-border/40 bg-background p-0 sm:max-w-[16rem] dark:border-border/60 dark:bg-card"
           side={side}
         >
           <div className="flex h-full w-full flex-col">{children}</div>
@@ -247,7 +247,7 @@ export function Sidebar({
       data-slot="sidebar"
       data-state={state}
       className={cn(
-        'group sticky top-0 z-40 hidden h-svh max-h-svh shrink-0 flex-col overflow-hidden border-e border-border bg-background transition-all duration-300 ease-in-out md:flex dark:bg-card',
+        'group sticky top-0 z-40 hidden h-svh max-h-svh shrink-0 flex-col overflow-hidden border-e border-border bg-background transition-[width] duration-300 ease-in-out motion-reduce:transition-none md:flex dark:bg-card',
         state === 'collapsed' ? 'w-16' : 'w-64',
         className,
       )}
@@ -548,6 +548,7 @@ export function SidebarMenuButton({
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
       {...props}
+      aria-current={isActive ? 'page' : undefined}
     />
   );
 

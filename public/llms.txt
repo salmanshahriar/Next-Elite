@@ -14,7 +14,7 @@
 
 **Tech Stack** (exact versions from `package.json`)
 
-- **Core**: Next.js 16.4.6 (App Router, Turbopack), React 19.3.1, TypeScript 7.0.2, Node.js 22.12+.
+- **Core**: Next.js 16.4.6 (App Router, Turbopack), React 19.3.1, TypeScript 7.0.2, Node.js 22.18+.
 - **UI**: Tailwind CSS 4.3.5, shadcn/ui, Radix UI, CVA 0.7.1, Phosphor Icons 2.1.10, uPlot 1.6.32, Sonner 2.0.8.
 - **Auth & data**: Better Auth 1.7.22, TanStack Query 5.107.1, TanStack Table 9.3.1, React Hook Form 7.92.0, Zod 4.6.7, T3 Env 0.13.11.
 - **i18n**: next-intl 4.15.1 (English, Bengali, Arabic RTL, French, Spanish, Chinese).
@@ -84,8 +84,8 @@ First-load JavaScript without demo code: 184 KB Brotli for `/`, 225 KB for `/log
 
 ## Optional
 
-- [Bundle budget script](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/check-bundle-size.mjs): measures each page's initial JavaScript with Brotli and fails CI over budget
-- [scripts/remove-demo.mjs](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/remove-demo.mjs): removes all demo code and its references in one command
+- [Bundle budget script](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/check-bundle-size.ts): measures each page's initial JavaScript with Brotli and fails CI over budget
+- [scripts/remove-demo.ts](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/scripts/remove-demo.ts): removes all demo code and its references in one command
 - [CI workflow](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/.github/workflows/check.yml): typecheck, lint, Knip, tests, build, bundle budgets and demo-removal check
 - [Dockerfile](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/Dockerfile): multi-stage Distroless production image with a health check
 - [License](https://raw.githubusercontent.com/salmanshahriar/Next-Elite/main/LICENSE): MIT

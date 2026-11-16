@@ -21,7 +21,19 @@
     "noData": "暂无数据",
     "toggleTheme": "切换主题",
     "sidebar": "侧边栏",
-    "toggleSidebar": "切换侧边栏"
+    "toggleSidebar": "切换侧边栏",
+    "skipToContent": "跳到主要内容",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
+    "breadcrumbs": "面包屑导航",
+    "table": "表格",
+    "previousSlide": "上一张幻灯片",
+    "nextSlide": "下一张幻灯片",
+    "collapseSidebar": "收起侧边栏",
+    "expandSidebar": "展开侧边栏",
+    "showingRange": "显示第 {from}-{to} 项，共 {total} 项",
+    "previousPage": "上一页",
+    "nextPage": "下一页"
   },
   "theme": {
     "light": "浅色",
@@ -40,7 +52,9 @@
     "accountMenu": "账户菜单",
     "login": "登录",
     "workspace": "工作区",
-    "analytics": "分析"
+    "analytics": "分析",
+    "primary": "主导航",
+    "menu": "菜单"
   },
   "auth": {
     "login": {

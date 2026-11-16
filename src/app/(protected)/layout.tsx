@@ -7,8 +7,11 @@ import { AuthProvider } from '@/features/auth/hooks/auth-provider';
 import { hasPermission } from '@/features/auth/rbac/can';
 import { requireUser } from '@/features/auth/rbac/require';
 import { env } from '@/libs/env';
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
+
+export const metadata: Metadata = { title: null };
 
 interface ProtectedLayoutProps {
   children: ReactNode;
@@ -48,7 +51,11 @@ const ProtectedLayout = async ({
           {userRole === 'admin' ? <AdminSidebar /> : <UserSidebar />}
           <div className="relative flex h-svh max-h-svh min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-background pt-app-header md:pt-0">
             <Topbar />
-            <main className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background">
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-muted/70 dark:bg-background"
+            >
               <div className="ms-0 me-auto w-full max-w-7xl min-w-0 px-4 py-6 sm:px-6 lg:px-8">
                 {slot}
               </div>

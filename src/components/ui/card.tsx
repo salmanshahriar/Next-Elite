@@ -76,9 +76,13 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+type CardTitleProps = React.HTMLAttributes<HTMLElement> & {
+  as?: 'div' | 'h1' | 'h2' | 'h3';
+};
+
+function CardTitle({ className, as: Comp = 'div', ...props }: CardTitleProps) {
   return (
-    <div
+    <Comp
       data-slot="card-title"
       className={cn('leading-none font-semibold text-foreground', className)}
       {...props}

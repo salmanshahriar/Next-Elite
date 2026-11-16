@@ -11,24 +11,32 @@ import { cn } from '@/libs/utils';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import './globals.css';
+
+const THEME_BOOTSTRAP_SCRIPT = `(function(){try{var c=document.cookie.match(/(?:^|; )theme=([^;]*)/);var t=c?decodeURIComponent(c[1]):'system';if(t!=='light'&&t!=='dark'&&t!=='system')t='system';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(d?'dark':'light');r.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
   maximumScale: 5,
+  colorScheme: 'light dark',
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#09090b' },
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
   ],
 };
 
+const appTitle = siteConfig.appName ? siteConfig.appName : siteConfig.title;
+
 export const metadata: Metadata = {
-  title: siteConfig.appName ? siteConfig.appName : siteConfig.title,
+  title: {
+    default: appTitle,
+    template: `%s | ${appTitle}`,
+  },
   description: siteConfig.description,
   keywords: siteConfig.keywords.filter(Boolean),
   authors: siteConfig.organization.name
@@ -102,7 +110,11 @@ const shouldRenderStructuredData =
   !baseUrl.includes('yourdomain.com');
 
 const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
-  const [locale, messages] = await Promise.all([getLocale(), getMessages()]);
+  const [locale, messages, t] = await Promise.all([
+    getLocale(),
+    getMessages(),
+    getTranslations('common'),
+  ]);
   const dir = getLocaleDirection(locale as Locale);
 
   const cookieStore = await cookies();
@@ -112,8 +124,13 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
     themeCookie === 'light' ||
     themeCookie === 'system'
       ? themeCookie
-      : 'light';
-  const htmlTheme = defaultTheme === 'dark' ? 'dark' : 'light';
+      : 'system';
+  const htmlTheme =
+    defaultTheme === 'dark'
+      ? 'dark'
+      : defaultTheme === 'light'
+        ? 'light'
+        : undefined;
 
   return (
     <html
@@ -124,10 +141,17 @@ const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
       suppressHydrationWarning
     >
       <body className={cn(fontSans.className, 'antialiased')}>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers defaultTheme={defaultTheme}>
-            <div className="relative flex min-h-screen flex-col bg-background">
-              <div className="relative z-10 flex min-h-screen flex-col">
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-[100] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:shadow-md focus:outline-2 focus:outline-offset-2 focus:outline-ring"
+            >
+              {t('skipToContent')}
+            </a>
+            <div className="relative flex min-h-dvh flex-col bg-background">
+              <div className="relative z-10 flex min-h-dvh flex-col">
                 {children}
               </div>
             </div>

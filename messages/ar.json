@@ -21,7 +21,19 @@
     "noData": "لا توجد بيانات",
     "toggleTheme": "تبديل المظهر",
     "sidebar": "الشريط الجانبي",
-    "toggleSidebar": "تبديل الشريط الجانبي"
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "skipToContent": "تخطَّ إلى المحتوى",
+    "showPassword": "إظهار كلمة المرور",
+    "hidePassword": "إخفاء كلمة المرور",
+    "breadcrumbs": "مسار التنقل",
+    "table": "جدول",
+    "previousSlide": "الشريحة السابقة",
+    "nextSlide": "الشريحة التالية",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "showingRange": "عرض {from}-{to} من {total}",
+    "previousPage": "الصفحة السابقة",
+    "nextPage": "الصفحة التالية"
   },
   "theme": {
     "light": "فاتح",
@@ -40,7 +52,9 @@
     "accountMenu": "قائمة الحساب",
     "login": "تسجيل الدخول",
     "workspace": "مساحة العمل",
-    "analytics": "التحليلات"
+    "analytics": "التحليلات",
+    "primary": "رئيسي",
+    "menu": "القائمة"
   },
   "auth": {
     "login": {

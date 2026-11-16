@@ -21,7 +21,19 @@
     "noData": "কোন ডেটা নেই",
     "toggleTheme": "থিম পরিবর্তন করুন",
     "sidebar": "সাইডবার",
-    "toggleSidebar": "সাইডবার টগল করুন"
+    "toggleSidebar": "সাইডবার টগল করুন",
+    "skipToContent": "মূল বিষয়বস্তুতে যান",
+    "showPassword": "পাসওয়ার্ড দেখান",
+    "hidePassword": "পাসওয়ার্ড লুকান",
+    "breadcrumbs": "ব্রেডক্রাম্ব",
+    "table": "টেবিল",
+    "previousSlide": "আগের স্লাইড",
+    "nextSlide": "পরের স্লাইড",
+    "collapseSidebar": "সাইডবার সংকুচিত করুন",
+    "expandSidebar": "সাইডবার প্রসারিত করুন",
+    "showingRange": "{from}-{to} / {total}",
+    "previousPage": "আগের পৃষ্ঠা",
+    "nextPage": "পরের পৃষ্ঠা"
   },
   "theme": {
     "light": "লাইট",
@@ -40,7 +52,9 @@
     "accountMenu": "অ্যাকাউন্ট মেনু",
     "login": "লগইন",
     "workspace": "ওয়ার্কস্পেস",
-    "analytics": "অ্যানালিটিক্স"
+    "analytics": "অ্যানালিটিক্স",
+    "primary": "প্রধান",
+    "menu": "মেনু"
   },
   "auth": {
     "login": {

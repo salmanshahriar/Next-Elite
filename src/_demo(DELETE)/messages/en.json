@@ -46,7 +46,8 @@
       "auth": {
         "title": "RBAC & Better Auth",
         "description": "Enterprise-grade auth with Better Auth - email/password, Google OAuth, session handling, and permission-based RBAC out of the box."
-      }
+      },
+      "opensInNewTab": "(opens in a new tab)"
     },
     "showcase": {
       "title": "Built with components",
@@ -123,7 +124,10 @@
       "copied": "Copied",
       "copyLabel": "Copy commands",
       "copiedToast": "Copied to clipboard",
-      "copyError": "Could not copy commands"
+      "copyError": "Could not copy commands",
+      "opensInNewTab": "(opens in a new tab)",
+      "installCommands": "Install commands",
+      "copiedStatus": "Commands copied to clipboard"
     }
   },
   "uiComponents": {

@@ -4,8 +4,11 @@ import * as React from 'react';
 
 import { cn } from '@/libs/utils';
 
-function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
-  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
+function Breadcrumb({
+  'aria-label': ariaLabel = 'Breadcrumbs',
+  ...props
+}: React.ComponentProps<'nav'>) {
+  return <nav aria-label={ariaLabel} data-slot="breadcrumb" {...props} />;
 }
 
 function BreadcrumbList({ className, ...props }: React.ComponentProps<'ol'>) {
@@ -53,8 +56,6 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   return (
     <span
       data-slot="breadcrumb-page"
-      role="link"
-      aria-disabled="true"
       aria-current="page"
       className={cn('font-normal text-foreground', className)}
       {...props}
@@ -93,7 +94,6 @@ function BreadcrumbEllipsis({
       {...props}
     >
       <DotsThreeIcon className="size-4" />
-      <span className="sr-only">More</span>
     </span>
   );
 }

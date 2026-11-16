@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority';
+import type { ComponentProps } from 'react';
 import { cn } from '@/libs/utils';
 
 const statusIndicatorVariants = cva('inline-block shrink-0 rounded-full', {
@@ -26,16 +27,21 @@ function StatusIndicator({
   variant,
   size,
   pulse = false,
+  label,
   ...props
-}: React.ComponentProps<'span'> &
-  VariantProps<typeof statusIndicatorVariants> & { pulse?: boolean }) {
+}: ComponentProps<'span'> &
+  VariantProps<typeof statusIndicatorVariants> & {
+    pulse?: boolean;
+    label?: string;
+  }) {
   return (
     <span
       data-slot="status-indicator"
-      role="presentation"
+      role={label ? 'img' : 'presentation'}
+      aria-label={label}
       className={cn(
         statusIndicatorVariants({ variant, size }),
-        pulse && 'animate-pulse',
+        pulse && 'animate-pulse motion-reduce:animate-none',
         className,
       )}
       {...props}

@@ -6,29 +6,32 @@ import { Switch } from '@/components/ui/switch';
 import { useTranslations } from 'next-intl';
 import { useRef, useSyncExternalStore } from 'react';
 
-const subscribe = () => () => {};
+const DARK_QUERY = '(prefers-color-scheme: dark)';
+
+const subscribeToSystemTheme = (onChange: () => void) => {
+  const mediaQuery = window.matchMedia(DARK_QUERY);
+  mediaQuery.addEventListener('change', onChange);
+  return () => mediaQuery.removeEventListener('change', onChange);
+};
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const t = useTranslations('common');
   const switchRef = useRef<HTMLButtonElement>(null);
   const pointer = useRef<{ x: number; y: number } | null>(null);
-  const mounted = useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false,
+  const systemIsDark = useSyncExternalStore(
+    subscribeToSystemTheme,
+    () => window.matchMedia(DARK_QUERY).matches,
+    () => null,
   );
 
-  if (!mounted) {
+  if (systemIsDark === null) {
     return (
-      <div className="h-6 w-11 animate-pulse rounded-md border border-border bg-muted" />
+      <div className="h-6 w-11 rounded-md border border-border bg-muted motion-safe:animate-pulse" />
     );
   }
 
-  const isDark =
-    theme === 'dark' ||
-    (theme === 'system' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const isDark = theme === 'dark' || (theme === 'system' && systemIsDark);
 
   const handleChange = (checked: boolean) => {
     const rect = switchRef.current?.getBoundingClientRect();
@@ -38,7 +41,8 @@ export function ThemeToggle() {
         ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
         : undefined);
     pointer.current = null;
-    setTheme(checked ? 'dark' : 'light', origin);
+    const next = checked ? 'dark' : 'light';
+    setTheme(checked === systemIsDark ? 'system' : next, origin);
   };
 
   return (
@@ -57,13 +61,13 @@ export function ThemeToggle() {
       checkedIcon={
         <Icon
           name="moon"
-          className="size-3 animate-in text-primary duration-300 fade-in zoom-in"
+          className="size-3 text-primary motion-safe:animate-in motion-safe:duration-300 motion-safe:fade-in motion-safe:zoom-in"
         />
       }
       uncheckedIcon={
         <Icon
           name="sun"
-          className="size-3 animate-in text-amber-500 duration-300 fade-in zoom-in"
+          className="size-3 text-warning motion-safe:animate-in motion-safe:duration-300 motion-safe:fade-in motion-safe:zoom-in"
         />
       }
     />

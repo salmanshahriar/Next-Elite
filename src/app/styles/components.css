@@ -30,6 +30,15 @@
   mix-blend-mode: normal;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(root),
+  ::view-transition-old(root) {
+    animation: none !important;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
 ::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;

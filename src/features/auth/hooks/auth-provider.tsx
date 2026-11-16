@@ -14,6 +14,7 @@ import type { AuthPermission, AuthUser } from '../types';
 interface AuthContextValue {
   user: AuthUser | null;
   isGoogleEnabled: boolean;
+  isDemoMode: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (input: {
     email: string;
@@ -34,12 +35,14 @@ export interface AuthProviderProps {
   children: ReactNode;
   initialUser?: AuthUser | null;
   isGoogleEnabled?: boolean;
+  isDemoMode?: boolean;
 }
 
 export function AuthProvider({
   children,
   initialUser = null,
   isGoogleEnabled = false,
+  isDemoMode = false,
 }: AuthProviderProps) {
   const router = useRouter();
   const user = initialUser;
@@ -87,6 +90,7 @@ export function AuthProvider({
     () => ({
       user,
       isGoogleEnabled,
+      isDemoMode,
       signIn,
       signUp,
       signOut,
@@ -94,7 +98,15 @@ export function AuthProvider({
       hasPermission: (permission) =>
         hasPermission(user?.permissions, permission),
     }),
-    [user, isGoogleEnabled, signIn, signUp, signOut, signInWithGoogle],
+    [
+      user,
+      isGoogleEnabled,
+      isDemoMode,
+      signIn,
+      signUp,
+      signOut,
+      signInWithGoogle,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

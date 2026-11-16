@@ -287,7 +287,7 @@ export function AdminSidebar() {
           >
             <Icon name="menu" className="h-5 w-5" />
           </Button>
-          <h1 className="truncate text-lg font-semibold">{mobileTitle}</h1>
+          <p className="truncate text-lg font-semibold">{mobileTitle}</p>
         </div>
 
         <div className="flex items-center gap-1">

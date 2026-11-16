@@ -15,9 +15,10 @@ const TextLink = ({
   return (
     <Link
       className={cn(
-        'text-foreground',
-        variant === 'default' && 'no-underline',
-        variant === 'underlined' && 'text-foreground/50 underline',
+        'text-foreground underline-offset-2',
+        variant === 'default' &&
+          'underline decoration-transparent hover:decoration-current',
+        variant === 'underlined' && 'text-muted-foreground underline',
         className,
       )}
       {...props}

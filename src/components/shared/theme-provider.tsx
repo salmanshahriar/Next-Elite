@@ -70,7 +70,7 @@ function applyTheme(theme: Theme) {
   root.classList.add(resolvedTheme);
   root.style.colorScheme = resolvedTheme;
 
-  document.cookie = `theme=${resolvedTheme}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
   setHeaderChromeActive(root.dataset.headerActive === 'true');
 }
 
@@ -112,7 +112,7 @@ function getThemeSnapshot(defaultTheme: Theme): Theme {
 
 export const ThemeProvider = ({
   children,
-  defaultTheme = 'light',
+  defaultTheme = 'system',
 }: ThemeProviderProps) => {
   const theme = useSyncExternalStore(
     subscribeToThemeStore,
@@ -146,7 +146,11 @@ export const ThemeProvider = ({
         return;
       }
 
-      if (!document.startViewTransition) {
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+
+      if (!document.startViewTransition || reduceMotion) {
         applyThemeChange();
         return;
       }

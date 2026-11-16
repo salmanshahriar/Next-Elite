@@ -4,8 +4,11 @@ import { AppBrand } from '@/components/layout/app-brand';
 import { AuthProvider } from '@/features/auth/hooks/auth-provider';
 import { getCurrentUser } from '@/features/auth/server/get-current-user';
 import { env } from '@/libs/env';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
+
+export const metadata: Metadata = { title: null };
 
 const AuthLayout = async ({ children }: { children: ReactNode }) => {
   const user = await getCurrentUser();
@@ -14,7 +17,7 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main
       id="main-content"
-      className="relative flex h-[96svh] bg-background/80 md:m-4"
+      className="relative flex min-h-[96svh] bg-background/80 md:m-4"
     >
       <section className="bg-blur-md @container relative hidden items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-primary/25 p-6 md:flex md:w-1/2 md:flex-col dark:bg-primary/5">
         <AuthGlobe className="absolute top-[calc(40%-18cqw)] left-1/2 w-[180%] -translate-x-1/2 opacity-80 dark:opacity-30" />
@@ -29,7 +32,10 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
       <section className="flex w-full flex-col p-4 pt-0 md:w-1/2 md:p-6 md:pt-0">
         <AuthTopbar />
         <div className="flex flex-1 items-center justify-center">
-          <AuthProvider isGoogleEnabled={env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED}>
+          <AuthProvider
+            isGoogleEnabled={env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED}
+            isDemoMode={env.NEXT_PUBLIC_DEMO_MODE}
+          >
             {children}
           </AuthProvider>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,6 +36,7 @@ import { StatusIndicator } from '@/components/ui/status-indicator';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { CalendarIcon as CalendarIcon } from '@phosphor-icons/react';
+import { useLocale } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -119,7 +120,7 @@ export const ShowcaseDashboard = () => {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-lg font-semibold">Overview</p>
+        <h2 className="text-lg font-semibold">Overview</h2>
         <p className="text-sm text-muted-foreground">
           Last 6 months across all workspaces
         </p>
@@ -132,7 +133,9 @@ export const ShowcaseDashboard = () => {
         <StatCard
           title="System status"
           value="Online"
-          icon={<StatusIndicator variant="success" size="lg" pulse />}
+          icon={
+            <StatusIndicator variant="success" size="lg" pulse label="Online" />
+          }
         />
       </div>
 
@@ -183,14 +186,15 @@ export const ShowcaseDashboard = () => {
   );
 };
 
-const formatDate = (date: Date) =>
-  date.toLocaleDateString('en-US', {
+const formatDate = (date: Date, locale: string) =>
+  date.toLocaleDateString(locale, {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
   });
 
 export const ShowcaseProfile = () => {
+  const locale = useLocale();
   const [birthday, setBirthday] = useState<Date | undefined>(
     new Date(1995, 4, 14),
   );
@@ -198,7 +202,7 @@ export const ShowcaseProfile = () => {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-lg font-semibold">Profile</p>
+        <h2 className="text-lg font-semibold">Profile</h2>
         <p className="text-sm text-muted-foreground">
           Manage your personal details and preferences
         </p>
@@ -215,7 +219,6 @@ export const ShowcaseProfile = () => {
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
               <Avatar className="size-12">
-                <AvatarImage src="https://github.com/shadcn.png" alt="" />
                 <AvatarFallback>AT</AvatarFallback>
               </Avatar>
               <Button variant="outline" size="sm">
@@ -248,7 +251,7 @@ export const ShowcaseProfile = () => {
                     >
                       <CalendarIcon className="text-muted-foreground" />
                       {birthday ? (
-                        formatDate(birthday)
+                        formatDate(birthday, locale)
                       ) : (
                         <span className="text-muted-foreground">
                           Pick a date
@@ -295,9 +298,9 @@ export const ShowcaseProfile = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label>Plan</Label>
+              <Label htmlFor="showcase-plan">Plan</Label>
               <Select defaultValue="pro">
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="showcase-plan" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -339,7 +342,7 @@ export const ShowcaseProfile = () => {
                 <span>Storage</span>
                 <span className="text-muted-foreground">7.2 GB of 10 GB</span>
               </div>
-              <Progress value={72} className="h-2" />
+              <Progress value={72} className="h-2" aria-label="Storage used" />
             </div>
           </CardContent>
         </Card>
@@ -372,7 +375,7 @@ export const ShowcaseData = () => {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-lg font-semibold">Customers</p>
+        <h2 className="text-lg font-semibold">Customers</h2>
         <p className="text-sm text-muted-foreground">
           Everyone who signed up in the last 6 months
         </p>
@@ -396,6 +399,7 @@ export const ShowcaseData = () => {
                   value={(count / DEMO_USERS.length) * 100}
                   variant="success"
                   className="h-1.5"
+                  aria-label={`${plan} plan share`}
                 />
               </div>
             ))}
@@ -409,7 +413,11 @@ export const ShowcaseData = () => {
           <CardContent className="space-y-3">
             {CUSTOMER_ACTIVITY.map((event) => (
               <div key={event.text} className="flex items-center gap-3">
-                <StatusIndicator size="sm" variant={event.variant} />
+                <StatusIndicator
+                  size="sm"
+                  variant={event.variant}
+                  label={event.variant}
+                />
                 <p className="min-w-0 flex-1 truncate text-sm">{event.text}</p>
                 <span className="shrink-0 text-xs text-muted-foreground">
                   {event.time}

@@ -21,9 +21,11 @@ const DemoCredentials = ({ onSelect }: DemoCredentialsProps) => {
             onClick={() => onSelect(account)}
             className="flex w-full cursor-pointer items-center justify-between rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
           >
-            <span className="w-1/4 text-left font-medium">{account.label}</span>
-            <span className="w-1/2 text-left">{account.email}</span>
-            <span className="w-1/4 text-right">{account.password}</span>
+            <span className="w-1/4 text-start font-medium">
+              {account.label}
+            </span>
+            <span className="w-1/2 text-start">{account.email}</span>
+            <span className="w-1/4 text-end">{account.password}</span>
           </button>
         ))}
       </div>

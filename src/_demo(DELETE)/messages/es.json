@@ -46,7 +46,8 @@
       "auth": {
         "title": "RBAC y Better Auth",
         "description": "Autenticación de nivel empresarial con Better Auth: correo/contraseña, Google OAuth, gestión de sesiones y RBAC basado en permisos desde el primer momento."
-      }
+      },
+      "opensInNewTab": "(se abre en una pestaña nueva)"
     },
     "showcase": {
       "title": "Construido con componentes",
@@ -123,7 +124,10 @@
       "copied": "Copiado",
       "copyLabel": "Copiar comandos",
       "copiedToast": "Copiado al portapapeles",
-      "copyError": "No se pudieron copiar los comandos"
+      "copyError": "No se pudieron copiar los comandos",
+      "opensInNewTab": "(se abre en una pestaña nueva)",
+      "installCommands": "Comandos de instalación",
+      "copiedStatus": "Comandos copiados"
     }
   },
   "uiComponents": {

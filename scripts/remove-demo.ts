@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const at = (relative) => path.join(root, relative);
+const at = (relative: string) => path.join(root, relative);
 
 const DEMO_DIR = 'src/_demo(DELETE)';
 const DEMO_ROUTE = 'src/app/(public)/ui-components';
@@ -21,11 +21,14 @@ if (!fs.existsSync(at(DEMO_DIR))) {
   process.exit(0);
 }
 
-const pending = new Map();
+type Replacement = [pattern: string | RegExp, replacement: string];
 
-const read = (file) => pending.get(file) ?? fs.readFileSync(at(file), 'utf8');
+const pending = new Map<string, string>();
 
-const edit = (file, replacements) => {
+const read = (file: string) =>
+  pending.get(file) ?? fs.readFileSync(at(file), 'utf8');
+
+const edit = (file: string, replacements: Replacement[]) => {
   let content = read(file);
   for (const [pattern, replacement] of replacements) {
     const found =
@@ -40,8 +43,8 @@ const edit = (file, replacements) => {
   pending.set(file, content);
 };
 
-const editJson = (file, mutate) => {
-  const json = JSON.parse(read(file));
+const editJson = <T>(file: string, mutate: (json: T) => void) => {
+  const json = JSON.parse(read(file)) as T;
   mutate(json);
   pending.set(file, `${JSON.stringify(json, null, 2)}\n`);
 };
@@ -64,7 +67,6 @@ export default HomePage;
 );
 
 edit('src/components/auth/login-form.tsx', [
-  ["import { env } from '@/libs/env';\n", ''],
   ["import { type DemoAccount } from '@/_demo(DELETE)/auth/accounts';\n", ''],
   [
     "import DemoCredentials from '@/_demo(DELETE)/auth/demo-credentials';\n",
@@ -74,8 +76,8 @@ edit('src/components/auth/login-form.tsx', [
     "import { signInWithDemoFallback } from '@/_demo(DELETE)/auth/sign-in';\n",
     '',
   ],
-  ['const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;\n\n', ''],
-  ['signIn, signUp, signInWithGoogle', 'signIn, signInWithGoogle'],
+  ['    signUp,\n    signInWithGoogle,', '    signInWithGoogle,'],
+  ['    isDemoMode,\n', ''],
   [
     / {6}if \(isDemoMode\) \{[\s\S]*?\} else \{\n {8}await signIn\(values\.email, values\.password\);\n {6}\}\n/,
     '      await signIn(values.email, values.password);\n',
@@ -85,6 +87,17 @@ edit('src/components/auth/login-form.tsx', [
     '\n          {isDemoMode && <DemoCredentials onSelect={handleDemoSelect} />}\n',
     '\n',
   ],
+]);
+
+edit('src/features/auth/hooks/auth-provider.tsx', [
+  ['  isDemoMode: boolean;\n', ''],
+  ['  isDemoMode?: boolean;\n', ''],
+  ['  isDemoMode = false,\n', ''],
+  [/ {6}isDemoMode,\n/g, ''],
+]);
+
+edit('src/app/(auth)/layout.tsx', [
+  ['            isDemoMode={env.NEXT_PUBLIC_DEMO_MODE}\n', ''],
 ]);
 
 edit('src/features/auth/rbac/roles.ts', [
@@ -125,7 +138,10 @@ edit('config/playwright.config.ts', [
   ],
 ]);
 
-edit('next.config.ts', [[' https://api.github.com', '']]);
+edit('next.config.ts', [
+  [' https://api.github.com', ''],
+  ["['./messages', './src/_demo(DELETE)/messages']", "'./messages'"],
+]);
 
 edit('.github/workflows/check.yml', [[/\n {2}demo-removal:\n[\s\S]*/, '']]);
 
@@ -133,7 +149,7 @@ edit('public/llms.txt', [
   [/- \*\*Demo accounts\*\*[^\n]*\n/, ''],
   [/- `\/ui-components`[^\n]*\n/, ''],
   [/- \[UI components\]\([^)]*\)[^\n]*\n/, ''],
-  [/- \[scripts\/remove-demo\.mjs\][^\n]*\n/, ''],
+  [/- \[scripts\/remove-demo\.ts\][^\n]*\n/, ''],
   [', and a demo-removal check', ''],
   [' and demo-removal check', ''],
 ]);
@@ -149,6 +165,7 @@ edit('README.md', [
 
 edit('AGENTS.md', [
   [/- Demo-only code lives in `src\/_demo\(DELETE\)\/`[^\n]*\n/, ''],
+  [/\n4\. If demo UI changed[^\n]*/, ''],
 ]);
 
 edit('.agents/skills/project-standards/SKILL.md', [
@@ -158,6 +175,7 @@ edit('.agents/skills/project-standards/SKILL.md', [
   ],
   [/ {2}- If `src\/_demo\(DELETE\)\/` exists[^\n]*\n/, ''],
   [/- \[ \] If `src\/_demo\(DELETE\)\/` exists[^\n]*\n/, ''],
+  [/### Demo code \(`src\/_demo\(DELETE\)\/`\)\n\n[\s\S]*?\n\n(?=## )/, ''],
 ]);
 
 edit('src/features/i18n/request.ts', [
@@ -176,7 +194,7 @@ edit('src/global.d.ts', [
   ],
 ]);
 
-editJson('package.json', (json) => {
+editJson<{ scripts: Record<string, string> }>('package.json', (json) => {
   delete json.scripts['demo:remove'];
 });
 

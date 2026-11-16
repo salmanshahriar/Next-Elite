@@ -6,15 +6,15 @@ import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
 
 // Max Brotli-compressed JS per route (what Vercel/CDNs serve), excluding the
 // shared Next.js/React runtime. Lower these as the bundle shrinks.
-const BUDGETS_KB = {
-  '/': 122,
-  '/login': 122,
-  '/register': 120,
-  '/password-reset': 118,
-  '/dashboard': 124,
-  '/analytics': 124,
-  '/profile': 124,
-  '/settings': 124,
+const BUDGETS_KB: Record<string, number> = {
+  '/': 112,
+  '/login': 100,
+  '/register': 100,
+  '/password-reset': 97,
+  '/dashboard': 114,
+  '/analytics': 114,
+  '/profile': 114,
+  '/settings': 114,
 };
 const PROTECTED_ROUTES = new Set([
   '/dashboard',
@@ -32,28 +32,42 @@ if (!fs.existsSync(path.join(nextDir, 'build-manifest.json'))) {
   throw new Error('No production build found. Run `npm run build` first.');
 }
 
+interface BuildManifest {
+  rootMainFiles: string[];
+  polyfillFiles: string[];
+}
+
+interface RouteSize {
+  route: string;
+  framework: number;
+  own: number;
+  totalGzip: number;
+}
+
 const manifest = JSON.parse(
   fs.readFileSync(path.join(nextDir, 'build-manifest.json'), 'utf8'),
-);
-const toChunkPath = (file) => file.replace(/^static\//, '');
+) as BuildManifest;
+const toChunkPath = (file: string) => file.replace(/^static\//, '');
 const frameworkFiles = new Set(manifest.rootMainFiles.map(toChunkPath));
 const legacyPolyfills = new Set(manifest.polyfillFiles.map(toChunkPath));
 
-const readChunk = (file) => fs.readFileSync(path.join(nextDir, 'static', file));
-const brotliKb = (file) =>
+const readChunk = (file: string) =>
+  fs.readFileSync(path.join(nextDir, 'static', file));
+const brotliKb = (file: string) =>
   brotliCompressSync(readChunk(file), {
     params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
   }).length / 1024;
-const gzipKb = (file) => gzipSync(readChunk(file), { level: 9 }).length / 1024;
+const gzipKb = (file: string) =>
+  gzipSync(readChunk(file), { level: 9 }).length / 1024;
 
-const scriptFiles = (html) =>
+const scriptFiles = (html: string) =>
   [
     ...new Set(
       [...html.matchAll(/\/_next\/static\/(chunks\/[^"'?\s]+\.js)/g)].map(
-        (match) => match[1],
+        (match) => match[1] ?? '',
       ),
     ),
-  ].filter((file) => !legacyPolyfills.has(file));
+  ].filter((file) => file && !legacyPolyfills.has(file));
 
 const server = spawn(
   path.join(root, 'node_modules/.bin/next'),
@@ -94,7 +108,10 @@ const signUp = async () => {
   return cookie;
 };
 
-const measure = async (route, cookie) => {
+const measure = async (
+  route: string,
+  cookie: string | undefined,
+): Promise<RouteSize> => {
   const response = await fetch(`${BASE}${route}`, {
     headers: cookie ? { cookie } : {},
     redirect: 'manual',
@@ -103,7 +120,7 @@ const measure = async (route, cookie) => {
     throw new Error(`${route} returned ${response.status}`);
   }
   const files = scriptFiles(await response.text());
-  const sum = (list, size) =>
+  const sum = (list: string[], size: (file: string) => number) =>
     list.reduce((total, file) => total + size(file), 0);
   const ownFiles = files.filter((file) => !frameworkFiles.has(file));
   return {
@@ -120,13 +137,13 @@ const measure = async (route, cookie) => {
 try {
   await waitForServer();
   const cookie = await signUp();
-  const results = [];
+  const results: RouteSize[] = [];
   for (const route of Object.keys(BUDGETS_KB)) {
     results.push(
       await measure(route, PROTECTED_ROUTES.has(route) ? cookie : undefined),
     );
   }
-  const isOver = ({ route, own }) => own > BUDGETS_KB[route];
+  const isOver = ({ route, own }: RouteSize) => own > (BUDGETS_KB[route] ?? 0);
 
   const rows = results.map(({ route, framework, own, totalGzip }) => ({
     route,

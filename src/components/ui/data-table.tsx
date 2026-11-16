@@ -23,6 +23,7 @@ import {
   CaretUpDownIcon,
   WarningIcon,
 } from '@phosphor-icons/react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -82,11 +83,13 @@ function DataTable<TData extends RowData>({
   sorting: controlledSorting,
   onSortingChange,
   pagination,
-  emptyMessage = 'No data found',
+  emptyMessage,
   className,
 }: DataTableProps<TData>) {
+  const t = useTranslations('common');
   const [internalSorting, setInternalSorting] = useState<SortingState>([]);
   const sorting = controlledSorting ?? internalSorting;
+  const resolvedEmptyMessage = emptyMessage ?? t('noData');
 
   const table = useTable({
     features: dataTableFeatures,
@@ -98,25 +101,31 @@ function DataTable<TData extends RowData>({
 
   if (isLoading) {
     return (
-      <div className="flex h-40 items-center justify-center gap-2 text-sm text-muted-foreground">
-        <Spinner />
-        Loading...
+      <div
+        role="status"
+        className="flex h-40 items-center justify-center gap-2 text-sm text-muted-foreground"
+      >
+        <Spinner aria-hidden />
+        {t('loading')}
       </div>
     );
   }
 
   if (data.length === 0) {
     return (
-      <div className="flex h-40 flex-col items-center justify-center gap-3 text-sm text-muted-foreground">
-        <WarningIcon className="size-8" />
-        {emptyMessage}
+      <div
+        role="status"
+        className="flex h-40 flex-col items-center justify-center gap-3 text-sm text-muted-foreground"
+      >
+        <WarningIcon className="size-8" aria-hidden />
+        {resolvedEmptyMessage}
       </div>
     );
   }
 
   return (
     <div data-slot="data-table" className={cn('space-y-4', className)}>
-      <Table>
+      <Table aria-label={t('table')}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="hover:bg-transparent">
@@ -198,6 +207,7 @@ function DataTablePager({
   limit,
   onPageChange,
 }: DataTablePagination) {
+  const t = useTranslations('common');
   const pageCount = Math.max(1, Math.ceil(total / limit));
   if (pageCount <= 1) return null;
 
@@ -206,16 +216,14 @@ function DataTablePager({
 
   return (
     <div className="flex items-center justify-between gap-4 text-sm text-muted-foreground">
-      <p>
-        Showing {from}-{to} of {total}
-      </p>
+      <p>{t('showingRange', { from, to, total })}</p>
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="icon-sm"
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
-          aria-label="Previous page"
+          aria-label={t('previousPage')}
         >
           <CaretLeftIcon />
         </Button>
@@ -227,7 +235,7 @@ function DataTablePager({
           size="icon-sm"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= pageCount}
-          aria-label="Next page"
+          aria-label={t('nextPage')}
         >
           <CaretRightIcon />
         </Button>

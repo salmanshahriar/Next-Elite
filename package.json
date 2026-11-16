@@ -5,7 +5,7 @@
   "author": "salmanshahriar (https://github.com/salmanshahriar)",
   "private": true,
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.18.0"
   },
   "scripts": {
     "dev": "next dev -p 6767",
@@ -17,8 +17,8 @@
     "lint": "oxlint && oxfmt --check",
     "lint:fix": "oxlint --fix && oxfmt",
     "knip": "knip --config config/knip.json",
-    "size": "node scripts/check-bundle-size.mjs",
-    "demo:remove": "node scripts/remove-demo.mjs",
+    "size": "node scripts/check-bundle-size.ts",
+    "demo:remove": "node scripts/remove-demo.ts",
     "check": "npm run typecheck && npm run lint && npm run knip && npm run test",
     "test": "vitest run --config config/vitest.config.ts",
     "test:watch": "vitest --config config/vitest.config.ts",

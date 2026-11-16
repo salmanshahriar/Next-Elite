@@ -19,7 +19,7 @@ export function AppShell({
 }: AppShellProps) {
   if (variant === 'header') {
     return (
-      <div className={cn('flex min-h-screen w-full flex-col', className)}>
+      <div className={cn('flex min-h-dvh w-full flex-col', className)}>
         {children}
       </div>
     );

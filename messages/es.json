@@ -21,7 +21,19 @@
     "noData": "No hay datos disponibles",
     "toggleTheme": "Cambiar tema",
     "sidebar": "Barra lateral",
-    "toggleSidebar": "Alternar barra lateral"
+    "toggleSidebar": "Alternar barra lateral",
+    "skipToContent": "Saltar al contenido",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
+    "breadcrumbs": "Migas de pan",
+    "table": "Tabla",
+    "previousSlide": "Diapositiva anterior",
+    "nextSlide": "Diapositiva siguiente",
+    "collapseSidebar": "Contraer barra lateral",
+    "expandSidebar": "Expandir barra lateral",
+    "showingRange": "Mostrando {from}-{to} de {total}",
+    "previousPage": "Página anterior",
+    "nextPage": "Página siguiente"
   },
   "theme": {
     "light": "Claro",
@@ -40,7 +52,9 @@
     "accountMenu": "Menú de la cuenta",
     "login": "Iniciar sesión",
     "workspace": "Espacio de trabajo",
-    "analytics": "Analítica"
+    "analytics": "Analítica",
+    "primary": "Principal",
+    "menu": "Menú"
   },
   "auth": {
     "login": {

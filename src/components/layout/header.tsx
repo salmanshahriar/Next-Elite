@@ -39,50 +39,47 @@ const Header = ({ user }: HeaderProps) => {
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
+    let frame = 0;
 
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setScrollOpacity(Math.min(1, Math.max(0, scrollY / 72)));
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const scrollY = window.scrollY;
+        setScrollOpacity(Math.min(1, Math.max(0, scrollY / 72)));
 
-      const delta = scrollY - lastScrollY;
-      if (scrollY < HIDE_AFTER_PX) {
-        setHiddenOnScroll(false);
-      } else if (Math.abs(delta) > SCROLL_DELTA_PX) {
-        setHiddenOnScroll(delta > 0);
-      } else {
-        return;
-      }
-      lastScrollY = scrollY;
+        const delta = scrollY - lastScrollY;
+        if (scrollY < HIDE_AFTER_PX) {
+          setHiddenOnScroll(false);
+        } else if (Math.abs(delta) > SCROLL_DELTA_PX) {
+          setHiddenOnScroll(delta > 0);
+        } else {
+          return;
+        }
+        lastScrollY = scrollY;
+      });
     };
 
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   const handleMobileMenuToggle = () => {
-    setMobileMenuOpen((open) => {
-      const next = !open;
-      document.body.classList.toggle('overflow-hidden', next);
-      return next;
-    });
+    setMobileMenuOpen((open) => !open);
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
-    document.body.classList.remove('overflow-hidden');
   };
 
   useEffect(() => {
     setHeaderChromeActive(headerActive);
     return () => setHeaderChromeActive(false);
   }, [headerActive]);
-
-  useEffect(() => {
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, []);
 
   return (
     <header
@@ -107,13 +104,17 @@ const Header = ({ user }: HeaderProps) => {
             <AppBrand href="/" />
           </div>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav
+            aria-label={t('primary')}
+            className="hidden items-center gap-1 md:flex"
+          >
             <Link
               href="/"
+              aria-current={pathname === '/' ? 'page' : undefined}
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/'
-                  ? 'text-primary'
+                  ? 'bg-primary/8 font-semibold text-primary'
                   : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
               )}
             >
@@ -121,10 +122,11 @@ const Header = ({ user }: HeaderProps) => {
             </Link>
             <Link
               href="/ui-components"
+              aria-current={pathname === '/ui-components' ? 'page' : undefined}
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 pathname === '/ui-components'
-                  ? 'text-primary'
+                  ? 'bg-primary/8 font-semibold text-primary'
                   : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
               )}
             >
@@ -133,10 +135,13 @@ const Header = ({ user }: HeaderProps) => {
             {user && (
               <Link
                 href="/dashboard"
+                aria-current={
+                  pathname?.startsWith('/dashboard') ? 'page' : undefined
+                }
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname?.startsWith('/dashboard')
-                    ? 'text-primary'
+                    ? 'bg-primary/8 font-semibold text-primary'
                     : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
@@ -168,7 +173,9 @@ const Header = ({ user }: HeaderProps) => {
               size="sm"
               className="h-9 w-9 p-0"
               onClick={handleMobileMenuToggle}
-              aria-label="Toggle menu"
+              aria-label={t('menu')}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
             >
               {mobileMenuOpen ? (
                 <Icon name="close" className="h-5 w-5" />
@@ -181,8 +188,9 @@ const Header = ({ user }: HeaderProps) => {
       </div>
 
       <div
+        inert={!mobileMenuOpen ? true : undefined}
         className={cn(
-          'relative z-10 grid overflow-hidden border-t transition-[border-color,grid-template-rows] duration-300 ease-out md:hidden',
+          'relative z-10 grid overflow-hidden border-t transition-[border-color,grid-template-rows] duration-300 ease-out motion-reduce:transition-none md:hidden',
           mobileMenuOpen
             ? 'grid-rows-[1fr] border-border/40'
             : 'pointer-events-none grid-rows-[0fr] border-transparent',
@@ -191,18 +199,23 @@ const Header = ({ user }: HeaderProps) => {
         <div className="min-h-0 overflow-hidden">
           <div
             className={cn(
-              'space-y-3 px-4 py-4 transition-all duration-300 ease-in-out sm:px-6',
+              'space-y-3 px-4 py-4 transition-all duration-300 ease-in-out motion-reduce:transition-none sm:px-6',
               mobileMenuOpen ? 'translate-y-0' : '-translate-y-4',
             )}
           >
-            <nav className="flex flex-col gap-1">
+            <nav
+              id="mobile-nav"
+              aria-label={t('menu')}
+              className="flex flex-col gap-1"
+            >
               <Link
                 href="/"
                 onClick={closeMobileMenu}
+                aria-current={pathname === '/' ? 'page' : undefined}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/'
-                    ? 'text-primary'
+                    ? 'bg-primary/8 font-semibold text-primary'
                     : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
@@ -211,10 +224,13 @@ const Header = ({ user }: HeaderProps) => {
               <Link
                 href="/ui-components"
                 onClick={closeMobileMenu}
+                aria-current={
+                  pathname === '/ui-components' ? 'page' : undefined
+                }
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   pathname === '/ui-components'
-                    ? 'text-primary'
+                    ? 'bg-primary/8 font-semibold text-primary'
                     : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                 )}
               >
@@ -224,10 +240,13 @@ const Header = ({ user }: HeaderProps) => {
                 <Link
                   href="/dashboard"
                   onClick={closeMobileMenu}
+                  aria-current={
+                    pathname?.startsWith('/dashboard') ? 'page' : undefined
+                  }
                   className={cn(
                     'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                     pathname?.startsWith('/dashboard')
-                      ? 'text-primary'
+                      ? 'bg-primary/8 font-semibold text-primary'
                       : 'text-muted-foreground hover:bg-primary/8 hover:text-foreground',
                   )}
                 >

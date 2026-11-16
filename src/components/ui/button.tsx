@@ -10,7 +10,7 @@ import Case from '@/components/shared/case';
 import { cn } from '@/libs/utils';
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] duration-300 ease-in-out disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] duration-300 ease-in-out disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/80 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -27,7 +27,7 @@ const buttonVariants = cva(
         outlineSuccess:
           'border border-success border-dashed text-success bg-transparent',
         outlineWarning:
-          'border border-warning border-dashed text-warning bg-transparent',
+          'border border-warning border-dashed text-warning-foreground dark:text-warning bg-transparent',
         outlineDestructive:
           'border border-destructive border-dashed text-destructive bg-transparent',
         secondary:
@@ -118,10 +118,11 @@ function Button({
       size={size}
       className={className}
       disabled={isDisabled}
+      aria-busy={loading || undefined}
       {...props}
     >
       <Case condition={loading}>
-        <LoaderIcon />
+        <LoaderIcon aria-hidden />
         {t('loading')}
       </Case>
       <Case condition={!loading}>{children}</Case>

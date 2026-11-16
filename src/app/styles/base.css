@@ -4,11 +4,24 @@
     @apply outline-ring/50;
   }
 
+  :root {
+    color-scheme: light dark;
+  }
+
+  .light {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
   html {
-    @apply scroll-smooth;
+    @apply motion-safe:scroll-smooth;
     background-color: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: var(--app-header-height);
   }
 
   html::before,
@@ -39,8 +52,8 @@
     @apply font-sans;
     @apply transition-colors duration-200;
     background-color: transparent;
-    min-height: 100dvh;
     min-height: 100vh;
+    min-height: 100dvh;
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -80,35 +93,7 @@
 
   /* ========== Selection Styles ========== */
   ::selection {
-    @apply bg-primary/20 text-primary-foreground;
-  }
-
-  /* ========== Scrollbar Styles ========== */
-  html {
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(
-        in oklch,
-        var(--muted-foreground) 35%,
-        transparent
-      )
-      var(--muted);
-  }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-muted-foreground/25;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/45;
+    @apply bg-primary/20 text-foreground;
   }
 }
 

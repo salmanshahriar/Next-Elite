@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Icon } from '@/components/icons/app-icons';
 import {
   siteConfig,
   supportedLocales,
@@ -46,15 +47,20 @@ const LanguageMenu = ({ trigger }: { trigger: ReactElement }) => {
           return (
             <DropdownMenuItem
               key={loc}
+              lang={loc}
               onClick={() => switchLocale(loc)}
+              aria-current={isActive ? 'true' : undefined}
               className={cn(
                 'cursor-pointer rounded-md px-3 py-2.5 text-sm font-medium transition-all',
                 isActive
-                  ? 'bg-primary/10 text-primary'
+                  ? 'bg-primary/10 font-semibold text-primary'
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
             >
-              {localeLabels[loc]}
+              <span className="flex-1">{localeLabels[loc]}</span>
+              {isActive ? (
+                <Icon name="check" className="size-4 shrink-0" aria-hidden />
+              ) : null}
             </DropdownMenuItem>
           );
         })}

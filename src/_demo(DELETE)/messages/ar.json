@@ -46,7 +46,8 @@
       "auth": {
         "title": "RBAC وBetter Auth",
         "description": "مصادقة بمستوى المؤسسات مع Better Auth - البريد الإلكتروني/كلمة المرور، وGoogle OAuth، وإدارة الجلسات، وRBAC قائم على الصلاحيات جاهزة للاستخدام."
-      }
+      },
+      "opensInNewTab": "(يفتح في تبويب جديد)"
     },
     "showcase": {
       "title": "مبني بالمكوّنات",
@@ -123,7 +124,10 @@
       "copied": "تم النسخ",
       "copyLabel": "نسخ الأوامر",
       "copiedToast": "تم النسخ إلى الحافظة",
-      "copyError": "تعذّر نسخ الأوامر"
+      "copyError": "تعذّر نسخ الأوامر",
+      "opensInNewTab": "(يفتح في تبويب جديد)",
+      "installCommands": "أوامر التثبيت",
+      "copiedStatus": "تم نسخ الأوامر"
     }
   },
   "uiComponents": {

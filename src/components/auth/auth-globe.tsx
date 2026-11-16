@@ -68,17 +68,25 @@ export default function AuthGlobe({ className }: AuthGlobeProps) {
       });
       resizeObserver.observe(canvas);
 
-      const render = () => {
-        if (dragStartX.current === null && !reduceMotion) phi += 0.001;
+      const paint = () => {
         globe.update({
           glowColor: glowColor.current,
           phi: phi + dragOffset.current,
           width: size * devicePixelRatio,
           height: size * devicePixelRatio,
         });
-        frame = requestAnimationFrame(render);
       };
-      render();
+
+      if (reduceMotion) {
+        paint();
+      } else {
+        const render = () => {
+          if (dragStartX.current === null) phi += 0.001;
+          paint();
+          frame = requestAnimationFrame(render);
+        };
+        render();
+      }
 
       canvas.style.opacity = '1';
 

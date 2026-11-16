@@ -9,7 +9,7 @@ import { cn } from '@/libs/utils';
 // The thumb sits inside a 1px border plus the track padding. Square corners
 // stay concentric: track radius = thumb radius (5px) + that inset.
 const switchVariants = cva(
-  'peer inline-flex shrink-0 cursor-pointer items-center border border-transparent shadow-xs transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-input/80',
+  'peer inline-flex shrink-0 cursor-pointer items-center border border-transparent shadow-xs transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/80 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-input/80',
   {
     variants: {
       variant: {
@@ -81,16 +81,22 @@ function Switch({
         data-slot="switch-thumb"
         className={cn(switchThumbVariants({ variant, size }), thumbClassName)}
       >
-        {uncheckedIcon && (
-          <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-data-[state=checked]/thumb:opacity-0 group-data-[state=unchecked]/thumb:opacity-100">
+        {uncheckedIcon ? (
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-data-[state=checked]/thumb:opacity-0 group-data-[state=unchecked]/thumb:opacity-100 motion-reduce:transition-none"
+          >
             {uncheckedIcon}
           </span>
-        )}
-        {checkedIcon && (
-          <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-data-[state=checked]/thumb:opacity-100 group-data-[state=unchecked]/thumb:opacity-0">
+        ) : null}
+        {checkedIcon ? (
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-data-[state=checked]/thumb:opacity-100 group-data-[state=unchecked]/thumb:opacity-0 motion-reduce:transition-none"
+          >
             {checkedIcon}
           </span>
-        )}
+        ) : null}
       </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   );

@@ -35,6 +35,9 @@ jobs:
       - name: Knip (unused code/deps)
         run: npm run knip
 
+      - name: Dependency audit (high+)
+        run: npm audit --audit-level=high
+
       - name: Unit tests
         run: npm run test
 

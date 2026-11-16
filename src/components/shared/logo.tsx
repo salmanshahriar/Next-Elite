@@ -19,8 +19,7 @@ function LogoSvg({ className, size = 28 }: LogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn('shrink-0', className)}
-      role="img"
-      aria-label="Logo"
+      aria-hidden="true"
     >
       <circle cx="90" cy="90" r="90" className="fill-black dark:fill-white" />
       <path

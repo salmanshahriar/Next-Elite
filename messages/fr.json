@@ -21,7 +21,19 @@
     "noData": "Aucune donnée disponible",
     "toggleTheme": "Basculer le thème",
     "sidebar": "Barre latérale",
-    "toggleSidebar": "Basculer la barre latérale"
+    "toggleSidebar": "Basculer la barre latérale",
+    "skipToContent": "Aller au contenu",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "breadcrumbs": "Fil d’Ariane",
+    "table": "Tableau",
+    "previousSlide": "Diapositive précédente",
+    "nextSlide": "Diapositive suivante",
+    "collapseSidebar": "Réduire la barre latérale",
+    "expandSidebar": "Développer la barre latérale",
+    "showingRange": "Affichage {from}-{to} sur {total}",
+    "previousPage": "Page précédente",
+    "nextPage": "Page suivante"
   },
   "theme": {
     "light": "Clair",
@@ -40,7 +52,9 @@
     "accountMenu": "Menu du compte",
     "login": "Connexion",
     "workspace": "Espace de travail",
-    "analytics": "Analytique"
+    "analytics": "Analytique",
+    "primary": "Principal",
+    "menu": "Menu"
   },
   "auth": {
     "login": {

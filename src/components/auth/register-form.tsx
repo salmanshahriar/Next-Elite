@@ -2,6 +2,7 @@
 
 import TextLink from '@/components/shared/text-link';
 import { Button } from '@/components/ui/button';
+import { DocumentTitle } from '@/components/shared/document-title';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
@@ -10,7 +11,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../features/auth/hooks/auth-provider';
 import {
@@ -24,6 +25,10 @@ const RegisterForm = () => {
   const router = useRouter();
   const { signUp, user } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
+  const nameErrorId = useId();
+  const emailErrorId = useId();
+  const passwordErrorId = useId();
+  const confirmErrorId = useId();
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -53,12 +58,15 @@ const RegisterForm = () => {
 
   return (
     <div className="flex w-full items-center justify-center py-4">
+      <DocumentTitle title={t('title')} />
       <Card
         flat
         className="w-full max-w-md border-0 bg-transparent pb-10 shadow-none"
       >
         <CardHeader className="flex flex-row items-center justify-center px-4">
-          <CardTitle className="text-center text-2xl">{t('title')}</CardTitle>
+          <CardTitle as="h1" className="text-center text-2xl">
+            {t('title')}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form
@@ -74,11 +82,13 @@ const RegisterForm = () => {
                   type="text"
                   autoComplete="name"
                   autoFocus
+                  required
                   placeholder={t('namePlaceholder')}
                   aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? nameErrorId : undefined}
                   {...form.register('name')}
                 />
-                <InputError message={errors.name?.message} />
+                <InputError id={nameErrorId} message={errors.name?.message} />
               </div>
 
               <div className="grid gap-2">
@@ -87,11 +97,15 @@ const RegisterForm = () => {
                   id="email"
                   type="email"
                   autoComplete="email"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  required
                   placeholder="email@example.com"
                   aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? emailErrorId : undefined}
                   {...form.register('email')}
                 />
-                <InputError message={errors.email?.message} />
+                <InputError id={emailErrorId} message={errors.email?.message} />
               </div>
 
               <div className="grid gap-2">
@@ -99,11 +113,18 @@ const RegisterForm = () => {
                 <PasswordInput
                   id="password"
                   autoComplete="new-password"
+                  required
                   placeholder={t('passwordPlaceholder')}
                   aria-invalid={!!errors.password}
+                  aria-describedby={
+                    errors.password ? passwordErrorId : undefined
+                  }
                   {...form.register('password')}
                 />
-                <InputError message={errors.password?.message} />
+                <InputError
+                  id={passwordErrorId}
+                  message={errors.password?.message}
+                />
               </div>
 
               <div className="grid gap-2">
@@ -111,11 +132,18 @@ const RegisterForm = () => {
                 <PasswordInput
                   id="confirmPassword"
                   autoComplete="new-password"
+                  required
                   placeholder={t('confirmPasswordPlaceholder')}
                   aria-invalid={!!errors.confirmPassword}
+                  aria-describedby={
+                    errors.confirmPassword ? confirmErrorId : undefined
+                  }
                   {...form.register('confirmPassword')}
                 />
-                <InputError message={errors.confirmPassword?.message} />
+                <InputError
+                  id={confirmErrorId}
+                  message={errors.confirmPassword?.message}
+                />
               </div>
 
               {serverError && (

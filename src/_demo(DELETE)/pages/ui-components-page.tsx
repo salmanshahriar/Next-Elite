@@ -14,7 +14,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   Breadcrumb,
@@ -26,11 +26,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-  ButtonGroupText,
-} from '@/components/ui/button-group';
+import { ButtonGroup, ButtonGroupText } from '@/components/ui/button-group';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Card,
@@ -190,6 +186,7 @@ import {
   type ReactNode,
   useCallback,
   useEffect,
+  useId,
   useRef,
   useState,
 } from 'react';
@@ -405,7 +402,10 @@ const useScrollSpy = () => {
   const handleNavigate = useCallback(
     (event: MouseEvent<HTMLAnchorElement>, targetId: string) => {
       event.preventDefault();
-      navigateTo(targetId, 'smooth');
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+      navigateTo(targetId, reduceMotion ? 'auto' : 'smooth');
     },
     [navigateTo],
   );
@@ -510,10 +510,11 @@ const ComponentsSidebarNav = ({
             <a
               href={`#${section.id}`}
               onClick={(event) => onNavigate(event, section.id)}
+              aria-current={isActiveSection ? 'true' : undefined}
               className={cn(
                 'block rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
                 isActiveSection
-                  ? 'text-primary'
+                  ? 'bg-primary/8 font-semibold text-primary'
                   : 'text-foreground hover:text-primary',
               )}
             >
@@ -530,6 +531,7 @@ const ComponentsSidebarNav = ({
                       href={`#${itemId}`}
                       ref={isItemActive ? activeLinkRef : undefined}
                       onClick={(event) => onNavigate(event, itemId)}
+                      aria-current={isItemActive ? 'true' : undefined}
                       className={cn(
                         'block rounded-md px-2 py-1.5 text-xs transition-colors',
                         isItemActive
@@ -555,17 +557,21 @@ const ShowcaseSection = ({
   title,
   description,
   children,
+  deferRender = true,
 }: {
   id: string;
   title: string;
   description?: string;
   children: ReactNode;
+  deferRender?: boolean;
 }) => {
   return (
     <section
       id={id}
       className={cn(
-        'space-y-6 [contain-intrinsic-size:auto_800px] [content-visibility:auto]',
+        'space-y-6',
+        deferRender &&
+          '[contain-intrinsic-size:auto_800px] [content-visibility:auto]',
         SCROLL_MARGIN_CLASS,
       )}
     >
@@ -656,6 +662,40 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 
 const BUTTON_SIZES: ButtonSize[] = ['sm', 'default', 'lg'];
 const ICON_BUTTON_SIZES = ['icon', 'icon-sm', 'icon-lg'] as const;
+const DEMO_SITE_HOST = 'nextelite.salmanshahriar.com';
+
+const UrlCopyButtonGroup = () => {
+  const inputId = useId();
+  const [host, setHost] = useState(DEMO_SITE_HOST);
+
+  const handleCopy = async () => {
+    const value = `https://${host}`;
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success('Copied to clipboard');
+    } catch {
+      toast.error('Could not copy URL');
+    }
+  };
+
+  return (
+    <ButtonGroup className="w-full max-w-md">
+      <ButtonGroupText>
+        <Label htmlFor={inputId}>https://</Label>
+      </ButtonGroupText>
+      <Input
+        id={inputId}
+        value={host}
+        onChange={(event) => setHost(event.target.value)}
+        aria-label="Website host"
+        className="min-w-0"
+      />
+      <Button type="button" variant="outline" onClick={handleCopy}>
+        Copy
+      </Button>
+    </ButtonGroup>
+  );
+};
 
 const ActionsShowcaseSection = () => {
   const t = useTranslations('uiComponents');
@@ -664,6 +704,7 @@ const ActionsShowcaseSection = () => {
       id="actions"
       title={t('sections.actions')}
       description={t('sections.actionsDesc')}
+      deferRender={false}
     >
       <ComponentBlock id="actions-button" title="Button">
         <SubLabel>Variants</SubLabel>
@@ -698,16 +739,11 @@ const ActionsShowcaseSection = () => {
         <SubLabel>Horizontal</SubLabel>
         <ButtonGroup>
           <Button variant="outline">Left</Button>
-          <ButtonGroupSeparator />
           <Button variant="outline">Center</Button>
-          <ButtonGroupSeparator />
           <Button variant="outline">Right</Button>
         </ButtonGroup>
         <SubLabel>With text addon</SubLabel>
-        <ButtonGroup>
-          <ButtonGroupText>https://</ButtonGroupText>
-          <Button variant="outline">Copy</Button>
-        </ButtonGroup>
+        <UrlCopyButtonGroup />
         <SubLabel>Vertical</SubLabel>
         <ButtonGroup orientation="vertical" className="w-fit">
           <Button variant="outline" size="sm">
@@ -848,18 +884,33 @@ const FormsShowcaseSection = () => {
       <ComponentBlock id="forms-input" title="Input">
         <SubLabel>States</SubLabel>
         <div className="grid max-w-md gap-4">
-          <Input placeholder="Default input" />
-          <Input placeholder="Disabled" disabled />
-          <Input placeholder="Invalid" aria-invalid />
+          <Input aria-label="Default input" placeholder="Default input" />
+          <Input aria-label="Disabled input" placeholder="Disabled" disabled />
+          <Input
+            aria-label="Invalid input"
+            placeholder="Invalid"
+            aria-invalid
+          />
         </div>
       </ComponentBlock>
 
       <ComponentBlock id="forms-textarea" title="Textarea">
         <SubLabel>States</SubLabel>
         <div className="grid max-w-md gap-4">
-          <Textarea placeholder="Write something..." />
-          <Textarea placeholder="Disabled" disabled />
-          <Textarea placeholder="Invalid" aria-invalid />
+          <Textarea
+            aria-label="Default textarea"
+            placeholder="Write something..."
+          />
+          <Textarea
+            aria-label="Disabled textarea"
+            placeholder="Disabled"
+            disabled
+          />
+          <Textarea
+            aria-label="Invalid textarea"
+            placeholder="Invalid"
+            aria-invalid
+          />
         </div>
       </ComponentBlock>
 
@@ -924,7 +975,7 @@ const FormsShowcaseSection = () => {
                 <Switch id="switch-variant-default" />
                 <Label htmlFor="switch-variant-default">Default</Label>
               </div>
-              <div className="ml-6 flex items-center gap-2">
+              <div className="ms-6 flex items-center gap-2">
                 <Switch id="switch-variant-square" variant="square" />
                 <Label htmlFor="switch-variant-square">Square Switch</Label>
               </div>
@@ -938,7 +989,7 @@ const FormsShowcaseSection = () => {
                 <Switch id="airplane-default" />
                 <Label htmlFor="airplane-default">Default Size</Label>
               </div>
-              <div className="ml-6 flex items-center gap-2">
+              <div className="ms-6 flex items-center gap-2">
                 <Switch id="airplane-lg" size="lg" />
                 <Label htmlFor="airplane-lg">Large Size</Label>
               </div>
@@ -953,10 +1004,10 @@ const FormsShowcaseSection = () => {
                   id="switch-icons"
                   size="lg"
                   checkedIcon={
-                    <MoonIcon className="h-3 w-3 animate-in text-primary duration-300 fade-in zoom-in" />
+                    <MoonIcon className="size-3 text-primary motion-safe:animate-in motion-safe:duration-300 motion-safe:fade-in motion-safe:zoom-in" />
                   }
                   uncheckedIcon={
-                    <SunIcon className="h-3 w-3 animate-in text-amber-500 duration-300 fade-in zoom-in" />
+                    <SunIcon className="size-3 text-warning motion-safe:animate-in motion-safe:duration-300 motion-safe:fade-in motion-safe:zoom-in" />
                   }
                 />
                 <Label htmlFor="switch-icons">Icon Toggle Switch</Label>
@@ -986,16 +1037,48 @@ const FormsShowcaseSection = () => {
                   <EnvelopeIcon className="size-4" />
                 </InputGroupText>
               </InputGroupAddon>
-              <InputGroupInput placeholder="Email" />
+              <InputGroupInput aria-label="Email" placeholder="Email" />
             </InputGroup>
           </div>
           <div>
             <SubLabel>End addon</SubLabel>
             <InputGroup>
-              <InputGroupInput placeholder="Search..." />
+              <InputGroupInput aria-label="Search" placeholder="Search..." />
               <InputGroupAddon align="inline-end">
-                <InputGroupButton>
+                <InputGroupButton aria-label="Search">
                   <MagnifyingGlassIcon className="size-4" />
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
+          <div>
+            <SubLabel>URL with copy</SubLabel>
+            <InputGroup>
+              <InputGroupAddon>
+                <InputGroupText>https://</InputGroupText>
+              </InputGroupAddon>
+              <InputGroupInput
+                aria-label="Website host"
+                defaultValue={DEMO_SITE_HOST}
+              />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  type="button"
+                  variant="secondary"
+                  onClick={async (event) => {
+                    const input = event.currentTarget
+                      .closest('[data-slot=input-group]')
+                      ?.querySelector('input');
+                    const host = input?.value?.trim() || DEMO_SITE_HOST;
+                    try {
+                      await navigator.clipboard.writeText(`https://${host}`);
+                      toast.success('Copied to clipboard');
+                    } catch {
+                      toast.error('Could not copy URL');
+                    }
+                  }}
+                >
+                  Copy
                 </InputGroupButton>
               </InputGroupAddon>
             </InputGroup>
@@ -1003,7 +1086,10 @@ const FormsShowcaseSection = () => {
           <div>
             <SubLabel>Textarea</SubLabel>
             <InputGroup>
-              <InputGroupTextarea placeholder="Write a message..." />
+              <InputGroupTextarea
+                aria-label="Message"
+                placeholder="Write a message..."
+              />
             </InputGroup>
           </div>
         </div>
@@ -1014,13 +1100,17 @@ const FormsShowcaseSection = () => {
           <div>
             <SubLabel>Default</SubLabel>
             <div className="max-w-xs">
-              <PasswordInput placeholder="Enter password" />
+              <PasswordInput
+                aria-label="Password"
+                placeholder="Enter password"
+              />
             </div>
           </div>
           <div>
             <SubLabel>With error</SubLabel>
             <div className="max-w-xs">
               <PasswordInput
+                aria-label="Password with error"
                 placeholder="With error"
                 error
                 errorMessage="Password is required"
@@ -1032,7 +1122,7 @@ const FormsShowcaseSection = () => {
 
       <ComponentBlock id="forms-input-otp" title="Input OTP">
         <div className="w-fit">
-          <InputOTP maxLength={6}>
+          <InputOTP maxLength={6} aria-label="One-time password">
             <InputOTPGroup>
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -1070,8 +1160,16 @@ const FormsShowcaseSection = () => {
       <ComponentBlock id="forms-input-error" title="Input Error">
         <div className="grid max-w-md gap-2">
           <Label htmlFor="demo-error-input">Username</Label>
-          <Input id="demo-error-input" placeholder="johndoe" aria-invalid />
-          <InputError message="This field is required" />
+          <Input
+            id="demo-error-input"
+            placeholder="johndoe"
+            aria-invalid
+            aria-describedby="demo-error-message"
+          />
+          <InputError
+            id="demo-error-message"
+            message="This field is required"
+          />
         </div>
       </ComponentBlock>
     </ShowcaseSection>
@@ -1238,7 +1336,12 @@ const FeedbackShowcaseSection = () => {
         <SubLabel>Variants</SubLabel>
         <div className="max-w-md space-y-4">
           {PROGRESS_VARIANTS.map((variant) => (
-            <Progress key={variant} value={progress} variant={variant} />
+            <Progress
+              key={variant}
+              value={progress}
+              variant={variant}
+              aria-label={`${variant} progress`}
+            />
           ))}
         </div>
         <SubLabel>Interactive</SubLabel>
@@ -1362,7 +1465,6 @@ const DataDisplayShowcaseSection = () => {
           <div>
             <SubLabel>With image</SubLabel>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
@@ -1396,9 +1498,9 @@ const DataDisplayShowcaseSection = () => {
             (variant) => (
               <span
                 key={variant}
-                className="inline-flex items-center gap-2 pr-4 text-sm capitalize"
+                className="inline-flex items-center gap-2 pe-4 text-sm capitalize"
               >
-                <StatusIndicator variant={variant} />
+                <StatusIndicator variant={variant} label={variant} />
                 {variant}
               </span>
             ),
@@ -1406,11 +1508,11 @@ const DataDisplayShowcaseSection = () => {
         </VariantGrid>
         <SubLabel>Sizes</SubLabel>
         <VariantGrid>
-          <StatusIndicator size="sm" />
-          <StatusIndicator />
-          <StatusIndicator size="lg" />
-          <span className="inline-flex items-center gap-2 pl-4 text-sm">
-            <StatusIndicator pulse /> Pulse
+          <StatusIndicator size="sm" label="Small status" />
+          <StatusIndicator label="Default status" />
+          <StatusIndicator size="lg" label="Large status" />
+          <span className="inline-flex items-center gap-2 ps-4 text-sm">
+            <StatusIndicator pulse label="Pulsing status" /> Pulse
           </span>
         </VariantGrid>
       </ComponentBlock>
@@ -1519,22 +1621,14 @@ const NavigationShowcaseSection = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
                 <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-top-2 data-[motion=from-start]:slide-in-from-top-2 data-[motion=to-end]:slide-out-to-top-2 data-[motion=to-start]:slide-out-to-top-2">
-                  <ul className="grid w-48 gap-2 p-4">
+                  <ul className="grid w-48">
                     <li>
-                      <NavigationMenuLink
-                        href="/"
-                        className="block rounded-md p-2 text-sm hover:bg-accent"
-                      >
+                      <NavigationMenuLink href="/">
                         Introduction
                       </NavigationMenuLink>
                     </li>
                     <li>
-                      <NavigationMenuLink
-                        href="/"
-                        className="block rounded-md p-2 text-sm hover:bg-accent"
-                      >
-                        About
-                      </NavigationMenuLink>
+                      <NavigationMenuLink href="/">About</NavigationMenuLink>
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -1813,21 +1907,34 @@ const LayoutShowcaseSection = () => {
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">3 starred repositories</p>
             <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm">
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label={
+                  collapsibleOpen
+                    ? 'Collapse repositories'
+                    : 'Expand repositories'
+                }
+              >
                 <CaretRightIcon
                   className={cn(
-                    'size-4 transition-transform',
+                    'size-4 transition-transform motion-reduce:transition-none',
                     collapsibleOpen && 'rotate-90',
                   )}
                 />
               </Button>
             </CollapsibleTrigger>
           </div>
-          <CollapsibleContent className="space-y-2">
-            <div className="rounded-md border px-4 py-2 text-sm">
+          <CollapsibleContent className="flex flex-col gap-2">
+            <div className="rounded-md border px-4 py-2 text-sm dark:border-input">
               next-elite
             </div>
-            <div className="rounded-md border px-4 py-2 text-sm">shadcn-ui</div>
+            <div className="rounded-md border px-4 py-2 text-sm dark:border-input">
+              shadcn-ui
+            </div>
+            <div className="rounded-md border px-4 py-2 text-sm dark:border-input">
+              radix-ui
+            </div>
           </CollapsibleContent>
         </Collapsible>
       </ComponentBlock>
@@ -1843,8 +1950,8 @@ const LayoutShowcaseSection = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="top-1/2 left-2 -translate-y-1/2" />
-          <CarouselNext className="top-1/2 right-2 -translate-y-1/2" />
+          <CarouselPrevious className="start-2 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="end-2 top-1/2 -translate-y-1/2" />
         </Carousel>
       </ComponentBlock>
 
@@ -1885,13 +1992,13 @@ export const UiComponentsPage = () => {
     <TooltipProvider>
       <div className="mx-auto flex w-full max-w-[90rem]">
         <aside className="hidden w-56 shrink-0 border-e border-border/40 md:block lg:w-64">
-          <div className="sticky top-24 max-h-[calc(100dvh-8rem)] px-4 py-6">
+          <div className="sticky top-[var(--app-header-height)] max-h-[calc(100dvh-var(--app-header-height))] px-4 py-6">
             <ComponentsSidebarNav
               activeTarget={activeTarget}
               activeSectionId={activeSectionId}
               onNavigate={handleNavigate}
               label={t('onThisPage')}
-              className="max-h-[calc(100dvh-9rem)] pr-2"
+              className="max-h-[calc(100dvh-var(--app-header-height)-3rem)] pe-2"
             />
           </div>
         </aside>

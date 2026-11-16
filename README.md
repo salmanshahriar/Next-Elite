@@ -55,6 +55,7 @@ https://github.com/user-attachments/assets/519cc07b-7374-413f-b390-9a94f992b0f3
 - **Authentication & RBAC** - Email/Password & Google OAuth via BetterAuth with permission-based RBAC
 - **Auth & Dashboard Layouts** - Split-pane auth layout & role-based dashboard layout with fixed sidebar navigation
 - **50+ Custom & Reusable UI Components** - Accessible shadcn/ui primitives built with Tailwind CSS v4 & Radix UI
+- **Accessibility Baseline** - Skip links, unique page titles, focus-visible rings, WCAG-minded contrast tokens, reduced-motion support, and RTL-safe logical properties
 - **Type-Safe i18n** - Cookie-based multi-language support (6 locales, LTR + RTL) powered by next-intl
 - **SEO & PWA Suite** - OpenGraph metadata, dynamic sitemap, robots.txt, web manifest, and llms.txt
 - **Comprehensive Testing** - Unit/component testing with Vitest and E2E testing with Playwright
@@ -76,7 +77,7 @@ Set environment variables from `.env.example` in Vercel project settings.
 
 - **Next.js 16.4 (App Router)** - Fast, modern React framework with Turbopack.
 - **TypeScript 7** - End-to-end type safety for rock-solid refactoring and developer experience.
-- **Node.js 22.12+** - Built on the Node.js 22 LTS runtime.
+- **Node.js 22.18+** - Built on the Node.js 22 LTS runtime.
 
 ### Authentication & Access Control
 
@@ -92,9 +93,9 @@ Set environment variables from `.env.example` in Vercel project settings.
 ### UI & Styling
 
 - **Tailwind CSS 4** - Utility-first styling with `@tailwindcss/postcss` and `tw-animate-css`.
-- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css` (no hard-coded colors).
+- **Design Tokens** - Light and dark color, radius, and spacing tokens in `src/app/styles/tokens.css` (no hard-coded colors; semantic colours tuned for WCAG AA contrast).
 - **shadcn/ui** - Highly customizable UI components built with Tailwind CSS, Radix UI, and CVA.
-- **Theme Support** - Easy light/dark mode transitions via theme toggle.
+- **Theme Support** - System-preference default with light/dark toggle, `color-scheme` meta/CSS, and reduced-motion-aware transitions.
 
 ### API & Data Fetching
 
@@ -129,9 +130,9 @@ First-load JS with Brotli (gzip in brackets), including ~112 KB br of Next.js + 
 
 | Page         | Size (after `npm run demo:remove`) |
 | ------------ | ---------------------------------- |
-| `/`          | 184 KB br (212 KB gz)              |
-| `/login`     | 225 KB br (259 KB gz)              |
-| `/dashboard` | 228 KB br (262 KB gz)              |
+| `/`          | 177 KB br (204 KB gz)              |
+| `/login`     | 207 KB br (238 KB gz)              |
+| `/dashboard` | 221 KB br (254 KB gz)              |
 
 <br/>
 
@@ -139,7 +140,7 @@ First-load JS with Brotli (gzip in brackets), including ~112 KB br of Next.js + 
 
 ### Prerequisites
 
-- Node.js **22.12** or later
+- Node.js **22.18** or later
 - **npm**
 
 ### Local Setup
@@ -166,7 +167,7 @@ Open [http://localhost:6767](http://localhost:6767) to view your local instance.
 
 ### Demo Credentials
 
-When `NEXT_PUBLIC_DEMO_MODE=true` is enabled, the login screen includes a quick-fill panel with these seed credentials:
+When `NEXT_PUBLIC_DEMO_MODE=true`, the login screen includes a quick-fill panel with these seed credentials:
 
 | Role  | Email            | Password   |
 | ----- | ---------------- | ---------- |
@@ -174,7 +175,7 @@ When `NEXT_PUBLIC_DEMO_MODE=true` is enabled, the login screen includes a quick-
 | Admin | `admin@test.com` | `12345678` |
 
 > [!NOTE]
-> For production deployments, set `NEXT_PUBLIC_DEMO_MODE=false`.
+> Keep `NEXT_PUBLIC_DEMO_MODE=false` for production (that is already the `.env.example` default).
 
 ### Removing the Demo Code
 

@@ -27,7 +27,7 @@ import {
 import { useLocale, useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
-import { createElement, Fragment, useEffect, useState } from 'react';
+import { createElement, Fragment, useState } from 'react';
 import { toast } from 'sonner';
 
 const Calendar = dynamic(() =>
@@ -46,41 +46,82 @@ const ShowcaseDashboard = loadShowcase('ShowcaseDashboard');
 const ShowcaseData = loadShowcase('ShowcaseData');
 const ShowcaseProfile = loadShowcase('ShowcaseProfile');
 
-const useGithubStars = () => {
-  const [githubStars, setGithubStars] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    fetch('https://api.github.com/repos/salmanshahriar/Next-Elite')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { stargazers_count?: number } | null) => {
-        if (isMounted && typeof data?.stargazers_count === 'number') {
-          const count = data.stargazers_count;
-          const formatted =
-            count >= 1000
-              ? `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
-              : String(count);
-          setGithubStars(formatted);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  return githubStars;
-};
-
-export const LandingPage = () => {
-  const githubStars = useGithubStars();
-
+export const LandingPage = ({
+  githubStars = null,
+}: {
+  githubStars?: string | null;
+}) => {
   return (
     <div className="flex flex-col gap-16 lg:gap-24">
       <HeroSection githubStars={githubStars} />
       <UiShowcaseSection />
       <FeaturesSection />
       <FooterSection githubStars={githubStars} />
+    </div>
+  );
+};
+
+const HeroCard = ({
+  large,
+  title,
+  description,
+  children,
+}: {
+  large?: boolean;
+  title: ReactNode;
+  description: string;
+  children: ReactNode;
+}) => {
+  return (
+    <Card
+      className={cn(
+        'flex h-auto min-h-[22rem] flex-col items-center justify-center gap-6 rounded-md p-6 text-center sm:min-h-[24rem] sm:p-8 md:min-h-[29rem]',
+        large && 'md:col-span-2',
+      )}
+    >
+      <div className="flex w-full items-center justify-center overflow-hidden">
+        {children}
+      </div>
+      <div className="mx-auto max-w-lg text-center">
+        <h2 className="mb-2 text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
+          {title}
+        </h2>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      </div>
+    </Card>
+  );
+};
+
+const HeroActions = ({ githubStars }: { githubStars: string | null }) => {
+  const t = useTranslations('home.hero');
+
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+      >
+        <VercelIcon className="size-3.5 shrink-0" />
+        {t('deployToVercel')}
+        <span className="sr-only">{t('opensInNewTab')}</span>
+      </a>
+      <a
+        href="https://github.com/salmanshahriar/Next-Elite"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50"
+      >
+        <GithubIcon className="size-4 shrink-0" />
+        {t('starOnGithub')}
+        <span className="sr-only">{t('opensInNewTab')}</span>
+        {githubStars ? (
+          <span className="text-muted-foreground">{githubStars}</span>
+        ) : null}
+      </a>
     </div>
   );
 };
@@ -101,67 +142,6 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
     { id: 'seo', delay: 550 },
   ] as const;
 
-  const HeroCard = ({
-    large,
-    title,
-    description,
-    children,
-  }: {
-    large?: boolean;
-    title: ReactNode;
-    description: string;
-    children: ReactNode;
-  }) => {
-    return (
-      <Card
-        className={cn(
-          'flex h-auto min-h-[22rem] flex-col items-center justify-center gap-6 rounded-md p-6 text-center sm:min-h-[24rem] sm:p-8 md:h-[29rem]',
-          large && 'md:col-span-2',
-        )}
-      >
-        <div className="flex w-full items-center justify-center overflow-hidden">
-          {children}
-        </div>
-        <div className="mx-auto max-w-lg text-center">
-          <h2 className="mb-2 text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-            {title}
-          </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {description}
-          </p>
-        </div>
-      </Card>
-    );
-  };
-
-  const HeroActions = () => {
-    return (
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <a
-          href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90"
-        >
-          <VercelIcon className="size-3.5 shrink-0" />
-          {t('deployToVercel')}
-        </a>
-        <a
-          href="https://github.com/salmanshahriar/Next-Elite"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50"
-        >
-          <GithubIcon className="size-4 shrink-0" />
-          {t('starOnGithub')}
-          {githubStars ? (
-            <span className="text-muted-foreground">{githubStars}</span>
-          ) : null}
-        </a>
-      </div>
-    );
-  };
-
   const formattedDate = selectedDate?.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',
@@ -170,13 +150,13 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
   return (
     <section className="mx-auto max-w-7xl space-y-16 px-4 pt-20">
       <header className="flex flex-col items-center gap-4 text-center">
-        <h1 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl md:text-7xl">
+        <h1 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl md:text-7xl forced-colors:bg-none forced-colors:text-foreground">
           {siteConfig.appName}
         </h1>
         <p className="mx-auto max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-xl">
           {siteConfig.appType}
         </p>
-        <HeroActions />
+        <HeroActions githubStars={githubStars} />
       </header>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -184,7 +164,7 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
           large
           title={
             <>
-              <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+              <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent forced-colors:bg-none forced-colors:text-foreground">
                 {t('components.title')}
               </span>
               <span className="text-foreground/80">
@@ -202,7 +182,7 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
           }
           description={t('components.description')}
         >
-          <div className="flex flex-col items-center gap-6 select-none md:flex-row md:gap-12">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:gap-12">
             <div className="flex flex-col items-center gap-3">
               <div className="flex items-center gap-2.5">
                 <Button variant="primary" size="sm" className="h-9 w-24">
@@ -291,7 +271,7 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
 
         <HeroCard
           title={
-            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent forced-colors:bg-none forced-colors:text-foreground">
               {t('deployment.title')}
             </span>
           }
@@ -301,7 +281,7 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
             href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-sans text-xs font-medium text-white transition-transform duration-200 select-none hover:scale-105 dark:bg-white dark:text-black"
+            className="inline-flex h-9 items-center gap-2 rounded-md bg-black px-4 font-sans text-xs font-medium text-white transition-transform duration-200 motion-safe:hover:scale-105 dark:bg-white dark:text-black"
           >
             <VercelIcon className="h-3 w-auto" />
             {t('deployToVercel')}
@@ -311,7 +291,7 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
         <HeroCard
           large
           title={
-            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent forced-colors:bg-none forced-colors:text-foreground">
               {t('speed.title')}
             </span>
           }
@@ -331,13 +311,13 @@ const HeroSection = ({ githubStars }: { githubStars: string | null }) => {
 
         <HeroCard
           title={
-            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent forced-colors:bg-none forced-colors:text-foreground">
               {t('auth.title')}
             </span>
           }
           description={t('auth.description')}
         >
-          <BetterAuthIcon className="h-28 w-auto text-foreground transition-transform duration-200 select-none hover:scale-105" />
+          <BetterAuthIcon className="h-28 w-auto text-foreground transition-transform duration-200 motion-safe:hover:scale-105" />
         </HeroCard>
       </div>
     </section>
@@ -439,7 +419,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
             </div>
-            <ul className="space-y-2.5 text-[11px] text-muted-foreground">
+            <ul className="space-y-2.5 text-xs text-muted-foreground">
               {details.map((detail) => (
                 <li key={detail.key} className="flex items-start gap-2.5">
                   <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -458,6 +438,38 @@ const FeaturesSection = () => {
   );
 };
 
+const FooterActions = ({ githubStars }: { githubStars: string | null }) => {
+  const t = useTranslations('home');
+
+  return (
+    <div className="flex flex-col flex-wrap items-center gap-3 sm:flex-row">
+      <a
+        href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:w-auto"
+      >
+        <VercelIcon className="size-3.5 shrink-0" />
+        {t('hero.deployToVercel')}
+        <span className="sr-only">{t('hero.opensInNewTab')}</span>
+      </a>
+      <a
+        href="https://github.com/salmanshahriar/Next-Elite"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50 sm:w-auto"
+      >
+        <GithubIcon className="size-4 shrink-0" />
+        {t('hero.starOnGithub')}
+        <span className="sr-only">{t('hero.opensInNewTab')}</span>
+        {githubStars ? (
+          <span className="text-muted-foreground">{githubStars}</span>
+        ) : null}
+      </a>
+    </div>
+  );
+};
+
 const FooterSection = ({ githubStars }: { githubStars: string | null }) => {
   const t = useTranslations('home');
   const [copied, setCopied] = useState<boolean>(false);
@@ -471,34 +483,6 @@ const FooterSection = ({ githubStars }: { githubStars: string | null }) => {
   ];
 
   const INSTALL_COMMANDS: string = INSTALL_LINES.join('\n');
-
-  const FooterActions = () => {
-    return (
-      <div className="flex flex-col flex-wrap items-center gap-3 sm:flex-row">
-        <a
-          href="https://vercel.com/new/clone?repository-url=https://github.com/salmanshahriar/Next-Elite"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-90 sm:w-auto"
-        >
-          <VercelIcon className="size-3.5 shrink-0" />
-          {t('hero.deployToVercel')}
-        </a>
-        <a
-          href="https://github.com/salmanshahriar/Next-Elite"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted/50 sm:w-auto"
-        >
-          <GithubIcon className="size-4 shrink-0" />
-          {t('hero.starOnGithub')}
-          {githubStars ? (
-            <span className="text-muted-foreground">{githubStars}</span>
-          ) : null}
-        </a>
-      </div>
-    );
-  };
 
   const formatInstallLine = (line: string): ReactNode => {
     const parts = line.split(' ');
@@ -553,14 +537,14 @@ const FooterSection = ({ githubStars }: { githubStars: string | null }) => {
         <div className="grid gap-8 lg:grid-cols-5 lg:items-center lg:gap-10">
           <div className="flex flex-col gap-5 lg:col-span-2">
             <div className="space-y-3">
-              <h2 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-2xl font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-4xl">
+              <h2 className="bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-2xl font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-4xl forced-colors:bg-none forced-colors:text-foreground">
                 {t('footer.title')}
               </h2>
               <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                 {t('footer.description')}
               </p>
             </div>
-            <FooterActions />
+            <FooterActions githubStars={githubStars} />
           </div>
 
           <Card
@@ -602,7 +586,15 @@ const FooterSection = ({ githubStars }: { githubStars: string | null }) => {
             </div>
 
             <div className="bg-background/20">
-              <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-sm">
+              <p role="status" className="sr-only">
+                {copied ? t('footer.copiedStatus') : ''}
+              </p>
+              <pre
+                tabIndex={0}
+                role="region"
+                aria-label={t('footer.installCommands')}
+                className="overflow-x-auto p-4 font-mono text-xs leading-relaxed sm:p-5 sm:text-sm"
+              >
                 <code className="grid gap-2">
                   {INSTALL_LINES.map((line) => (
                     <span key={line} className="flex gap-2">

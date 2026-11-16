@@ -2,17 +2,17 @@
 
 import TextLink from '@/components/shared/text-link';
 import { Button } from '@/components/ui/button';
+import { DocumentTitle } from '@/components/shared/document-title';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
 import { GoogleIcon } from '@/components/icons';
 import { PasswordInput } from '@/components/ui/password-input';
-import { env } from '@/libs/env';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type DemoAccount } from '@/_demo(DELETE)/auth/accounts';
 import DemoCredentials from '@/_demo(DELETE)/auth/demo-credentials';
@@ -23,13 +23,20 @@ import {
   type LoginInput,
 } from '../../features/auth/schemas/login';
 
-const isDemoMode = env.NEXT_PUBLIC_DEMO_MODE;
-
 const LoginForm = () => {
   const t = useTranslations('auth.login');
   const router = useRouter();
-  const { signIn, signUp, signInWithGoogle, isGoogleEnabled, user } = useAuth();
+  const {
+    signIn,
+    signUp,
+    signInWithGoogle,
+    isGoogleEnabled,
+    isDemoMode,
+    user,
+  } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
+  const emailErrorId = useId();
+  const passwordErrorId = useId();
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -71,12 +78,15 @@ const LoginForm = () => {
 
   return (
     <div className="flex w-full items-center justify-center py-4">
+      <DocumentTitle title={t('title')} />
       <Card
         flat
         className="w-full max-w-md border-0 bg-transparent pb-10 shadow-none"
       >
         <CardHeader className="flex flex-row items-center justify-center px-4">
-          <CardTitle className="text-center text-2xl">{t('title')}</CardTitle>
+          <CardTitle as="h1" className="text-center text-2xl">
+            {t('title')}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form
@@ -91,13 +101,16 @@ const LoginForm = () => {
                   id="email"
                   type="email"
                   autoComplete="email"
+                  autoCapitalize="none"
+                  spellCheck={false}
                   autoFocus
-                  tabIndex={1}
+                  required
                   placeholder="email@example.com"
                   aria-invalid={!!emailError}
+                  aria-describedby={emailError ? emailErrorId : undefined}
                   {...form.register('email')}
                 />
-                <InputError message={emailError} />
+                <InputError id={emailErrorId} message={emailError} />
               </div>
 
               <div className="grid gap-2">
@@ -105,12 +118,13 @@ const LoginForm = () => {
                 <PasswordInput
                   id="password"
                   autoComplete="current-password"
-                  tabIndex={2}
+                  required
                   placeholder={t('passwordPlaceholder')}
                   aria-invalid={!!passwordError}
+                  aria-describedby={passwordError ? passwordErrorId : undefined}
                   {...form.register('password')}
                 />
-                <InputError message={passwordError} />
+                <InputError id={passwordErrorId} message={passwordError} />
               </div>
 
               {serverError && (
@@ -121,17 +135,12 @@ const LoginForm = () => {
 
               <TextLink
                 href="/password-reset"
-                className="ml-auto text-xs text-primary sm:text-sm"
-                tabIndex={4}
+                className="ms-auto text-xs text-primary sm:text-sm"
               >
                 {t('forgotPassword')}
               </TextLink>
 
-              <Button
-                type="submit"
-                tabIndex={3}
-                loading={form.formState.isSubmitting}
-              >
+              <Button type="submit" loading={form.formState.isSubmitting}>
                 {t('submit')}
               </Button>
 
